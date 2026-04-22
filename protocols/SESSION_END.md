@@ -164,6 +164,18 @@ If documents, reports, specs, or designs were produced, save them to the project
 
 ---
 
+### Step 5b — Verify outputs before closing
+
+Before writing the end-of-session summary, identify any outputs produced this session and check their tier using `REVIEW_PROTOCOL.md`:
+
+- **Tier 1 (internal/reversible):** Self-verify. Note it in the summary.
+- **Tier 2 (shared/semi-permanent):** Read end-to-end as recipient. Check facts, numbers, names.
+- **Tier 3 (committed/irreversible):** Do not close session until James has reviewed.
+
+If the session was interrupted (token limit or time), state the tier and verification status of any incomplete output in the Resume Instruction, so the next session knows what still needs checking.
+
+---
+
 ### Step 6 — Output end-of-session summary
 
 ```
@@ -211,3 +223,4 @@ Steps 1–3 are the minimum viable closeout. The next session can reconstruct ev
 - `SESSION_START.md` — How the next session boots from your closeout
 - `TOKEN_LIMIT_RECOVERY.md` — Full token limit emergency procedure
 - `A2A_PROTOCOL.md` — When handing off to another agent
+- `REVIEW_PROTOCOL.md` — Output tiers and verification requirements

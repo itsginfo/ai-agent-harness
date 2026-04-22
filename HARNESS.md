@@ -1,6 +1,6 @@
 # AI Agent Harness — Master Guide
 
-> **Version:** 1.1  
+> **Version:** 1.2  
 > **Last Updated:** 2026-04-22  
 > **Owner:** James (meirowsky@gmail.com)  
 > **New to this? Read `QUICKSTART.md` first — it's the 3-minute orientation.**
@@ -39,10 +39,11 @@ Enterprise Functions | AI Agents/
 │   └── [project-name]/              ← Actual project folders
 │
 ├── protocols/                        ← Standard operating procedures
-│   ├── SESSION_START.md             ← How to boot up any session
+│   ├── SESSION_START.md             ← How to boot up any session (includes session scoping)
 │   ├── SESSION_END.md               ← How to close/hand off a session
 │   ├── TOKEN_LIMIT_RECOVERY.md      ← Emergency protocol for token exhaustion
-│   └── A2A_PROTOCOL.md             ← Agent-to-agent communication rules
+│   ├── A2A_PROTOCOL.md             ← Agent-to-agent communication rules
+│   └── REVIEW_PROTOCOL.md          ← Output tiers + verification requirements
 │
 └── integrations/                    ← Tool-specific playbooks
     ├── MONDAY.md

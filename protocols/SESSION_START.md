@@ -94,7 +94,33 @@ Reconciliation should take < 5 minutes. If there's significant drift, that means
 
 ---
 
-### Step 6 — Declare your session start
+### Step 6 — Scope the session
+
+Before declaring start, answer these three questions:
+
+**A. Does today's work fit in one session?**
+
+Look at your Next 3 Actions and any in-flight tasks. Estimate scope:
+
+| Signal | What it means |
+|--------|--------------|
+| 1–2 focused tasks, low ambiguity | Fits in one session — proceed |
+| 3+ tasks OR one large task with unknowns | Risk of mid-session token limit — scope down now |
+| Resuming something that was cut off before | Check TOKEN_LIMIT_RECOVERY.md before starting |
+
+If scope looks too large: **cut it before you start.** Pick the single most valuable task, set the others as Next Session in PROJECT_STATE, and proceed with that one. It's far better to finish one thing than to half-finish three.
+
+**B. Where's the natural stopping point?**
+
+Identify in advance: "If I have to stop mid-session, what's the cleanest handoff state?" Write it in your session start declaration. This forces you to think in chunks.
+
+**C. Is there a sub-task I should hand off to another agent role?**
+
+If the work crosses agent boundaries (e.g., CTO implementing AND PM needing to update a client), note it now. Either sequence them explicitly or flag it as a handoff point so you don't get pulled across roles mid-task.
+
+---
+
+### Step 7 — Declare your session start
 
 Before doing any real work, output this block:
 
@@ -105,6 +131,8 @@ Project: [Project Name]
 Resuming: [Yes/No]
 In-flight from last session: [task name + exact state, or "None"]
 Monday sync: [any notable changes found]
+Session scope: [1–2 sentences: exactly what gets done today, nothing more]
+Natural stop point: [the cleanest mid-session exit state if interrupted]
 First action: [specific thing I'm doing first]
 ```
 
