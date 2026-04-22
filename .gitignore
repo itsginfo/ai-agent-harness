@@ -1,0 +1,30 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Editor / IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Environment & secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Node (if ever added)
+node_modules/
+npm-debug.log*
+
+# Python (if ever added)
+__pycache__/
+*.pyc
+.venv/
+
+# Logs
+*.log
