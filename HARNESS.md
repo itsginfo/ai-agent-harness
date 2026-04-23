@@ -1,7 +1,8 @@
 # AI Agent Harness — Master Guide
 
-> **Version:** 1.2  
+> **Version:** 1.4  
 > **Last Updated:** 2026-04-22  
+> **Harness absolute path:** `/Users/jamesmeirowsky/Projects/agent-driven-enterprise`  
 > **Owner:** James (meirowsky@gmail.com)  
 > **New to this? Read `QUICKSTART.md` first — it's the 3-minute orientation.**
 
@@ -43,7 +44,8 @@ Enterprise Functions | AI Agents/
 │   ├── SESSION_END.md               ← How to close/hand off a session
 │   ├── TOKEN_LIMIT_RECOVERY.md      ← Emergency protocol for token exhaustion
 │   ├── A2A_PROTOCOL.md             ← Agent-to-agent communication rules
-│   └── REVIEW_PROTOCOL.md          ← Output tiers + verification requirements
+│   ├── REVIEW_PROTOCOL.md          ← Output tiers + verification requirements
+│   └── NEW_AGENT_PROTOCOL.md       ← When and how to create a new agent role
 │
 └── integrations/                    ← Tool-specific playbooks
     ├── MONDAY.md

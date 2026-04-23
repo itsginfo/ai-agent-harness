@@ -158,3 +158,4 @@ Even for short sessions: **always update Monday and PROJECT_STATE.md at the end.
 - `SESSION_END.md` — How to close a session
 - `TOKEN_LIMIT_RECOVERY.md` — What to do when approaching token limits
 - `A2A_PROTOCOL.md` — If you're picking up a handoff from another agent
+- `NEW_AGENT_PROTOCOL.md` — If work appears in this session with no clear agent owner
