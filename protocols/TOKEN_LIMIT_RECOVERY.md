@@ -4,9 +4,27 @@
 
 ---
 
-## Recognizing the Warning Signs
+## Two Types of Limits — Know the Difference
 
-Claude will typically signal approaching token limits through:
+| Limit Type | Signal | Can Agent Detect? | This Protocol Covers |
+|---|---|---|---|
+| **Context window full** | Gradual degradation, slower responses, explicit "conversation is getting long" warning | ✅ Yes — reactive | ✅ Yes |
+| **Usage/rate limit** (Antigravity subscription) | **None** — hard stop with zero warning | ❌ No | ⚠️ Only if proactive checkpoints were run |
+
+**The critical implication:** Usage limits cannot be recovered from reactively. The only protection is **proactive checkpoints** throughout the session. If a usage limit hits and no checkpoint was run, state is lost.
+
+### Proactive Checkpoint (run after every major step)
+1. `git add -p && git commit -m "WIP: [what was just done]"`
+2. Update Monday item status if it changed
+3. Update `PROJECT_STATE.md` → In-Flight section + Resume Instruction
+
+> **Major step = task completed, file modified, DB operation run, Monday update made, or ~30 min elapsed.**
+
+---
+
+## Recognizing Context Window Warning Signs
+
+Claude will typically signal approaching context window limits through:
 
 - Responses becoming noticeably shorter or less detailed
 - An explicit warning: "This conversation is getting long..."
