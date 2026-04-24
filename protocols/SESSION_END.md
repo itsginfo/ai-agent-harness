@@ -127,6 +127,14 @@ Watch out for: [any gotcha, dependency, or constraint the next agent needs to kn
 
 Write this as if explaining to someone who has never seen this project. Be specific.
 
+**⚠️ Before moving on: Verify the RESUME INSTRUCTION is accurate.**
+Read it back as if you are the next agent opening a cold session. Ask:
+- Does it reflect the ACTUAL end state, not the state at the start of this session?
+- If a task was closed/unblocked/changed this session, is that reflected here?
+- Would an agent reading only this instruction + Monday get a correct picture?
+
+If the answer to any of these is No — rewrite it before closing.
+
 **Update Next 3 Actions:**
 - Remove completed items
 - Add new items discovered this session

@@ -1,10 +1,20 @@
 # Protocol: SESSION START
 
 > Run this protocol at the beginning of EVERY session — new or resumed after interruption.
+> **Your first visible output must be the SESSION START declaration block (Step 7). Do not answer user questions or take action before producing it.**
 
 ---
 
-## Purpose
+## ⚠️ Important: Conversation Summaries Are NOT Authoritative
+
+Antigravity and Claude automatically generate conversation summaries when sessions are truncated. These summaries may be stale, incomplete, or wrong — especially for fast-moving project state.
+
+**Priority order for resolving conflicts:**
+1. **Monday.com** — wins for task status (Done/Blocked/In Progress)
+2. **PROJECT_STATE.md** — wins for narrative context, decisions, and in-flight detail
+3. **Conversation summary / truncation context** — fallback only; discard if it conflicts with 1 or 2
+
+If a summary says a task is blocked but Monday says Done — trust Monday. If a summary contradicts PROJECT_STATE — trust PROJECT_STATE.
 
 Establish full context before doing any work. The two-layer model means you need to read both sources:
 - **Monday.com** = current task status (what exists, who owns it, what state it's in)
@@ -122,7 +132,9 @@ If the work crosses agent boundaries (e.g., CTO implementing AND PM needing to u
 
 ### Step 7 — Declare your session start
 
-Before doing any real work, output this block:
+**This is your gate. Write this block FIRST — before answering any user message, before opening any file, before running any command.**
+
+If you cannot write this block with accurate data, go back and complete the missing boot step.
 
 ```
 SESSION START — [Date]
@@ -137,6 +149,8 @@ First action: [specific thing I'm doing first]
 ```
 
 This makes your starting state explicit. If something is wrong (wrong project, wrong state), catch it here before wasting a session.
+
+— Only after writing this block should you respond to the user's first message.
 
 ---
 
