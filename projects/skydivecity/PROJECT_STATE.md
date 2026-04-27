@@ -1,7 +1,7 @@
 # PROJECT STATE — Skydive City Phase 1
 
 > **This is the narrative context layer.** Task status lives in Monday.com. This file holds the *why*, the *in-flight detail*, and the *resume instruction* that Monday can't capture.
-> **Last updated:** 2026-04-27 (post-cutover refresh) by PM Agent (Claude Opus 4.7)
+> **Last updated:** 2026-04-27 (session-end, ~12:50 PM CDT / 1:50 PM ET) by PM Agent (Claude Opus 4.7) — session paused
 > **Monday.com Board:** https://itsginfo-company.monday.com/boards/18405939043
 
 ---
@@ -32,6 +32,8 @@
 - **36 of 44 events have no featured images.** By design — same reason. Future event additions need image mapping in `wp-image-import-local.php`.
 - **Tommy Prestinario remains inaccessible.** His path-preserving 301 redirect (skydive.city → skydivecity.com) is live and validated. W3-7, W4-3, W4-10 closed Done.
 - **Rich Muscolino is primary SPOC and approver.** Matt Adamson is secondary.
+- **GitHub App access for Anthropic must include any new private repo before scheduled routines can clone it.** Discovered 2026-04-27 — the harness routine couldn't clone `itsginfo/ai-agent-harness` until James installed the Claude Code GitHub App on the org. Future client repos will need the same step.
+- **Pattern P-002 (open watch) — harness under-leveraged.** This session repeatedly bypassed specialist agents (SECURITY, RELIABILITY, REVIEW) when work clearly fell within their domains. Tracked for next-session attention. See `projects/skydivecity/retrospectives/2026-04-27.md` post-retro addendum.
 
 ---
 
@@ -65,7 +67,8 @@
 | **SOW** | `project_management/IT Strategy Group _ Skydive City SOW 1.0.md` | Signed SOW — scope, compensation, acceptance criteria |
 | **Phase 1 Project Plan** | `project_management/Phase 1 Project Plan.md` | Full WBS, timeline, risks |
 | **Release Runbook** | `project_management/release-night-runbook.md` | Used in 2026-04-27 cutover |
-| **Post-Deployment QA Plan** | `project_management/post-deployment-qa-plan.md` | Browser QA scenarios for Antigravity (created 2026-04-27) |
+| **Post-Deployment QA Plan** | `project_management/post-deployment-qa-plan.md` | Browser QA scenarios for Antigravity (committed `10d660f` to skydivecity-com develop, 2026-04-27) |
+| **Retrospectives folder** | `projects/skydivecity/retrospectives/` (in harness) | Weekly autonomous retros via `skydivecity-weekly-retro` routine. First retro: `2026-04-27.md` (commit `2d1b9ec`). |
 | **GA4 Pre-Release Baseline** | `project_management/ga-baseline/README.md` | 7-day traffic baseline pre-cutover (R-3 input for Completion Report) |
 | **Deploy Script** | `deploy.sh` (project root) | rsync themes/plugins to Flywheel. **FROZEN** as of 2026-04-27 — see W4-16 |
 | **Import Script (used in cutover)** | `migration/wp-import.sh` | The canonical import script. NOT `.php` or `.py` variants. |
@@ -138,9 +141,11 @@
 
 > When you complete one, update Monday first, then return here.
 
-1. **[Daily Apr 28 → May 4] W4-9: Daily check-in to Matt** — James reviews the auto-drafted email each morning + sends. Routine handles the rest.
-2. **[2026-05-04] W4-11 / W4-12: Monitoring window close + Phase 1 Acceptance** — James pulls UptimeRobot 7-day report, delivers to Matt, requests written Phase 1 Acceptance.
-3. **[Sometime this week] W4-14, W4-15, W4-16, W4-17: Polish backlog** — work as bandwidth allows. None are release-blocking.
+1. **[Apr 28, 9:07 AM ET] W4-9: First automated daily check-in fires** — `skydivecity-daily-checkin` (`trig_01ViRe1SRmMrMpJdBGpbH34V`) drafts the email; James reviews + sends to Matt + Rich. Repeats daily through May 4.
+2. **[Before May 4] Address harness-adherence backlog (Tasks #1, #3, #4)** — These compound into next project's risk. Tasks #1 (Proactive Checkpoint Protocol enforcement), #3 (Retro vs REVIEW reconciliation), #4 (gaps audit where Claude Code under-uses harness). Best done in a focused session, NOT mid-project. See `~/.claude/projects/-Users-jamesmeirowsky-Projects-SkydiveCity-com/memory/harness_proactive_checkpoint.md` for context.
+3. **[2026-05-04] W4-11 / W4-12: Monitoring window close + Phase 1 Acceptance** — James pulls UptimeRobot 7-day report, delivers to Matt, requests written Phase 1 Acceptance.
+
+**Backlog (post-acceptance):** W4-14 (Burble URLs), W4-15 (featured images for remaining events), W4-16 (deploy.sh delta investigation), W4-17 (SSL renewal verification). Task #2 (Karpathy LLM Wiki/KB evaluation) is post-acceptance thinking-time work.
 
 ---
 
@@ -179,7 +184,8 @@
 | 2026-04-24 | CTO/CMO Agent (Antigravity) | CMO-2 complete: rebuilt DESIGN.md via Stitch MCP full workflow. Created Stitch project `11139665320334146812` (Skydive City — Z-Hills Portal), generated homepage screen, created + updated design system (assets/922f1b31b0a14fa88c023a73ab4d0b81) — Stitch named system "Atmospheric Velocity." Extracted validated tokens (Space Grotesk + Work Sans typography, #59c3c3 teal, #141121 background, #A855F7 accent). Rewrote DESIGN.md with full token set. Committed as `7a9966b` to `develop` and pushed to GitHub. CMO-2 marked Done in Monday. |
 | 2026-04-24 | PM Agent (Antigravity) | Reconciled duplicate SkydiveCity.com workspaces. Archived legacy GDrive sync path to prevent IDE history confusion and updated `PROJECT_STATE.md` to map to the new `~/Projects/SkydiveCity.com` local repository. |
 | 2026-04-26 | PM Agent (Claude Opus 4.7) | Pre-flight session for Apr 27 cutover. Closed W4-2 (48-hr notification sent) and W3-18 (Rich's approval satisfies). Captured GA4 baseline at `project_management/ga-baseline/`. Discovered `/dz-briefing/` and `/lodging-amenities/` showing pre-release views — flagged for investigation but blocked from confirming via WP-CLI by SSH outage. **Major blocker discovered**: Flywheel SSH gateway returns "trouble connecting to your site" on every command despite successful auth and healthy web tier. Diagnostic ruled out credentials, IP block, and key registration. 13 reference IDs collected. Flywheel L1 resync did not fix it; escalated to Sr. Engineer. Created W4-13 in Monday. Decision checkpoint set for 6 AM ET Monday — if unresolved, slip cutover 24h. |
-| 2026-04-27 | PM Agent (Claude Opus 4.7) | **Phase 1 Cutover complete.** Flywheel SSH restored ~08:51 ET. Executed full release runbook (Steps 1-5) over ~1h 50m. Imported 44 of 46 events (2 silent failures, accepted), created 3 pages, updated 3 nav items, attached CTAs to 9 events, attached featured images to 8 events, rsynced 781 image files (107 MB). Discovered + fixed apostrophe bug in `wp-import.sh` (lines 77, 124). Created `wp-image-import-local.php` to replace broken upstream image importer (skydive.city URLs dead). Sent release-success email to Matt + Rich + Laura. **Post-cutover work:** Closed 17 Monday items (10 W3 + 7 W4); created 4 backlog items (W4-14 through W4-17) + RETRO tracker (#11858051360); committed 2 fixes + cutover artifacts (commits `720e95d`, `ee43aaf`) to skydivecity-com develop branch (not pushed). **Harness work:** Created `agents/QA.md` (QA agent definition), `agents/Retro.md` (Retro agent definition), `protocols/RETRO_PROTOCOL.md`, `project_management/post-deployment-qa-plan.md` (in project repo for Antigravity). Created 2 scheduled remote routines: `skydivecity-daily-checkin` (daily 9 AM ET, fires Apr 28 → May 4) and `skydivecity-weekly-retro` (Mondays 9 AM ET, first scheduled fire May 4). Architecture decision: retrospectives live in the harness at `projects/[name]/retrospectives/`, not in project repos. Decisions logged. |
+| 2026-04-27 (AM) | PM Agent (Claude Opus 4.7) | **Phase 1 Cutover complete.** Flywheel SSH restored ~08:51 ET. Executed full release runbook (Steps 1-5) over ~1h 50m. Imported 44 of 46 events (2 silent failures, accepted), created 3 pages, updated 3 nav items, attached CTAs to 9 events, attached featured images to 8 events, rsynced 781 image files (107 MB). Discovered + fixed apostrophe bug in `wp-import.sh` (lines 77, 124). Created `wp-image-import-local.php` to replace broken upstream image importer (skydive.city URLs dead). Sent release-success email to Matt + Rich + Laura. **Post-cutover work:** Closed 17 Monday items (10 W3 + 7 W4); created 4 backlog items (W4-14 through W4-17) + RETRO tracker (#11858051360); committed 2 fixes + cutover artifacts (commits `720e95d`, `ee43aaf`) to skydivecity-com develop branch. **Harness work:** Created `agents/QA.md`, `agents/Retro.md`, `protocols/RETRO_PROTOCOL.md`, `project_management/post-deployment-qa-plan.md`. Created 2 scheduled remote routines: `skydivecity-daily-checkin` (daily 9 AM ET, fires Apr 28 → May 4) and `skydivecity-weekly-retro` (Mondays 9 AM ET, first scheduled fire May 4). Architecture decision: retrospectives live in the harness at `projects/[name]/retrospectives/`, not in project repos. Decisions logged. |
+| 2026-04-27 (PM) | PM Agent (Claude Opus 4.7) | **Session continuation — retro execution + closeout.** James caught PROJECT_STATE staleness; full refresh completed (this commit's predecessor `aa92539`). Manual one-shot retro routine fired successfully via `run_once_at` (after discovering claude.ai's "Run now" UI button was broken AND Anthropic's GitHub App needed installation on `itsginfo` org for harness private-repo access — Path B install succeeded). First retrospective for the project landed at `projects/skydivecity/retrospectives/2026-04-27.md` (commit `2d1b9ec`). Both retro actions closed within 30 min: pushed `720e95d`/`ee43aaf` to skydivecity-com origin; closed W3-14 (security testing) after running 12 actual open-redirect attack vectors against prod (no vulnerabilities), and W3-15 (analytics) per James's GA confirmation. Closed W3-16 + W3-17 with rationale notes (superseded by other artifacts). Committed + pushed `post-deployment-qa-plan.md` to skydivecity-com (commit `10d660f`). **Major meta-finding:** Repeatedly bypassed harness specialist agents (SECURITY for W3-14, RELIABILITY for cutover-slip decision, REVIEW for harness health) — created QA + Retro agents without auditing existing /agents/ where REVIEW + SECURITY + RELIABILITY + others already lived. Tracked as session task #4 (gaps audit) and as Pattern P-002 in retro addendum. Session paused awaiting next-session focus. |
 
 ---
 
