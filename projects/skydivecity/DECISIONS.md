@@ -9,6 +9,34 @@
 
 ---
 
+## 2026-04-27 (eve) — Roll Page-Render Fix into Next-Day Check-in (vs. Notify Matt Today)
+**Decision:** The empty-pages discovery + fix landed at the end of the day on 2026-04-27. We rolled the disclosure into the 2026-04-28 9 AM ET daily check-in routine rather than sending a separate same-day notification to Matt + Rich.
+**Rationale:** Fix was already deployed and verified before the discovery would have been communicated. Same-day notification would have framed the message as "found, working on it" — which would (a) cause unnecessary alarm, and (b) require a second message anyway once the fix landed. Folding into the next-morning check-in lets the message read as "found + already fixed" — same transparency, less noise.
+**Implications:**
+- 2026-04-28 9 AM check-in must explicitly mention the empty-pages discovery and the resolution. PROJECT_STATE.md Resume Instruction was updated so the routine sees it on boot.
+- If the cloud-scheduled routine relies on its frozen prompt rather than re-reading PROJECT_STATE on every fire, James should manually paste the W4-18 update into the draft before sending.
+**Alternatives considered:** Same-day notification (rejected — premature alarm, redundant with the morning routine); silent fix with no client-facing disclosure (rejected — violates transparency norm).
+**Made by:** PM Agent + James (joint call 2026-04-27 evening).
+**Revisit if:** The 2026-04-28 routine fires without including the discovery, in which case James pastes manually before sending.
+
+---
+
+## 2026-04-27 (eve) — Page-Render Fix Replicates Dev's ACF Structure (vs. Custom Template / Full Rebuild)
+**Decision:** To fix the empty-bodies regression on the 3 cutover pages (5794, 5795, 5796), we authored `migration/wp-page-acf-import.php` that replicates dev's existing ACF Flexible Content structure verbatim — 3 flex rows, header → text → header pattern. We did NOT add a custom page template, and we did NOT build a richer ACF schema mapping the full `post_content` from `wp-import.sh`.
+**Rationale:** Dev's pages already render correctly with this structure and James already approved that visual outcome. Replicating dev minimizes risk, requires no theme code changes, and is reproducible if cutover is ever re-run. Time-to-fix was ~30 min vs. multiple hours for the alternatives.
+**Implications:**
+- The ACF content on prod is now a partial transcript of the full content authored in `wp-import.sh` (script's `--post_content` is richer than what dev's manual ACF edit captured). The 3 prod pages render the same partial content that dev had been showing.
+- For future enrichment (post-acceptance), Beyond Marketing or James can add ACF rows via the WP admin, or extend `wp-page-acf-import.php` with additional flex layouts.
+- Pattern documented: any future page additions on this site MUST populate ACF postmeta. `wp post create --post_content=...` alone produces an empty-rendering published page on the `mywp` theme.
+**Alternatives considered:**
+- **Custom page template** (`page-content-fallback.php` calling `the_content()`) — rejected: introduces theme code that has to be deployed/maintained, and visual style wouldn't match other pages (different chrome).
+- **Full ACF rebuild** (mapping all of `wp-import.sh`'s richer content into nested flex rows) — rejected: more work, more chances to break, and dev's already-approved partial fidelity is sufficient for May 4 acceptance.
+- **Manual rebuild via WP admin** (Beyond Marketing or James enters via ACF UI) — rejected: not reproducible, dependent on third-party time, and the regression vector (manual edit not captured in code) is exactly what failed before.
+**Made by:** PM Agent + James (2026-04-27 evening).
+**Revisit if:** Beyond Marketing redesigns the experienced-skydiver section, or post-acceptance polish work calls for the richer content in `wp-import.sh` to be ported into ACF.
+
+---
+
 ## 2026-04-27 — Project Retrospectives Live in the Harness, Not the Project Repo
 **Decision:** All project-level retrospectives (per the new `agents/Retro.md` and `protocols/RETRO_PROTOCOL.md`) are written to and stored in the harness at `projects/[project-name]/retrospectives/YYYY-MM-DD.md`, NOT in the per-project code repo (e.g., not in `skydivecity-com/project_management/`).
 **Rationale:** The harness already holds project-level meta-data — `PROJECT_STATE.md`, `DECISIONS.md`, session protocols. Retrospectives are the same category of artifact (state/governance/learning), not project-execution artifacts (code, runbooks, deploy scripts). Cross-project pattern rollups also become trivial when all retros live in one repo.

@@ -104,12 +104,15 @@
 
 > Tasks that are STARTED but NOT FINISHED. Do NOT restart — pick up where noted.
 
-- **W4-9** — Daily check-in to Matt Adamson. Automated via scheduled routine. First fire: 2026-04-28 9:07 AM ET.
+- **W4-9** — Daily check-in to Matt + Rich. Automated via scheduled routine. First fire: 2026-04-28 9:07 AM ET. **Tomorrow's draft must include the page-render discovery + fix.**
 - **W4-14** — Add Burble + FB CTAs to remaining upcoming events. Backlog. Needs source URL research with Matt.
 - **W4-15** — Add featured images to remaining upcoming events. Backlog. Has source files locally; needs `wp-image-import-local.php` mapping additions.
 - **W4-16** — Investigate deploy.sh dry-run 17K-file delta. Backlog. Blocking any future theme/plugin push.
 - **W4-17** — Verify SSL cert auto-renewal before 2026-06-08. James + Beyond Marketing. Due 2026-06-01.
+- **W4-19** — Defect (Sev 2): "Sport Skydiving" link missing from top nav. Beyond Marketing-owned. Filed 2026-04-27 evening from QA addendum.
+- **W4-20** — Defect (Sev 3): "Upcoming Events" CTA missing from homepage / events index. Beyond Marketing-owned. Filed 2026-04-27 evening from QA addendum.
 - **W4-11 / W4-12** — May 4: monitoring window close + Phase 1 Acceptance request to Matt. Not yet started.
+- **HARN-1 / HARN-2 / HARN-3 / HARN-4** — Harness-improvement backlog now visible in Monday (was narrative-only). All deferred to post-Phase-1-acceptance per the 2026-04-27 retro decision.
 
 ---
 
@@ -144,9 +147,9 @@
 
 > When you complete one, update Monday first, then return here.
 
-1. **[Apr 28, 9:07 AM ET] W4-9: First automated daily check-in fires** — `skydivecity-daily-checkin` (`trig_01ViRe1SRmMrMpJdBGpbH34V`) drafts the email; James reviews + sends to Matt + Rich. Repeats daily through May 4.
-2. **[Before May 4] Address harness-adherence backlog (Tasks #1, #3, #4)** — These compound into next project's risk. Tasks #1 (Proactive Checkpoint Protocol enforcement), #3 (Retro vs REVIEW reconciliation), #4 (gaps audit where Claude Code under-uses harness). Best done in a focused session, NOT mid-project. See `~/.claude/projects/-Users-jamesmeirowsky-Projects-SkydiveCity-com/memory/harness_proactive_checkpoint.md` for context.
-3. **[2026-05-04] W4-11 / W4-12: Monitoring window close + Phase 1 Acceptance** — James pulls UptimeRobot 7-day report, delivers to Matt, requests written Phase 1 Acceptance.
+1. **[Apr 28, 9:07 AM ET] W4-9: First automated daily check-in fires** — `skydivecity-daily-checkin` (`trig_01ViRe1SRmMrMpJdBGpbH34V`) drafts the email; James reviews + sends to Matt + Rich. **VERIFY the draft mentions the 2026-04-27 evening page-render discovery + fix. If missing, paste the W4-18 update body before sending.** Repeats daily through May 4.
+2. **[Whenever Beyond Marketing has bandwidth] W4-19 / W4-20** — Sev 2 (Sport Skydiving nav link) and Sev 3 (Upcoming Events CTA). Beyond Marketing-owned; James to coordinate. Resolve before May 4 acceptance if possible.
+3. **[2026-05-04] W4-11 / W4-12: Monitoring window close + Phase 1 Acceptance** — James pulls UptimeRobot 7-day report, delivers to Matt + Rich, requests written Phase 1 Acceptance.
 
 **Backlog (post-acceptance):** W4-14 (Burble URLs), W4-15 (featured images for remaining events), W4-16 (deploy.sh delta investigation), W4-17 (SSL renewal verification), W4-19 (Sport Skydiving nav, Sev 2), W4-20 (Upcoming Events CTA, Sev 3). Harness-improvement backlog now visible in Monday: HARN-1 (Proactive Checkpoint Protocol enforcement), HARN-2 (Karpathy LLM Wiki/KB evaluation), HARN-3 (Retro vs REVIEW reconciliation), HARN-4 (gaps audit).
 
@@ -165,6 +168,8 @@
 | 2026-04-27 | Phase 1 Cutover Complete; site in 7-day monitoring window | Section: 2026-04-27 Cutover Complete |
 | 2026-04-27 | Project retrospectives live in the harness, not the project repo (architectural call) | Section: 2026-04-27 Retro Architecture |
 | 2026-04-27 | `deploy.sh --live` frozen pending W4-16 investigation of 17K-file delta | Section: 2026-04-27 Deploy Freeze |
+| 2026-04-27 (eve) | Page-render fix replicates dev's ACF Flexible Content structure verbatim (vs. custom template / full rebuild) | Section: 2026-04-27 (eve) ACF Replication |
+| 2026-04-27 (eve) | Roll empty-pages discovery into 2026-04-28 9 AM check-in (vs. same-day notification to Matt) | Section: 2026-04-27 (eve) Roll Disclosure |
 
 ---
 
