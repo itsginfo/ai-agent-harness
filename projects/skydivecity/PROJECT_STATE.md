@@ -1,20 +1,22 @@
 # PROJECT STATE — Skydive City Phase 1
 
 > **This is the narrative context layer.** Task status lives in Monday.com. This file holds the *why*, the *in-flight detail*, and the *resume instruction* that Monday can't capture.
-> **Last updated:** 2026-04-27 (session-end, ~12:50 PM CDT / 1:50 PM ET) by PM Agent (Claude Opus 4.7) — session paused
+> **Last updated:** 2026-04-27 (evening) by PM Agent (Claude Opus 4.7) — post-QA-discovery session
 > **Monday.com Board:** https://itsginfo-company.monday.com/boards/18405939043
 
 ---
 
 ## ⚡ RESUME INSTRUCTION
 
-**✅ PHASE 1 CUTOVER COMPLETE — Released to production 2026-04-27 ~10:50 ET (1h 50m execution window).** Now in **7-day post-cutover monitoring window** (Apr 27 → May 4). Phase 1 acceptance request goes to Matt May 4.
+**✅ PHASE 1 CUTOVER COMPLETE — Released to production 2026-04-27 ~10:50 ET.** In **7-day post-cutover monitoring window** (Apr 27 → May 4). Phase 1 acceptance request goes to Matt May 4.
+
+**🔧 LATE-DAY FIX (2026-04-27 evening):** The 3 new cutover pages (`/events-portal/`, `/dz-briefing/`, `/lodging-amenities/`) were rendering empty bodies on prod. Antigravity QA missed it (false PASSes). Root cause: `mywp` theme is ACF-driven and ignores `wp_posts.post_content`. Fix: `migration/wp-page-acf-import.php` populated ACF Flexible Content postmeta on all 3 pages. Verified rendering on prod. Discovery + fix is rolled into the 2026-04-28 9 AM ET daily check-in to Matt + Rich.
 
 **Start by:**
-1. Pull Monday board (ID: `18405939043`) — confirm W4-9 (daily check-in) status; W4-1/4/5/6/7 closed Done.
-2. **Daily through May 4**: brief written check-in to Matt Adamson — uptime status + any Sev 1/2 issues (W4-9). The `skydivecity-daily-checkin` scheduled routine drafts these for review at 9 AM ET each day.
+1. Pull Monday board (ID: `18405939043`) — confirm W4-9 (daily check-in) status; W4-1/4/5/6/7 closed Done. New items: W4-18 (page-render fix log), W4-19 (Sev 2 nav: Sport Skydiving missing), W4-20 (Sev 3 CTA: Upcoming Events missing).
+2. **Daily through May 4**: brief written check-in to Matt + Rich — uptime status + any Sev 1/2 issues (W4-9). The `skydivecity-daily-checkin` scheduled routine drafts these for review at 9 AM ET each day. Tomorrow's draft must include the page-render fix discovery + resolution.
 3. **May 4**: Pull UptimeRobot 7-day report, deliver to Matt, request Phase 1 Acceptance (W4-11, W4-12).
-4. Address polish-work backlog (W4-14 Burble URLs, W4-15 featured images, W4-16 deploy.sh delta, W4-17 SSL renewal verification).
+4. Address polish-work backlog (W4-14 Burble URLs, W4-15 featured images, W4-16 deploy.sh delta, W4-17 SSL renewal verification, **W4-19 Sport Skydiving nav**, **W4-20 Upcoming Events CTA**).
 
 **What shipped on 2026-04-27:**
 - 44 of 46 events imported as `tribe_events` posts (IDs 5797–5840). 2 silent failures during import — accepted, not investigating.
@@ -26,6 +28,7 @@
 - Release-success email sent to Matt + Rich + Laura Jane (cc) at ~11:00 AM ET.
 
 **Watch out for:**
+- **`mywp` theme is ACF-driven, NOT `the_content()`-based.** Any future page additions on this site MUST populate the ACF `content` Flexible Content field (and `header_title` / `header_sub_title`) — `wp post create --post_content=...` alone produces a published-but-empty page. See `migration/wp-page-acf-import.php` for the canonical pattern. Discovered + fixed 2026-04-27 evening for the 3 cutover pages. Beyond Marketing's manual ACF edits in dev were never captured in the cutover script — that's the recurrence vector to watch.
 - **`deploy.sh --live` is FROZEN** — dry-run revealed 17,400+ file delta in themes/plugins between local and prod. DO NOT run until W4-16 investigation completes. (See DECISIONS.md.)
 - **SSL cert expires 2026-06-08.** Flywheel auto-renewal expected; James notifying Beyond Marketing during recap. Tracked as W4-17.
 - **35 of 44 imported events have no Burble/FB CTAs.** By design — these are past events. New future events need their own CTAs added to `wp-cta-import.php` mapping.
@@ -145,7 +148,7 @@
 2. **[Before May 4] Address harness-adherence backlog (Tasks #1, #3, #4)** — These compound into next project's risk. Tasks #1 (Proactive Checkpoint Protocol enforcement), #3 (Retro vs REVIEW reconciliation), #4 (gaps audit where Claude Code under-uses harness). Best done in a focused session, NOT mid-project. See `~/.claude/projects/-Users-jamesmeirowsky-Projects-SkydiveCity-com/memory/harness_proactive_checkpoint.md` for context.
 3. **[2026-05-04] W4-11 / W4-12: Monitoring window close + Phase 1 Acceptance** — James pulls UptimeRobot 7-day report, delivers to Matt, requests written Phase 1 Acceptance.
 
-**Backlog (post-acceptance):** W4-14 (Burble URLs), W4-15 (featured images for remaining events), W4-16 (deploy.sh delta investigation), W4-17 (SSL renewal verification). Task #2 (Karpathy LLM Wiki/KB evaluation) is post-acceptance thinking-time work.
+**Backlog (post-acceptance):** W4-14 (Burble URLs), W4-15 (featured images for remaining events), W4-16 (deploy.sh delta investigation), W4-17 (SSL renewal verification), W4-19 (Sport Skydiving nav, Sev 2), W4-20 (Upcoming Events CTA, Sev 3). Harness-improvement backlog now visible in Monday: HARN-1 (Proactive Checkpoint Protocol enforcement), HARN-2 (Karpathy LLM Wiki/KB evaluation), HARN-3 (Retro vs REVIEW reconciliation), HARN-4 (gaps audit).
 
 ---
 
@@ -186,6 +189,8 @@
 | 2026-04-26 | PM Agent (Claude Opus 4.7) | Pre-flight session for Apr 27 cutover. Closed W4-2 (48-hr notification sent) and W3-18 (Rich's approval satisfies). Captured GA4 baseline at `project_management/ga-baseline/`. Discovered `/dz-briefing/` and `/lodging-amenities/` showing pre-release views — flagged for investigation but blocked from confirming via WP-CLI by SSH outage. **Major blocker discovered**: Flywheel SSH gateway returns "trouble connecting to your site" on every command despite successful auth and healthy web tier. Diagnostic ruled out credentials, IP block, and key registration. 13 reference IDs collected. Flywheel L1 resync did not fix it; escalated to Sr. Engineer. Created W4-13 in Monday. Decision checkpoint set for 6 AM ET Monday — if unresolved, slip cutover 24h. |
 | 2026-04-27 (AM) | PM Agent (Claude Opus 4.7) | **Phase 1 Cutover complete.** Flywheel SSH restored ~08:51 ET. Executed full release runbook (Steps 1-5) over ~1h 50m. Imported 44 of 46 events (2 silent failures, accepted), created 3 pages, updated 3 nav items, attached CTAs to 9 events, attached featured images to 8 events, rsynced 781 image files (107 MB). Discovered + fixed apostrophe bug in `wp-import.sh` (lines 77, 124). Created `wp-image-import-local.php` to replace broken upstream image importer (skydive.city URLs dead). Sent release-success email to Matt + Rich + Laura. **Post-cutover work:** Closed 17 Monday items (10 W3 + 7 W4); created 4 backlog items (W4-14 through W4-17) + RETRO tracker (#11858051360); committed 2 fixes + cutover artifacts (commits `720e95d`, `ee43aaf`) to skydivecity-com develop branch. **Harness work:** Created `agents/QA.md`, `agents/Retro.md`, `protocols/RETRO_PROTOCOL.md`, `project_management/post-deployment-qa-plan.md`. Created 2 scheduled remote routines: `skydivecity-daily-checkin` (daily 9 AM ET, fires Apr 28 → May 4) and `skydivecity-weekly-retro` (Mondays 9 AM ET, first scheduled fire May 4). Architecture decision: retrospectives live in the harness at `projects/[name]/retrospectives/`, not in project repos. Decisions logged. |
 | 2026-04-27 (PM) | PM Agent (Claude Opus 4.7) | **Session continuation — retro execution + closeout.** James caught PROJECT_STATE staleness; full refresh completed (this commit's predecessor `aa92539`). Manual one-shot retro routine fired successfully via `run_once_at` (after discovering claude.ai's "Run now" UI button was broken AND Anthropic's GitHub App needed installation on `itsginfo` org for harness private-repo access — Path B install succeeded). First retrospective for the project landed at `projects/skydivecity/retrospectives/2026-04-27.md` (commit `2d1b9ec`). Both retro actions closed within 30 min: pushed `720e95d`/`ee43aaf` to skydivecity-com origin; closed W3-14 (security testing) after running 12 actual open-redirect attack vectors against prod (no vulnerabilities), and W3-15 (analytics) per James's GA confirmation. Closed W3-16 + W3-17 with rationale notes (superseded by other artifacts). Committed + pushed `post-deployment-qa-plan.md` to skydivecity-com (commit `10d660f`). **Major meta-finding:** Repeatedly bypassed harness specialist agents (SECURITY for W3-14, RELIABILITY for cutover-slip decision, REVIEW for harness health) — created QA + Retro agents without auditing existing /agents/ where REVIEW + SECURITY + RELIABILITY + others already lived. Tracked as session task #4 (gaps audit) and as Pattern P-002 in retro addendum. Session paused awaiting next-session focus. |
+| 2026-04-28 | CTO Agent (Antigravity) | **Phase 1 QA Execution Completed.** Executed browser QA Phase 3 (Regression CTAs, skydive.city Redirects, SSL verification) via subagent. All Phase 3 checks PASSED. Consolidated results from Phases 1-3 into `post-deployment-qa-report-2026-04-27.md` yielding a YELLOW final verdict. Defect list (Sev 2/3) documented for backlog: missing "Sport Skydiving" / "Upcoming Events" navigation links, and 404 error on Local Services page. `task.md` fully checked off. |
+| 2026-04-27 (eve) | PM Agent (Claude Opus 4.7) | **Post-QA discovery + fix.** James spot-checked prod; flagged that `/dz-briefing/` and `/lodging-amenities/` had empty bodies despite Antigravity's PASS. Investigation found 3-of-3 new cutover pages (5794, 5795, 5796) rendering empty — `mywp` theme is fully ACF-driven and ignores `wp_posts.post_content`. Authored `migration/wp-page-acf-import.php` mirroring dev's working ACF Flexible Content structure (3 flex rows: header → text → header pattern, plus header chrome). Ran via `wp eval-file` on prod; all 3 pages now render correctly. Filed QA report addendum (`post-deployment-qa-report-2026-04-27-addendum.md`) correcting 2 false PASSes, 1 missed defect, 1 false-positive (/local-services/ retracted — out of scope). Filed Monday W4-18 (fix log) and W4-19 / W4-20 (remaining nav defects). Discovery + fix rolled into 2026-04-28 9 AM ET daily check-in to Matt + Rich. **Pattern**: dev had a manual ACF UI fix never captured in code; cutover replicated only the visible script, not the silent fix. Worth adding to the next retro as a recurrence vector. |
 
 ---
 
