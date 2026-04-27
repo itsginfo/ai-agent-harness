@@ -26,13 +26,36 @@ Neither alone is sufficient. Monday tells you *what* is happening; PROJECT_STATE
 
 ## Boot Sequence
 
-### Step 1 — Identify your context
+### Step 1 — Identify your context and route the task
 
 Before opening any file or tool:
 
-- **Which project?** → Check `COMPANY.md` → Active Projects table
-- **Which agent role?** → Confirm based on today's work (CTO for coding, PM for coordination, etc.)
-- **New task or resuming?** → If resuming, look for the ⚡ RESUME INSTRUCTION in PROJECT_STATE
+**A. Which project?**
+Check `COMPANY.md` → Active Projects table. Match the task to an active project. If no match, flag it before proceeding.
+
+**B. Which agent role?**
+
+- If the user specified a role explicitly → use it. Skip routing.
+- If the user did NOT specify a role → run the task router:
+  1. Read `protocols/ROUTER.md`
+  2. Match the task to a domain using the classification table
+  3. Select the primary agent role; note any secondary role and the handoff point
+  4. State your routing rationale in the SESSION START block (Step 7)
+
+Common quick-routes (check ROUTER.md for full table):
+| Work type | Agent |
+|-----------|-------|
+| Code / deploy / architecture / git | **CTO** |
+| Tasks / sprint / Monday / blockers | **PM** |
+| Budget / cost / vendors | **CFO** |
+| Content / SEO / marketing | **CMO** |
+| Strategy / cross-project / priorities | **CEO** |
+| Security / credentials / audit | **Security** |
+| Uptime / incidents / production health | **Reliability** |
+| Review / quality check / harness audit | **Review** |
+
+**C. New task or resuming?**
+If resuming, look for the ⚡ RESUME INSTRUCTION in PROJECT_STATE. Verify the agent role still matches — the task may have shifted domains since the last session.
 
 ---
 

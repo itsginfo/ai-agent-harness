@@ -1,18 +1,22 @@
-# Integration Guide — Claude Code & Antigravity
+# Integration Guide — AI Agent Execution Environments
 
-> **Tool:** Claude Code CLI + Antigravity Desktop App  
+> **Tools covered:** Antigravity (Google DeepMind) · Claude Code CLI (Anthropic) · Claude Cowork (Anthropic)  
 > **Primary Owner:** CTO Agent (coding); All agents (general use)  
-> **Last Updated:** 2026-04-22
+> **Last Updated:** 2026-04-23
 
 ---
 
-## Role in the Harness
+## Tools in the Harness
 
-Claude Code / Antigravity is the **agent execution environment**. It's where agents actually run — reading files, writing code, calling tools, and orchestrating work. Understanding how to use it well is the key to managing token limits and session continuity.
+Three AI tools are used to execute agent sessions. They are **not interchangeable** — each has different enforcement mechanisms for the harness boot sequence.
 
-**Antigravity** = the Cowork desktop app (what you're using now)  
-**Claude Code** = the underlying CLI tool that powers agent capabilities  
-**Both** use the same Claude models and have the same context window challenges
+| Tool | Made By | How You Use It | Harness Enforcement |
+|------|---------|----------------|---------------------|
+| **Antigravity** | Google DeepMind | Desktop IDE (this tool) | CLAUDE.md file + explicit session prompt |
+| **Claude Code CLI** | Anthropic | Terminal (`claude` command) | CLAUDE.md auto-load + slash commands |
+| **Claude Cowork** | Anthropic | claude.ai project interface | Project Instructions UI panel |
+
+> ⚠️ **Naming note:** "Antigravity" and "Cowork" are different products from different companies. Earlier versions of this doc incorrectly used the names interchangeably. Antigravity is Google's tool. Cowork is Anthropic's.
 
 ---
 
@@ -74,34 +78,127 @@ Use Grep to find relevant sections before reading them.
 
 ---
 
-## Starting a Claude Code / Antigravity Session
+## Enforcement Mechanisms by Tool
 
-### Option A: Project-aware session (recommended)
+The harness only works if agents follow the boot sequence every session. The mechanism differs by tool.
 
-When working in a project context, start with a project instruction that tells the agent where to look:
+---
+
+### Antigravity (Google DeepMind) — File-Based Enforcement
+
+Antigravity reads a global rules file at startup. The confirmed enforcement path is:
+
+**Mechanism 1 — `~/.gemini/GEMINI.md` (PRIMARY — confirmed working)**
+
+This is the global rules file loaded by Antigravity at the start of every session,
+regardless of which workspace or project is active. The harness boot gate is written
+here and takes effect automatically.
+
+**File location:** `/Users/jamesmeirowsky/.gemini/GEMINI.md`
+
+This file is live and contains the full SESSION START hard gate + boot sequence.
+Do not delete or overwrite it without updating this doc.
+
+**Mechanism 2 — `CLAUDE.md` in the workspace root (secondary)**
+
+If a `CLAUDE.md` file exists in the active workspace directory, Antigravity may
+also read it. The `agent-driven-enterprise/CLAUDE.md` contains the full boot
+sequence as a backup. Both files are kept in sync.
+
+**Mechanism 3 — Explicit session-open prompt (emergency fallback)**
+
+If neither file is loading, paste this at the start of the conversation:
 
 ```
-You are the [ROLE] Agent for James's AI company.
-Active project: [project name]
-Start by reading:
-1. agents/[ROLE].md
-2. projects/[project-name]/PROJECT_STATE.md
-Then confirm your understanding before acting.
-```
+Before doing any work:
+1. Read /Users/jamesmeirowsky/Projects/agent-driven-enterprise/protocols/ROUTER.md
+   and classify this task to a primary agent role.
+2. Read agents/[ROLE].md
+3. Pull Monday.com board for the active project
+4. Read projects/[project-name]/PROJECT_STATE.md
+5. Write the SESSION START block before taking any action.
 
-### Option B: Task-focused session
-
-For short, well-defined tasks:
-
-```
-Read projects/[project-name]/PROJECT_STATE.md.
-Your task is: [specific task from Next Actions].
-When done, update PROJECT_STATE.md and commit any code.
+Full instructions: /Users/jamesmeirowsky/Projects/agent-driven-enterprise/CLAUDE.md
 ```
 
 ---
 
-## Using Cowork (Antigravity) Effectively
+### Claude Code CLI (Anthropic) — Auto-Load + Slash Commands
+
+**Mechanism 1 — CLAUDE.md auto-load (primary)**
+
+When Claude Code starts in a directory containing `CLAUDE.md`, it reads that file automatically. This is the same file-based approach as Antigravity — one `CLAUDE.md` works for both.
+
+**Mechanism 2 — Slash commands (on-demand)**
+
+Custom commands live in `.claude/commands/`:
+
+| Command | What It Does |
+|---------|-------------|
+| `/project:session-start` | Runs the full boot sequence (Steps 1–6) |
+| `/project:session-end` | Runs the full close sequence |
+| `/project:status` | Read-only Monday + PROJECT_STATE status check |
+
+Use `/project:session-start` at the top of any session where you aren't sure the boot ran.
+
+---
+
+### Claude Cowork (Anthropic) — Project Instructions UI Panel
+
+Cowork has a persistent "Project Instructions" field in the project settings UI. Paste this block there — it is injected automatically at the start of every session in that project:
+
+```
+HARNESS ENFORCEMENT: Before doing any work in this project, you must:
+1. Classify the task domain using protocols/ROUTER.md from /Users/jamesmeirowsky/Projects/agent-driven-enterprise/
+   - Read the domain classification table in ROUTER.md
+   - Match the incoming request to a primary agent role (CTO / PM / CFO / CMO / CEO / Security / Reliability / Review)
+   - If the user specified a role explicitly, use it and skip classification
+2. Read agents/[ROLE].md from /Users/jamesmeirowsky/Projects/agent-driven-enterprise/
+3. Pull the Monday.com board for the active project (see COMPANY.md → Active Projects)
+4. Read projects/[project-name]/PROJECT_STATE.md
+5. Write the SESSION START declaration block as your first output, including:
+   - Agent: [ROLE] (+ secondary role if mixed session)
+   - Routing rationale: [one sentence explaining why this domain was chosen]
+
+Do not answer questions or take action until the SESSION START block is written.
+Full instructions: /Users/jamesmeirowsky/Projects/agent-driven-enterprise/CLAUDE.md
+Router: /Users/jamesmeirowsky/Projects/agent-driven-enterprise/protocols/ROUTER.md
+```
+
+To access Project Instructions in Cowork: open the project → click the project name or gear icon → find "Custom Instructions" or "Project Instructions" field → paste and save.
+
+---
+
+## Starting a Session — By Tool
+
+### Antigravity (Google DeepMind)
+
+1. Open Antigravity with the `agent-driven-enterprise` folder as your workspace
+2. If `CLAUDE.md` is present in that root, it loads automatically — boot sequence is enforced
+3. If starting mid-project (e.g., in a subdirectory), paste the fallback prompt from the Antigravity enforcement section above
+4. Antigravity will route the task, load the agent role, and write the SESSION START block
+
+### Claude Code CLI (Anthropic)
+
+```bash
+# Start in the harness directory — CLAUDE.md loads automatically
+cd /Users/jamesmeirowsky/Projects/agent-driven-enterprise
+claude
+
+# Or trigger boot explicitly
+claude
+/project:session-start
+```
+
+### Claude Cowork (Anthropic)
+
+1. Open the project in claude.ai
+2. Project Instructions are injected automatically — boot sequence runs without any additional prompt
+3. Cowork will route the task, load the agent role, and write the SESSION START block
+
+---
+
+## Using Antigravity (Google DeepMind) Effectively
 
 ### File workspace
 - All harness files are in the workspace folder and persist between sessions

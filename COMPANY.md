@@ -107,7 +107,7 @@ To build, operate, and continuously improve a portfolio of technology and busine
 
 | Project | Status | Lead Agent | Monday Board | GitHub Repo | Drive Folder |
 |---------|--------|------------|-------------|-------------|--------------|
-| *(Add projects here)* | — | — | — | — | — |
+| **SkydiveCity.com** | Active — Phase 1 content go-live | PM + CTO | [Skydive City Board](https://itsginfo.monday.com) | [itsginfo/SkydiveCity.com](https://github.com/itsginfo/SkydiveCity.com) | — |
 
 ---
 

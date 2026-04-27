@@ -42,6 +42,7 @@ Enterprise Functions | AI Agents/
 ├── protocols/                        ← Standard operating procedures
 │   ├── SESSION_START.md             ← How to boot up any session (includes session scoping)
 │   ├── SESSION_END.md               ← How to close/hand off a session
+│   ├── ROUTER.md                    ← Task domain classifier → maps tasks to agent roles
 │   ├── TOKEN_LIMIT_RECOVERY.md      ← Emergency protocol for token exhaustion
 │   ├── A2A_PROTOCOL.md             ← Agent-to-agent communication rules
 │   ├── REVIEW_PROTOCOL.md          ← Output tiers + verification requirements
