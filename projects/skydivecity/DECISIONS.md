@@ -9,6 +9,45 @@
 
 ---
 
+## 2026-04-27 — Project Retrospectives Live in the Harness, Not the Project Repo
+**Decision:** All project-level retrospectives (per the new `agents/Retro.md` and `protocols/RETRO_PROTOCOL.md`) are written to and stored in the harness at `projects/[project-name]/retrospectives/YYYY-MM-DD.md`, NOT in the per-project code repo (e.g., not in `skydivecity-com/project_management/`).
+**Rationale:** The harness already holds project-level meta-data — `PROJECT_STATE.md`, `DECISIONS.md`, session protocols. Retrospectives are the same category of artifact (state/governance/learning), not project-execution artifacts (code, runbooks, deploy scripts). Cross-project pattern rollups also become trivial when all retros live in one repo.
+**Implications:**
+- The `skydivecity-weekly-retro` routine (`trig_018t5ipHB23fUq48HzsfQF49`) clones BOTH the project repo and the harness repo as `sources`.
+- Retro markdown is committed to harness on `main`; tracker summaries posted to Monday item #11858051360.
+- The post-deployment QA plan stays in the project repo (project-execution artifact), but the QA agent definition lives in the harness (governance artifact). Same split rationale.
+**Alternatives considered:** Project-repo location (rejected — would split governance artifacts across N repos and complicate cross-project rollup).
+**Made by:** James Meirowsky (confirmed to agent 2026-04-27)
+**Revisit if:** Multi-tenant constraints emerge (e.g., a client's project artifacts cannot live in the harness repo for compliance reasons).
+
+---
+
+## 2026-04-27 — `deploy.sh --live` Frozen Pending W4-16 Investigation
+**Decision:** `deploy.sh --live` is **not to be run** until W4-16 (deploy.sh delta investigation) completes. Today's dry-run revealed 17,400+ files / 236 MB delta between local `files/wp-content/themes-and-plugins/` and prod. Possibly metadata-only differences from rsync's `-a` flag, possibly real drift; cannot tell from output alone. `--delete` flag is active, so a real run could remove production files not present locally.
+**Rationale:** The cutover did NOT use `deploy.sh --live` (it used `wp-import.sh` over SSH for content + WP Admin for nav). Theme/plugin sync wasn't on today's critical path. Better to freeze the unknown until investigated than to discover what `--delete` removes from prod the hard way.
+**Implications:**
+- Any urgent theme/plugin change must be applied directly via SSH/WP Admin, NOT via `deploy.sh --live`, until the delta is understood.
+- W4-16 owns the investigation: itemize the delta (`rsync --itemize-changes`), categorize by content vs. metadata, decide whether `--delete` is appropriate, document a safe re-enable path.
+**Alternatives considered:** Run `--live` with `--no-delete` flag added (rejected — still touches 17K files of unknown nature; analyze first).
+**Made by:** PM Agent + James (joint operational call 2026-04-27 ~09:00 ET).
+**Revisit if:** W4-16 completes and the delta is verified safe; or an urgent theme/plugin change can't wait for the investigation (in which case use SSH directly).
+
+---
+
+## 2026-04-27 — Phase 1 Cutover Complete; Site in 7-Day Monitoring Window
+**Decision:** Phase 1 release executed successfully on 2026-04-27 starting 9:00 AM ET. Site declared GO. Now in the 7-day post-cutover monitoring window through 2026-05-04.
+**Rationale:** All Section 4 smoke tests passed. Site is live, healthy, on UptimeRobot. Section 6 GO criteria met (events visible, nav updated, SSL clean, no Sev 1/2). Acceptable scope-gaps (35 of 44 events without CTAs/images) confirmed as intentional — past events excluded by design.
+**Implications:**
+- W4-9 daily check-ins begin 2026-04-28 (automated via `skydivecity-daily-checkin` routine).
+- W4-11 (window close) and W4-12 (Phase 1 Acceptance) due 2026-05-04.
+- AC-1, AC-2, AC-3 acceptance criteria all on track for May 4 sign-off.
+- Polish backlog: W4-14 (Burble URLs), W4-15 (featured images), W4-16 (deploy.sh delta), W4-17 (SSL renewal).
+**Alternatives considered:** Slip cutover 24h (was on the table at the 6 AM Monday checkpoint due to Flywheel SSH outage; outage resolved at 8:51 ET, declared GO).
+**Made by:** PM Agent + James (joint declaration 2026-04-27 ~10:50 ET).
+**Revisit if:** Sev 1 or Sev 2 issues surface during monitoring window that require rollback consideration.
+
+---
+
 ## 2026-04-23 — No-Rollback Risk Accepted for skydive.city Side
 **Decision:** ITSG accepts that there is no rollback capability on the skydive.city side. If the cutover causes issues, ITSG cannot revert Tommy's Route 53/CloudFront redirect. Rollback scope is limited to skydivecity.com-side changes only (themes, plugins, DB content via wp-import.php — all reversible).
 **Rationale:** ITSG has no AWS access and Tommy is unresponsive. There is no viable path to obtaining rollback capability on skydive.city. The risk is acceptable because: (1) Tommy's redirect has been live since April 1 with no reported issues; (2) all ITSG-controlled changes on skydivecity.com are reversible independently.
