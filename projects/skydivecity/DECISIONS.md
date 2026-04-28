@@ -9,6 +9,41 @@
 
 ---
 
+## 2026-04-28 — Patch Daily-Checkin Routine to Use UptimeRobot API (vs. Curl-Only)
+**Decision:** Replaced the `skydivecity-daily-checkin` routine's curl-based health check with UptimeRobot API calls against 4 monitor-specific read-only keys (home, events, dz-briefing, lodging). Curl is now a fallback only, and uses a real-browser User-Agent. Email body rewritten in C-suite voice — no HTTP codes, no ticket IDs, no jargon. Recipient routing flipped to Rich (To) / Matt (CC).
+**Rationale:** Day 1's draft led with "NEEDS MANUAL VERIFICATION" / "DEGRADED" because the default curl User-Agent is filtered by Cloudfront/WAF and returns 403. UptimeRobot was showing 100% real-user availability, so the framing was actively misleading and would have repeated for the next 6 mornings. UptimeRobot is the authoritative source for real-user availability anyway — using it directly removes the false-positive vector and gives an actual uptime % to report. Monitor-specific read-only keys are scoped to one monitor each, so embedding them in the routine prompt has minimal blast radius.
+**Implications:**
+- Daily drafts from 2026-04-29 onward should be C-suite send-ready without rewriting.
+- The 4 keys are visible in the routine config at `https://claude.ai/code/routines/trig_01ViRe1SRmMrMpJdBGpbH34V` — readable only by James's account.
+- If UptimeRobot itself goes down, the routine falls back to a curl with a real-browser UA and reports the unavailability transparently.
+**Alternatives considered:**
+- **UA-only fix** (real-browser UA on existing curl) — rejected: fixes the 403s but doesn't give a 24h uptime figure; less authoritative.
+- **Account-wide read-only key** — rejected: more sensitive than necessary; principle of least privilege.
+- **Replace the routine with a manually-written daily draft** — rejected: defeats the harness automation principle; James loses 5 minutes/day.
+**Made by:** PM Agent + James (joint call 2026-04-28 mid-morning).
+**Revisit if:** UptimeRobot reliability becomes a problem during the monitoring window, or if monitor URLs change post-cutover.
+
+---
+
+## 2026-04-28 — Retract W4-19 and W4-20 (Both QA-Reported Defects Verified Present on Prod)
+**Decision:** Closed Monday W4-19 (Sev 2, "Sport Skydiving" nav link) and W4-20 (Sev 3, "Upcoming Events" CTA) as Done — both verified present on prod during Day 1 spot-check. False positives. The QA addendum's Correction 5 retracts both. (W4-19 closed via API; W4-20 closed via Monday UI by James after the API repeatedly returned 500 on writes to that specific item.)
+**Rationale:**
+- "Sport Skydiving" link is in the top nav at *Go Skydiving > Experienced Skydivers > Sport Skydiving*, linking to `/events/`. The original Antigravity QA report likely missed it because the link target is `/events/` rather than a `/sport-skydiving/` slug.
+- "Upcoming Events" CTA is on both the homepage and events page, linking to `/events/`. Original report flagged it as missing without checking.
+- Both defects had been transcribed into the QA addendum as "open" without re-verification — a process gap captured as lesson #4 in the addendum and tracked for the next retro.
+**Implications:**
+- No remaining QA defects from the original report. After Correction 5 the report's open-defects column is empty.
+- W4-19 / W4-20 dropped from PROJECT_STATE In-Flight Tasks and Watch-Out list.
+- Beyond Marketing not pinged — there was nothing for them to fix.
+- Process gap: when correcting a QA report, ALL findings must be re-verified, not only those triggering the correction. Otherwise stale defects propagate into Monday tickets, status emails, and retros.
+**Alternatives considered:**
+- **Leave open and ask Beyond Marketing to "fix"** — rejected: they would have either spent time investigating non-issues or correctly pushed back, eroding trust.
+- **Delete the Monday tickets entirely** — rejected: closing-with-rationale preserves the audit trail of how false positives were detected, useful for the next QA cycle.
+**Made by:** PM Agent + James (joint call 2026-04-28 morning, after James questioned both tickets).
+**Revisit if:** A future QA cycle misses defects in the same area, suggesting our verification methodology has a blind spot.
+
+---
+
 ## 2026-04-27 (eve) — Roll Page-Render Fix into Next-Day Check-in (vs. Notify Matt Today)
 **Decision:** The empty-pages discovery + fix landed at the end of the day on 2026-04-27. We rolled the disclosure into the 2026-04-28 9 AM ET daily check-in routine rather than sending a separate same-day notification to Matt + Rich.
 **Rationale:** Fix was already deployed and verified before the discovery would have been communicated. Same-day notification would have framed the message as "found, working on it" — which would (a) cause unnecessary alarm, and (b) require a second message anyway once the fix landed. Folding into the next-morning check-in lets the message read as "found + already fixed" — same transparency, less noise.

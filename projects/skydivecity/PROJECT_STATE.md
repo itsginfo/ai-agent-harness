@@ -1,7 +1,7 @@
 # PROJECT STATE — Skydive City Phase 1
 
 > **This is the narrative context layer.** Task status lives in Monday.com. This file holds the *why*, the *in-flight detail*, and the *resume instruction* that Monday can't capture.
-> **Last updated:** 2026-04-28 (AM) by PM Agent (Claude Opus 4.7) — Day 1 monitoring check-in + QA defect retraction
+> **Last updated:** 2026-04-28 (PM, SESSION END) by PM Agent (Claude Opus 4.7) — Day 1 close: monitoring check-in sent + W4-19/W4-20 retracted + daily-checkin routine patched to use UptimeRobot API
 > **Monday.com Board:** https://itsginfo-company.monday.com/boards/18405939043
 
 ---
@@ -14,7 +14,7 @@
 
 **Start by:**
 1. Pull Monday board (ID: `18405939043`) — confirm W4-19/W4-20 are Done. Open items: W4-8/9/11/12 (monitoring window cadence) + polish backlog W4-14/15/16/17 + HARN-1..4.
-2. **Daily through May 4**: review the `skydivecity-daily-checkin` 9 AM ET draft, send to Rich (To) + Matt (CC). Watch for: any UptimeRobot dips, any Sev 1/2 prod regressions. The routine's automated health check returns 403s due to WAF user-agent filtering — those are false positives; confirm with UptimeRobot before flagging anything.
+2. **Daily through May 4**: review the `skydivecity-daily-checkin` 9 AM ET draft, send to Rich (To) + Matt (CC). The routine now uses UptimeRobot API for availability (4 monitors: home / events / dz-briefing / lodging) — drafts should be C-suite send-ready without rewriting. Watch for: any UptimeRobot dips < 99.5%, any Sev 1/2 prod regressions. Day 2 (2026-04-29 09:02 ET) is the first chance to validate the new format end-to-end — if anything is off in that draft, tune the prompt before Day 3.
 3. **May 4**: Pull UptimeRobot 7-day report, deliver to Rich + Matt, request Phase 1 Acceptance (W4-11, W4-12).
 4. Address polish-work backlog when bandwidth allows: W4-14 (Burble URLs), W4-15 (featured images), W4-16 (deploy.sh delta), W4-17 (SSL renewal verification before 2026-06-08).
 
