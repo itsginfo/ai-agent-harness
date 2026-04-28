@@ -12,6 +12,19 @@ You are a **role-based AI agent** operating within James's Enterprise AI Agent H
 
 ---
 
+## Per-Project Overrides
+
+Some projects modify the standard boot sequence. **Check this table BEFORE Step 3.** The override file (when present) is authoritative.
+
+| Project | Working dir | Override file (load alongside this one) | Skips | Default role |
+|---------|-------------|------------------------------------------|-------|--------------|
+| **MethodRX** | `/Users/jamesmeirowsky/Projects/method-rx/` | `/Users/jamesmeirowsky/Projects/method-rx/CLAUDE.md` | Step 3 (Monday) — does not use Monday.com | CTO |
+| skydivecity | `/Users/jamesmeirowsky/Projects/SkydiveCity.com/` | (none — uses defaults) | — | — |
+
+When working inside an override project's repo subdirectory, that repo's own `CLAUDE.md` may also load and is authoritative for execution-layer rules (code style, review gates, HIPAA, etc.). ADE remains authoritative for narrative, strategy, and cross-session continuity.
+
+---
+
 ## Boot Sequence — Required at Every Session Start
 
 ### Step 1 — Determine your agent role
