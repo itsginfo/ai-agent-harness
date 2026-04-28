@@ -1,22 +1,22 @@
 # PROJECT STATE — Skydive City Phase 1
 
 > **This is the narrative context layer.** Task status lives in Monday.com. This file holds the *why*, the *in-flight detail*, and the *resume instruction* that Monday can't capture.
-> **Last updated:** 2026-04-27 (evening) by PM Agent (Claude Opus 4.7) — post-QA-discovery session
+> **Last updated:** 2026-04-28 (AM) by PM Agent (Claude Opus 4.7) — Day 1 monitoring check-in + QA defect retraction
 > **Monday.com Board:** https://itsginfo-company.monday.com/boards/18405939043
 
 ---
 
 ## ⚡ RESUME INSTRUCTION
 
-**✅ PHASE 1 CUTOVER COMPLETE — Released to production 2026-04-27 ~10:50 ET.** In **7-day post-cutover monitoring window** (Apr 27 → May 4). Phase 1 acceptance request goes to Matt May 4.
+**✅ PHASE 1 CUTOVER COMPLETE — Released 2026-04-27.** Day 1 of 7-day monitoring window (Apr 27 → May 4) closed clean: UptimeRobot 100% / 24h, daily check-in sent to Rich (primary) + Matt (CC) at ~10:45 ET on 2026-04-28. Phase 1 acceptance request goes to Rich on May 4.
 
-**🔧 LATE-DAY FIX (2026-04-27 evening):** The 3 new cutover pages (`/events-portal/`, `/dz-briefing/`, `/lodging-amenities/`) were rendering empty bodies on prod. Antigravity QA missed it (false PASSes). Root cause: `mywp` theme is ACF-driven and ignores `wp_posts.post_content`. Fix: `migration/wp-page-acf-import.php` populated ACF Flexible Content postmeta on all 3 pages. Verified rendering on prod. Discovery + fix is rolled into the 2026-04-28 9 AM ET daily check-in to Matt + Rich.
+**🧹 W4-19 / W4-20 RETRACTED (2026-04-28):** Both "open defects" carried forward from the original Antigravity QA report were verified on prod and found to be **false positives**. "Sport Skydiving" link is present in top nav (Go Skydiving > Experienced Skydivers > Sport Skydiving → `/events/`); "Upcoming Events" CTA is present on homepage and events page. Both Monday tickets closed Done with rationale. QA addendum updated with Correction 5 + new lesson #4 (carrying defects forward without re-verification = process gap). Note: W4-20 status change in Monday API repeatedly returned 500; closed via UI.
 
 **Start by:**
-1. Pull Monday board (ID: `18405939043`) — confirm W4-9 (daily check-in) status; W4-1/4/5/6/7 closed Done. New items: W4-18 (page-render fix log), W4-19 (Sev 2 nav: Sport Skydiving missing), W4-20 (Sev 3 CTA: Upcoming Events missing).
-2. **Daily through May 4**: brief written check-in to Matt + Rich — uptime status + any Sev 1/2 issues (W4-9). The `skydivecity-daily-checkin` scheduled routine drafts these for review at 9 AM ET each day. Tomorrow's draft must include the page-render fix discovery + resolution.
-3. **May 4**: Pull UptimeRobot 7-day report, deliver to Matt, request Phase 1 Acceptance (W4-11, W4-12).
-4. Address polish-work backlog (W4-14 Burble URLs, W4-15 featured images, W4-16 deploy.sh delta, W4-17 SSL renewal verification, **W4-19 Sport Skydiving nav**, **W4-20 Upcoming Events CTA**).
+1. Pull Monday board (ID: `18405939043`) — confirm W4-19/W4-20 are Done. Open items: W4-8/9/11/12 (monitoring window cadence) + polish backlog W4-14/15/16/17 + HARN-1..4.
+2. **Daily through May 4**: review the `skydivecity-daily-checkin` 9 AM ET draft, send to Rich (To) + Matt (CC). Watch for: any UptimeRobot dips, any Sev 1/2 prod regressions. The routine's automated health check returns 403s due to WAF user-agent filtering — those are false positives; confirm with UptimeRobot before flagging anything.
+3. **May 4**: Pull UptimeRobot 7-day report, deliver to Rich + Matt, request Phase 1 Acceptance (W4-11, W4-12).
+4. Address polish-work backlog when bandwidth allows: W4-14 (Burble URLs), W4-15 (featured images), W4-16 (deploy.sh delta), W4-17 (SSL renewal verification before 2026-06-08).
 
 **What shipped on 2026-04-27:**
 - 44 of 46 events imported as `tribe_events` posts (IDs 5797–5840). 2 silent failures during import — accepted, not investigating.
@@ -34,9 +34,11 @@
 - **35 of 44 imported events have no Burble/FB CTAs.** By design — these are past events. New future events need their own CTAs added to `wp-cta-import.php` mapping.
 - **36 of 44 events have no featured images.** By design — same reason. Future event additions need image mapping in `wp-image-import-local.php`.
 - **Tommy Prestinario remains inaccessible.** His path-preserving 301 redirect (skydive.city → skydivecity.com) is live and validated. W3-7, W4-3, W4-10 closed Done.
-- **Rich Muscolino is primary SPOC and approver.** Matt Adamson is secondary.
+- **Rich Muscolino is primary SPOC and approver.** Matt Adamson is secondary. **Daily status emails go To Rich, CC Matt** (corrected 2026-04-28 — the auto-drafted check-in had it reversed; routine should reflect Rich-primary in future drafts).
+- **Daily-checkin routine's health check returns false-positive 403s** — Cloudfront/WAF filters the routine's user-agent. UptimeRobot is the source of truth for availability; the 403s are noise. Worth fixing the routine's user-agent so future drafts don't lead with a misleading "NEEDS MANUAL VERIFICATION" status; tracked informally, not yet a Monday item.
 - **GitHub App access for Anthropic must include any new private repo before scheduled routines can clone it.** Discovered 2026-04-27 — the harness routine couldn't clone `itsginfo/ai-agent-harness` until James installed the Claude Code GitHub App on the org. Future client repos will need the same step.
 - **Pattern P-002 (open watch) — harness under-leveraged.** This session repeatedly bypassed specialist agents (SECURITY, RELIABILITY, REVIEW) when work clearly fell within their domains. Tracked for next-session attention. See `projects/skydivecity/retrospectives/2026-04-27.md` post-retro addendum.
+- **QA addendum process gap (added 2026-04-28).** When correcting a QA report, ALL findings must be re-verified — not only those triggering the correction. The 2026-04-27 addendum carried W4-19 / W4-20 forward as open without re-checking, and both turned out to be false positives. See Correction 5 in `project_management/post-deployment-qa-report-2026-04-27-addendum.md`.
 
 ---
 
@@ -104,15 +106,15 @@
 
 > Tasks that are STARTED but NOT FINISHED. Do NOT restart — pick up where noted.
 
-- **W4-9** — Daily check-in to Matt + Rich. Automated via scheduled routine. First fire: 2026-04-28 9:07 AM ET. **Tomorrow's draft must include the page-render discovery + fix.**
+- **W4-9** — Daily check-in to Rich (primary) + Matt (CC). Automated via `skydivecity-daily-checkin` routine, fires 9:07 AM ET daily. Day 1 sent 2026-04-28 ~10:45 ET — Rich/Matt now have the W4-18 disclosure + uptime status. Days 2–6 still to come.
 - **W4-14** — Add Burble + FB CTAs to remaining upcoming events. Backlog. Needs source URL research with Matt.
 - **W4-15** — Add featured images to remaining upcoming events. Backlog. Has source files locally; needs `wp-image-import-local.php` mapping additions.
 - **W4-16** — Investigate deploy.sh dry-run 17K-file delta. Backlog. Blocking any future theme/plugin push.
 - **W4-17** — Verify SSL cert auto-renewal before 2026-06-08. James + Beyond Marketing. Due 2026-06-01.
-- **W4-19** — Defect (Sev 2): "Sport Skydiving" link missing from top nav. Beyond Marketing-owned. Filed 2026-04-27 evening from QA addendum.
-- **W4-20** — Defect (Sev 3): "Upcoming Events" CTA missing from homepage / events index. Beyond Marketing-owned. Filed 2026-04-27 evening from QA addendum.
-- **W4-11 / W4-12** — May 4: monitoring window close + Phase 1 Acceptance request to Matt. Not yet started.
+- **W4-11 / W4-12** — May 4: monitoring window close + Phase 1 Acceptance request to Rich (primary). Not yet started.
 - **HARN-1 / HARN-2 / HARN-3 / HARN-4** — Harness-improvement backlog now visible in Monday (was narrative-only). All deferred to post-Phase-1-acceptance per the 2026-04-27 retro decision.
+
+> **Closed 2026-04-28:** W4-19 (Sport Skydiving nav), W4-20 (Upcoming Events CTA) — both verified present on prod, false positives from original QA report. See QA addendum Correction 5.
 
 ---
 
@@ -147,11 +149,13 @@
 
 > When you complete one, update Monday first, then return here.
 
-1. **[Apr 28, 9:07 AM ET] W4-9: First automated daily check-in fires** — `skydivecity-daily-checkin` (`trig_01ViRe1SRmMrMpJdBGpbH34V`) drafts the email; James reviews + sends to Matt + Rich. **VERIFY the draft mentions the 2026-04-27 evening page-render discovery + fix. If missing, paste the W4-18 update body before sending.** Repeats daily through May 4.
-2. **[Whenever Beyond Marketing has bandwidth] W4-19 / W4-20** — Sev 2 (Sport Skydiving nav link) and Sev 3 (Upcoming Events CTA). Beyond Marketing-owned; James to coordinate. Resolve before May 4 acceptance if possible.
-3. **[2026-05-04] W4-11 / W4-12: Monitoring window close + Phase 1 Acceptance** — James pulls UptimeRobot 7-day report, delivers to Matt + Rich, requests written Phase 1 Acceptance.
+1. **[Apr 29 → May 4, 9:07 AM ET daily] W4-9: Daily check-in cadence** — review the routine's drafted email, fix any framing issues (the routine still defaults to Matt as primary; route To Rich, CC Matt), confirm against UptimeRobot, send. Days 2–6 of monitoring.
+2. **[2026-05-04] W4-11 / W4-12: Monitoring window close + Phase 1 Acceptance** — James pulls UptimeRobot 7-day report, delivers to Rich + Matt, requests written Phase 1 Acceptance.
+3. **[Whenever bandwidth] Polish backlog** — W4-14 (Burble URLs), W4-15 (featured images), W4-16 (deploy.sh delta investigation), W4-17 (SSL renewal verification before 2026-06-08).
 
-**Backlog (post-acceptance):** W4-14 (Burble URLs), W4-15 (featured images for remaining events), W4-16 (deploy.sh delta investigation), W4-17 (SSL renewal verification), W4-19 (Sport Skydiving nav, Sev 2), W4-20 (Upcoming Events CTA, Sev 3). Harness-improvement backlog now visible in Monday: HARN-1 (Proactive Checkpoint Protocol enforcement), HARN-2 (Karpathy LLM Wiki/KB evaluation), HARN-3 (Retro vs REVIEW reconciliation), HARN-4 (gaps audit).
+**Post-acceptance backlog:** Harness-improvement work — HARN-1 (Proactive Checkpoint Protocol enforcement), HARN-2 (Karpathy LLM Wiki/KB evaluation), HARN-3 (Retro vs REVIEW reconciliation), HARN-4 (gaps audit).
+
+**Routine improvement candidate (informal):** the `skydivecity-daily-checkin` routine's automated health check uses a user-agent that gets WAF-filtered by Cloudfront, returning 403s. The drafts therefore lead with "NEEDS MANUAL VERIFICATION" / "DEGRADED" framing that's misleading when UptimeRobot shows 100%. Worth either (a) updating the routine's user-agent to a real-browser UA, or (b) replacing the health check with an UptimeRobot API pull. Not yet filed as a Monday item.
 
 ---
 
@@ -196,6 +200,7 @@
 | 2026-04-27 (PM) | PM Agent (Claude Opus 4.7) | **Session continuation — retro execution + closeout.** James caught PROJECT_STATE staleness; full refresh completed (this commit's predecessor `aa92539`). Manual one-shot retro routine fired successfully via `run_once_at` (after discovering claude.ai's "Run now" UI button was broken AND Anthropic's GitHub App needed installation on `itsginfo` org for harness private-repo access — Path B install succeeded). First retrospective for the project landed at `projects/skydivecity/retrospectives/2026-04-27.md` (commit `2d1b9ec`). Both retro actions closed within 30 min: pushed `720e95d`/`ee43aaf` to skydivecity-com origin; closed W3-14 (security testing) after running 12 actual open-redirect attack vectors against prod (no vulnerabilities), and W3-15 (analytics) per James's GA confirmation. Closed W3-16 + W3-17 with rationale notes (superseded by other artifacts). Committed + pushed `post-deployment-qa-plan.md` to skydivecity-com (commit `10d660f`). **Major meta-finding:** Repeatedly bypassed harness specialist agents (SECURITY for W3-14, RELIABILITY for cutover-slip decision, REVIEW for harness health) — created QA + Retro agents without auditing existing /agents/ where REVIEW + SECURITY + RELIABILITY + others already lived. Tracked as session task #4 (gaps audit) and as Pattern P-002 in retro addendum. Session paused awaiting next-session focus. |
 | 2026-04-28 | CTO Agent (Antigravity) | **Phase 1 QA Execution Completed.** Executed browser QA Phase 3 (Regression CTAs, skydive.city Redirects, SSL verification) via subagent. All Phase 3 checks PASSED. Consolidated results from Phases 1-3 into `post-deployment-qa-report-2026-04-27.md` yielding a YELLOW final verdict. Defect list (Sev 2/3) documented for backlog: missing "Sport Skydiving" / "Upcoming Events" navigation links, and 404 error on Local Services page. `task.md` fully checked off. |
 | 2026-04-27 (eve) | PM Agent (Claude Opus 4.7) | **Post-QA discovery + fix.** James spot-checked prod; flagged that `/dz-briefing/` and `/lodging-amenities/` had empty bodies despite Antigravity's PASS. Investigation found 3-of-3 new cutover pages (5794, 5795, 5796) rendering empty — `mywp` theme is fully ACF-driven and ignores `wp_posts.post_content`. Authored `migration/wp-page-acf-import.php` mirroring dev's working ACF Flexible Content structure (3 flex rows: header → text → header pattern, plus header chrome). Ran via `wp eval-file` on prod; all 3 pages now render correctly. Filed QA report addendum (`post-deployment-qa-report-2026-04-27-addendum.md`) correcting 2 false PASSes, 1 missed defect, 1 false-positive (/local-services/ retracted — out of scope). Filed Monday W4-18 (fix log) and W4-19 / W4-20 (remaining nav defects). Discovery + fix rolled into 2026-04-28 9 AM ET daily check-in to Matt + Rich. **Pattern**: dev had a manual ACF UI fix never captured in code; cutover replicated only the visible script, not the silent fix. Worth adding to the next retro as a recurrence vector. |
+| 2026-04-28 (AM) | PM Agent (Claude Opus 4.7) | **Day 1 monitoring check-in + W4-19/W4-20 retraction.** Daily-checkin routine fired at 9:07 ET as expected; draft was misframed (top-line "NEEDS MANUAL VERIFICATION" from health-check 403s caused by WAF UA filtering — UptimeRobot showed 100%). Rewrote draft in C-suite voice with Rich as primary recipient (Matt CC), James sent. Verified W4-19 ("Sport Skydiving" nav link) and W4-20 ("Upcoming Events" CTA) on prod — both **present**, false positives from the original Antigravity QA report carried forward by the addendum without re-verification. Closed W4-19 in Monday with rationale; W4-20 status change repeatedly returned 500 from Monday API — closed via UI by James. Updated QA addendum with Correction 5 + lesson #4 (carrying QA defects forward without re-verification = process gap to capture in next retro). PROJECT_STATE refreshed (this commit). New informal watch item: routine's health-check user-agent gets WAF-filtered; consider switching to UptimeRobot API or a real-browser UA so future drafts don't lead with misleading status. |
 
 ---
 
