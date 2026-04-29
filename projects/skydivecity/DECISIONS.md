@@ -9,6 +9,23 @@
 
 ---
 
+## 2026-04-29 — Disable Daily-Checkin Routine; Manual for Days 3-7
+**Decision:** Disabled the `skydivecity-daily-checkin` remote routine (`enabled: false` via RemoteTrigger update) after Day 2 failed differently than Day 1. Days 3-7 of the monitoring window (Apr 30 → May 4) will be done manually: open UptimeRobot dashboard, hand-write a short C-suite email To Rich / CC Matt using the Day 2 template (canonical format in W4-9 update 5148058990), post a numbers-only Day N comment to W4-9. The routine config is preserved (not deleted) for any future Phase 2 rebuild — the 4 read-only UptimeRobot monitor keys remain embedded.
+**Rationale:** Day 1 of the routine led with false-positive 403s from a curl UA filtered by Cloudfront/WAF; we patched on 2026-04-28 to call `api.uptimerobot.com` instead, with curl (real-browser UA) as a documented fallback. Day 2 then revealed the deeper problem: the Anthropic remote-agent sandbox blocks outbound calls to `api.uptimerobot.com` ("Host not in allowlist") AND the fallback curl to www.skydivecity.com (403 from sandbox IP). Both data paths are blocked at the sandbox layer. Two patches in two days without a working theory is the signal to step back. Manual cost is ~5 min/day × 5 days = ~25 min total — less than the cost of designing/testing a third patch with no clarity on what *would* work in the sandbox.
+**Implications:**
+- Days 3-7 cadence is owned by James, not the harness. Calendar reminder, no automation.
+- The `2026-04-28` patch decision is effectively superseded — its "Revisit if" condition (UptimeRobot reliability problems) didn't trigger; the sandbox-allowlist constraint did.
+- The lesson is logged to PROJECT_STATE Watch-Out section and to user-memory `feedback_remote_agent_sandbox_allowlist.md`: when designing claude.ai scheduled remote agents, the outbound network allowlist is restrictive — verify host allowlisting before depending on it.
+- Phase 2 routine design should prefer routines whose inputs come from MCP connectors (already allowlisted: monday-com, Google Drive) over routines that shell out to arbitrary HTTP.
+**Alternatives considered:**
+- **Patch a third time** (e.g., proxy through a different host, or push UptimeRobot data into Monday for the routine to read) — rejected: speculative, would consume more design time than the manual fallback. We can revisit for Phase 2 with a clean scope.
+- **Get hosts allowlisted by Anthropic** — rejected for now: unclear whether user-configurable, and the deadline is May 4. Worth raising as a harness-improvement item separately if/when Phase 2 wants daily routines again.
+- **Delete the routine** — rejected: keeping it disabled preserves the API keys + prompt structure for Phase 2 reuse; deletion is irreversible.
+**Made by:** PM Agent + James (joint call 2026-04-29 morning).
+**Revisit if:** Phase 2 needs a similar daily routine — at that point, design from the constraint that arbitrary outbound HTTP is not available, OR investigate the sandbox allowlist mechanics.
+
+---
+
 ## 2026-04-28 — Patch Daily-Checkin Routine to Use UptimeRobot API (vs. Curl-Only)
 **Decision:** Replaced the `skydivecity-daily-checkin` routine's curl-based health check with UptimeRobot API calls against 4 monitor-specific read-only keys (home, events, dz-briefing, lodging). Curl is now a fallback only, and uses a real-browser User-Agent. Email body rewritten in C-suite voice — no HTTP codes, no ticket IDs, no jargon. Recipient routing flipped to Rich (To) / Matt (CC).
 **Rationale:** Day 1's draft led with "NEEDS MANUAL VERIFICATION" / "DEGRADED" because the default curl User-Agent is filtered by Cloudfront/WAF and returns 403. UptimeRobot was showing 100% real-user availability, so the framing was actively misleading and would have repeated for the next 6 mornings. UptimeRobot is the authoritative source for real-user availability anyway — using it directly removes the false-positive vector and gives an actual uptime % to report. Monitor-specific read-only keys are scoped to one monitor each, so embedding them in the routine prompt has minimal blast radius.

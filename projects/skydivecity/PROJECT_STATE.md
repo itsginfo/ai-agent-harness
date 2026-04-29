@@ -176,6 +176,7 @@
 | 2026-04-27 | `deploy.sh --live` frozen pending W4-16 investigation of 17K-file delta | Section: 2026-04-27 Deploy Freeze |
 | 2026-04-27 (eve) | Page-render fix replicates dev's ACF Flexible Content structure verbatim (vs. custom template / full rebuild) | Section: 2026-04-27 (eve) ACF Replication |
 | 2026-04-27 (eve) | Roll empty-pages discovery into 2026-04-28 9 AM check-in (vs. same-day notification to Matt) | Section: 2026-04-27 (eve) Roll Disclosure |
+| 2026-04-29 | Disable daily-checkin routine; manual for Days 3-7 (sandbox allowlist blocks both UptimeRobot API and direct curl) | Section: 2026-04-29 Disable Daily-Checkin Routine |
 
 ---
 
