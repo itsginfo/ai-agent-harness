@@ -1,7 +1,7 @@
 # PROJECT STATE — Skydive City Phase 1
 
 > **This is the narrative context layer.** Task status lives in Monday.com. This file holds the *why*, the *in-flight detail*, and the *resume instruction* that Monday can't capture.
-> **Last updated:** 2026-04-30 by PM Agent (Claude Opus 4.7) — Day 3 monitoring sent (manual). 100% / 72h cumulative across all 4 monitors.
+> **Last updated:** 2026-04-30 by PM Agent (Claude Opus 4.7) — Day 3 monitoring sent (100% / 72h cumulative) + HARN-2 Phase A executed (project `wiki/` pattern live, Phase B/C deferred with explicit triggers).
 > **Monday.com Board:** https://itsginfo-company.monday.com/boards/18405939043
 
 ---
