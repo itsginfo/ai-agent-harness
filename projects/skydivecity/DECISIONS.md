@@ -9,6 +9,32 @@
 
 ---
 
+## 2026-04-30 (late eve) — HARN-5 Pull-Forward + Codex Plugin Activation
+
+**Decision:** Pulled HARN-5 (Codex Plugin for Claude Code trial) forward of the Phase 1 acceptance gate it was originally bound to, and activated it. Installed `openai/codex-plugin-cc` in this harness, completed Codex CLI authentication via browser flow against James's ChatGPT account (not OpenAI API key), and committed `.claude/settings.json` with `enabledPlugins.codex@openai-codex: true` as the harness's project-level enablement of record. Trial scope unchanged from the 2026-04-30 PM filing: `/codex:adversarial-review` against non-PHI work, manual invocation only, **review gate stays OFF** (verified in companion setup output: `reviewGateEnabled: false`). First trial invocation will happen on the Phase 2 redesign discovery branch in a separate Claude Code session.
+
+**Rationale:** The original HARN-5 filing gated the trial on "post-Phase-1-acceptance" — a sequencing call meant to avoid distraction during the Phase 1 monitoring window. James's actual ask today reframed the timing: the Phase 2 redesign discovery thread (cut earlier this evening, branch `feature/redesign-phase2`) is precisely the kind of low-stakes, non-PHI, non-shipping work where a tool trial does *less* harm than during higher-stakes future work. Trialing on R&D-shaped work where the cost of a Codex misfire is "we discard the suggestion" is a better learning environment than waiting until the trial would happen during real client deliverables. The stakeholder-conversation-readiness rationale that justified pulling Phase 2 discovery forward (DECISIONS 2026-04-30 eve) extends naturally: better tooling on the discovery work raises the quality of the eventual scope conversation. ChatGPT-account auth chosen over API key because (a) James already pays for the subscription, (b) trial volume is small, (c) we can switch to API key later if usage profile demands cleaner per-call billing.
+
+**Implications:**
+- Plugin is now active across all Claude Code sessions in this harness directory until explicitly disabled.
+- `.claude/settings.json` is now tracked harness state — anyone cloning the harness gets the plugin enabled (the marketplace entry will need to be re-added per machine; the `enabledPlugins` flag alone won't auto-install).
+- The "review gate" Stop-hook hazard from the 2026-04-30 PM CTO review remains an active guardrail — gate is off, must stay off through trial; flip it on requires a fresh CTO decision.
+- HARN-5 status moves from "post-acceptance backlog" to "activated in trial" in PROJECT_STATE. Monday ticket creation still pending — Monday MCP wasn't loaded in either session today.
+- The trial period is informal — no fixed end date. After the first 1-2 `/codex:adversarial-review` cycles on Phase 2 work, evaluate signal quality + cost burn + any UX friction and either (a) keep using, (b) fold into REVIEW agent's standing playbook, or (c) uninstall.
+- The CTO Standing Rule on PHI / OpenAI BAA (DECISIONS 2026-04-30) remains binding and is unaffected by this activation. MethodRX exclusion is still hard.
+
+**Alternatives considered:**
+- **Hold to original post-acceptance trigger** — rejected: the Phase 2 discovery branch is the better trial environment (lower stakes than future client work) and waiting buys nothing concrete.
+- **OpenAI API key auth instead of ChatGPT account** — rejected for now: ChatGPT subscription already paid, trial volume small. Revisit if usage profile changes or if billing-attribution clarity becomes a procurement requirement.
+- **Don't track `.claude/settings.json` (gitignore it)** — rejected: the plugin enablement is harness-level state, not machine-level; tracking it makes the trial reproducible and auditable. `settings.local.json` covers the machine-local case.
+- **Defer entirely until first audit subagent run produces something to review** — rejected: install + auth latency is real; better to have the tool ready when the first audit lands than to interrupt that work to set up tooling.
+
+**Made by:** CTO Agent (Claude Opus 4.7), 2026-04-30 late evening, joint call with James (he greenlit the pull-forward explicitly when asked).
+
+**Revisit if:** First 1-2 trial cycles produce low-signal output (rotate to API key auth, or uninstall), OR a HIPAA-scoped engagement enters the work mix (re-verify the standing rule's per-project enforcement is in place), OR Codex plugin v1.0 ships and changes the review-gate semantics (re-evaluate the gate-off guardrail).
+
+---
+
 ## 2026-04-30 (eve) — Phase 2 Redesign Discovery Branch + Branching/Wiki Strategy
 
 **Decision:** Cut `feature/redesign-phase2` local-only off `develop` at `7aed723` as exploratory R&D for a Phase 2 site redesign (Google Antigravity + Stitch tooling), ahead of Phase 1 acceptance. Three sub-decisions on how this work will be structured:
