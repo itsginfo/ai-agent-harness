@@ -1,22 +1,22 @@
 # PROJECT STATE — Skydive City Phase 1
 
 > **This is the narrative context layer.** Task status lives in Monday.com. This file holds the *why*, the *in-flight detail*, and the *resume instruction* that Monday can't capture.
-> **Last updated:** 2026-04-29 by PM Agent (Claude Opus 4.7) — Day 2 monitoring sent + daily-checkin routine **disabled** (sandbox network restriction blocks UptimeRobot API + outbound HTTP). Days 3-7 will be manual.
+> **Last updated:** 2026-04-30 by PM Agent (Claude Opus 4.7) — Day 3 monitoring sent (manual). 100% / 72h cumulative across all 4 monitors.
 > **Monday.com Board:** https://itsginfo-company.monday.com/boards/18405939043
 
 ---
 
 ## ⚡ RESUME INSTRUCTION
 
-**✅ PHASE 1 CUTOVER COMPLETE — Released 2026-04-27.** Days 1-2 of 7-day monitoring window (Apr 27 → May 4) closed clean: UptimeRobot 100% / 48h cumulative across all 4 monitors. Day 1 email sent to Rich (To) + Matt (CC) ~10:45 ET on 2026-04-28; Day 2 email sent ~12:00 ET on 2026-04-29. Phase 1 acceptance request goes to Rich on May 4.
+**✅ PHASE 1 CUTOVER COMPLETE — Released 2026-04-27.** Days 1-3 of 7-day monitoring window (Apr 27 → May 4) closed clean: UptimeRobot 100% / 72h cumulative across all 4 monitors. Day 1 email sent to Rich (To) + Matt (CC) ~10:45 ET on 2026-04-28; Day 2 email sent ~12:00 ET on 2026-04-29; Day 3 email sent on 2026-04-30. Days 4-7 (May 1-4) remain manual. Phase 1 acceptance request goes to Rich on May 4.
 
 **🛑 DAILY-CHECKIN ROUTINE DISABLED (2026-04-29):** The `skydivecity-daily-checkin` remote routine was disabled after Day 2 failed differently than Day 1. Day 1 problem (curl 403 from WAF) → patched to use UptimeRobot API. Day 2 problem → Anthropic remote-agent sandbox blocks outbound calls to `api.uptimerobot.com` ("Host not in allowlist") AND blocks fallback `curl` to skydivecity.com (403 from sandbox IP). Neither path works from the remote agent. Days 3-7 (Apr 30 → May 4) will be done manually: open UptimeRobot dashboard, paste numbers into a hand-written email to Rich + Matt. ~5 min/day. Routine kept (not deleted) — `enabled: false` — in case a future Phase 2 workflow benefits from rebuilding it with a different data path. **Pattern to remember**: when designing remote-agent routines, the sandbox allowlist is restrictive — do NOT assume arbitrary outbound HTTP works.
 
 **🧹 W4-19 / W4-20 RETRACTED (2026-04-28):** Both "open defects" carried forward from the original Antigravity QA report were verified on prod and found to be **false positives**. "Sport Skydiving" link is present in top nav; "Upcoming Events" CTA is present on homepage and events page. Both Monday tickets closed Done. QA addendum updated with Correction 5 + new lesson #4.
 
 **Start by:**
-1. Pull Monday board (ID: `18405939043`) — confirm Day 2 W4-9 update is the corrected manual one (5148058990, posted 2026-04-29). Open items: W4-8/9/11/12 + polish backlog W4-14/15/16/17 + HARN-1..4.
-2. **Daily through May 4 (MANUAL, no routine)**: each morning open https://uptimerobot.com, confirm all 4 monitors green + uptime ≥ 99.5%, draft a short email To Rich / CC Matt using the Day 2 template (see W4-9 update 5148058990 in Monday for the canonical format), send. Post a brief Day N comment to W4-9 with the numbers.
+1. Pull Monday board (ID: `18405939043`) — confirm latest W4-9 update is the Day 3 manual comment (5152435339, posted 2026-04-30). Open items: W4-8/9/11/12 + polish backlog W4-14/15/16/17 + HARN-1..4.
+2. **Daily through May 4 (MANUAL, no routine)**: each morning open https://uptimerobot.com, confirm all 4 monitors green + uptime ≥ 99.5%, draft a short email To Rich / CC Matt using the Day 2 template (see W4-9 update 5148058990 in Monday for the canonical format), send. Post a brief Day N comment to W4-9 with the numbers. Days remaining: 4 (May 1), 5 (May 2), 6 (May 3), 7 (May 4).
 3. **May 4**: Pull UptimeRobot 7-day report, deliver to Rich + Matt, request Phase 1 Acceptance (W4-11, W4-12).
 4. Address polish-work backlog when bandwidth allows: W4-14 (Burble URLs), W4-15 (featured images), W4-16 (deploy.sh delta), W4-17 (SSL renewal verification before 2026-06-08).
 
@@ -108,7 +108,7 @@
 
 > Tasks that are STARTED but NOT FINISHED. Do NOT restart — pick up where noted.
 
-- **W4-9** — Daily check-in to Rich (primary) + Matt (CC). **Now manual** (routine disabled). Day 1 sent 2026-04-28 ~10:45 ET. Day 2 sent 2026-04-29 ~12:00 ET (100% / 24h, 48h cumulative). Days 3-7 (Apr 30 → May 4) still to send manually each morning.
+- **W4-9** — Daily check-in to Rich (primary) + Matt (CC). **Manual** (routine disabled). Day 1 sent 2026-04-28 ~10:45 ET. Day 2 sent 2026-04-29 ~12:00 ET (100% / 24h, 48h cumulative). Day 3 sent 2026-04-30 (100% / 24h, 72h cumulative). Days 4-7 (May 1 → May 4) still to send manually each morning.
 - **W4-14** — Add Burble + FB CTAs to remaining upcoming events. Backlog. Needs source URL research with Matt.
 - **W4-15** — Add featured images to remaining upcoming events. Backlog. Has source files locally; needs `wp-image-import-local.php` mapping additions.
 - **W4-16** — Investigate deploy.sh dry-run 17K-file delta. Backlog. Blocking any future theme/plugin push.
@@ -151,7 +151,7 @@
 
 > When you complete one, update Monday first, then return here.
 
-1. **[Apr 30 → May 4, daily morning] W4-9: Manual daily check-in** — open https://uptimerobot.com, confirm all 4 monitors green + uptime ≥ 99.5%, hand-write a short C-suite email To Rich / CC Matt using the Day 2 template (W4-9 update 5148058990), post a numbers-only Day N comment to W4-9. ~5 min/day.
+1. **[May 1 → May 4, daily morning] W4-9: Manual daily check-in** — open https://uptimerobot.com, confirm all 4 monitors green + uptime ≥ 99.5%, hand-write a short C-suite email To Rich / CC Matt using the Day 2 template (W4-9 update 5148058990), post a numbers-only Day N comment to W4-9. ~5 min/day. Day 3 (Apr 30) sent — 4 remaining (May 1/2/3/4).
 2. **[2026-05-04] W4-11 / W4-12: Monitoring window close + Phase 1 Acceptance** — James pulls UptimeRobot 7-day report, delivers to Rich + Matt, requests written Phase 1 Acceptance.
 3. **[Whenever bandwidth] Polish backlog** — W4-14 (Burble URLs), W4-15 (featured images), W4-16 (deploy.sh delta investigation), W4-17 (SSL renewal verification before 2026-06-08).
 
@@ -206,6 +206,7 @@
 | 2026-04-28 (AM) | PM Agent (Claude Opus 4.7) | **Day 1 monitoring check-in + W4-19/W4-20 retraction.** Daily-checkin routine fired at 9:07 ET as expected; draft was misframed (top-line "NEEDS MANUAL VERIFICATION" from health-check 403s caused by WAF UA filtering — UptimeRobot showed 100%). Rewrote draft in C-suite voice with Rich as primary recipient (Matt CC), James sent. Verified W4-19 ("Sport Skydiving" nav link) and W4-20 ("Upcoming Events" CTA) on prod — both **present**, false positives from the original Antigravity QA report carried forward by the addendum without re-verification. Closed W4-19 in Monday with rationale; W4-20 status change repeatedly returned 500 from Monday API — closed via UI by James. Updated QA addendum with Correction 5 + lesson #4 (carrying QA defects forward without re-verification = process gap to capture in next retro). |
 | 2026-04-28 (mid) | PM Agent (Claude Opus 4.7) | **Patched `skydivecity-daily-checkin` routine.** Replaced WAF-prone curl health check with UptimeRobot API calls against 4 monitors (home, events, dz-briefing, lodging) using monitor-specific read-only keys James provided. Curl is now fallback only, with real-browser User-Agent. Email template rewritten in C-suite voice — no HTTP codes, no jargon, no ticket IDs in the body; uptime % rounded to one decimal in email and three decimals in the Monday comment. Recipient routing flipped to Rich (To) / Matt (CC). Tested API key against homepage monitor before pushing patch (status 2 / 100.000% returned cleanly). Next fire: 2026-04-29 13:02 UTC. |
 | 2026-04-29 | PM Agent (Claude Opus 4.7) | **Day 2 monitoring + routine disabled.** The patched `skydivecity-daily-checkin` routine fired at 13:00 UTC and failed differently than Day 1: Anthropic remote-agent sandbox blocks outbound calls to `api.uptimerobot.com` ("Host not in allowlist") AND blocks the fallback `curl` to www.skydivecity.com (403 from sandbox IP). Posted "data unavailable" to W4-9. James pulled UptimeRobot manually — 100% / 24h across all 4 monitors, 48h cumulative since cutover. Hand-wrote and sent Day 2 email to Rich (To) / Matt (CC). Posted corrective Day 2 comment (5148058990) to W4-9 with the real numbers and superseded the auto-comment. **Disabled the routine** (`enabled: false` via RemoteTrigger update). Days 3-7 (Apr 30 → May 4) will be manual: pull UptimeRobot dashboard, hand-write a short email each morning. **Lesson logged** for Phase 2 routine design: the Anthropic remote-agent sandbox has a restrictive outbound network allowlist; do NOT assume arbitrary HTTP/HTTPS works — verify host allowlisting before depending on it. |
+| 2026-04-30 | PM Agent (Claude Opus 4.7) | **Day 3 monitoring (manual).** James confirmed UptimeRobot dashboard showed 100% / 24h across all 4 monitors, 72h cumulative since cutover. Drafted Day 3 C-suite email To Rich / CC Matt matching the Day 2 canonical format; James sent. Posted Day 3 comment (5152435339) to W4-9 with the numbers. No drift between Monday and PROJECT_STATE found at session start; no new tasks discovered. 4 manual check-ins remain (May 1/2/3/4) before monitoring window closes and Phase 1 Acceptance request goes to Rich. Short, focused session — single deliverable closed cleanly. |
 
 ---
 
