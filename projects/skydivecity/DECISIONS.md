@@ -9,6 +9,29 @@
 
 ---
 
+## 2026-04-30 — CTO Standing Rule: No PHI-Bearing Code to OpenAI Without a Separate BAA
+
+**Decision:** Code or data from any project that handles PHI (currently MethodRX; any future HIPAA-scoped engagement) must not be sent to OpenAI services — including the OpenAI Codex CLI, the `openai/codex-plugin-cc` Claude Code plugin, ChatGPT, or the OpenAI API — unless ITSG has a signed OpenAI BAA in place. This is a standing rule that applies to all future tool-adoption evaluations, not just the HARN-5 trial that surfaced it.
+
+**Rationale:** Anthropic has a BAA in place under the harness's existing arrangement, which is what makes Claude Code acceptable for MethodRX work. OpenAI under default ChatGPT/Plus/API terms does not provide HIPAA coverage. The codex-plugin trial filed today (HARN-5) made the gap concrete, but the rule needs to exist independently of that trial — otherwise the next OpenAI-flavored tool (or any non-Anthropic LLM tool) would have to re-litigate the same question.
+
+**Implications:**
+- HARN-5 trial scope is non-PHI projects only (skydivecity, agent-driven-enterprise harness work, internal tooling).
+- Per-project enforcement: MethodRX repo and any HIPAA repo must not contain a `.codex/config.toml` or comparable per-project OpenAI-tool config. The CTO standards checklist (next revision) should add this as a checkable item.
+- Future build-vs-buy / tool-adoption decisions involving any non-Anthropic LLM provider must explicitly answer "does this provider have a BAA we can use, and if not, is the project PHI-bearing?" before the trial begins.
+- This rule does not block OpenAI tools for non-PHI work, and does not block Anthropic tools for any work.
+
+**Alternatives considered:**
+- **Case-by-case at trial time** — rejected: relies on every future agent remembering the constraint; a standing rule with a Monday/wiki reference is more durable.
+- **Block all non-Anthropic LLM tools project-wide** — rejected: over-broad. Non-PHI projects benefit from cross-vendor second opinions (the codex-plugin's adversarial-review is the immediate example).
+- **Pursue an OpenAI BAA proactively** — deferred: not justified by current pipeline; revisit if a HIPAA-scoped client engagement specifically requires OpenAI tooling.
+
+**Made by:** CTO Agent (Claude Opus 4.7), 2026-04-30 PM session, surfaced by James's request to evaluate `openai/codex-plugin-cc`.
+
+**Revisit if:** ITSG signs an OpenAI BAA, OR a HIPAA-scoped engagement specifically requires an OpenAI tool, OR a future provider's data-handling terms make this rule shape need to extend (e.g., a third LLM vendor enters the picture).
+
+---
+
 ## 2026-04-29 — Disable Daily-Checkin Routine; Manual for Days 3-7
 **Decision:** Disabled the `skydivecity-daily-checkin` remote routine (`enabled: false` via RemoteTrigger update) after Day 2 failed differently than Day 1. Days 3-7 of the monitoring window (Apr 30 → May 4) will be done manually: open UptimeRobot dashboard, hand-write a short C-suite email To Rich / CC Matt using the Day 2 template (canonical format in W4-9 update 5148058990), post a numbers-only Day N comment to W4-9. The routine config is preserved (not deleted) for any future Phase 2 rebuild — the 4 read-only UptimeRobot monitor keys remain embedded.
 **Rationale:** Day 1 of the routine led with false-positive 403s from a curl UA filtered by Cloudfront/WAF; we patched on 2026-04-28 to call `api.uptimerobot.com` instead, with curl (real-browser UA) as a documented fallback. Day 2 then revealed the deeper problem: the Anthropic remote-agent sandbox blocks outbound calls to `api.uptimerobot.com` ("Host not in allowlist") AND the fallback curl to www.skydivecity.com (403 from sandbox IP). Both data paths are blocked at the sandbox layer. Two patches in two days without a working theory is the signal to step back. Manual cost is ~5 min/day × 5 days = ~25 min total — less than the cost of designing/testing a third patch with no clarity on what *would* work in the sandbox.
