@@ -9,6 +9,34 @@
 
 ---
 
+## 2026-04-30 (eve) — Phase 2 Redesign Discovery Branch + Branching/Wiki Strategy
+
+**Decision:** Cut `feature/redesign-phase2` local-only off `develop` at `7aed723` as exploratory R&D for a Phase 2 site redesign (Google Antigravity + Stitch tooling), ahead of Phase 1 acceptance. Three sub-decisions on how this work will be structured:
+
+1. **Audit findings live in the harness wiki** (`projects/skydivecity/wiki/redesign-phase2/`), not the project repo. Rationale: non-shipping discovery artifacts that compound across sessions and feed the eventual Phase 2 scope conversation with Rich/Matt — exactly what the wiki was just established for under HARN-2 Phase A (same day).
+2. **Code/mockup work uses per-domain feature branches off the integration branch** (`feature/redesign-phase2/audit-ia`, `feature/redesign-phase2/audit-seo`, etc.), each merging back via PR. Rationale: preserves the existing feature/issue branching strategy (one branch = one unit of work); rejects a `redesign/` top-level repo folder as a feature-folder anti-pattern that fights the branching model.
+3. **Specialist audit agents run as Task subagents first**, not codified as harness `agents/[ROLE].md` definitions. Rationale: avoids the Pattern P-002 over-engineering trap from the 2026-04-27 retro — promote to formal harness agents only after they prove they produce signal across 1-2 audit cycles.
+
+**Rationale:** James's reasoning for moving on Phase 2 discovery now (vs. after Phase 1 acceptance) is that the eventual stakeholder scoping conversation needs concrete material — drafts, mockups, before/after comparisons, rationale tied to specific friction or business outcomes — to be productive. A site audit is the foundation of that material. Cutting the branch local-only contains the risk: zero blast radius, no client-facing signal, fully reversible. The structural sub-decisions above (wiki for findings, per-domain branches, subagents-before-formal-agents) all reduce future regret cost — each one can be unwound or promoted later without rework.
+
+**Implications:**
+- The branch is unsigned scope — pushing to origin without explicit direction reads as "ITSG started Phase 2 without an SOW." Stays local until that conversation has happened with Rich.
+- HARN-6 (harness branch-awareness gap) was surfaced when planning the audit fan-out across multiple branches. Strategy choice (A/B/C — recommendation B) is open and gates the fan-out. See PROJECT_STATE In-Flight section.
+- HARN-5 (Codex Plugin trial) and HARN-6 are both filed in PROJECT_STATE backlog awaiting Monday ticket creation in a future session.
+- No Monday tickets filed for the redesign workstream yet — deliberately, until either (a) Phase 1 acceptance + Phase 2 SOW conversation lands, or (b) it becomes clear the discovery work itself needs ticket-level tracking.
+
+**Alternatives considered:**
+- **Wait until post-Phase-1-acceptance to start any redesign work** — rejected: stakeholder conversation needs material, and ~5 days of latency costs more than a contained R&D branch.
+- **`redesign/` top-level repo folder, single long-lived branch** — rejected: fights the feature/issue branching model; bakes in branch-as-feature-container shape that doesn't generalize.
+- **Codify specialist audit agents in the harness now** — rejected: speculative; better to test the pattern with one-shot subagents and codify only if value proven (Pattern P-002 lesson).
+- **Push the branch to origin for visibility** — rejected: visibility before scope conversation reads as commitment.
+
+**Made by:** CTO+PM Agent (Claude Opus 4.7) + James (joint call 2026-04-30 evening).
+
+**Revisit if:** Phase 1 acceptance + Phase 2 scope conversation with Rich changes the structure (e.g., Phase 2 SOW funds a different audit approach), OR HARN-6 strategy choice changes whether per-domain branches are viable, OR the wiki-vs-repo split for findings creates friction (e.g., findings start reading like client deliverables and need to travel with the code rather than the harness).
+
+---
+
 ## 2026-04-30 — CTO Standing Rule: No PHI-Bearing Code to OpenAI Without a Separate BAA
 
 **Decision:** Code or data from any project that handles PHI (currently MethodRX; any future HIPAA-scoped engagement) must not be sent to OpenAI services — including the OpenAI Codex CLI, the `openai/codex-plugin-cc` Claude Code plugin, ChatGPT, or the OpenAI API — unless ITSG has a signed OpenAI BAA in place. This is a standing rule that applies to all future tool-adoption evaluations, not just the HARN-5 trial that surfaced it.
