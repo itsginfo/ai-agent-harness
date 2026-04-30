@@ -71,13 +71,18 @@ Take the bits that fix observed pain (Phase A), let entity pages emerge organica
 - `wiki/README.md` — describes the convention, what goes here vs other surfaces, phased status.
 - `wiki/sources.md` — append-only sources log. Seeded with the Karpathy gist URL.
 - `wiki/HARN-2-assessment.md` — this document.
-- `protocols/SESSION_END.md` Step 5c — "Wiki ingest" — instructs active agent to append cited artifacts to `sources.md` at session end.
-- `PROJECT_STATE.md` Links table — added wiki/ pointer so it's discoverable at boot.
+- `protocols/SESSION_END.md` Step 5c — "Wiki ingest" — instructs active agent to append cited artifacts to `sources.md` at session end. Includes a pre-check skip clause: if `wiki/` doesn't exist for the project, skip Step 5c entirely; don't auto-create.
+- `PROJECT_STATE.md` Links + Decisions + Session Log updated.
 - HARN-2 closed in Monday with summary pointing here.
 - HARN-2B and HARN-2C created in Monday as backlog for Phase B/C pickup.
 
-**Time spent:** ~45 min.
-**Risk taken:** Minimal — additive, doesn't change existing protocols, doesn't move data.
+**Template rollout (added later same day, after James caught the half-rollout):**
+- Created `projects/_PROJECT_TEMPLATE/wiki/{README.md, sources.md}` — dormant stubs so new projects start with the option pre-wired.
+- Updated `protocols/SESSION_END.md` Step 5c with the pre-check skip clause described above.
+- Existing projects (e.g., `methodrx`) are NOT backfilled — they opt in manually if/when they earn a wiki. Speculative backfill would re-create the over-engineering risk this phased plan was specifically designed to avoid.
+
+**Time spent:** ~55 min total (45 min initial + 10 min template rollout).
+**Risk taken:** Minimal — additive, dormant stubs, explicit skip clause prevents protocol breakage on projects without a wiki.
 
 ---
 

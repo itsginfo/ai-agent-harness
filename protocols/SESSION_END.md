@@ -190,6 +190,8 @@ If the session was interrupted (token limit or time), state the tier and verific
 
 Some context belongs in the project wiki, not in `PROJECT_STATE.md` or Monday. Specifically:
 
+**Pre-check:** Skip Step 5c entirely if `projects/[project]/wiki/` does not exist. **Do not auto-create.** New projects ship with a dormant `wiki/` stub from `projects/_PROJECT_TEMPLATE/wiki/` — projects created before that template change opt in manually by copying the stub into the project root. The trigger to opt in is typically the first external artifact worth saving; the active agent makes that call at the moment of citation, not by default.
+
 **A. External artifacts cited this session** — URLs, talks, papers, repos, gists.
 - Append a one-line entry to `projects/[project]/wiki/sources.md` with the format:
   `- YYYY-MM-DD | Topic | URL | One-line context | Cited by`
