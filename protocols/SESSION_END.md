@@ -184,6 +184,27 @@ If the session was interrupted (token limit or time), state the tier and verific
 
 ---
 
+### Step 5c — Wiki ingest (capture compounding context)
+
+> Added 2026-04-30 as part of HARN-2 Phase A. See `projects/skydivecity/wiki/HARN-2-assessment.md` for full reasoning.
+
+Some context belongs in the project wiki, not in `PROJECT_STATE.md` or Monday. Specifically:
+
+**A. External artifacts cited this session** — URLs, talks, papers, repos, gists.
+- Append a one-line entry to `projects/[project]/wiki/sources.md` with the format:
+  `- YYYY-MM-DD | Topic | URL | One-line context | Cited by`
+- Append-only. Don't reorder. Don't dedupe — duplicates signal recurrence.
+
+**B. Recurring topics that surfaced again this session** — if a topic has come up in 2+ retros or 3+ sessions and there isn't yet an entity page, consider creating `wiki/[topic].md` (Phase B — see HARN-2B).
+- Don't force this — let entity pages emerge organically when a topic earns one.
+- Skip entirely if no triggers have fired this session.
+
+**Skip clause:** Most sessions will skip this step. Only act if you saw new external citations or recurring topics that earned attention. Forcing entries on every session creates noise — the leak this step fixes is *missing* artifacts, not *under-documented* ones.
+
+**Why this exists:** Without this step, URLs and references mentioned in conversation get lost when the session ends. `PROJECT_STATE.md` is shaped for current-narrative-state, not for reference accumulation. The leak that triggered this protocol: a gist URL discussed in one session was lost by the next, requiring James to re-find and re-paste it.
+
+---
+
 ### Step 6 — Output end-of-session summary
 
 ```
