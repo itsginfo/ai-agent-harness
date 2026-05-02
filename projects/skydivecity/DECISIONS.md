@@ -9,6 +9,120 @@
 
 ---
 
+## 2026-05-01 (eve) — Multi-Team Branching Reframe (Replaces HARN-6)
+
+**Decision:** Adopt a multi-team branching strategy for skydivecity work, replacing the HARN-6 protocol-fix path entirely. Specifically:
+
+1. **Team / project structure:** split the harness `projects/skydivecity/` into `projects/skydivecity-phase1/` (production maintenance team) and `projects/skydivecity-phase2/` (redesign team). Each gets its own PROJECT_STATE, DECISIONS, retros, and (eventually) Monday treatment.
+2. **Branching strategy:** long-lived parallel branches per team. Phase 1 lives on `develop`; Phase 2 lives on `redesign-v2` (renamed from `feature/redesign-phase2`). Phase 2 features happen on short-lived `feature/redesign-phase2/<topic>` branches off `redesign-v2`. Periodic forward-merges from `develop → redesign-v2` keep the redesign team current with production fixes.
+3. **Worktree per team:** `~/Projects/SkydiveCity.com` for Phase 1 (develop); `~/Projects/SkydiveCity-Redesign` for Phase 2 (redesign-v2). Switching teams = `cd` to a different directory, which is visible in every command output and structurally hard to do silently.
+4. **Per-team environments:** Phase 1 → existing Flywheel prod + staging. Phase 2 → separate staging environment (Flywheel install OR Local by Flywheel OR equivalent to whatever Phase 2's tech stack ends up being).
+5. **Same-repo vs separate-repo:** open question gated on Phase 2 tech-stack direction. If Phase 2 stays WordPress, same-repo + long-lived branch is cleaner. If Phase 2 diverges (headless, JAMstack, etc.), separate repo (`skydivecity-redesign`) is cleaner. Decide before executing the migration.
+6. **HARN-6 explicitly discarded:** Pattern 1 (registry + reconcile) and Pattern 7 (declarative + transparency + dirty gate) design artifacts preserved as historical reference at commit `00fb926` but banner-marked SUPERSEDED. Do not execute them.
+
+**Rationale:** James's reframe surfaced that the failure mode HARN-6 was trying to fix at the *protocol* layer (single working tree, shared between Phase 1 and Phase 2 work) is structurally absent at the *team-isolation* layer (separate worktrees per team). Enterprise best practice for the v1-maintenance + v2-development pattern is long-lived parallel branches with periodic forward-merges; this is well-trodden territory in shops like SAP, mature ERP vendors, and any organization with formal release cycles. The harness is already designed around projects-as-isolation-boundaries (PROJECT_STATE per project, DECISIONS per project, etc.); splitting skydivecity into two project sub-buckets leverages that primitive instead of building parallel branch-awareness machinery into the protocol.
+
+The 8 adversarial-review passes on HARN-6 (5 on Pattern 1 + 3 on Pattern 7) found 14 distinct architectural / spec issues with single-tree solutions. None of those issues exist in the multi-team reframe because they were caused by the shared-working-tree assumption itself.
+
+**Implications:**
+- HARN-6 ticket scope changes from "protocol fix" to "multi-team migration." Update or replace the Monday ticket text when creating it.
+- Migration cost: ~2-3 hours one-time (set up worktrees, split harness project sub-dirs, update Monday treatment, set up Phase 2 staging environment, document forward-merge cadence).
+- Daily workflow shift: Phase 1 work happens in `~/Projects/SkydiveCity.com`; Phase 2 work happens in `~/Projects/SkydiveCity-Redesign`. Mental switch when changing teams.
+- Forward-merge discipline becomes a recurring activity: `develop → redesign-v2` periodically (cadence TBD — likely every 1-2 weeks during redesign development). Could be scheduled as a recurring agent.
+- The `feature/redesign-phase2` branch (currently local-only) gets renamed to `redesign-v2` to reflect its long-lived status.
+- Existing PROJECT_STATE Links schema needs a per-worktree path entry. Schema migration is part of the migration work.
+- The `HARN-6 in action` boot-time branch checks documented in PROJECT_STATE Resume Instruction become unnecessary after migration — replaced by the existing project-boundary check at boot Step 1 ("which project?") which already isolates branches via worktree.
+
+**Alternatives considered:**
+
+- **Continue HARN-6 protocol-fix iteration (rev 4 + pass #4 on Pattern 7).** Rejected: the iteration trajectory was not converging; pass #3 found 3 findings vs pass #2's 2 vs pass #1's 1, and Pattern 7's "minimal" framing had eroded as it accreted dependencies (CLAUDE.md hard-gate amendment, scope expansion enforcement, schema migration). The risk profile was unbounded because we couldn't see the convergence point.
+- **Ship Pattern 7 rev 4 without further passes.** Rejected: half-baked by James's standards; ships untested rev with known gaps.
+- **Ship Pattern 7 rev 2 only (the demonstrated-failure-fix), defer rev 3+ findings as B+.** Rejected by James: "we need a solution that enables automation reliably... I'm not a fan of half-baked solutions... it's the risk that's the larger concern, not the time spent on gotchas."
+- **Trunk-Based Development with feature flags (the modern alternative).** Rejected as over-engineering for this context — see separate DECISIONS entry "Trunk-Based Development Rejected for SkydiveCity."
+- **Forking workflow / per-developer forks.** Not considered seriously — over-engineering for a one-developer + AI agents team.
+
+**Made by:** CTO Agent (Claude Opus 4.7) + James (joint call 2026-05-01 evening), after 8 adversarial-review passes and the meta-conversation triggered by the iteration trajectory.
+
+**Revisit if:** Phase 2 tech stack decision changes the same-repo-vs-separate-repo answer; OR the team grows beyond solo-developer-plus-agents and TBD prerequisites become available; OR Phase 2 cuts over to production and the long-lived branch model is no longer needed.
+
+---
+
+## 2026-05-01 (eve) — Trunk-Based Development Rejected for SkydiveCity
+
+**Decision:** Do NOT adopt Trunk-Based Development with feature flags as the branching strategy for SkydiveCity (Phase 1 + Phase 2). Stay with the multi-team / long-lived parallel branches model decided in the companion entry above. Documented as a separate decision entry because TBD is the modern best practice in many contexts and the rationale for rejecting it deserves explicit capture for future revisits.
+
+**Rationale:** TBD with feature flags is the right answer for *continuously-deployed multi-team software with strong CI/CD infrastructure*. Its prerequisites are non-trivial:
+
+- **CI infrastructure:** automated tests, linters, build checks. Skydivecity-com has none currently — no GitHub Actions, no automated regression suite for the WordPress site.
+- **Continuous Deployment pipeline:** trunk must always be deployable. Skydivecity-com deploys are manual rsync via `deploy.sh` (which is currently FROZEN per W4-16 anyway).
+- **Feature flag infrastructure:** LaunchDarkly, Split.io, Unleash, or homegrown. None exists; would need to introduce from scratch.
+- **Test coverage protecting trunk:** minimal currently; relies on manual QA which itself had issues (the W4-19/W4-20 false-positive incident is recent evidence).
+- **Disciplined flag retirement:** flag debt accumulates without process; we have no team-coordination mechanism for it.
+
+**Critically, the Phase 2 redesign work is structurally hostile to feature-flag gating:**
+
+- WordPress themes are typically all-or-nothing. A "flag-gated redesign" would require dual-theme infrastructure (route-conditional theme loading, user-conditional rendering, asset pipeline duplication) — significant ongoing infrastructure for a one-time cutover.
+- Information-architecture redesigns change URL structure, navigation, page hierarchy. These aren't feature-gateable per-feature; they're gateable per-user-or-route, and at WordPress scale the per-route plumbing is significant.
+- The cutover model is stakeholder-gated (Rich/Matt approve when ready), not metric-gated (ramp from 10% to 100% based on conversion). Feature flags shine for the latter; the former doesn't benefit.
+
+**Adopting TBD without its prerequisites or shape-fit would be cargo-culting modern practice.** The honest framing: TBD is *modern best practice for its context*; long-lived parallel branches is *modern best practice for our context*. Picking TBD because it's "modern" when none of its drivers apply is itself an anti-pattern.
+
+**Implications:**
+
+- Long-lived parallel branches with periodic forward-merges remains the strategy. Recognizable enterprise practice; not a relic.
+- Modern Git practices we ARE applying: worktree-based isolation; per-team project / decision boundaries; per-environment isolation; forward-merge discipline; adversarial code review.
+- The CI/CD investment that would unlock TBD is itself a worthwhile future direction — but it's a separate investment, not a prerequisite for branching strategy.
+
+**Alternatives considered:**
+
+- **GitHub Flow** (main + short-lived feature branches): closer to TBD, lighter-weight, but still requires CI for trunk safety. Same prerequisite gap.
+- **Release-train branching** (main + long-lived release branches per cadence): close cousin of what we're adopting, but more ceremony. Not justified at our scale.
+- **Forking workflow:** over-engineering for solo-developer-plus-agents.
+
+**Made by:** CTO Agent (Claude Opus 4.7) + James (joint call 2026-05-01 evening), after James explicitly invited challenge: "Should we be doing Trunk-based with feature flags... Please challenge if appropriate."
+
+**Revisit if:** Skydivecity team grows beyond 3-4 active developers; CI infrastructure with automated regression coverage gets built; deployment cadence shifts from "occasional manual" to "continuous"; OR the work shape shifts from "structural redesigns approved by stakeholders" to "incremental features measured by user engagement." None of these are likely in the next 6-12 months.
+
+---
+
+## 2026-05-01 (eve) — HARN-5 Trial Conclusion (Codex Plugin Permanent Adoption)
+
+**Decision:** The HARN-5 trial of `/codex:adversarial-review` (the OpenAI Codex plugin for Claude Code) is decisively successful. Add `/codex:adversarial-review` to the REVIEW agent's permanent playbook for any non-trivial design document or significant code change going forward. The CTO standing rule about no PHI-bearing code to OpenAI without a separate BAA (DECISIONS 2026-04-30) remains binding and is unaffected.
+
+**Rationale:** Across 8 substantive adversarial-review passes during the HARN-6 design exploration:
+
+| Run | Findings | Notes |
+|---|---|---|
+| Pattern 1 passes #1-5 | 6 distinct high-severity findings | All architectural; none anticipated by my pre-emptive objections |
+| Survey pass | 2 findings (1 process + 1 substance) | Both legitimate corrections |
+| Pattern 7 passes #1-3 | 6 more distinct findings (5 high, 1 medium) | Mix of extension-class and integration issues |
+| **Total** | **14 distinct findings** | **0 duplicates of my anticipated objections** |
+
+Every pass surfaced substantive issues. None were paraphrases of my self-critique. Every finding I should have caught and didn't. The tool delivered exceptional adversarial signal.
+
+The HARN-5 guardrails set 2026-04-30 (review-gate OFF, manual invocation only, MethodRX-excluded for HIPAA) all worked as designed. Plugin behavior was reliable across all 8 invocations.
+
+**One discovered UX wart (worth noting for future reference):** untracked-file content sometimes silently drops from review context. Workaround: stage the file (`git add`) before invoking adversarial review. This was hit once during HARN-6 trial (pass #3 attempt #1 returned a false `approve` because content wasn't visible to Codex). Worth documenting in the REVIEW playbook.
+
+**Implications:**
+
+- `/codex:adversarial-review` becomes a standing tool for the REVIEW agent. Specific use cases: design documents, architectural specs, non-trivial code changes, anything where a fresh-eyes second opinion would catch what the author missed.
+- The slash-channel invocation discipline (per auto-memory `feedback_codex_slash_invocation.md`) applies: agents do not re-execute the underlying bash directly; user invokes the slash command, agent flows through size-estimate → AskUserQuestion → run.
+- The CTO standing rule on PHI / OpenAI BAA (DECISIONS 2026-04-30) remains binding. Codex must NOT be invoked from any MethodRX repo or branch.
+- Trial cost (HARN-6 specific): ~30 seconds of Codex compute per pass × 8 passes = trivial monetary cost. Time cost was higher (~160 min total) but produced a definitive design conclusion (multi-team reframe) that wouldn't have emerged without the iteration evidence.
+
+**Alternatives considered:**
+
+- **Continue trial period informally before permanent adoption.** Rejected: 8 passes is more than enough trial data; further trial is procrastination.
+- **Restrict to specific work types only.** Rejected: tool's value emerged across multiple work shapes (architectural design, spec review, meta-survey of design space). Restricting it artificially loses optionality.
+- **Switch to OpenAI API key auth (vs current ChatGPT-account auth).** Deferred: ChatGPT-account auth worked fine across all 8 trials. Revisit only if usage profile changes or billing-attribution becomes a procurement requirement.
+
+**Made by:** CTO Agent (Claude Opus 4.7), 2026-05-01 evening, based on the HARN-6 trial's cumulative evidence.
+
+**Revisit if:** Codex plugin enters v1.x and review-gate semantics change (re-evaluate the gate-off guardrail); OR the plugin is uninstalled / abandoned; OR a use case emerges where the slash-channel discipline conflicts with workflow needs.
+
+---
+
 ## 2026-04-30 (late eve) — HARN-5 Pull-Forward + Codex Plugin Activation
 
 **Decision:** Pulled HARN-5 (Codex Plugin for Claude Code trial) forward of the Phase 1 acceptance gate it was originally bound to, and activated it. Installed `openai/codex-plugin-cc` in this harness, completed Codex CLI authentication via browser flow against James's ChatGPT account (not OpenAI API key), and committed `.claude/settings.json` with `enabledPlugins.codex@openai-codex: true` as the harness's project-level enablement of record. Trial scope unchanged from the 2026-04-30 PM filing: `/codex:adversarial-review` against non-PHI work, manual invocation only, **review gate stays OFF** (verified in companion setup output: `reviewGateEnabled: false`). First trial invocation will happen on the Phase 2 redesign discovery branch in a separate Claude Code session.
