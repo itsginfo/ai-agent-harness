@@ -51,6 +51,6 @@ Triggered when a topic has come up in 2+ retros or 3+ sessions — not on first 
 
 ## Reference
 
-Full evaluation, phased adoption plan, and trigger conditions for Phase B/C: **`projects/skydivecity/wiki/HARN-2-assessment.md`** in the harness repo. This is the canonical reference until/unless promoted to a harness-level doc.
+Full evaluation, phased adoption plan, and trigger conditions for Phase B/C: **`wiki/HARN-2-assessment.md`** at the harness root (promoted from `projects/skydivecity/wiki/` on 2026-05-02 once it became clear the doc was harness-scoped, not project-scoped).
 
 Phase A (this stub) was added to `_PROJECT_TEMPLATE/` on 2026-04-30 so new projects start with the option pre-wired without forcing maintenance burden on projects that don't need a wiki.

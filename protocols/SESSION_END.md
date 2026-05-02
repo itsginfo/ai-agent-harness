@@ -186,7 +186,7 @@ If the session was interrupted (token limit or time), state the tier and verific
 
 ### Step 5c — Wiki ingest (capture compounding context)
 
-> Added 2026-04-30 as part of HARN-2 Phase A. See `projects/skydivecity/wiki/HARN-2-assessment.md` for full reasoning.
+> Added 2026-04-30 as part of HARN-2 Phase A. See `wiki/HARN-2-assessment.md` at the harness root for full reasoning. (Originally created at `projects/skydivecity/wiki/HARN-2-assessment.md`; relocated to harness-level wiki on 2026-05-02.)
 
 Some context belongs in the project wiki, not in `PROJECT_STATE.md` or Monday. Specifically:
 
