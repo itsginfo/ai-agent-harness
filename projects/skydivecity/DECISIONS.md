@@ -9,6 +9,34 @@
 
 ---
 
+## 2026-05-05 — Phase 1 Acceptance Received
+
+**Decision:** Rich Muscolino provided written acceptance of Phase 1 of the SkydiveCity engagement on 2026-05-05. Phase 1 (skydive.city → skydivecity.com domain consolidation) is formally complete.
+
+**Rationale:** All three SOW Acceptance Criteria are documented as satisfied in the Phase 1 Completion Report:
+
+- **AC-1:** skydive.city routes/redirects to skydivecity.com (verified live via the redirect-chain validation in Section 1.1 of the technical companion)
+- **AC-2:** No critical broken paths or broken primary CTAs (release-night smoke tests passed; W4-18 content defect identified and resolved same-day on 2026-04-27)
+- **AC-3:** Stable uptime for 7 days post-release (UptimeRobot 100.000% / 168h cumulative across all 4 monitored endpoints, zero incidents)
+
+**Implications:**
+
+- Monday W4-12 closed Done 2026-05-05 with acceptance update.
+- R-tasks finalize: R-1 (synthesis), R-2 (SEO), R-3 (Traffic), R-4 (Conversions), R-5 (System Health) all closed Done 2026-05-05. R-6 (delivery) remains in flight pending James's send of the executive brief PDF to Rich + Matt.
+- Phase 1 Completion Report DRAFT status removed. Final v1.0 issued in two versions: `phase-1-completion-report-executive.pdf` (2-page CEO/COO-targeted brief, regeneratable from `phase-1-completion-report-executive.md` via `npx md-to-pdf`) + `phase-1-completion-report.md` (technical companion, ~440 lines, available on request).
+- Engagement transitions to:
+  1. **Core / Maintenance SOW drafting** — immediate next deliverable for Rich's review, per James's 2026-05-05 direction (decoupled from the broader Phase 2 conversation).
+  2. **Per-Project SOWs** — scoped individually as needs arise. First known item is SCOPE-1 (Burble booking calendar updates).
+  3. **Broader Phase 2 conversation** — flexible cadence per Skydive City's priorities; no committed date.
+- PROJECT_STATE banner updated to "🎉 PHASE 1 ACCEPTED." Daily monitoring cadence retired (no longer needed). The `skydivecity-daily-checkin` remote routine remains disabled (history captured in DECISIONS 2026-04-29) and should not be re-enabled unless a future Phase 2 routine is designed against the Anthropic remote-agent sandbox allowlist constraint.
+- Monday R-6 ("📋 DELIVERABLE: Deliver Phase 1 Completion Report") title corrected from "Matt Adamson" to "Rich Muscolino" via the `all_monday_api` GraphQL mutation, reflecting the SPOC change ratified 2026-04-23.
+
+**Made by:** Rich Muscolino (Phase 1 Acceptor); communicated to ITSG by James Meirowsky on 2026-05-05.
+
+**Revisit if:** The Phase 1 acceptance scope is ever disputed (e.g., a reported regression tied to cutover); the Phase 1 Completion Report and supporting artifacts (Monday board, project repo, ga-baseline captures, UptimeRobot data, decision log) constitute the formal acceptance record. Recommendations for ongoing operational ownership are documented in Section 5 of the technical companion and will be addressed under the Core/Maintenance + Project SOW model going forward.
+
+---
+
 ## 2026-05-01 (eve) — Multi-Team Branching Reframe (Replaces HARN-6)
 
 **Decision:** Adopt a multi-team branching strategy for skydivecity work, replacing the HARN-6 protocol-fix path entirely. Specifically:
