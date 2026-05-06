@@ -9,6 +9,30 @@
 
 ---
 
+## 2026-05-05 (eve) — Adopt GitHub Issues as future tracker; install Matt Pocock per-repo skill config
+
+**Decision:** SkydiveCity.com migrates from Monday.com to GitHub Issues (`itsginfo/skydivecity-com`) as the project's canonical issue tracker. Matt Pocock's engineering skills (`triage`, `to-issues`, `to-prd`, `qa`, `improve-codebase-architecture`, `diagnose`, `tdd`, `grill-with-docs`) are configured per-repo with a single-context layout and the canonical default triage label vocabulary.
+
+**Rationale:** Direction surfaced when running `/setup-matt-pocock-skills` — James chose GitHub Issues for the skill config and explicitly stated migration intent. Drivers not yet detailed; plausible: closer-to-code workflow, the harness already uses `gh` extensively, GitHub Issues integrate natively with PRs/commits and CODEOWNERS. Default triage labels (`needs-triage`, `needs-info`, `ready-for-agent`, `ready-for-human`, `wontfix`) and single-context domain layout fit this repo cleanly (single WordPress site, no bounded contexts).
+
+**Implications:**
+
+- New per-repo configuration written + committed (`fc5990f`) + pushed:
+  - `CLAUDE.md` — appended `## Agent skills` block with three forward-pointers
+  - `docs/agents/issue-tracker.md` — GitHub Issues conventions + explicit migration-context preamble
+  - `docs/agents/triage-labels.md` — canonical defaults verbatim
+  - `docs/agents/domain.md` — single-context layout (`CONTEXT.md` + `docs/adr/` — files do not exist yet, created lazily by `/grill-with-docs`)
+- **Until a migration plan lands, Monday board `18405939043` remains authoritative for Phase 1 task status** per the boot sequence in `CLAUDE.md` and `SESSION_START.md`. Do NOT unilaterally close, archive, or stop writing to Monday.
+- New tickets created during the dual-write window: ask James whether each goes in Monday, GitHub, or both.
+- The migration plan itself (sequencing, when to flip the boot sequence, how to handle Monday-side history, whether to backfill Monday→GitHub) is now Open Question #9 in PROJECT_STATE.
+- Auto-memory updated: `project_issue_tracker_migration.md` records the intent and the "don't unilaterally stop writing to Monday" guardrail.
+
+**Made by:** James Meirowsky (decision); CTO Agent (Claude Opus 4.7) executed the per-repo scaffold via `/setup-matt-pocock-skills`.
+
+**Revisit if:** James writes the migration plan and flips the boot sequence — or, conversely, reverses course and keeps Monday as the long-term canonical tracker (in which case `docs/agents/issue-tracker.md` would be rewritten as a Monday-MCP workflow doc rather than a `gh` workflow doc).
+
+---
+
 ## 2026-05-05 — Phase 1 Acceptance Received
 
 **Decision:** Rich Muscolino provided written acceptance of Phase 1 of the SkydiveCity engagement on 2026-05-05. Phase 1 (skydive.city → skydivecity.com domain consolidation) is formally complete.
