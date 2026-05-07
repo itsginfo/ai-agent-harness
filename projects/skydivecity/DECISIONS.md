@@ -9,6 +9,61 @@
 
 ---
 
+## 2026-05-07 — Managed Services SOW v1.0 Issued and Delivered
+
+**Decision:** Managed Services SOW v1.0 issued (DRAFT suffix dropped) and delivered to Rich Muscolino (To) / Matt Adamson (CC) via email from James, with an executive summary cover note describing what changed vs. the Phase 1 SOW.
+
+**Rationale:** James reviewed the v1.0-DRAFT (drafted 2026-05-06 via `/grill-with-docs`) and approved without revisions. PDF generated via `npx md-to-pdf` (Phase 1 toolchain) with YAML frontmatter CSS for table page-break-avoid (mirroring `phase-1-completion-report-executive.md`). Filename normalized — "1.0-DRAFT" → "1.0" — to match the Phase 1 SOW filename convention. Footer updated from "Drafted" to "Issued 2026-05-07".
+
+**Implications:**
+
+- Monday SOW-1 (#11915643642) closed Done with delivery comment 5173949290 + status change to Done. The 2-prong SOW model adoption is complete at the SOW level — the Managed Services prong is issued; the Project SOW prong is tracked separately via SCOPE-1 (#11915633477).
+- No new Monday item created for "awaiting Rich's signature." Held in PROJECT_STATE Resume Instruction Step 2 as a soft tracker; if no response by ~2026-05-14, send a check-in.
+- Two commits per Proactive Checkpoint Protocol: skydivecity-com `ec4e8b2` (SOW v1.0 finalization + PDF), agent-driven-enterprise `8ccb452` (PROJECT_STATE refresh).
+- Once Rich signs: archive countersigned PDF to `project_management/`, append a third DECISIONS.md entry (Managed Services SOW Executed), and the engagement formally enters the steady-state Managed Services posture.
+
+**Made by:** James Meirowsky (review + approval + send); PM Agent (Claude Opus 4.7) executed the rename, PDF generation, Monday updates, and DECISIONS/PROJECT_STATE refresh.
+
+**Revisit if:** Rich requests revisions (re-issue as v1.1 with the same delivery flow), Rich declines to sign (revert to ad-hoc / per-request engagement and document the reason), or signature slips beyond 2 weeks (escalate via direct conversation rather than additional emailed reminders).
+
+---
+
+## 2026-05-06 — Managed Services SOW v1.0-DRAFT Created via /grill-with-docs; Canonical Glossary Established
+
+**Decision:** Drafted the Managed Services SOW v1.0-DRAFT (`project_management/IT Strategy Group _ Skydive City Managed Services SOW 1.0-DRAFT.md`) by mirroring the Phase 1 SOW structure (Sections 1–16), then ran `/grill-with-docs` to stress-test the draft and resolve six material design questions. Created `CONTEXT.md` at the SkydiveCity.com repo root capturing the canonical engagement-domain glossary (per the single-context layout declared in `docs/agents/domain.md`).
+
+**Rationale:** Per James's 2026-05-05 direction, the Managed Services SOW was the immediate post-Phase-1 deliverable. Initial draft used "Total Care" as a working marketing label; grilling resolved that to **Managed Services** as the canonical legal title because it's industry-standard for this engagement shape, matches Phase 1's existing "managed services rate" language in §7.1, and distinguishes cleanly from "Project SOW" (which is exactly the §4.4 boundary). Six grilling outcomes — each driven by a real failure mode the draft would have shipped with — landed:
+
+1. **§4.4 8-hour threshold scoped to Routine Requests only.** As originally drafted, a 12-hour Sev 1 outage response would have required pausing mid-incident to scope a Project SOW. Carved Sev 1–3 incident response out of the threshold; incident response is in-scope regardless of duration.
+2. **SLA model simplified to three streams.** Phase 1's Sev 1–4 ladder conflated incident severity with planned-work classification (Sev 4 = "Request / Enhancement"). Dropped Sev 4; replaced with a separate "Routine Request" category for non-incident planned work. Sev 1–3 are now incidents only.
+3. **`site:skydive.city` indexing review removed.** Out of scope post-Phase-1; only `site:skydivecity.com` indexing remains a monthly check.
+4. **§4.4 mid-work scope discovery rule added.** If a Routine Request balloons past 8 hours during execution, Supplier notifies Client and the Parties jointly choose between (a) continue as Routine with Supplier absorbing overrun, (b) stop and scope as Project SOW, or (c) proceed under written agreement reflecting larger scope. Closes the gap between intake-time classification and execution-time discovery.
+5. **"Total Care" → "Managed Services" rename throughout** (19 occurrences); file renamed.
+6. **§16 signing authority confirmed** as Rich Muscolino, title "Strategy & Development" (per Rich's email signature; Client may correct title at signature without re-execution). Standard authority-to-bind warranty added.
+
+**Open Question #8 substantially resolved across four sub-questions:**
+
+- **Pricing model** = in-kind only (continuation of Phase 1) — $400/mo RV parking + uncapped jump tickets at $29 staff rate (down from Phase 1's $32). Planning estimate (20 tickets/mo) explicitly removed.
+- **SLA terms** = Sev 1–3 incidents (severity-graded, no effort cap) + Routine Request (non-incident planned work, soft-capped at 8 hours).
+- **Mid-term Project handling** = §4.4 carve-out (features, redesigns, new pages, new third-party integrations, migrations, >8h Routine Requests) + intake-time and mid-work scope discovery rules.
+- **Skydive City pilot vs all-clients** = Skydive City SOW is the pilot; future clients will use a different pricing model.
+
+**Other locked-in design choices:** §1 Effective Date back-dated to May 1, 2026 (5-day overlap with Phase 1 acceptable since both use identical in-kind structure); 6-month initial term through Oct 31, 2026; 30-day rolling auto-renew; 10-day termination clause; §7.4 pass-through threshold unchanged at $100 (per James's option-1 selection during grilling).
+
+**Glossary captured in `CONTEXT.md` at SkydiveCity.com repo root:** Managed Services, Routine Request, Project Work, Project SOW, Phase 1. Two flagged ambiguities documented — "Total Care" and "Core/Maintenance" both retired in favor of **Managed Services** as the canonical contract term (may reappear as external marketing language but not inside SOWs / runbooks / PROJECT_STATE).
+
+**Implications:**
+
+- Two commits per Proactive Checkpoint Protocol: skydivecity-com `ab27335` (CONTEXT.md + Managed Services SOW DRAFT), agent-driven-enterprise `b89ca9c` (PROJECT_STATE refresh).
+- Monday SOW-1 (#11915643642) updated 2026-05-06 with comprehensive grilling-outcomes summary (update 5170497902).
+- This entry captures the design-tree work; the 2026-05-07 entry above captures the issuance/delivery work that followed. Read both together for the full arc.
+
+**Made by:** James Meirowsky (model decisions: in-kind continuation, term length, naming choice "Managed Services", $7.4 threshold option 1, removal of planning estimate); PM Agent (Claude Opus 4.7) executed the drafting, grilling sequence, and CONTEXT.md write.
+
+**Revisit if:** Rich requests revisions during signature review (re-iterate the design tree on the affected sections), the second client adopts Managed Services and surfaces design questions the pilot didn't (consider splitting `CONTEXT.md` into a multi-context layout via `CONTEXT-MAP.md` if engagement vocabulary diverges per-client), or the §4.4 mid-work discovery rule fires repeatedly enough to suggest the 8-hour threshold itself is mis-calibrated.
+
+---
+
 ## 2026-05-05 (eve) — Adopt GitHub Issues as future tracker; install Matt Pocock per-repo skill config
 
 **Decision:** SkydiveCity.com migrates from Monday.com to GitHub Issues (`itsginfo/skydivecity-com`) as the project's canonical issue tracker. Matt Pocock's engineering skills (`triage`, `to-issues`, `to-prd`, `qa`, `improve-codebase-architecture`, `diagnose`, `tdd`, `grill-with-docs`) are configured per-repo with a single-context layout and the canonical default triage label vocabulary.
