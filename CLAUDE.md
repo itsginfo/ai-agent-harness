@@ -194,4 +194,20 @@ These custom commands are available in this repo:
 
 ---
 
+## Agent skills
+
+### Issue tracker
+
+Issues for this repo live as GitHub issues in `itsginfo/ai-agent-harness` (use the `gh` CLI). Note: harness-internal tickets only — cross-project work continues to live in Monday.com per the two-layer model. See `docs/agents/issue-tracker.md`.
+
+### Triage labels
+
+Default vocabulary — `needs-triage`, `needs-info`, `ready-for-agent`, `ready-for-human`, `wontfix`. See `docs/agents/triage-labels.md`.
+
+### Domain docs
+
+Single-context layout — `CONTEXT.md` and `docs/adr/` at the repo root (created lazily; absence is fine). See `docs/agents/domain.md`.
+
+---
+
 *Last Updated: 2026-04-23 | Harness v1.4*
