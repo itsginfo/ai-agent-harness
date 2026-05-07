@@ -17,7 +17,7 @@ Engagement transitions to Managed Services SOW finalization (immediate), Project
 **Start by:**
 1. Pull Monday board (ID: `18405939043`) — confirm state. Done items as of 2026-05-05 (eve): W4-9, W4-11, W4-12, R-1, R-2, R-3, R-4, R-5, **R-6** (closed 22:56 UTC after James's send). Open: polish backlog (W4-14/15/16/17), W4-17 due 2026-06-01, HARN-1/3/4, HARN-2B/2C, RETRO tracker, plus SOW-1 (Core/Maintenance) and SCOPE-1 (Burble booking). **Note:** repo is now configured for Matt Pocock's engineering skills with GitHub Issues as the future tracker — see `docs/agents/` and the `## Agent skills` block in `CLAUDE.md`. Don't create new Monday items for repo-tooling/tech-debt during the migration window without checking with James first.
 
-2. **Managed Services SOW v1.0-DRAFT — review pending.** File: `project_management/IT Strategy Group _ Skydive City Managed Services SOW 1.0-DRAFT.md` (in skydivecity-com repo, `develop` branch, uncommitted at session end pending James's review). Drafted 2026-05-06 via `/grill-with-docs`. Six grilling outcomes captured in banner. Outstanding decisions all closed except: James review pass + signature confirmation. Next: James reviews → optional revisions → PDF via `npx md-to-pdf` (same toolchain as Phase 1 Completion Report) → deliver to Rich (To) / Matt (CC) per standing comm rule. Monday SOW-1 (#11915643642) updated with draft path + grilling outcomes.
+2. **Managed Services SOW v1.0 — PDF generated 2026-05-07; awaiting delivery.** James reviewed v1.0-DRAFT and approved without revisions. File renamed to `project_management/IT Strategy Group _ Skydive City Managed Services SOW 1.0.md` (DRAFT suffix dropped); frontmatter CSS added (table page-break-avoid, same as Phase 1 exec brief); footer updated to "v1.0 | Issued 2026-05-07". PDF generated via `npx md-to-pdf` at `project_management/IT Strategy Group _ Skydive City Managed Services SOW 1.0.pdf`. **Next:** James delivers PDF to Rich (To) / Matt (CC) and obtains signature. Monday SOW-1 (#11915643642) update pending PDF delivery confirmation.
 
 3. **R-6 — ✅ DONE 2026-05-05 (eve).** Executive brief PDF (`project_management/phase-1-completion-report-executive.pdf`) sent to Rich + Matt. Monday R-6 closed at 22:56 UTC. No remaining action.
 
@@ -82,7 +82,7 @@ Engagement transitions to Managed Services SOW finalization (immediate), Project
 | **Harness GitHub Repo** | [itsginfo/ai-agent-harness](https://github.com/itsginfo/ai-agent-harness) | Private repo — `main` branch |
 | **Harness Path (local)** | `/Users/jamesmeirowsky/Projects/agent-driven-enterprise` | AI Agent Harness root |
 | **Phase 1 SOW** | `project_management/IT Strategy Group _ Skydive City SOW 1.0.md` | Signed Phase 1 SOW — scope, compensation, acceptance criteria. Closed Done 2026-05-05. |
-| **Managed Services SOW (DRAFT)** | `project_management/IT Strategy Group _ Skydive City Managed Services SOW 1.0-DRAFT.md` | Successor instrument to Phase 1 SOW. v1.0-DRAFT created 2026-05-06 via `/grill-with-docs`. Uncommitted pending James review. |
+| **Managed Services SOW v1.0** | `project_management/IT Strategy Group _ Skydive City Managed Services SOW 1.0.md` (+ `.pdf`) | Successor instrument to Phase 1 SOW. v1.0 issued 2026-05-07 (DRAFT dropped after James review, no revisions). PDF generated via `npx md-to-pdf`. Awaiting delivery to Rich. |
 | **CONTEXT.md** (new 2026-05-06) | `CONTEXT.md` (skydivecity-com repo root) | Canonical glossary for the engagement: Managed Services, Routine Request, Project Work, Project SOW, Phase 1. Single-context layout per `docs/agents/domain.md`. |
 | **Phase 1 Project Plan** | `project_management/Phase 1 Project Plan.md` | Full WBS, timeline, risks |
 | **Release Runbook** | `project_management/release-night-runbook.md` | Used in 2026-04-27 cutover |
@@ -170,7 +170,7 @@ Engagement transitions to Managed Services SOW finalization (immediate), Project
 
 > When you complete one, update Monday first, then return here.
 
-1. **[Immediate next deliverable] Managed Services SOW v1.0-DRAFT — James review → PDF → deliver to Rich.** Draft complete 2026-05-06 at `project_management/IT Strategy Group _ Skydive City Managed Services SOW 1.0-DRAFT.md` (uncommitted pending review). PDF generation paused per James's direction. Next session resume points: read draft, decide on revisions, generate PDF via `npx md-to-pdf` (Phase 1 toolchain), deliver To Rich / CC Matt.
+1. **[Immediate next deliverable] Deliver Managed Services SOW v1.0 PDF to Rich.** PDF generated 2026-05-07 at `project_management/IT Strategy Group _ Skydive City Managed Services SOW 1.0.pdf`. James-approved (no revisions from grilling). Send To Rich / CC Matt per standing comm rule (auto-memory `feedback_status_email_recipients.md`). Once delivered + signed, update Monday SOW-1 to Done and migrate the SOW into the active-engagement layer of PROJECT_STATE.
 2. **[Whenever bandwidth] Polish backlog** — W4-14 (Burble URLs), W4-15 (featured images), W4-16 (deploy.sh delta investigation), W4-17 (SSL renewal verification before 2026-06-08).
 3. **[Post-SOW] SCOPE-1 (Burble booking calendar)** — first Project-SOW candidate. Needs scope-gathering session with Rich/Matt before SOW pricing is possible. Implementation owner depends on Burble's customization model.
 
