@@ -72,25 +72,37 @@ For combined-role sessions (e.g., CTO + PM), read both files.
 
 ---
 
-### Step 3 — Pull current task status from Monday.com
+### Step 3 — Pull current task status from the project's tracker
 
-**This comes before reading PROJECT_STATE** because Monday may have been updated outside a session (by James, or from a prior session that only updated Monday and not PROJECT_STATE).
+**This comes before reading PROJECT_STATE** because the tracker may have been updated outside a session (by James, by a prior session that only updated the tracker, or by automation).
 
-Use the Monday MCP:
+**Default tracker is GitHub Issues + GH Projects v2** (per CLAUDE.md "Per-Project Overrides"). Active projects as of 2026-05-07:
 
+- **SkydiveCity** — `itsginfo/skydivecity-com` issues + [GH Project #1](https://github.com/users/itsginfo/projects/1) (cross-repo: also covers `itsginfo/ai-agent-harness` for harness-improvement tickets)
+- **MethodRX** — `itsginfo/method-rx` GH Issues (no Project board yet)
+- **harness self-work** — `itsginfo/ai-agent-harness` issues + GH Project #1
+
+Use `gh` CLI:
+
+```bash
+# Per-repo issue list (open)
+gh issue list --repo <owner>/<repo> --state open --json number,title,labels,assignees
+
+# Cross-repo Project view
+gh project item-list <project-number> --owner <owner> --format json
+
+# Specific issue with comments
+gh issue view <number> --repo <owner>/<repo> --comments
 ```
-1. get_board_info → confirm the board exists and note its structure
-2. get_board_items_page → pull all items, focusing on:
-   - "🔵 This Sprint" group → what's active
-   - "🚫 Blocked" group → what's stuck
-   - "❓ Open Questions" group → what needs a decision
-3. Note any items that were updated since the last time you touched this board
-```
+
+For Skydive City: the cross-repo Project #1 is the canonical sprint board (PM agent's primary surface).
 
 **What to do with what you find:**
-- Items that moved to Done since last session → note them as completed
-- New items added by James → add to your plan for this session
-- Status changes → they're already the truth; don't second-guess them
+- Issues with status `Done` (closed) since last session → note them as completed
+- New issues added by James → add to your plan for this session
+- Status changes — they're already the truth; don't second-guess them
+
+**Legacy: Monday.com.** Only if a project's CLAUDE.md "Per-Project Overrides" row indicates active Monday usage (none currently — SkydiveCity migrated 2026-05-07; MethodRX never used it; the harness has GH Issues). Closed-item lookups for SkydiveCity Phase 1 history: `grep skydivecity-com/project_management/monday-archive/<legacy-id>.md`.
 
 ---
 

@@ -77,7 +77,12 @@ Engagement transitions to: (1) await Rich's signature on Managed Services SOW v1
 
 | Resource | Link / Path | Notes |
 |----------|-------------|-------|
-| **Monday.com Board** | https://itsginfo-company.monday.com/boards/18405939043 | Board ID: 18405939043 — task status lives here |
+| **GH Project #1** (Skydive City Engagement) | https://github.com/users/itsginfo/projects/1 | Cross-repo board view across `skydivecity-com` + `ai-agent-harness`. **PM agent's primary surface.** |
+| **Monday Archive** | `skydivecity-com/project_management/monday-archive/` | All 89 Phase 1 Monday items as Markdown (frontmatter + body + update threads). Permanent home for closed items. |
+| **Migration Tracking Issue** | https://github.com/itsginfo/ai-agent-harness/issues/6 | Open until Step 7 (Monday subscription cancellation, ~2026-05-21+). |
+| **ADR-0001** (issue distribution) | `skydivecity-com/docs/adr/0001-issue-distribution-shape.md` | Per-repo issues + account-level GH Project v2 layered on top. |
+| **ADR-0002** (Monday archive policy) | `skydivecity-com/docs/adr/0002-closed-monday-items-archived-not-ported.md` | Markdown archive, no port. Future port-from-archive remains viable. |
+| ~~**Monday.com Board** (frozen 2026-05-07; decommission ~2026-05-21+)~~ | ~~https://itsginfo-company.monday.com/boards/18405939043~~ | Frozen during dual-write window through end of soak. Read-only by convention; not pulled by any session post-Step-5. Full archive at `skydivecity-com/project_management/monday-archive/`. |
 | **Project Root (local)** | `/Users/jamesmeirowsky/Projects/SkydiveCity.com` | Local git repository |
 | **Project GitHub Repo** | [itsginfo/skydivecity-com](https://github.com/itsginfo/skydivecity-com) | `develop` branch |
 | **Harness GitHub Repo** | [itsginfo/ai-agent-harness](https://github.com/itsginfo/ai-agent-harness) | Private repo — `main` branch |
@@ -108,7 +113,7 @@ Engagement transitions to: (1) await Rich's signature on Managed Services SOW v1
 **Goal:** Confirm site stability through 2026-05-04. Address known polish backlog. Obtain Phase 1 Acceptance from Matt Adamson by May 4.
 **End Date:** 2026-05-04
 
-> For task list and statuses, see Monday.com. Below is context that Monday doesn't capture.
+> For task list and statuses, see [GH Project #1](https://github.com/users/itsginfo/projects/1). Below is context the tracker doesn't capture.
 
 ### Sprint Notes
 - **Site is live and stable.** All Section 4 smoke tests passed during cutover. UptimeRobot confirmed active (W1-12 ✅, W4-7 ✅).
@@ -121,26 +126,30 @@ Engagement transitions to: (1) await Rich's signature on Managed Services SOW v1
 
 ## In-Flight Tasks ⚡
 
-> Tasks that are STARTED but NOT FINISHED. Do NOT restart — pick up where noted.
+> Active work tracked in [GH Project #1 'Skydive City Engagement'](https://github.com/users/itsginfo/projects/1). Below is narrative context the issue body doesn't capture.
 
-- **W4-14** — Add Burble + FB CTAs to remaining upcoming events. Backlog. Needs source URL research with Matt.
-- **W4-15** — Add featured images to remaining upcoming events. Backlog. Has source files locally; needs `wp-image-import-local.php` mapping additions.
-- **W4-16** — Investigate deploy.sh dry-run 17K-file delta. Backlog. Blocking any future theme/plugin push.
-- **W4-17** — Verify SSL cert auto-renewal before 2026-06-08. James + Beyond Marketing. Due 2026-06-01.
-- **HARN-1 / HARN-2 / HARN-3 / HARN-4** — Harness-improvement backlog now visible in Monday (was narrative-only). All deferred to post-Phase-1-acceptance per the 2026-04-27 retro decision.
-- ~~**SOW-1**~~ — ✅ **CLOSED Done 2026-05-07** in Monday. Managed Services SOW v1.0 issued + delivered to Rich; 2-prong model adoption complete at the SOW level. SCOPE-1 tracks the first Project SOW separately. See DECISIONS.md (2026-05-06 + 2026-05-07 entries) for full rationale.
-- **SCOPE-1** (Monday item 11915633477) — New scope from Skydive City: updates to the bookings / booking calendar page hosted on Burble (burblesoft.com). **Captured 2026-05-04 from James.** Specific changes TBD — needs detail-gathering session with Rich/Matt. Implementation owner depends on Burble's customization model (third-party SaaS — ITSG may not have direct write access). Out of Phase 1 scope; will be addressed under a Project SOW per SOW-1 model.
+- **Polish backlog (4 GH issues, all `routine-request`)** — `skydivecity-com#1` (Burble + FB CTAs — needs source URLs from Rich/Matt), `#2` (featured images — has source files locally, needs `wp-image-import-local.php` mapping additions), `#3` (deploy.sh 17K-file delta — `deploy.sh --live` is FROZEN until resolved), `#4` (SSL cert renewal verification, due 2026-06-01).
+- **Harness-improvement backlog (5 GH issues, all `harness-improvement`)** — `ai-agent-harness#1` (Proactive Checkpoint Protocol enforcement; recurring), `#2` (Wiki Phase B — entity pages), `#3` (Wiki Phase C — formal ops; gated on Phase B mass), `#4` (Retro vs REVIEW agent reconciliation), `#5` (P-002 gaps audit). All deferred to post-Phase-1-acceptance per the 2026-04-27 retro decision.
+- **Migration to GH (`ai-agent-harness#6`)** — live tracker. Steps 0–3.5 closed in Session α (2026-05-07). Step 4 (this PROJECT_STATE sweep) and Step 5 (boot-sequence flip) land in Session β. Step 6 = 14-day soak (~2026-05-21). Step 7 = decommission Monday subscription.
 
 **Phase 2 Discovery thread (PAUSED 2026-04-30 evening — separate workstream from Phase 1):**
-- **Redesign-phase2 branch cut, awaiting HARN-6 strategy choice.** Branch `feature/redesign-phase2` exists locally at `7aed723`, no commits unique to it, no files added yet. Open decision before audit fan-out can begin: **HARN-6 strategy** — option A (lightweight convention only — branch-tag In-Flight tasks, manual `git branch` step in SESSION_START), option B (minimal harness change — Active Branches table in PROJECT_STATE + SESSION_START Step 3.5 + SESSION_END branch-sync field), option C (defer audit fan-out until post-Phase-1-acceptance). **Recommendation: B.** Once chosen + applied, next moves are: (a) scaffold `projects/skydivecity/wiki/redesign-phase2/` with `index.md` + per-domain audit slot pages (IA, SEO, UX, accessibility, performance, content, visual), (b) draft and run the IA audit subagent prompt as the first one (foundational). No Monday tickets filed for this thread yet — deliberately, until either Phase 1 acceptance lands or it becomes clear the discovery itself needs ticket-level tracking.
+- **Redesign-phase2 branch cut, awaiting HARN-6 strategy choice.** Branch `feature/redesign-phase2` exists locally at `7aed723`, no commits unique to it, no files added yet. Open decision before audit fan-out can begin: **HARN-6 strategy** — option A (lightweight convention only — branch-tag In-Flight tasks, manual `git branch` step in SESSION_START), option B (minimal harness change — Active Branches table in PROJECT_STATE + SESSION_START Step 3.5 + SESSION_END branch-sync field), option C (defer audit fan-out until post-Phase-1-acceptance). **Recommendation: B.** Once chosen + applied, next moves are: (a) scaffold `projects/skydivecity/wiki/redesign-phase2/` with `index.md` + per-domain audit slot pages (IA, SEO, UX, accessibility, performance, content, visual), (b) draft and run the IA audit subagent prompt as the first one (foundational). No GH tickets filed for this thread yet — deliberately, until it becomes clear the discovery itself needs ticket-level tracking.
 
-> **Closed 2026-04-28:** W4-19 (Sport Skydiving nav), W4-20 (Upcoming Events CTA) — both verified present on prod, false positives from original QA report. See QA addendum Correction 5.
+> **Closed 2026-04-28:** W4-19 (Sport Skydiving nav), W4-20 (Upcoming Events CTA) — both verified present on prod, false positives from original QA report. See QA addendum Correction 5. Both archived at `skydivecity-com/project_management/monday-archive/W4-19.md` / `W4-20.md`.
+
+---
+
+## Pending Project SOWs
+
+> Scope identified but not yet signed. Each becomes a Project SOW per the 2-prong SOW model (Managed Services + per-Project) ratified 2026-05-07. Project SOWs stand separately from the Managed Services SOW — both can be active concurrently per [`CONTEXT.md`](https://github.com/itsginfo/skydivecity-com/blob/develop/CONTEXT.md) glossary.
+
+- **SCOPE-1: Burble booking calendar updates.** New scope from Skydive City: updates to the bookings / booking calendar page hosted on Burble (`burblesoft.com`). **Captured 2026-05-04 from James.** Specific changes TBD — needs detail-gathering session with Rich/Matt. Implementation owner depends on Burble's customization model (third-party SaaS — ITSG may not have direct write access). Out of Managed Services scope; addressed under a Project SOW. Once scope is gathered and signed, the implementation work becomes one or more `skydivecity-com` GH issues. Full Monday history: [`monday-archive/SCOPE-1.md`](https://github.com/itsginfo/skydivecity-com/blob/develop/project_management/monday-archive/SCOPE-1.md).
 
 ---
 
 ## Blocked Items
 
-> Context that Monday can't hold. For status labels, see Monday.com board.
+> Context the tracker can't hold. For active blockers, see GH issues with status `Blocked` on [Project #1](https://github.com/users/itsginfo/projects/1).
 
 | Monday Item # | Task | Blocker Detail | Waiting On | Since |
 |---------------|------|----------------|------------|-------|
@@ -163,17 +172,17 @@ Engagement transitions to: (1) await Rich's signature on Managed Services SOW v1
 | 6 | #11618017651 (W4-10) | Accept no-rollback risk on skydive.city side? | Agent | James | ✅ Answered 2026-04-23 — Risk accepted; closed |
 | 7 | (no item) | Should retros live in the project repo or the harness? | Agent | James | ✅ Answered 2026-04-27 — Harness is the correct location (architecture call) |
 | 8 | SOW-1 | Adopt 2-prong SOW model (Managed Services + per-Project) — pricing model, SLA terms, mid-term Project handling, Skydive City pilot vs all-clients? | James (after Skydive City business discussion) | James | ✅ **FULLY RESOLVED 2026-05-07** — Managed Services SOW v1.0 issued and delivered to Rich. All four sub-questions answered (in-kind pricing / three-stream SLA / §4.4 carve-out + mid-work rule / Skydive City pilot). Captured in `IT Strategy Group _ Skydive City Managed Services SOW 1.0.md` + `.pdf`. Monday SOW-1 closed Done. |
-| 9 | (no item — gated on migration plan) | Issue-tracker migration: when do we flip from Monday to GitHub Issues as the canonical tracker? Sequencing? Backfill Monday → GH? Update boot sequence in `CLAUDE.md` + harness `SESSION_START.md`? Apply to other harness projects (MethodRX, etc.) or SkydiveCity-only pilot? | James (during `/setup-matt-pocock-skills`, 2026-05-05 eve) | James | 🟡 Active — direction set; plan TBD. Until plan lands, dual-write window: Monday remains authoritative; new tickets default to `gh issue` per `docs/agents/issue-tracker.md`. |
+| 9 | [`ai-agent-harness#6`](https://github.com/itsginfo/ai-agent-harness/issues/6) | Issue-tracker migration: when do we flip from Monday to GitHub Issues as the canonical tracker? Sequencing? Backfill Monday → GH? Update boot sequence in `CLAUDE.md` + harness `SESSION_START.md`? Apply to other harness projects (MethodRX, etc.) or SkydiveCity-only pilot? | James (during `/setup-matt-pocock-skills`, 2026-05-05 eve) | James | ✅ **RESOLVED 2026-05-07** — Plan ratified via `/grill-with-docs`; Phasing B (Session α today, Session β next session, 14-day soak through ~2026-05-21, then decommission). Architecture in [ADR-0001](https://github.com/itsginfo/skydivecity-com/blob/develop/docs/adr/0001-issue-distribution-shape.md) (per-repo issues + account-level GH Project) and [ADR-0002](https://github.com/itsginfo/skydivecity-com/blob/develop/docs/adr/0002-closed-monday-items-archived-not-ported.md) (Markdown archive, no port). MethodRX out of scope (already off Monday). Tracking: [`ai-agent-harness#6`](https://github.com/itsginfo/ai-agent-harness/issues/6). |
 
 ---
 
 ## Next 3 Actions (Prioritized)
 
-> When you complete one, update Monday first, then return here.
+> When you complete one, update the GH issue first (status, comment if substantive), then return here.
 
 1. **[Awaiting external response] Rich's signature on Managed Services SOW v1.0.** SOW PDF + exec summary delivered 2026-05-07 To Rich / CC Matt. No follow-up needed yet; if no response by ~2026-05-14, send a soft check-in. When signed: archive countersigned PDF, log to DECISIONS.md (Managed Services SOW Executed), and the engagement formally enters the steady-state Managed Services posture.
-2. **[Whenever bandwidth] Polish backlog** — W4-14 (Burble URLs), W4-15 (featured images), W4-16 (deploy.sh delta investigation), W4-17 (SSL renewal verification before 2026-06-08).
-3. **[Post-SOW] SCOPE-1 (Burble booking calendar)** — first Project-SOW candidate. Needs scope-gathering session with Rich/Matt before SOW pricing is possible. Implementation owner depends on Burble's customization model.
+2. **[Whenever bandwidth] Polish backlog** — `skydivecity-com#1`–`#4` (Burble URLs, featured images, deploy.sh delta, SSL renewal due 2026-06-01). All `routine-request` per Managed Services scope.
+3. **[Post-Managed-Services-SOW signing] SCOPE-1 (Burble booking calendar)** — first Project-SOW candidate; see Pending Project SOWs section. Needs scope-gathering session with Rich/Matt before SOW pricing is possible.
 
 **Post-acceptance backlog:** Harness-improvement work — HARN-1 (Proactive Checkpoint Protocol enforcement), HARN-2B/HARN-2C (Wiki Phases B/C, deferred with explicit triggers), HARN-3 (Retro vs REVIEW reconciliation), HARN-4 (gaps audit). **HARN-5 — ACTIVATED IN TRIAL 2026-04-30 (late eve)**, pulled forward of acceptance gate. Codex CLI v0.128.0 + plugin installed + authenticated (ChatGPT-account browser flow); review gate OFF; trial scope = `/codex:adversarial-review` on Phase 2 redesign discovery branch in separate session. Hard MethodRX/HIPAA exclusion remains in force per CTO standing rule. Trial outcome to be evaluated after first 1-2 cycles. Monday ticket still pending creation next session with Monday MCP access. **HARN-6 (Harness branch-awareness gap — surfaced 2026-04-30 evening when cutting `feature/redesign-phase2`. No Active Branches registry in PROJECT_STATE, no `git branch` check in SESSION_START boot, no branch field on Monday tickets, no SESSION_END branch reconciliation. Failure mode: silent cross-branch contamination during multi-branch fan-out. Recommendation B: minimal structural fix — Active Branches table + SESSION_START Step 3.5 + SESSION_END branch-sync. Strategy choice (A/B/C) gates the Phase 2 audit fan-out. Monday ticket pending creation next session.)**
 
@@ -208,6 +217,7 @@ Engagement transitions to: (1) await Rich's signature on Managed Services SOW v1
 | 2026-05-05 (eve) | **Adopt GitHub Issues as future tracker; install Matt Pocock per-repo skill config.** SkydiveCity.com migrates Monday → GitHub Issues (Open Question #9 captures sequencing). `docs/agents/{issue-tracker,triage-labels,domain}.md` scaffolded; `CLAUDE.md` gains `## Agent skills` block. | Section: 2026-05-05 (eve) Adopt GitHub Issues as future tracker; install Matt Pocock per-repo skill config |
 | 2026-05-06 | **Managed Services SOW v1.0-DRAFT created via `/grill-with-docs`; canonical glossary established.** "Total Care" → "Managed Services" rename; Sev 4 ladder dropped in favor of three-stream model (Sev 1-3 incidents + Routine Request); Sev 1-3 incident response uncapped (carved out from §4.4 8-hour threshold); §4.4 mid-work scope discovery rule added with 3 jointly-decided paths; site:skydive.city indexing review removed (out-of-scope post-Phase-1); Rich's signing authority confirmed with authority-to-bind warranty. **CONTEXT.md** created at SkydiveCity.com repo root capturing the glossary (Managed Services / Routine Request / Project Work / Project SOW / Phase 1). Skydive City SOW is the pilot; future clients will use a different pricing model. | Section: 2026-05-06 Managed Services SOW v1.0-DRAFT |
 | 2026-05-07 | **Managed Services SOW v1.0 issued and delivered to Rich Muscolino.** James reviewed DRAFT and approved without revisions. PDF generated via `npx md-to-pdf` with table-page-break-avoid CSS; file renamed to drop "-DRAFT" suffix. James sent SOW + executive summary To Rich / CC Matt. Monday SOW-1 (#11915643642) closed Done. Awaiting Rich's response (signature, questions, revisions). | Section: 2026-05-07 Managed Services SOW v1.0 Issued and Delivered |
+| 2026-05-07 (Session α) | **Monday → GitHub Issues migration plan ratified via `/grill-with-docs`.** Drivers: tooling fit + cost/sprawl + source-of-truth coherence. Architecture: per-repo issues + account-level GH Project v2 layered on top (ADR-0001). Closed-items policy: Markdown archive, no port (ADR-0002). Phasing B: Session α (Steps 0–3.5: ADRs, archive, 9 issue ports, GH Project, tracking issue) + Session β (Steps 4–5) + 14-day soak + decommission. | See [ADR-0001](https://github.com/itsginfo/skydivecity-com/blob/develop/docs/adr/0001-issue-distribution-shape.md), [ADR-0002](https://github.com/itsginfo/skydivecity-com/blob/develop/docs/adr/0002-closed-monday-items-archived-not-ported.md), tracking issue [`ai-agent-harness#6`](https://github.com/itsginfo/ai-agent-harness/issues/6) |
 
 ---
 

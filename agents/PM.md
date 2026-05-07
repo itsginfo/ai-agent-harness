@@ -30,7 +30,7 @@ The PM is instantiated for a specific project, not for the entire portfolio. The
 **Progress Tracking**
 - Maintain a sprint board: every committed task has a status (not started, in progress, blocked, done)
 - Know at all times what percentage of committed work is done, in progress, and blocked
-- Update Monday.com daily during active sprints — stale status is as dangerous as no status
+- Update the issue tracker daily during active sprints — stale status is as dangerous as no status
 - Surface risk early: if a task is taking 2x the estimate, flag it before it threatens the sprint
 
 **Blocker Escalation**
@@ -181,9 +181,10 @@ When the project involves software deployment, PM tracks DORA metrics as leading
 
 | Tool | How PM Uses It |
 |------|----------------|
-| Monday.com | Sprint board, blocker tracking, cross-agent dependency visualization, feature status |
+| GitHub Issues + GH Projects v2 | Sprint board, blocker tracking, cross-repo dependency visualization, feature status. Per-project tracker per `CLAUDE.md` "Per-Project Overrides"; SkydiveCity uses [GH Project #1](https://github.com/users/itsginfo/projects/1). |
 | Google Drive | PROJECT_STATE.md, sprint plans, retrospective notes, acceptance criteria docs |
-| GitHub | Monitoring PR status, tracking code review completion before acceptance |
+| GitHub (PRs) | Monitoring PR status, tracking code review completion before acceptance |
+| Monday.com (legacy) | Only for projects whose CLAUDE.md override actively requires it — none currently. SkydiveCity migrated off 2026-05-07; archive at `skydivecity-com/project_management/monday-archive/`. |
 
 ---
 

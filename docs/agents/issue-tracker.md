@@ -1,15 +1,16 @@
 # Issue tracker: GitHub
 
-Issues and PRDs for this repo live as GitHub issues in `itsginfo/ai-agent-harness`. Use the `gh` CLI for all operations.
+Issues and PRDs for this repo live as GitHub issues in `itsginfo/ai-agent-harness`. Use the `gh` CLI for all operations. Cross-repo board view: [GH Project #1 'Skydive City Engagement'](https://github.com/users/itsginfo/projects/1) — also surfaces SkydiveCity-engagement project tickets.
 
-## Scope — what goes here vs. Monday.com
+## Scope — what goes in this tracker
 
-This harness uses a **two-layer task model** (see `CLAUDE.md`):
+Harness-internal concerns: repo tooling, agent-definition tweaks, protocol changes, skill setup, ADR-worthy proposals, harness-meta bugs. Per [ADR-0001](https://github.com/itsginfo/skydivecity-com/blob/develop/docs/adr/0001-issue-distribution-shape.md) (in skydivecity-com), cross-cutting harness improvements that surface during a project engagement also live here, with the engagement's GH Project providing the cross-repo board view.
 
-- **Monday.com** — cross-project task tracking, project-level work, sprint coordination, SPOC-facing tickets. Engagement-level boards (e.g. board `18405939043` for Skydive City Phase 1).
-- **GitHub Issues (this tracker)** — harness-internal concerns: repo tooling, agent-definition tweaks, protocol changes, skill setup, ADR-worthy proposals, harness-meta bugs.
+**Project-level work** (changes to a downstream project's code/content) lives in that project's repo, not here. For SkydiveCity engagement work, that's `itsginfo/skydivecity-com`.
 
-When a Matt Pocock skill (`to-issues`, `triage`, `to-prd`, `qa`) says "publish to the issue tracker," it means GitHub Issues here — even if the work *also* warrants a Monday item for project-level visibility. If both apply, create the GitHub issue first, then optionally create a linked Monday item.
+When a Matt Pocock skill (`to-issues`, `triage`, `to-prd`, `qa`) says "publish to the issue tracker," it means GitHub Issues here — provided the work is harness-internal. If the work touches downstream-project code, the project repo's tracker is correct.
+
+**Legacy:** Prior versions of this file mentioned Monday.com as the cross-project tracker. SkydiveCity migrated off Monday on 2026-05-07; MethodRX never used Monday; the harness never used Monday for its own work. Monday is no longer in active use across the harness.
 
 ## Conventions
 

@@ -18,8 +18,9 @@ Some projects modify the standard boot sequence. **Check this table BEFORE Step 
 
 | Project | Working dir | Override file (load alongside this one) | Skips | Default role |
 |---------|-------------|------------------------------------------|-------|--------------|
-| **MethodRX** | `/Users/jamesmeirowsky/Projects/method-rx/` | `/Users/jamesmeirowsky/Projects/method-rx/CLAUDE.md` | Step 3 (Monday) — does not use Monday.com | CTO |
-| skydivecity | `/Users/jamesmeirowsky/Projects/SkydiveCity.com/` | (none — uses defaults) | — | — |
+| **MethodRX** | `/Users/jamesmeirowsky/Projects/method-rx/` | `/Users/jamesmeirowsky/Projects/method-rx/CLAUDE.md` | Step 3 (Monday) — does not use Monday.com; tracker at `itsginfo/method-rx` GH Issues | CTO |
+| **SkydiveCity** | `/Users/jamesmeirowsky/Projects/SkydiveCity.com/` | `/Users/jamesmeirowsky/Projects/SkydiveCity.com/CLAUDE.md` | Step 3 (Monday) — migrated to GH Issues 2026-05-07; tracker at `itsginfo/skydivecity-com` GH Issues + [GH Project #1](https://github.com/users/itsginfo/projects/1). Monday board frozen during soak through ~2026-05-21, then decommissioned. Don't pull Monday. | PM (default) / CTO (code) |
+| **harness self-work** | `/Users/jamesmeirowsky/Projects/agent-driven-enterprise/` | (this CLAUDE.md is itself the file) | Step 3 (Monday) — harness internals never used Monday; tracker at `itsginfo/ai-agent-harness` GH Issues + [GH Project #1](https://github.com/users/itsginfo/projects/1). For protocol / agent definition / CLAUDE.md edits with no downstream-project context. | CTO |
 
 When working inside an override project's repo subdirectory, that repo's own `CLAUDE.md` may also load and is authoritative for execution-layer rules (code style, review gates, HIPAA, etc.). ADE remains authoritative for narrative, strategy, and cross-session continuity.
 

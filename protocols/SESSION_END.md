@@ -10,10 +10,10 @@ Preserve all context across the two-layer system so the next session can resume 
 
 **Two-layer sync order (always in this sequence):**
 
-1. **Monday.com first** — task statuses, completion, new items, blocker flags
+1. **Issue tracker first** — task statuses, completion, new items, blocker flags. Per the project's CLAUDE.md "Per-Project Overrides" — currently GitHub Issues + GH Projects v2 for all active projects (SkydiveCity, MethodRX, harness self-work). Monday is no longer in use; SkydiveCity's Phase 1 archive is at `skydivecity-com/project_management/monday-archive/`.
 2. **PROJECT_STATE.md second** — narrative context, in-flight detail, resume instruction
 
-Monday is the task master. PROJECT_STATE is the context master. Write to Monday first because it's the source of truth for *what happened*. Then update PROJECT_STATE to reflect the narrative around it.
+The tracker is the task master. PROJECT_STATE is the context master. Write to the tracker first because it's the source of truth for *what happened*. Then update PROJECT_STATE to reflect the narrative around it.
 
 ---
 
@@ -31,39 +31,49 @@ Monday is the task master. PROJECT_STATE is the context master. Write to Monday 
 
 ## Full Closeout Sequence
 
-### Step 1 — Update Monday.com (task master)
+### Step 1 — Update the issue tracker (task master)
 
-Using the Monday MCP, sync every task that changed this session:
+Sync every task that changed this session. Default tracker is GitHub Issues + GH Projects v2 (per the project's CLAUDE.md "Per-Project Overrides" — active projects all default to `gh`).
 
 **Completed tasks:**
-```
-change_item_column_values → Status = Done
-create_update → "[AGENT] Completed: [what was done, briefly]. [Date]"
+```bash
+gh issue close <number> --comment "Completed: [what was done, briefly]"
+# Optionally update the Project status field:
+gh project item-edit --project-id <ID> --field-id <STATUS_ID> --id <ITEM_ID> \
+    --single-select-option-id <DONE_OPTION_ID>
 ```
 
 **In-progress tasks (not yet done):**
-```
-change_item_column_values → Status = In Progress (if not already)
-create_update → "[AGENT] Status: [current state]. Next: [what remains]."
+```bash
+gh issue comment <number> --body "Status: [current state]. Next: [what remains]."
+# Project Status: In Progress
+gh project item-edit --project-id <ID> --field-id <STATUS_ID> --id <ITEM_ID> \
+    --single-select-option-id <IN_PROGRESS_OPTION_ID>
 ```
 
 **New blockers discovered:**
-```
-change_item_column_values → Status = Blocked
-move item to "🚫 Blocked" group
-create_update → "[AGENT] Blocked: [specific blocker]. Waiting on: [person/decision/resource]."
+```bash
+gh issue edit <number> --add-label "blocked"   # if a `blocked` label exists
+gh issue comment <number> --body "Blocked: [specific blocker]. Waiting on: [person/decision/resource]."
+# Project Status: Blocked
+gh project item-edit --project-id <ID> --field-id <STATUS_ID> --id <ITEM_ID> \
+    --single-select-option-id <BLOCKED_OPTION_ID>
 ```
 
 **New tasks discovered this session:**
-```
-create_item → in "📋 Backlog" or "🔵 This Sprint" as appropriate
+```bash
+gh issue create --repo <owner>/<repo> --title "..." --body "..." --label "..."
+# Add to Project:
+gh project item-add <project-number> --owner <owner> --url <issue-url>
 ```
 
 **Decisions or questions needing James:**
+```bash
+gh issue create --repo <owner>/<repo> --title "Need input: [question]" \
+    --body "Options: [A / B / C]" --label "needs-info"
 ```
-create_item → in "❓ Open Questions" group
-create_update → "[AGENT] Need input: [specific question]. Options: [A / B / C]."
-```
+
+**Legacy: Monday.com.** If a project's CLAUDE.md override actively requires Monday usage (none currently — all active projects use `gh`), the prior Monday MCP procedure (`change_item_column_values` + `create_update`) applies. SkydiveCity migrated off Monday on 2026-05-07; archive at `skydivecity-com/project_management/monday-archive/`.
 
 ---
 
@@ -104,10 +114,10 @@ Never end a session with uncommitted work. Even a WIP commit is recoverable; unc
 
 ### Step 3 — Update PROJECT_STATE.md (context master)
 
-Now update the narrative layer to reflect what just happened in Monday and git.
+Now update the narrative layer to reflect what just happened in the tracker and git.
 
 **Update In-Flight Tasks:**
-- Remove any tasks completed this session (they're Done in Monday; remove the ⚡ entry here)
+- Remove any tasks completed this session (they're closed in the tracker; remove the ⚡ entry here)
 - Update the state of any tasks still in progress with exact current state
 - The In-Flight entry must be specific enough to resume from cold: file, function, step, decision point
 
@@ -120,7 +130,7 @@ This is the most important thing you write. Use this template:
 If you're reading this in a new session: [project] is [overall status].
 Last session ([date]) [completed X / was working on Y].
 
-Highest priority right now: [specific task, Monday #ID].
+Highest priority right now: [specific task, tracker ref — e.g. `repo#N`].
 Start by: [exact first action — file to open, command to run, decision to make].
 Watch out for: [any gotcha, dependency, or constraint the next agent needs to know].
 ```
@@ -131,18 +141,18 @@ Write this as if explaining to someone who has never seen this project. Be speci
 Read it back as if you are the next agent opening a cold session. Ask:
 - Does it reflect the ACTUAL end state, not the state at the start of this session?
 - If a task was closed/unblocked/changed this session, is that reflected here?
-- Would an agent reading only this instruction + Monday get a correct picture?
+- Would an agent reading only this instruction + the tracker get a correct picture?
 
 If the answer to any of these is No — rewrite it before closing.
 
 **Update Next 3 Actions:**
 - Remove completed items
 - Add new items discovered this session
-- Ensure each item has a Monday item ID
+- Ensure each item has a tracker ref (GH issue `repo#N`, or Monday `#ID` for legacy projects)
 
 **Update Blocked / Open Questions:**
-- Reflect what you added to Monday
-- Add context that Monday can't hold (why it's really blocked, what the options are)
+- Reflect what you added to the tracker
+- Add context that the tracker can't hold (why it's really blocked, what the options are)
 
 **Append to Session Log:**
 ```
@@ -188,7 +198,7 @@ If the session was interrupted (token limit or time), state the tier and verific
 
 > Added 2026-04-30 as part of HARN-2 Phase A. See `wiki/HARN-2-assessment.md` at the harness root for full reasoning. (Originally created at `projects/skydivecity/wiki/HARN-2-assessment.md`; relocated to harness-level wiki on 2026-05-02.)
 
-Some context belongs in the project wiki, not in `PROJECT_STATE.md` or Monday. Specifically:
+Some context belongs in the project wiki, not in `PROJECT_STATE.md` or the tracker. Specifically:
 
 **Pre-check:** Skip Step 5c entirely if `projects/[project]/wiki/` does not exist. **Do not auto-create.** New projects ship with a dormant `wiki/` stub from `projects/_PROJECT_TEMPLATE/wiki/` — projects created before that template change opt in manually by copying the stub into the project root. The trigger to opt in is typically the first external artifact worth saving; the active agent makes that call at the moment of citation, not by default.
 
@@ -214,7 +224,7 @@ SESSION END — [Date]
 Agent: [ROLE]
 Project: [Project Name]
 
-Monday updated: [Yes — N items updated]
+Tracker updated: [Yes — N issues updated / closed / opened]
 Code committed: [Yes — [commit hash] / No code this session]
 PROJECT_STATE updated: [Yes]
 
@@ -238,7 +248,7 @@ Next session should start with:
 
 If you're running out of tokens, do these in order and stop when you must:
 
-1. ✅ **Update Monday.com** — at minimum, flag in-progress items with a status comment
+1. ✅ **Update the issue tracker** (default `gh issue comment`) — at minimum, flag in-progress items with a status comment
 2. ✅ **Write the Resume Instruction in PROJECT_STATE.md** — this is the most critical
 3. ✅ **Update In-Flight section in PROJECT_STATE.md**
 4. ✅ **Commit code** (even WIP)

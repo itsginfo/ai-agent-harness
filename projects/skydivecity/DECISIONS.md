@@ -392,7 +392,7 @@ The HARN-5 guardrails set 2026-04-30 (review-gate OFF, manual invocation only, M
 **Rationale:** The harness already holds project-level meta-data — `PROJECT_STATE.md`, `DECISIONS.md`, session protocols. Retrospectives are the same category of artifact (state/governance/learning), not project-execution artifacts (code, runbooks, deploy scripts). Cross-project pattern rollups also become trivial when all retros live in one repo.
 **Implications:**
 - The `skydivecity-weekly-retro` routine (`trig_018t5ipHB23fUq48HzsfQF49`) clones BOTH the project repo and the harness repo as `sources`.
-- Retro markdown is committed to harness on `main`; tracker summaries posted to Monday item #11858051360.
+- Retro markdown is committed to harness on `main`; tracker summaries previously posted to Monday item #11858051360 (RETRO tracker — dropped during 2026-05-07 Monday → GH migration; see [archive](https://github.com/itsginfo/skydivecity-com/blob/develop/project_management/monday-archive/RETRO.md)). Post-cutover the tracker function is replaced by the retros directory itself + GH Project status.
 - The post-deployment QA plan stays in the project repo (project-execution artifact), but the QA agent definition lives in the harness (governance artifact). Same split rationale.
 **Alternatives considered:** Project-repo location (rejected — would split governance artifacts across N repos and complicate cross-project rollup).
 **Made by:** James Meirowsky (confirmed to agent 2026-04-27)
