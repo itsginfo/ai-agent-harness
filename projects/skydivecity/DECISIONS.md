@@ -9,6 +9,43 @@
 
 ---
 
+## 2026-05-09 — SOW v1.1 Issued; MNDA v1.0 Drafted but Held (Confidentiality Expansion in Response to Rich's Feedback)
+
+**Decision:** Two-part response to Rich's 2026-05-09 feedback on Managed Services SOW v1.0, but **delivered as one** to keep Rich's narrow ask uncoupled from a broader conversation he and James are not yet aligned on:
+
+1. **Managed Services SOW v1.1 (deliverable to Rich):** patches §11 (Confidentiality and Security) inline with five enumerated Confidential Information categories (financial information, business performance data, Burble platform data, credentials and access, strategic and forward-looking information), use restriction to the SOW Purpose, and a third-party non-disclosure obligation. Version footer bumped 1.0 → 1.1. PDF regenerated. v1.0 .md + .pdf preserved alongside v1.1 for the historical record. **No MNDA reference** in §11 (removed at James's direction at the commit gate).
+2. **Mutual Non-Disclosure Agreement v1.0 (held draft, not delivered):** standalone 15-section instrument between ITSG and Skydive City covering best-practice confidentiality terms. Effective Date back-dated to 2026-04-01 (Phase 1 SOW effective date) for retroactive coverage; mutual definition of Confidential Information (8 enumerated categories incl. Burble platform data + third-party flow-down); standard exclusions; recipient obligations (Purpose-limited use, commercially reasonable + same-as-own care, need-to-know access); compelled-disclosure notice; 30-day termination at will; 5-year survival post-termination with trade-secret carve-out indefinite; return/destruction at Discloser's option with archival/working-files retention exception; FL governing law / Pasco County venue. Held in `project_management/`; James will surface with Rich at his chosen moment.
+
+**Rationale:** Rich's 2026-05-09 email approved v1.0 with one specific request: add verbiage to §11 specifically calling out financials and business performance data, given Supplier's working access to Burble data. James asked whether to also draft a standalone MNDA covering best-practice NDA terms.
+
+**Initial recommendation** from PM Agent was to do both, sequenced (§11 patch + MNDA as forthcoming supplement referenced from §11), bundle both PDFs in the same email to Rich. James approved that path via AskUserQuestion and PM Agent executed it through PDF generation.
+
+**Course correction at the commit gate:** before pushing, James paused and clarified that he and Rich are not yet aligned on the MNDA conversation. Bundling the MNDA with the SOW v1.1 redline would muddy Rich's narrow §11 ask — Rich asked for verbiage in §11, not a separate instrument. Sending both together risks Rich reading "James used my §11 ask as a wedge for a broader MNDA conversation we haven't had," which is exactly the wrong relational frame at the signature moment.
+
+**Final outcome:** SOW v1.1 stands alone as the response to Rich's §11 ask. The MNDA paragraph is removed from §11. The MNDA v1.0 draft is kept on disk as a future deliverable; James will choose when to open the MNDA conversation with Rich, separate from SOW v1.1 delivery. The two instruments remain forward-compatible — §11 v1.1 doesn't preclude an MNDA being executed later, and the MNDA's relationship clause already handles conflict with §11.
+
+**Implications:**
+
+- Files: `project_management/IT Strategy Group _ Skydive City Managed Services SOW 1.1.{md,pdf}` (deliverable) + `project_management/IT Strategy Group _ Skydive City MNDA 1.0.{md,pdf}` (held draft). v1.0 SOW preserved alongside v1.1 (not deleted).
+- Awaiting James review of SOW v1.1 before sending to Rich (To) / Matt (CC) per the standing comm rule. Email body should explain ONLY the §11 redline (concrete categories matching Rich's ask). **Do not mention the MNDA in the email or any communication to Rich until James gives the green light.**
+- When Rich signs SOW v1.1: archive signed PDF to `project_management/`, append a DECISIONS.md entry (SOW v1.1 Executed). The MNDA conversation is a separate future thread.
+- No GH tracking issue created for the signature follow-up. Soft tracker: PROJECT_STATE Resume Instruction Step 2; if no Rich response by ~2026-05-16 (5 business days), send a check-in.
+- MNDA Effective Date back-dating to 2026-04-01 still covers any Confidential Information already disclosed under the Phase 1 SOW *if/when* the MNDA is later executed. The held draft is ready when James decides to surface it.
+
+**Alternatives considered:**
+
+- **Bundle SOW v1.1 + MNDA in same email** (initial plan, declined at the commit gate): would have coupled Rich's narrow §11 ask with a broader MNDA conversation he and James hadn't aligned on.
+- **§11 patch only, abandon MNDA draft** (declined: the MNDA work is non-trivial and the analysis is sound; holding the draft for future use is cheap and preserves the option).
+- **§11 patch + send MNDA as a follow-up email a few days later** (possible future path; James will decide timing based on the alignment conversation).
+
+**Made by:** James Meirowsky — approved initial recommendation via AskUserQuestion (§11 patch + propose MNDA next), then course-corrected at the commit gate (remove MNDA reference from §11, hold MNDA draft separately). PM Agent (Claude Opus 4.7) executed the §11 redline, MNDA drafting, PDF generation, course-correction edits, and PROJECT_STATE / DECISIONS.md refresh.
+
+**Revisit if:** Rich requests revisions to v1.1 §11 (re-issue as v1.2 with the same delivery flow); James and Rich align on the MNDA conversation (surface MNDA v1.0 draft for review and adapt as needed); the MNDA conversation never happens (acceptable — §11 v1.1 alone is defensible; the held MNDA draft remains on disk as a non-blocker); signature slips beyond 2 weeks on SOW v1.1 (escalate via direct conversation rather than additional emailed reminders, per the SOW v1.0 pattern).
+
+**Process note for future sessions:** narrow client asks should be answered narrowly. Broader follow-on conversations (like MNDA) get their own context and timing, not appended to the original ask. The instinct to bundle "while we're at it" is efficient for the agent but can read as opportunistic to the client. Default sequencing: answer the explicit ask, then surface adjacent work as a separate beat.
+
+---
+
 ## 2026-05-07 — Managed Services SOW v1.0 Issued and Delivered
 
 **Decision:** Managed Services SOW v1.0 issued (DRAFT suffix dropped) and delivered to Rich Muscolino (To) / Matt Adamson (CC) via email from James, with an executive summary cover note describing what changed vs. the Phase 1 SOW.
