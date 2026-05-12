@@ -9,6 +9,35 @@
 
 ---
 
+## 2026-05-11 — Prod-DB-Write Change-Control Procedure (5-Phase Pattern)
+
+**Decision:** When the agent is asked to write to the live Flywheel WordPress database (content additions, postmeta updates, taxonomy changes, etc. — anything *not* deploy.sh and *not* read-only), the default procedure is the 5-phase pattern established this session for the 3 new 2027 events:
+
+1. **Phase 1 — Read-only prod inventory.** Confirm: SSH reachable; target slugs/IDs don't collide; reused terms/IDs exist; active-plugin scan for save-hook side effects (notifications, external sync). Gate: show output, wait for go.
+2. **Phase 2 — SHA-verified upload.** `scp -O` the script to `/tmp/` on Flywheel (default `scp` is rejected — Flywheel SFTP subsystem locked). `sha256sum` local + prod, confirm bit-for-bit. Gate: final go/no-go before write.
+3. **Phase 3 — Execute with logged output.** `wp eval-file /tmp/<script>.php` over SSH, `tee` stdout to `migration/<script>-prod-<UTC-timestamp>.log` locally. Log is gitignored per `*.log` (matches `wp-cta-import-prod-*.log` pattern from cutover).
+4. **Phase 4 — Live verification.** `curl` each affected URL on prod, grep for expected content, confirm no error strings, spot-check DB via `wp post meta list` over SSH, site-health smoke.
+5. **Phase 5 — Checkpoint.** Commit script to `skydivecity-com develop`; commit PROJECT_STATE refresh to harness `main`; push both; file retroactive GH issue (`routine-request` or appropriate label), close with commit ref.
+
+**Rationale:** James asked for the full procedure end-to-end on the events addition so he could confirm "we are only pushing/creating these specific events, and no other changes." That request crystallized what was previously implicit — the agent should not write to prod without showing the human (a) exactly what will change, (b) bit-for-bit identity between the reviewed file and the executed file, and (c) discrete gates for sign-off. The procedure scales to any future prod DB write (CTAs, image attachments, page edits, postmeta updates) and is now the documented default.
+
+**Why this matters beyond this one task:**
+- Catches drift between local and prod (the SHA verification step).
+- Catches plugin side effects the agent didn't think about (the save-hook scan).
+- Produces a forensic record (the timestamped log + commit + closed issue) so the change can be re-explained or backed out months later.
+- Pairs naturally with the existing **`deploy.sh` freeze** (#3) — these procedures are independent surfaces. `deploy.sh` is files-rsync; this is DB-write. They never run together.
+
+**Excluded from this procedure:**
+- `deploy.sh --live` invocations (own freeze + own gates per #3).
+- Read-only inspection (e.g., `wp post list`, `wp option get`) — fine to run ad-hoc without the procedure.
+- Local dev work (Docker `localhost:8080`) — no procedure required.
+
+**Agent:** PM
+
+**Revisit if:** the agent is given direct write authority on a different prod surface (e.g., MethodRX prod DB, a future Skydive City staging environment between local and Flywheel, or a CI-driven deploy). At that point this procedure becomes a template, not a one-off pattern.
+
+---
+
 ## 2026-05-09 — SOW v1.1 Issued; MNDA v1.0 Drafted but Held (Confidentiality Expansion in Response to Rich's Feedback)
 
 **Decision:** Two-part response to Rich's 2026-05-09 feedback on Managed Services SOW v1.0, but **delivered as one** to keep Rich's narrow ask uncoupled from a broader conversation he and James are not yet aligned on:
