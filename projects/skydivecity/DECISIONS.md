@@ -9,6 +9,35 @@
 
 ---
 
+## 2026-05-12 — Managed Services SOW v1.1 + MNDA v1.0 Executed (Both Instruments Signed by All Parties)
+
+**Decision:** Both instruments delivered 2026-05-09 mid-AM were countersigned by Skydive City and returned executed on **2026-05-12**. Engagement transitions out of the SOW v1.1 + MNDA wait state and onto active Managed Services footing with executed Confidential Information underpinnings.
+
+1. **Managed Services SOW v1.1 — Executed.** Active governing instrument for ongoing engagement (supersedes Phase 1 SOW). §11 (Confidentiality) carries the five enumerated categories per the 2026-05-09 v1.1 revision. Three-stream service model (Sev 1-3 incidents + Routine Request) is now contractually live; Project SOWs (e.g., SCOPE-1) sit on top of this instrument per the 2-prong model.
+2. **MNDA v1.0 — Executed.** Standalone mutual instrument now in force. Effective Date back-dated to 2026-04-01 (Phase 1 SOW effective date) retroactively covers any Confidential Information disclosed under Phase 1. 5-year post-termination survival; trade-secret carve-out indefinite. FL governing law / Pasco County venue.
+
+**Rationale:** James reported countersigned on 2026-05-14 (signature date 2026-05-12). Both PDFs landed in `project_management/` with the `- Executed.pdf` suffix per the standing archival convention.
+
+**Implications:**
+
+- **Files:** `project_management/IT Strategy Group _ Skydive City Managed Services SOW 1.1 - Executed.pdf` + `project_management/IT Strategy Group _ Skydive City MNDA 1.0 - Executed.pdf` are now the authoritative copies. The unsigned `.md` + `.pdf` sources are preserved alongside for diff/historical purposes.
+- **Wait state cleared.** PROJECT_STATE Resume Instruction Step 2 (the "awaiting Rich's response" anchor since 2026-05-09) is resolved. No 2026-05-16 soft check-in needed.
+- **Engagement posture:** transitions from "Phase 1 closed, SOW v1.1 + MNDA in flight" → "Managed Services active under executed SOW v1.1 + MNDA v1.0." Routine Requests and Sev 1-3 incidents now flow under the executed terms, not the Phase 1 SOW.
+- **Project SOWs (per-Project work) unlocked.** SCOPE-1 (Burble booking calendar updates) was gated on the Managed Services SOW being in place; that gate is now clear. Next move on SCOPE-1 remains the scope-gathering session with Rich/Matt before Project SOW pricing is possible.
+- **Polish backlog (`skydivecity-com#1`–`#4`)** continues as Routine Requests under the executed Managed Services SOW. No re-tagging required — `routine-request` was always the correct classification.
+- **No DECISIONS.md or PROJECT_STATE rewrite of prior entries.** The 2026-05-07 v1.0 entry and the 2026-05-09 v1.1 + held-MNDA entry remain the historical record of how we got here.
+
+**Alternatives considered:**
+
+- **Single combined entry covering both signatures** (chosen — both instruments signed in one beat on the same date, no operational reason to separate the log).
+- Two separate entries (declined: would fragment a single signing event across two log rows and create redundant prose; the combined entry preserves both instrument identities clearly).
+
+**Made by:** Rich Muscolino (Skydive City — signature authority confirmed in v1.0 §13.7) + James Meirowsky (ITSG Managing Partner). PM Agent (Claude Opus 4.7) handled the bookkeeping update on James's report of the countersignature.
+
+**Revisit if:** either instrument is amended (re-issue as a new version with its own delivery flow + new executed-PDF archive); the engagement scope changes materially enough to warrant a new SOW (e.g., transition to a different pricing model, scope expansion beyond Managed Services + per-Project work); MNDA is invoked in practice (e.g., a third-party disclosure scenario surfaces — confirm the recipient signs the flow-down terms before any Confidential Information is shared).
+
+---
+
 ## 2026-05-11 — Prod-DB-Write Change-Control Procedure (5-Phase Pattern)
 
 **Decision:** When the agent is asked to write to the live Flywheel WordPress database (content additions, postmeta updates, taxonomy changes, etc. — anything *not* deploy.sh and *not* read-only), the default procedure is the 5-phase pattern established this session for the 3 new 2027 events:
