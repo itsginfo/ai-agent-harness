@@ -25,21 +25,17 @@ Engagement posture (post-execution): (1) operate under executed Managed Services
 4. **If a prod DB write is involved:** the 5-phase change-control procedure (DECISIONS.md 2026-05-11) is the standing pattern — read-only inventory → SHA-verified upload → execute with logged output → live verification → checkpoint.
 5. **Don't forget the harness-improvement backlog (`ai-agent-harness#1`–`#5`, `#7`)** — deferred post-Phase-1-acceptance per the 2026-04-27 retro decision; nothing forcing the order, pull when bandwidth or motivation aligns.
 
-**Start by:**
-1. **Migration in progress (Monday → GH Issues, Session α complete 2026-05-07).** All 9 open Monday items have been ported as live GH issues — `skydivecity-com#1`–`#4` (W4-14/15/16/17, `routine-request`); `ai-agent-harness#1`–`#5` (HARN-1/2B/2C/3/4, `harness-improvement`); migration tracker at [ai-agent-harness#6](https://github.com/itsginfo/ai-agent-harness/issues/6). All on [GH Project #1 'Skydive City Engagement'](https://github.com/users/itsginfo/projects/1). Monday board still shows those items as 'Working on it' — **dual-write window** (Monday remains read-authoritative for boot sequence until Session β formally flips it). For new tickets, default to `gh issue create` per `docs/agents/issue-tracker.md`. Don't create new Monday items.
-   - Phase 1 closure status (unchanged): Done items 2026-05-05 (eve): W4-9, W4-11, W4-12, R-1, R-2, R-3, R-4, R-5, **R-6**. SOW-1 closed Done 2026-05-07. Full Monday history archived at `skydivecity-com/project_management/monday-archive/`.
+**Completed since Phase 1 acceptance (recap for context, not action items):**
+- 2026-05-07 Managed Services SOW v1.0 issued → 05-09 v1.1 + MNDA v1.0 drafted → 05-12 BOTH EXECUTED → 05-14 reported
+- 2026-05-11 3 new 2027 events on prod (`skydivecity-com#5`)
+- 2026-05-13 Burble booking-page deposit/reschedule policy live (`#6`)
+- 2026-05-16 Burble booking page — Back/Next visibility gated + Next disabled until slot (`#7`)
+- 2026-05-17 (earlier) Post-launch investigation on `#7` — confirmed CSS correct, isolated client-side issue
+- 2026-05-17 (late) Homepage Tandem Skydiving Rates content update (`#8`) — $249 / $199 / Pasco County Resident Special
 
-2. **Managed Services SOW v1.1 + MNDA v1.0 — ✅ BOTH EXECUTED 2026-05-12** (reported by James 2026-05-14). Countersigned PDFs archived in `project_management/`: `IT Strategy Group _ Skydive City Managed Services SOW 1.1 - Executed.pdf` (438KB) + `IT Strategy Group _ Skydive City MNDA 1.0 - Executed.pdf` (290KB). Unsigned source `.md` + `.pdf` preserved alongside for diff/historical purposes. Engagement is now on active Managed Services footing — Routine Requests and Sev 1-3 incidents flow under these terms. **No further action on the SOW v1.1 / MNDA signature thread.** See DECISIONS.md 2026-05-12 entry.
-
-3. **R-6 — ✅ DONE 2026-05-05 (eve).** Executive brief PDF (`project_management/phase-1-completion-report-executive.pdf`) sent to Rich + Matt. Monday R-6 closed at 22:56 UTC. No remaining action.
-
-4. **Polish backlog** (when bandwidth allows): W4-14 (Burble URLs), W4-15 (featured images), W4-16 (deploy.sh delta investigation), W4-17 (SSL renewal verification before 2026-06-08; W4-17 owned date 2026-06-01).
-
-5. **SCOPE-1 (Burble booking calendar)** — first Project-SOW candidate under SOW-1. Needs scope-gathering session with Rich/Matt before SOW pricing is possible. Implementation owner depends on Burble's customization model.
-
-6. **Multi-team migration (replaces HARN-6 entirely):** the next architectural action. Decisions ratified 2026-05-01 evening (see DECISIONS.md). Open question to resolve before executing: same-repo (long-lived `redesign-v2` branch) vs separate-repo (`skydivecity-redesign`)? Depends on whether Phase 2 tech stack stays WordPress or diverges.
-
-7. **HARN-5 cleanup task:** add `/codex:adversarial-review` (and the slash-channel invocation rule from auto-memory) to the REVIEW agent's standing playbook in `agents/REVIEW.md`.
+**Open architecture decisions deferred (no current pressure):**
+- Multi-team migration (replaces HARN-6) — same-repo vs separate-repo for Phase 2 — depends on whether Phase 2 tech stack stays WordPress
+- HARN-5 cleanup — add `/codex:adversarial-review` to REVIEW agent's standing playbook in `agents/REVIEW.md`
 
 **What shipped on 2026-04-27:**
 - 44 of 46 events imported as `tribe_events` posts (IDs 5797–5840). 2 silent failures during import — accepted, not investigating.
