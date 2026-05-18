@@ -9,6 +9,51 @@
 
 ---
 
+## 2026-05-18 (late) — Wiki Phase B Activated; Phase C Deferred-With-Trigger-Table; Quick-Index as Embedded Query Mechanism
+
+**Decision:** Three intertwined choices made in a single session, captured together because they only make sense as a set:
+
+1. **Activated [`ai-agent-harness#2`](https://github.com/itsginfo/ai-agent-harness/issues/2) (Wiki Phase B).** Authored 6 entity pages in `projects/skydivecity/wiki/`: `flywheel.md`, `wp-acf-rendering.md`, `burble-integration.md`, `prod-write-procedure.md`, `tracking-stack.md`, `sandbox-allowlist.md`. Page set chosen by recurrence audit (2+ retros / 3+ sessions in 30 days) + redesign-criticality filter. Excluded a separate `deploy-pipeline.md` (folded into `flywheel.md` per the assessment's "don't split co-occurring topics" rule); excluded a `tracking-stack.md` *duplicate* of `W1-10-tracking-audit.md` (page references rather than re-states).
+
+2. **Did NOT activate [`ai-agent-harness#3`](https://github.com/itsginfo/ai-agent-harness/issues/3) (Wiki Phase C).** Rewrote the issue body with the 4-trigger table from `wiki/HARN-2-assessment.md` (entity pages ≥15: have 6; portfolio projects ≥5: have 1; harness history ≥6mo: ~1.5mo; observed lint failure: none — **0/4 fired**) and a quarterly re-evaluation cadence (~2026-08-18). Issue stays OPEN as a tracker per James pick from a 2-option AskUserQuestion ("leave open with refreshed body" over "close with rationale") — open-with-conditions is more accurate to "deferred" than closed-as-not-planned, and the GH-Projects board surfaces it for re-check.
+
+3. **Wiki Quick-Index block embedded in `PROJECT_STATE.md`** between RESUME INSTRUCTION and Project Overview. Topic-keyed table mapping "when working on X → read page Y." Lightweight stand-in for Phase C's formal query op; also a small prototype of Phase C's `index.md` deliverable.
+
+**Rationale:**
+
+- **Why activate Phase B now (vs. waiting for organic recurrence triggers):** James explicitly requested wiki completion ahead of the Phase 2 website redesign. The assessment doc lists explicit-user-request as trigger #4 for Phase B, so this fires cleanly. Additionally, the redesign-criticality lens identifies clear topics the redesign will hammer on (ACF rendering, Flywheel deploy, Burble cross-page consistency, prod-write procedure) — entity pages on those topics earn their place by reducing future re-derivation. Doing this *before* the redesign session is sequencing — wiki pages exist when the redesign agent needs to consult them; building during the redesign would compete with the redesign work itself.
+
+- **Why defer Phase C explicitly (vs. building the formalization machinery now):** Volume signals haven't fired. Building ingest/query/lint protocol + `index.md` + tooling against a corpus of 6 pages and 1 active project would be the exact P-002 ("under-leveraged harness layers") failure mode the phased plan was designed to avoid. Phase C earns its place when there's enough material to maintain — not before. The deferral is correct, not procrastination.
+
+- **Why the Quick-Index over alternatives:** Four options were considered for closing the query-gap that Phase B + no Phase C creates (1) PROJECT_STATE-embedded Quick-Index, (2) SESSION_START.md boot-step, (3) UserPromptSubmit hook with keyword injection, (4) update `agents/PM.md` Context Toolkit. Option 1 wins on cost-per-leverage: ~15 min, no new protocol, no hook machinery, lives in a file the boot sequence already reads top-down. Options 2 + 4 are documentation-only and have the same discipline-dependence risk as the no-trigger baseline. Option 3 is mechanically strongest (can't be skipped by attention drift) but adds harness machinery that runs on every prompt — over-engineered for the current pain level. If after a few sessions agents are still skipping relevant pages, escalate to option 3.
+
+- **Why file a separate tool-landscape reconciliation issue ([`ai-agent-harness#8`](https://github.com/itsginfo/ai-agent-harness/issues/8)) rather than expand the wiki to cover it:** This session surfaced (via James) that there are now four distinct tool layers in the harness (Matt Pocock skills + Agent Harness + Wiki + OpenAI Codex plugin) and the right-tool-for-the-job decision currently rests on agent judgment + tribal memory. That's a *cross-layer reconciliation* concern — not a Phase B entity page about any one layer. Wiki pages document layers; the reconciliation is a meta-document about how layers interact. Different shape, different surface (a harness-level doc, probably `RECONCILIATION.md` or similar, plus diagram). Issue body is self-briefing for whoever picks it up cold (CTO-agent-owned, 3–6 hr, recommended ahead of Phase 2 redesign work).
+
+**Implications:**
+
+- `wiki/README.md` phased-status table updated: B → ✅ Live (2026-05-18); C → 🅿️ Deferred with trigger-counter; references to "HARN-2B/C in Monday backlog" replaced with `ai-agent-harness#2`/`#3`.
+- `wiki/sources.md` appended with the Phase B activation entry (append-only convention preserved).
+- `PROJECT_STATE.md` Links table updated to point at the new pages; Quick-Index block added.
+- `[[wiki-link]]` cross-refs in pages point at user-memory entries (`feedback_verify_tag_injection_in_html`, `feedback_remote_agent_sandbox_allowlist`, `feedback_dev_first_applies_to_inventory`) where the same knowledge lives at user-global scope — the wiki and auto-memory now co-cite each other, which is the right shape.
+- The Quick-Index doubles as a lightweight test of Phase C's `index.md` design before committing to the formal version. If agents in the next few sessions consult pages because they saw the Quick-Index, that's signal Phase C's index.md would deliver value when triggers eventually fire.
+
+**Alternatives considered:**
+
+- **Activate Phase B AND build Phase C now** (declined: assessment doc's deferral logic is sound; no triggers fired; would build machinery against insufficient corpus).
+- **Activate only the 2 most redesign-critical pages** (declined per James: 6-page expansion gives the redesign session a fuller foundation; tracking-stack and sandbox-allowlist were judged worth the marginal authoring time).
+- **Close `#3` with rationale rather than leave open** (declined per James: open-with-conditions is more accurate than closed-as-not-planned; the GH-Projects board surfaces it for re-check at quarterly cadence).
+- **UserPromptSubmit hook for keyword-matched wiki injection** (deferred not declined: stronger mechanically but adds harness machinery; escalation path if Quick-Index proves insufficient).
+
+**Made by:** James Meirowsky — answered 2 AskUserQuestions (Phase B / Phase C direction, then Phase C close-out method, then page-set selection: expand 4→6). PM Agent (Claude Opus 4.7) — executed assessment + presented options + authored pages + filed `#8` + composed the entry.
+
+**Revisit if:**
+- Any of Phase C's 4 trigger conditions fires (entity pages cross 15, portfolio crosses 5 active projects, harness history crosses 6 months, an observed lint failure causes a real-world mistake) — at that point pick up `#3` as a discrete sprint per its refreshed body.
+- Agents in the next 3-5 sessions still skip relevant wiki pages despite the Quick-Index — escalate to option 3 (UserPromptSubmit hook) and document the failure in `#3` body as additional Phase C motivation.
+- A new project onboards into the harness — at that point both Phase B (wiki spin-up for the new project) and Phase C (cross-project synthesis becomes valuable) trigger conditions move.
+- Tool-landscape reconciliation (`#8`) lands and produces a new "what goes where" rule that contradicts the current wiki/`PROJECT_STATE`/`DECISIONS`/auto-memory split — at that point update `wiki/README.md`'s "What goes where" table.
+
+---
+
 ## 2026-05-18 — Burble Booking-Funnel Analytics: Tag-Injection Defect Diagnosed + Fixed Same-Session
 
 **Decision:** Filed and closed [`skydivecity-com#9`](https://github.com/itsginfo/skydivecity-com/issues/9) (`routine-request`) covering a multi-pronged set of decisions made during a same-session diagnose-and-fix on Burble's analytics instrumentation. Four discrete decisions, captured here so they survive across sessions:
