@@ -64,6 +64,23 @@ Engagement posture (post-execution): (1) operate under executed Managed Services
 
 ---
 
+## Wiki Quick-Index
+
+> **Before starting work on a topic below, read the matching page first.** Located at `projects/skydivecity/wiki/[name].md` in this harness. This index is the lightweight stand-in for Phase C's formal query op (deferred at [`ai-agent-harness#3`](https://github.com/itsginfo/ai-agent-harness/issues/3)).
+
+| When working on… | Read first |
+|---|---|
+| Flywheel hosting, SSH, `deploy.sh`, SSL renewal, `scp -O` quirk | [`flywheel.md`](../../projects/skydivecity/wiki/flywheel.md) |
+| Adding/updating WordPress pages or content, ACF Flexible Content, `mywp` theme | [`wp-acf-rendering.md`](../../projects/skydivecity/wiki/wp-acf-rendering.md) |
+| Burble booking funnel (`bookings.burblesoft.com`), CSS/copy/analytics customization | [`burble-integration.md`](../../projects/skydivecity/wiki/burble-integration.md) |
+| **Any** prod DB write (postmeta, taxonomy, content, ACF) — 5-phase pattern | [`prod-write-procedure.md`](../../projects/skydivecity/wiki/prod-write-procedure.md) |
+| GTM / GA4 / Google Ads — IDs, triggers, conversion measurement | [`tracking-stack.md`](../../projects/skydivecity/wiki/tracking-stack.md) |
+| Designing claude.ai scheduled remote agents (routines) | [`sandbox-allowlist.md`](../../projects/skydivecity/wiki/sandbox-allowlist.md) |
+
+See [`wiki/README.md`](../../projects/skydivecity/wiki/README.md) for conventions and [`wiki/sources.md`](../../projects/skydivecity/wiki/sources.md) for the cited-artifacts log.
+
+---
+
 ## Project Overview
 
 | Field | Value |
