@@ -9,6 +9,49 @@
 
 ---
 
+## 2026-05-18 — Burble Booking-Funnel Analytics: Tag-Injection Defect Diagnosed + Fixed Same-Session
+
+**Decision:** Filed and closed [`skydivecity-com#9`](https://github.com/itsginfo/skydivecity-com/issues/9) (`routine-request`) covering a multi-pronged set of decisions made during a same-session diagnose-and-fix on Burble's analytics instrumentation. Four discrete decisions, captured here so they survive across sessions:
+
+1. **Treat the Burble GTM ID leading-whitespace defect as a Burble admin-form defect, not a Burble platform defect.** Burble emitted the saved value verbatim; the root cause is user-saved whitespace, not a Burble templating bug. Remediation is field re-save (done), not vendor escalation.
+2. **Defer Defect 2 (standalone `gtag.js` consent-gated with `type="text/plain"` despite Burble's consent-mode toggle being OFF) as not actionable.** GTM-side GA4 tag handles attribution post-Defect-1 fix; the dead standalone script is redundant and irrelevant to the working attribution path. Flagged to Beyond Marketing as FYI only; no remediation work scheduled.
+3. **Accept that the original booking-conversion-scorecard premise is permanently unanswerable from analytics.** The Burble funnel was dark when [`#6`](https://github.com/itsginfo/skydivecity-com/issues/6) (deposit policy copy, 2026-05-13) and [`#7`](https://github.com/itsginfo/skydivecity-com/issues/7) (Back/Next + slot-gating, 2026-05-16) shipped. Their conversion impact is qualitative-only forever. **2026-05-18 onward is the clean baseline** for any future booking-page-change measurement.
+4. **No client comm to Rich/Matt.** James decided this is an internal cleanup, not a finding to surface. Beyond Marketing was looped in via direct vendor email (sent 2026-05-18) for the Google Ads dashboard reconciliation only. Standing rule [[feedback_client_reporting_no_speculation]] continues to apply if/when this surfaces externally.
+
+**Rationale:**
+
+- **Detection vector:** Triggered by a Routine Request to build a checkout-conversion scorecard for the booking page. Investigation surfaced a foundational instrumentation failure that predated the scorecard's intended measurement targets — the scorecard's premise was never reachable from data.
+- **Root cause:** Burble's analytics admin form (`burblesoft.com/dz/analytics`) had saved the GTM Tag Manager Key field with 3 leading spaces. Burble's template emitted `' GTM-MB6JV3Q'` into customer-facing booking pages on `bookings.burblesoft.com` (lines 1098 + 1102 of the rendered HTML). The loader URL `gtm.js?id=%20GTM-MB6JV3Q` never resolved. `GTM-MB6JV3Q` never loaded. GA4 pageview tag + Google Ads "Burble Purchase" conversion tag (`AW-414274214` / `6JOeCODymdQZEKalxcUB`) + Facebook Pixel: all dark on the booking funnel.
+- **Evidence of duration:** GA4 Pages report 2026-05-06 → 05-17, 250-row sample, hostname dimension applied — **zero pageviews from any Burble hostname**. True duration prior to that window is not knowable without GA4 historical lookback or Beyond Marketing's deployment record.
+- **Fix:** James cleared the whitespace and re-typed all four "Google Tools" fields in Burble's admin (GTM key + GA4 measurement ID + AdWords Conversion Id + Conversion Label) — defensive re-save of all fields to eliminate any other invisible whitespace.
+- **Verification:** Post-fix `curl` of `bookings.burblesoft.com/index/53/18` showed clean HTML (no leading space on container ID at lines 1098 + 1102). GA4 Realtime lit up with Burble traffic within minutes. Same-session test checkout walked the full funnel — `/index/53/18` → `add_leader` → `agreement` → `payment_mx` → `add_jumper` → `/index/finish/9900751/364811` — all six steps appeared as discrete pageviews in GA4. The `/index/finish/...` pageview is the exact URL pattern satisfying the W1-10 "Burble Purchase" trigger; conversion tag is transitively confirmed firing, pending Google Ads dashboard reconciliation by Beyond Marketing.
+
+**Implications:**
+
+- **Files:** `project_management/booking-conversion-scorecard/README.md` is the v0 skeleton (`skydivecity-com ec32903`); retained as destination for future-change measurement. The original `#6`/`#7` impact analysis it was built for is dropped — funnel was dark.
+- **Free bonus finding:** Burble's URL structure (`/index/<step>`) gives **step-level funnel measurement via pageview paths** without any new event tagging. The original scorecard's "step-level events not measurable" gap (a known weakness of the v0 design) is partially closed as a byproduct of fixing Defect 1. The scorecard merits a v0.1 revision to incorporate the step-paths when bandwidth permits.
+- **Standing rule reinforced:** **Verify tag-injection in rendered HTML byte-precisely, not just admin form values.** Auto-memory saved at `~/.claude/projects/.../memory/feedback_verify_tag_injection_in_html.md`. Future analytics audits on Burble or similar tag-managed SaaS should include a `curl` + byte-precise `grep` of the live HTML, not just an admin-UI inventory (which is what W1-10 was — and which missed this defect because the admin form rendered cleanly).
+- **Beyond Marketing dependency:** James does not have direct Google Ads access; final ad-attribution verification requires Beyond Marketing to check the Google Ads dashboard for `AW-414274214`. Vendor email sent 2026-05-18 with the ask. If Beyond Marketing confirms the conversion counter incremented + Enhanced Conversions PII landed, the loop is fully closed; if not, separate diagnostic effort opens against the Google Ads side specifically.
+
+**Alternatives considered:**
+
+- **Single-fix to GTM key only** (declined — defensive re-save of all four Google Tools fields eliminates any other invisible whitespace cheaply; the marginal cost is one extra minute of typing).
+- **Surface to Rich/Matt directly as a Managed-Services finding** (declined per James 2026-05-18 — internal cleanup; no client comm). Standing rule remains: if this re-surfaces externally, [[feedback_client_reporting_no_speculation]] governs framing.
+- **Fix Defect 2 (consent-gated standalone `gtag.js`) as part of the same Routine Request** (declined — GTM-side GA4 tag handles attribution; the dead `gtag.js` script is redundant; chasing a Burble platform inconsistency for no functional gain is exactly the bundled-work pattern the standing rule [[feedback_narrow_client_asks_answered_narrowly]] warns against).
+- **Forensic effort to pin down exact duration of broken state** (declined — would require GA4 historical lookback beyond what's loaded, or asking Beyond Marketing for deployment records; the question "how long was it broken" is interesting but doesn't change remediation. The 12-day observed window is sufficient evidence to support all conclusions in #9; precise duration is a curiosity).
+- **Open a separate Burble vendor support ticket about admin-form whitespace handling** (declined for now — Burble platform issue, low priority, unclear they'd action it; revisit if this defect recurs after the fix or if other Burble admin fields exhibit similar behavior).
+
+**Made by:** PM Agent (Claude Opus 4.7) handled diagnosis, remediation guidance, and bookkeeping. James executed the Burble admin form re-save and the test checkout. Joint decision on the four sub-decisions captured above.
+
+**Revisit if:**
+- The T+24h GA4 re-pull on 2026-05-19 does NOT show full-day Burble traffic (fix may have regressed; investigate immediately).
+- Beyond Marketing's Google Ads dashboard check returns zero conversions from James's test checkout (suggests the Google Ads conversion tag has its own separate problem distinct from Defect 1; opens a new diagnostic thread).
+- The same whitespace defect recurs in Burble's admin (suggests a Burble platform-level fix is needed; revisit decision to defer vendor support escalation).
+- Any other tag-managed SaaS surface in the engagement (e.g., new third-party booking/payment/CRM tool) — apply the same byte-precise HTML verification pattern proactively, not reactively.
+- A future booking-page change ships and the scorecard needs the step-level paths added (revisit v0.1 of `booking-conversion-scorecard/README.md` to add the `/index/<step>` pageview-based funnel measurement that this session discovered as a free byproduct).
+
+---
+
 ## 2026-05-12 — Managed Services SOW v1.1 + MNDA v1.0 Executed (Both Instruments Signed by All Parties)
 
 **Decision:** Both instruments delivered 2026-05-09 mid-AM were countersigned by Skydive City and returned executed on **2026-05-12**. Engagement transitions out of the SOW v1.1 + MNDA wait state and onto active Managed Services footing with executed Confidential Information underpinnings.
