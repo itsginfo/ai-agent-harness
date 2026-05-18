@@ -1,0 +1,65 @@
+# Flywheel
+
+> Managed WordPress host for `www.skydivecity.com`. Single-host engagement; all production WP runs here.
+
+---
+
+## Connection
+
+| Item | Value |
+|---|---|
+| Host / Port / User | `$FLYWHEEL_SSH_HOST` / `$FLYWHEEL_SSH_PORT` / `$FLYWHEEL_SSH_USER` (in `.env.deploy` — gitignored) |
+| SSH key | `~/.ssh/id_ed25519_flywheel` |
+| Remote WP root | `$FLYWHEEL_REMOTE_PATH` (path to `wp-content/`) |
+| Admin login | `https://www.skydivecity.com/admin-login/` — user `jmeirowsky` |
+
+**File transfer quirk:** Flywheel's SFTP subsystem is locked. Default `scp` is rejected. Use `scp -O` (legacy SCP protocol) for file uploads. Discovered during the 2026-05-11 events-add work; now part of the [[prod-write-procedure]] Phase 2 step.
+
+---
+
+## Known facts
+
+- **Themes/plugins sync = `deploy.sh`** (rsync over SSH). **DB content sync = `wp eval-file` over SSH.** They are independent surfaces — never run together.
+- **`deploy.sh --live` is FROZEN** as of 2026-04-27. Dry-run revealed a 17,400+ file / 236 MB delta between local `files/wp-content/themes-and-plugins/` and prod. `--delete` is active, so a real run could remove production files not present locally. Tracked at [`skydivecity-com#3`](https://github.com/itsginfo/skydivecity-com/issues/3). Until investigation completes, urgent theme/plugin changes go via SSH/WP Admin directly, not `deploy.sh --live`.
+- **SSL is Flywheel-managed.** Cert expires 2026-06-08; auto-renewal expected. Verification owned by [`skydivecity-com#4`](https://github.com/itsginfo/skydivecity-com/issues/4) — verify ~2026-06-01.
+- **UptimeRobot** monitors the site (4 monitors). Post-Phase-1 monitoring window closed 2026-05-04 at 100.000% / 168h.
+- **No staging environment between local and Flywheel prod.** Local dev is Docker at `localhost:8080`. Anything that needs a staging gate has to be invented (per-project Flywheel staging, branch-deploy, etc.).
+
+---
+
+## Recurring failure modes
+
+**SSH gateway outage** (2026-04-26 21:00 ET → 2026-04-27 08:51 ET, ~11h). Cutover was scheduled for 09:00 ET the same morning — resolved 9 minutes before go-time. Flywheel Sr. Engineer fixed it; **L1 support could not diagnose**. Pattern: escalate to a Sr. Engineer via Flywheel chat when SSH is the failure surface. Forensic record retained on legacy Monday item `W4-13` (archive: `skydivecity-com/project_management/monday-archive/W4-13.md`).
+
+**`scp` rejection** (recurring on every prod-write since cutover). Default `scp` returns "subsystem request failed." Workaround: `scp -O`. This is now baked into [[prod-write-procedure]] Phase 2.
+
+---
+
+## Sessions where it surfaced
+
+- 2026-04-26/27 — Cutover SSH outage (`W4-13`)
+- 2026-04-27 — `deploy.sh --live` frozen on first dry-run (DECISIONS 2026-04-27, [`#3`](https://github.com/itsginfo/skydivecity-com/issues/3))
+- 2026-05-11 — `scp -O` workaround discovered during events-add ([`#5`](https://github.com/itsginfo/skydivecity-com/issues/5))
+- 2026-05-17 — Homepage rates update ([`#8`](https://github.com/itsginfo/skydivecity-com/issues/8)) reused the same SSH + `scp -O` pattern
+
+---
+
+## Open questions / risks
+
+- **17K-file delta** (`#3`) — root cause unknown. Possibly metadata-only differences from rsync `-a`, possibly real drift. Until itemized (`rsync --itemize-changes`), `deploy.sh --live` stays frozen.
+- **No-rollback risk on skydive.city side** (DECISIONS 2026-04-23) — ITSG has no AWS access; Tommy Prestinario's redirect is treated as a working asset but not controllable. Not Flywheel-side, but relevant to any cross-host issue.
+- **Phase 2 redesign** will deploy to this same host. Theme swap / template work is currently inhibited by the `deploy.sh` freeze — resolving `#3` is a prerequisite for any rsync-based redesign deploy.
+
+---
+
+## Related
+
+- [[prod-write-procedure]] — the 5-phase pattern for DB writes; depends on Flywheel SSH + `scp -O`
+- [[wp-acf-rendering]] — what gets written to prod (theme is ACF-driven)
+- [[deploy-pipeline]] *(not yet a page; merged here per the "don't split co-occurring topics" rule — split out if rsync + DB-write surfaces ever diverge in complexity)*
+
+## Sources
+
+- `deploy.sh` (repo root) — canonical script + prerequisite docs in header comment
+- `project_management/post-deployment-qa-report-2026-04-27*.md` — cutover-day operational record
+- DECISIONS.md entries: 2026-04-27 (`deploy.sh` freeze), 2026-05-11 (prod-write procedure including `scp -O`)
