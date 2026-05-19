@@ -97,15 +97,29 @@ Rows = tools (one per surface). Columns = job categories: `Intake` · `Planning`
 
 ### Session 2 — skill-vs-skill + skill-vs-pattern verdicts
 
-To be drafted. Numbers shifted by +1 from the Session-1 skeleton because Session 1 split V-002 into atomic per-seam verdicts (V-002 + V-003 + two boundaries). Original `ai-agent-harness#8` issue body still references the pre-shift numbers (V-003 through V-009); cross-reference here.
+In-progress. Numbers shifted by +1 from the Session-1 skeleton because Session 1 split V-002 into atomic per-seam verdicts (V-002 + V-003 + two boundaries). Original `ai-agent-harness#8` issue body still references the pre-shift numbers (V-003 through V-009); cross-reference here.
 
-- V-004 — `/grill-with-docs` over `/grill-me` (pre-decided in Session 1 grilling 2026-05-18; doc-only deprecation)
+Remaining:
 - V-005 — `/codex:adversarial-review` sequencing vs `/review`
 - V-006 — `/review` vs `/security-review`
 - V-007 — `/triage` vs `/to-issues` vs `/to-prd` (pre-figured in Session 1 grilling: `/to-prd` for new engineering PRDs only; `/to-issues` for plan → many issues; direct `gh issue edit` for one-issue refinement)
 - V-008 — Retro agent vs REVIEW agent — harness-health-audits slice only (absorbs [ai-agent-harness#4](https://github.com/itsginfo/ai-agent-harness/issues/4))
 - V-009 — Routines vs `/loop` vs `/schedule`
 - V-010 — Status surfaces (`/zoom-out` vs `/status` vs `PROJECT_STATE.md`)
+
+#### V-004 — Grilling-style design conversation
+
+**Winner:** `/grill-with-docs`
+**Loser:** `/grill-me` (deprecated 2026-05-19; doc-only — symlink stays installed)
+**Job category:** Design — stress-test a plan / design tree
+**Use when:** Any session where the user says "grill me", "stress-test this", "interview me on the plan", or otherwise wants relentless one-question-at-a-time interrogation of a design. Default to `/grill-with-docs` regardless of whether the project has a populated `CONTEXT.md` or `docs/adr/` yet — the skill creates them lazily.
+**Reasoning:** `/grill-with-docs` is a strict superset of `/grill-me`. Both run the same one-question-at-a-time grilling loop and the same "explore the codebase before asking" rule. `/grill-with-docs` adds four behaviors that make grilling actually sharpen decisions instead of just record them: (1) challenge the user's terms against the existing glossary, (2) propose canonical names for fuzzy/overloaded terms, (3) cross-reference user claims against code, (4) update `CONTEXT.md` inline as terms resolve. It also carries a disciplined 3-of-3 ADR-offer rule (hard-to-reverse + surprising-without-context + real-trade-off) which prevents ADR pollution. `/grill-me` has none of this, so picking it forfeits all four upsides and the ADR discipline with no compensating gain.
+**Sequencing:** Often runs upstream of an ADR write (per V-001) when the 3-of-3 ADR-offer rule triggers. Often runs upstream of GH issue refinement (`/triage` lane, see V-007 when landed). Can be invoked mid-session to break a stuck design conversation — not just at session start.
+**Edge cases:**
+  (a) **Greenfield project with no `CONTEXT.md` / `docs/adr/`:** `/grill-with-docs` degrades gracefully — it creates files lazily and otherwise behaves like `/grill-me`. No reason to reach for the loser.
+  (b) **Non-design grilling** (e.g., grilling someone on facts they should know, training-style): out of scope for this verdict; neither skill is shaped for it.
+  (c) **Per-project domain term that conflicts across projects:** `CONTEXT.md` is per-engagement, so the skill challenges against the *local* glossary — cross-project term drift is its own problem, not a `/grill-with-docs` failure.
+**ADR:** None — verdict fails the 3-of-3 ADR-offer test (reversal cost low; differentiator is "strict superset", which is not a real trade-off). If a future seam emerges that does pose a trade-off, capture it then.
 
 ### Session 3 — additions if surfaced during sweep
 
@@ -203,3 +217,4 @@ Each scenario gets a tool-order sequence + decision points where the path forks.
 | 2026-05-19 | Retro pattern register vs wiki entity pages resolved as **boundary + graduation rule** (no ADR) during V-002 grilling Q4. Retrospectives own P-NNN register; wiki owns stable systems knowledge. Graduation triggered by occurrence ≥ 2 / user-elevation / redesign-prep need. Captured in Boundary clarifications. P-002 noted in retro file: resolution path runs through tool-landscape v1, not wiki graduation. | 1 (CTO) |
 | 2026-05-19 | **V-003 accepted** — `PROJECT_STATE.md` shape: lean resume (≤ 10 lines) + Session-Log drain (one-liner rows) + `Watch out for` triage taxonomy (ADR / CLAUDE.md / live-watch / wiki / retire). Implementation sweep deferred to Session 3 (per `#8` plan). ADR [`0004-project-state-shape.md`](docs/adr/0004-project-state-shape.md) | 1 (CTO) |
 | 2026-05-19 | **Knowledge-surfaces summary table** added between Verdicts and Boundary clarifications — operational consolidation of V-001/V-002/V-003 + boundaries. Replaces the per-project `wiki/README.md` table as the canonical "what goes where" reference (per-project tables kept in sync via Session 3 propagation). Session 2 placeholder verdicts renumbered V-004 → V-010 to make room for Session 1's V-003. Issue body still references pre-shift numbers; cross-reference at TOOL_LANDSCAPE.md. | 1 (CTO) |
+| 2026-05-19 | **V-004 accepted** — `/grill-with-docs` wins over `/grill-me`; doc-only deprecation (symlink stays installed). Strict-superset reasoning; degrades gracefully on greenfield projects. No ADR (fails the 3-of-3 ADR-offer test: low reversal cost, no real trade-off). | 2 (CTO with PM review) |
