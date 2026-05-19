@@ -100,7 +100,6 @@ Rows = tools (one per surface). Columns = job categories: `Intake` · `Planning`
 In-progress. Numbers shifted by +1 from the Session-1 skeleton because Session 1 split V-002 into atomic per-seam verdicts (V-002 + V-003 + two boundaries). Original `ai-agent-harness#8` issue body still references the pre-shift numbers (V-003 through V-009); cross-reference here.
 
 Remaining:
-- V-005 — `/codex:adversarial-review` sequencing vs `/review`
 - V-006 — `/review` vs `/security-review`
 - V-007 — `/triage` vs `/to-issues` vs `/to-prd` (pre-figured in Session 1 grilling: `/to-prd` for new engineering PRDs only; `/to-issues` for plan → many issues; direct `gh issue edit` for one-issue refinement)
 - V-008 — Retro agent vs REVIEW agent — harness-health-audits slice only (absorbs [ai-agent-harness#4](https://github.com/itsginfo/ai-agent-harness/issues/4))
@@ -120,6 +119,32 @@ Remaining:
   (b) **Non-design grilling** (e.g., grilling someone on facts they should know, training-style): out of scope for this verdict; neither skill is shaped for it.
   (c) **Per-project domain term that conflicts across projects:** `CONTEXT.md` is per-engagement, so the skill challenges against the *local* glossary — cross-project term drift is its own problem, not a `/grill-with-docs` failure.
 **ADR:** None — verdict fails the 3-of-3 ADR-offer test (reversal cost low; differentiator is "strict superset", which is not a real trade-off). If a future seam emerges that does pose a trade-off, capture it then.
+
+#### V-005 — Review pipeline (`/review` → `/codex:adversarial-review`)
+
+**Winner:** Sequencing — both tools win at their pipeline position.
+  • First pass: `/review` (Claude Code, in-session, same-model).
+  • Second pass: `/codex:adversarial-review` (Codex / GPT-5, cross-model, challenge framing).
+**Loser (sub-decision):** `/codex:review` (non-adversarial Codex review) — deprecated 2026-05-19; doc-only. Strict-superset under V-005's judgment gate.
+**Job category:** Review — code/design/architecture quality gate before merge
+**Use when:**
+  • First pass on every reviewable PR.
+  • Second pass when the PR clears the judgment gate: architecture-touching · non-trivial trade-off · one-way door · author requests adversarial framing.
+  • Skip second pass when: single-file content edit · single-purpose script (`migration/wp-*`) · dep bump / docs-only / lint / formatting · HIPAA-touching code (MethodRX standing exclusion, no BAA).
+  • Default when in doubt: run the second pass. HARN-6 empirical record bias is toward running.
+**Reasoning:** First-pass / second-pass aren't redundant — they're a *cross-model coverage* pipeline. Self-review blind spots (same model that built it reviewing it) are real and named; cross-model second pass surfaces failure modes the first model can't self-detect (HARN-5 trial: 8 passes, 14 findings on single-tree solutions). Always-pair would be fiction-discipline because MethodRX HIPAA exclusion breaks it by design; pure judgment-without-taxonomy drifts within a quarter. The trigger taxonomy makes the gate a checklist test, not a vibe test (CTO standards rule). `/codex:review` doesn't survive the gate — clear it → want adversarial framing (correctness is a free subset); fail it → skip Codex entirely.
+**Sequencing:**
+  • Upstream: PR is open with a complete diff (don't review WIP — first pass is wasted).
+  • Position 1: `/review` runs in-session. Outputs feed both human and (if gate clears) the second pass.
+  • Position 2: `/codex:adversarial-review` runs (foreground for small PRs, background otherwise — the command itself recommends). Output returned verbatim.
+  • Downstream: Human triages both reports and decides on merge / fix / discuss.
+**Edge cases:**
+  (a) **MethodRX / HIPAA code:** Codex blocked entirely. First pass only. Per-project `CLAUDE.md` override carves this out via the ADR-0001 crib pattern.
+  (b) **New private repo:** `/codex:adversarial-review` requires the Anthropic GitHub App installed on the repo before clone works. Add a one-liner to new-project onboarding.
+  (c) **Author already ran `/codex:adversarial-review` while building (e.g., during HARN-6 design):** the pre-merge second pass can be skipped if the gate-clearing concern was already addressed in the build session and is captured in the PR description.
+  (d) **`/codex:rescue` (investigation/fix delegation):** explicitly out of V-005 scope. Different seam. Status unchanged (trial-tagged per ADR-0001 Option 3).
+  (e) **`/codex:review` revival:** if a real scenario emerges where it's the right call, revert is one TOOL_LANDSCAPE.md row edit. Doc-only retirement preserves reversibility.
+**ADR:** [`docs/adr/0005-review-pipeline-sequencing.md`](docs/adr/0005-review-pipeline-sequencing.md)
 
 ### Session 3 — additions if surfaced during sweep
 
@@ -218,3 +243,4 @@ Each scenario gets a tool-order sequence + decision points where the path forks.
 | 2026-05-19 | **V-003 accepted** — `PROJECT_STATE.md` shape: lean resume (≤ 10 lines) + Session-Log drain (one-liner rows) + `Watch out for` triage taxonomy (ADR / CLAUDE.md / live-watch / wiki / retire). Implementation sweep deferred to Session 3 (per `#8` plan). ADR [`0004-project-state-shape.md`](docs/adr/0004-project-state-shape.md) | 1 (CTO) |
 | 2026-05-19 | **Knowledge-surfaces summary table** added between Verdicts and Boundary clarifications — operational consolidation of V-001/V-002/V-003 + boundaries. Replaces the per-project `wiki/README.md` table as the canonical "what goes where" reference (per-project tables kept in sync via Session 3 propagation). Session 2 placeholder verdicts renumbered V-004 → V-010 to make room for Session 1's V-003. Issue body still references pre-shift numbers; cross-reference at TOOL_LANDSCAPE.md. | 1 (CTO) |
 | 2026-05-19 | **V-004 accepted** — `/grill-with-docs` wins over `/grill-me`; doc-only deprecation (symlink stays installed). Strict-superset reasoning; degrades gracefully on greenfield projects. No ADR (fails the 3-of-3 ADR-offer test: low reversal cost, no real trade-off). | 2 (CTO with PM review) |
+| 2026-05-19 | **V-005 accepted** — Review pipeline sequencing: `/review` first pass + `/codex:adversarial-review` second pass on judgment-call gate (architecture / trade-off / one-way door / author-requested). Trigger taxonomy codified for REVIEW agent checklist. `/codex:review` retired doc-only (no surviving use case under V-005 gate). `/codex:rescue` out of scope (trial-tagged status unchanged). MethodRX HIPAA exclusion preserved. ADR [`0005-review-pipeline-sequencing.md`](docs/adr/0005-review-pipeline-sequencing.md). Partially supersedes ADR-0001 Option 3 `/codex:review` clause. | 2 (CTO with PM review) |
