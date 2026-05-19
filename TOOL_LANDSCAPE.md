@@ -100,7 +100,6 @@ Rows = tools (one per surface). Columns = job categories: `Intake` · `Planning`
 In-progress. Numbers shifted by +1 from the Session-1 skeleton because Session 1 split V-002 into atomic per-seam verdicts (V-002 + V-003 + two boundaries). Original `ai-agent-harness#8` issue body still references the pre-shift numbers (V-003 through V-009); cross-reference here.
 
 Remaining:
-- V-006 — `/review` vs `/security-review`
 - V-007 — `/triage` vs `/to-issues` vs `/to-prd` (pre-figured in Session 1 grilling: `/to-prd` for new engineering PRDs only; `/to-issues` for plan → many issues; direct `gh issue edit` for one-issue refinement)
 - V-008 — Retro agent vs REVIEW agent — harness-health-audits slice only (absorbs [ai-agent-harness#4](https://github.com/itsginfo/ai-agent-harness/issues/4))
 - V-009 — Routines vs `/loop` vs `/schedule`
@@ -145,6 +144,30 @@ Remaining:
   (d) **`/codex:rescue` (investigation/fix delegation):** explicitly out of V-005 scope. Different seam. Status unchanged (trial-tagged per ADR-0001 Option 3).
   (e) **`/codex:review` revival:** if a real scenario emerges where it's the right call, revert is one TOOL_LANDSCAPE.md row edit. Doc-only retirement preserves reversibility.
 **ADR:** [`docs/adr/0005-review-pipeline-sequencing.md`](docs/adr/0005-review-pipeline-sequencing.md)
+
+#### V-006 — `/review` vs `/security-review`
+
+**Winner:** Boundary — both Claude Code built-ins own different but adjacent slices.
+  • `/review` — broad PR review: correctness, standards, missing tests, edge cases, scope-bounded architecture (*breadth-first*).
+  • `/security-review` — narrow, security-focused: OWASP top 10, secrets, auth surface, input validation, injection, crypto/TLS, permissions (*depth-first on the security axis*).
+**Loser:** N/A — boundary verdict. Neither contains the other: `/security-review` misses missing tests / style / non-security correctness; `/review` misses OWASP-trained tunnel-vision findings like "this query concatenates user input."
+**Job category:** Review — code-quality gate (`/review`) + security-risk gate (`/security-review`), parallel passes
+**Use when:**
+  • `/review` — on every reviewable PR (per V-005 first pass).
+  • `/security-review` — fires on its own gate, independent of V-005's adversarial-Codex gate. Run when the PR touches: auth / session / login / token-handling code · new external endpoint or API surface · DB query construction (SQL/NoSQL injection risk) · input validation/sanitization · crypto / TLS / hashing / random · secret management (`.env`, credentials, KMS) · file upload or external file ingestion · permission / RBAC / ACL changes · HIPAA-touching code (MethodRX) — *automatic*.
+  • Skip `/security-review` when: single-file content edit (CSS, copy, image swap) · single-purpose data-shape script (`migration/wp-*`-style — script input is operator-controlled, not user input) · dependency bump (wrong layer — that's `npm audit` / dependabot) · docs-only / lint / formatting.
+  • Default when in doubt: run `/security-review`. Same bias as V-005 — asymmetric blast radius (missed security issue = breach; wasted pass = ~30s).
+**Reasoning:** Strict-superset framing fails in both directions (V-004 pattern does not apply). `/security-review` is depth-first on a specific axis where `/review`'s breadth-first attention systematically misses things — OWASP categories require trained tunnel-vision to surface. `/review` covers the broader correctness + standards surface that `/security-review` doesn't pretend to. Asymmetric blast radius (breach vs. 30 seconds of wasted compute) justifies a default-on bias when in doubt; trigger taxonomy keeps it from firing on routine work where the bias would produce noise.
+**Sequencing:**
+  • Three orthogonal gates after V-006: V-005 first-pass (`/review`, always), V-005 second-pass (`/codex:adversarial-review` on architecture/trade-off/one-way-door/author-requested), V-006 (`/security-review` on risk-surface).
+  • Can compound: PR touching auth architecture + introducing one-way door fires all three.
+  • `/security-review` runs in parallel with `/review` semantically — order between them doesn't matter; both outputs feed the human triage.
+**Edge cases:**
+  (a) **MethodRX / HIPAA code:** `/security-review` is *automatic* (asymmetric blast radius is at its sharpest on regulated data). `/codex:adversarial-review` stays blocked (no BAA with OpenAI).
+  (b) **Dependency bump security:** out of scope for `/security-review` — that's a `npm audit` / dependabot / `pip-audit` layer concern. `/security-review` reviews *the code we wrote*, not transitive dependency vulnerabilities.
+  (c) **PR that's *only* security-touching (e.g., rotating a secret, fixing a known CVE):** `/review` still runs (correctness pass) — the breadth-first sanity check matters even when the security pass is the headline review.
+  (d) **`/security-review` finding correctness bugs:** if it surfaces something outside its tunnel (rare but possible), the finding is still valid — the *trigger* is risk surface, but the *output* isn't constrained to security-only findings.
+**ADR:** None — verdict fails the 3-of-3 ADR-offer test (low reversal cost; "boundary with trigger taxonomy" is a documented checklist, not a hard-to-reverse architectural commitment). Codified in `agents/SECURITY.md` playbook during Session 3 propagation.
 
 ### Session 3 — additions if surfaced during sweep
 
@@ -244,3 +267,4 @@ Each scenario gets a tool-order sequence + decision points where the path forks.
 | 2026-05-19 | **Knowledge-surfaces summary table** added between Verdicts and Boundary clarifications — operational consolidation of V-001/V-002/V-003 + boundaries. Replaces the per-project `wiki/README.md` table as the canonical "what goes where" reference (per-project tables kept in sync via Session 3 propagation). Session 2 placeholder verdicts renumbered V-004 → V-010 to make room for Session 1's V-003. Issue body still references pre-shift numbers; cross-reference at TOOL_LANDSCAPE.md. | 1 (CTO) |
 | 2026-05-19 | **V-004 accepted** — `/grill-with-docs` wins over `/grill-me`; doc-only deprecation (symlink stays installed). Strict-superset reasoning; degrades gracefully on greenfield projects. No ADR (fails the 3-of-3 ADR-offer test: low reversal cost, no real trade-off). | 2 (CTO with PM review) |
 | 2026-05-19 | **V-005 accepted** — Review pipeline sequencing: `/review` first pass + `/codex:adversarial-review` second pass on judgment-call gate (architecture / trade-off / one-way door / author-requested). Trigger taxonomy codified for REVIEW agent checklist. `/codex:review` retired doc-only (no surviving use case under V-005 gate). `/codex:rescue` out of scope (trial-tagged status unchanged). MethodRX HIPAA exclusion preserved. ADR [`0005-review-pipeline-sequencing.md`](docs/adr/0005-review-pipeline-sequencing.md). Partially supersedes ADR-0001 Option 3 `/codex:review` clause. | 2 (CTO with PM review) |
+| 2026-05-19 | **V-006 accepted** — `/review` vs `/security-review` boundary verdict. Neither contains the other: `/review` breadth-first (correctness/standards/tests); `/security-review` depth-first on the security axis (OWASP/secrets/auth/input/crypto/permissions). Third parallel pass on its own risk-surface trigger gate, independent of V-005's adversarial-Codex gate. MethodRX HIPAA code: `/security-review` automatic. Default-on bias for in-doubt cases (asymmetric blast radius). No ADR (fails 3-of-3 test — low reversal cost; trigger taxonomy is a checklist, not architectural commitment). Codified in `agents/SECURITY.md` playbook during Session 3. | 2 (CTO with PM review) |
