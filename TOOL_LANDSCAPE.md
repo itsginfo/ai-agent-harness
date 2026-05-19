@@ -73,21 +73,39 @@ Rows = tools (one per surface). Columns = job categories: `Intake` · `Planning`
 **Edge cases:** Pre-2026-05-18 entries stay where they were written. SkydiveCity DECISIONS.md gets a frozen banner in Session 3; harness has no DECISIONS.md to freeze. MethodRX inherits the verdict via crib propagation.
 **ADR:** [`docs/adr/0002-adr-vs-decisions-md.md`](docs/adr/0002-adr-vs-decisions-md.md)
 
-#### V-002 — Knowledge surfaces (what goes where)
+#### V-002 — Boot-context split (project facts vs preferences)
 
-Pending — Session 1 next-pass. See [ai-agent-harness#8](https://github.com/itsginfo/ai-agent-harness/issues/8) plan for the surfaces in scope: `PROJECT_STATE.md` / wiki entity pages / `docs/adr/` / auto-memory / `CLAUDE.md` / `CONTEXT.md` / retrospectives.
+**Winner:** Two surfaces, non-overlapping. **Project-instructions surface** (Claude Code → `CLAUDE.md`; Codex → `AGENTS.md` *latent*) owns project facts. **Preferences/feedback surface** (Claude Code → auto-memory `~/.claude/projects/<slug>/memory/`; Codex → *no equivalent today*) owns user preferences and behavioral corrections.
+**Loser:** N/A — boundary-shaped verdict with a non-duplication rule; both surfaces own their own job.
+**Job category:** Knowledge persistence — boot context (auto-loaded at session start)
+**Use when:** Deciding where to write a fact discovered in-session that should auto-load in the next session. Project facts (paths, commands, what's installed/frozen, protocols active) → project-instructions surface. Preferences/behaviors (how the user wants to be worked with; lessons from past sessions) → preferences/feedback surface.
+**Reasoning:** Project facts need to be in-repo (versioned, diffable, reviewable). Preferences need cross-conversation persistence with agent curation. Single-surface alternatives fail in both directions: CLAUDE.md alone loses cross-conversation persistence; auto-memory alone loses in-repo reviewability. Model-agnostic framing transfers cleanly if Codex (or another model) graduates to peer primary — Matt Pocock-to-Codex skills migration is a documented watch trigger.
+**Sequencing:** Audit step at session-end if either surface was touched — check for overlap with the other. Known violation as of 2026-05-18 (`feedback/project_issue_tracker_migration.md` duplicates `CLAUDE.md`) retires in Session 3.
+**Edge cases:** (a) Models without a preferences surface (Codex today) absorb preferences into the project-instructions surface under a `## User preferences` block. (b) Cross-project preferences live under whichever project's slug they were observed in — Claude Code auto-memory is per-project-scoped; not solved here.
+**ADR:** [`docs/adr/0003-boot-context-split.md`](docs/adr/0003-boot-context-split.md)
+
+#### V-003 — PROJECT_STATE.md shape (resume-first, drain to Session Log)
+
+**Winner:** Lean resume instruction (≤ 10 lines, next-action only) + Session-Log drain (one-liner rows with pointers) + Watch-out-for triage taxonomy (ADR / CLAUDE.md / live-watch / wiki / retire).
+**Loser:** N/A — surface-shape verdict, not surface-vs-surface. (Failure mode being deprecated: accreted-narrative resume instruction.)
+**Job category:** Knowledge persistence — per-project narrative + sprint surface
+**Use when:** Writing to `PROJECT_STATE.md` in any session. New sessions: prepend lean resume; the prior session's resume drains to `Session Log` at session end. New `Watch out for` items: triage to canonical home, not into resume instruction.
+**Reasoning:** Resume instruction has been accreting paragraphs without pruning, becoming a change log rather than a resume aid. `Session Log` has the same misshape (paragraph rows instead of one-liners). Aggressive file splits don't solve accretion; minimal-pruning discipline alone doesn't fix the existing state. The verdict combines shape rules + a protocol step in `SESSION_END.md`.
+**Sequencing:** Implementation deferred to Session 3 propagation pass. `protocols/SESSION_END.md` gains a "prune + drain" step. `_PROJECT_TEMPLATE/PROJECT_STATE.md` mirrors the new shape so future projects inherit it.
+**Edge cases:** (a) Time-sensitive standing items with known expiration (SSL renewal, soak windows) stay in a `live-watch` table inside PROJECT_STATE — they have a retirement date. (b) MethodRX inherits via Session 3 propagation. (c) `Decisions (Summary)` table retargets at ADRs per V-001 going forward.
+**ADR:** [`docs/adr/0004-project-state-shape.md`](docs/adr/0004-project-state-shape.md)
 
 ### Session 2 — skill-vs-skill + skill-vs-pattern verdicts
 
-To be drafted.
+To be drafted. Numbers shifted by +1 from the Session-1 skeleton because Session 1 split V-002 into atomic per-seam verdicts (V-002 + V-003 + two boundaries). Original `ai-agent-harness#8` issue body still references the pre-shift numbers (V-003 through V-009); cross-reference here.
 
-- V-003 — `/grill-with-docs` over `/grill-me` (pre-decided in grilling 2026-05-18; doc-only deprecation)
-- V-004 — `/codex:adversarial-review` sequencing vs `/review`
-- V-005 — `/review` vs `/security-review`
-- V-006 — `/triage` vs `/to-issues` vs `/to-prd` (pre-figured in grilling: `/to-prd` for new engineering PRDs only; `/to-issues` for plan → many issues; direct `gh issue edit` for one-issue refinement)
-- V-007 — Retro agent vs REVIEW agent — harness-health-audits slice only (absorbs [ai-agent-harness#4](https://github.com/itsginfo/ai-agent-harness/issues/4))
-- V-008 — Routines vs `/loop` vs `/schedule`
-- V-009 — Status surfaces (`/zoom-out` vs `/status` vs `PROJECT_STATE.md`)
+- V-004 — `/grill-with-docs` over `/grill-me` (pre-decided in Session 1 grilling 2026-05-18; doc-only deprecation)
+- V-005 — `/codex:adversarial-review` sequencing vs `/review`
+- V-006 — `/review` vs `/security-review`
+- V-007 — `/triage` vs `/to-issues` vs `/to-prd` (pre-figured in Session 1 grilling: `/to-prd` for new engineering PRDs only; `/to-issues` for plan → many issues; direct `gh issue edit` for one-issue refinement)
+- V-008 — Retro agent vs REVIEW agent — harness-health-audits slice only (absorbs [ai-agent-harness#4](https://github.com/itsginfo/ai-agent-harness/issues/4))
+- V-009 — Routines vs `/loop` vs `/schedule`
+- V-010 — Status surfaces (`/zoom-out` vs `/status` vs `PROJECT_STATE.md`)
 
 ### Session 3 — additions if surfaced during sweep
 
@@ -95,11 +113,45 @@ To be filled if the agent-files or protocol sweep surfaces verdicts not anticipa
 
 ---
 
+## Knowledge-surfaces summary
+
+> Operational consolidation of V-001 + V-002 + V-003 + the two boundary clarifications. This is the *quick-reference* answer to "where does this content go?" — read top-to-bottom. Reasoning lives in the individual verdicts/ADRs above. Lifted from per-project `wiki/README.md` "What goes where" tables, augmented with Session-1 outcomes.
+
+| Surface | Owns | Lifecycle | Verdict |
+|---|---|---|---|
+| **`CLAUDE.md`** (Claude Code) / **`AGENTS.md`** *(Codex latent)* | Project facts: paths, commands, what's installed/frozen, conventions in force, protocols active, agent skill config | Stable; edited in-conversation; git-versioned | V-002 |
+| **Auto-memory** (`~/.claude/projects/<slug>/memory/` + `MEMORY.md` index) | User preferences, behavioral corrections, lessons across conversations | Curated per-conversation by active agent; persists across conversations | V-002 |
+| **`PROJECT_STATE.md`** (per project) | Per-project narrative + sprint state: resume instruction (≤ 10 ln), in-flight, open questions, decisions index, session log | Lean resume; prior session paragraph drains to `Session Log` (one-liner rows) at session-end | V-003 |
+| **`docs/adr/`** (per repo) | Architectural / standing decisions; one file per decision | Append-only per repo; numbered `NNNN-kebab.md` | V-001 |
+| **Wiki entity pages** (`projects/<name>/wiki/` + harness `wiki/`) | Stable systems knowledge (Flywheel, ACF, Burble, ...); compounding | Recurrence-triggered (≥ 2 retros / ≥ 3 sessions / user-elevated / redesign-prep) | V-002 boundary; retro-graduation boundary |
+| **`CONTEXT.md`** (per repo) | Engagement-language glossary; terms with ambiguity to resolve | Updated inline during `/grill-with-docs`; per Matt Pocock convention | V-002 boundary |
+| **Retrospectives** (`projects/<name>/retrospectives/`) | Periodic synthesis; pattern register (P-NNN with occurrence counts); follow-through; actions | Append; weekly cadence (routine currently disabled — see deferred decisions below) | Retro-graduation boundary |
+| **`DECISIONS.md`** (per repo, where it exists) | **Frozen** as of 2026-05-18. Historical record only. | No new entries. Pointer banner directs to `docs/adr/`. | V-001 |
+| **GH Issues + GH Project #1** | Task status (per ADR-0001 in `skydivecity-com/docs/adr/`) | Out of V-002 scope — tracker layer, not a knowledge surface | (Out-of-scope) |
+
+**Cross-surface rules:**
+
+- **Non-duplication:** Content lands in exactly one surface (per V-002). If you find a duplicate (e.g., `feedback/project_issue_tracker_migration.md` mirroring `CLAUDE.md`), one must retire.
+- **Session-end drain:** The prior session's resume paragraph drains to `Session Log` (per V-003). The detail lives in the ADR or commit, not the log row.
+- **Pattern graduation:** A P-NNN graduates from retrospective register to wiki entity page (new or absorbed) on occurrence ≥ 2 / user-elevation / redesign-prep need.
+
+**Deferred decisions surfaced during Session 1 grilling:**
+
+- *Weekly retro automation vs manual run.* The weekly-retro routine has not fired since 2026-04-27 and is currently disabled (per James, 2026-05-19). Decision on cadence + automation deferred; not scoped to V-002/V-003.
+
+---
+
 ## Boundary clarifications
 
 Pairs that look adjacent but do different jobs. No winner; the boundary statement is the deliverable.
 
-*To be filled in Session 2.* Anticipated entries:
+*Session-2 entries to be filled.* Already-resolved entries from Session 1 grilling:
+
+- **`CONTEXT.md` ↔ wiki entity pages** (resolved 2026-05-18, V-002 grilling). `CONTEXT.md` is *engagement-language glossary* — terms with ambiguity to resolve (per Matt Pocock convention: "a glossary and nothing else"). Wiki entity pages are *system-level entity knowledge* — Flywheel, ACF, Burble, etc. Both stable knowledge that compounds, but cut at different joints: language vs systems. Proper nouns without ambiguity (e.g., "Burble") don't need a `CONTEXT.md` entry just because they appear in contracts; the *systems* go in wiki. No verdict — they don't overlap.
+
+- **Retrospective pattern register ↔ wiki entity pages** (resolved 2026-05-19, V-002 grilling Q4). Retrospectives own the *pattern register* (P-NNN with occurrence counts, recorded inline in retro files). Wiki entity pages own *stable systems knowledge*. **Graduation rule:** a P-NNN graduates when (a) occurrence ≥ 2 across distinct retros, OR (b) explicit user-elevation, OR (c) redesign-prep need (per Phase B precedent). Graduation can produce a new entity page OR an addendum to an existing page — fit-driven. Example: P-001 ("script production-validation gap") would absorb into `prod-write-procedure.md`, not warrant a new page. **Register location:** patterns stay inline in retro files until count justifies a separate `patterns.md`; revisit if pattern count > 10. **Premature-formalization watch:** as of 2026-05-19 there are 2 patterns, both at occurrence 1; the graduation rule is documented but not yet exercised. No verdict — they don't overlap; this is a sequencing/graduation rule, not a winner-take-all.
+
+*Anticipated Session-2 entries:*
 
 - `RETRO_PROTOCOL.md` ↔ `agents/Retro.md` — protocol is the recipe; agent is one possible executor. Complementary by design (per `RETRO_PROTOCOL.md` opening: "The protocol can be executed by the Retro agent or by any other agent").
 - `REVIEW_PROTOCOL.md` ↔ `agents/REVIEW.md` — same shape (protocol = tier-based verification recipe; agent = independent evaluator).
@@ -146,3 +198,8 @@ Each scenario gets a tool-order sequence + decision points where the path forks.
 |---|---|---|
 | 2026-05-18 | Skeleton scaffolded; ADR `0001-tool-landscape-establishment.md` written | 1 (PM) |
 | 2026-05-18 | **V-001 accepted** — ADRs win as decision-recording surface; DECISIONS.md frozen. ADR [`0002-adr-vs-decisions-md.md`](docs/adr/0002-adr-vs-decisions-md.md) | 1 (PM) |
+| 2026-05-18 | **V-002 accepted** — Boot-context split: project-instructions surface (CLAUDE.md / AGENTS.md) vs preferences/feedback surface (auto-memory). Non-duplication rule. Model-agnostic framing; Matt Pocock-to-Codex migration as watch trigger. ADR [`0003-boot-context-split.md`](docs/adr/0003-boot-context-split.md) | 1 (CTO with PM review) |
+| 2026-05-18 | `CONTEXT.md` vs wiki entity pages resolved as **boundary** (no ADR) during V-002 grilling. CONTEXT.md = engagement-language glossary (Matt Pocock convention); wiki = system-level entity knowledge. Captured in Boundary clarifications. | 1 (CTO) |
+| 2026-05-19 | Retro pattern register vs wiki entity pages resolved as **boundary + graduation rule** (no ADR) during V-002 grilling Q4. Retrospectives own P-NNN register; wiki owns stable systems knowledge. Graduation triggered by occurrence ≥ 2 / user-elevation / redesign-prep need. Captured in Boundary clarifications. P-002 noted in retro file: resolution path runs through tool-landscape v1, not wiki graduation. | 1 (CTO) |
+| 2026-05-19 | **V-003 accepted** — `PROJECT_STATE.md` shape: lean resume (≤ 10 lines) + Session-Log drain (one-liner rows) + `Watch out for` triage taxonomy (ADR / CLAUDE.md / live-watch / wiki / retire). Implementation sweep deferred to Session 3 (per `#8` plan). ADR [`0004-project-state-shape.md`](docs/adr/0004-project-state-shape.md) | 1 (CTO) |
+| 2026-05-19 | **Knowledge-surfaces summary table** added between Verdicts and Boundary clarifications — operational consolidation of V-001/V-002/V-003 + boundaries. Replaces the per-project `wiki/README.md` table as the canonical "what goes where" reference (per-project tables kept in sync via Session 3 propagation). Session 2 placeholder verdicts renumbered V-004 → V-010 to make room for Session 1's V-003. Issue body still references pre-shift numbers; cross-reference at TOOL_LANDSCAPE.md. | 1 (CTO) |
