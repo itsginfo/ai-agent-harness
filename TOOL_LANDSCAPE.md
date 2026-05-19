@@ -101,7 +101,6 @@ In-progress. Numbers shifted by +1 from the Session-1 skeleton because Session 1
 
 Remaining:
 - V-007 — `/triage` vs `/to-issues` vs `/to-prd` (pre-figured in Session 1 grilling: `/to-prd` for new engineering PRDs only; `/to-issues` for plan → many issues; direct `gh issue edit` for one-issue refinement)
-- V-008 — Retro agent vs REVIEW agent — harness-health-audits slice only (absorbs [ai-agent-harness#4](https://github.com/itsginfo/ai-agent-harness/issues/4))
 - V-009 — Routines vs `/loop` vs `/schedule`
 - V-010 — Status surfaces (`/zoom-out` vs `/status` vs `PROJECT_STATE.md`)
 
@@ -168,6 +167,33 @@ Remaining:
   (c) **PR that's *only* security-touching (e.g., rotating a secret, fixing a known CVE):** `/review` still runs (correctness pass) — the breadth-first sanity check matters even when the security pass is the headline review.
   (d) **`/security-review` finding correctness bugs:** if it surfaces something outside its tunnel (rare but possible), the finding is still valid — the *trigger* is risk surface, but the *output* isn't constrained to security-only findings.
 **ADR:** None — verdict fails the 3-of-3 ADR-offer test (low reversal cost; "boundary with trigger taxonomy" is a documented checklist, not a hard-to-reverse architectural commitment). Codified in `agents/SECURITY.md` playbook during Session 3 propagation.
+
+#### V-008 — REVIEW vs Retro (agent system optimality vs SDLC learning loop)
+
+**Winner:** Boundary by purpose, with REVIEW expanded to cover agent system optimality (Option G).
+  • **REVIEW (expanded)** — owns *"is the agent system optimal?"* across three streams: (1) agent-capability auditing (agent files), (2) operating-environment auditing (protocols, surfaces, harness hygiene), (3) system-improvement signaling (trend assessment, cross-period drift). Continuous + cadenced. Outputs: agent-definition edits, protocol/surface edits, signal summaries.
+  • **Retro (per intent, unchanged)** — owns the SDLC-anchored learning loop. Triggers: sprint end, release, incident, project end. Outputs: retrospective files + P-NNN pattern register + 2-3 next-period actions + action follow-through tracking.
+**Loser:** N/A — boundary verdict; both win on their own slice.
+**Job category:** Knowledge persistence — system self-improvement (REVIEW continuous; Retro SDLC-anchored)
+**Use when:**
+  • Editing or auditing an `agents/*.md` file → REVIEW stream 1.
+  • Asking "is this protocol being followed?" or "is this surface rotting?" → REVIEW stream 2.
+  • Asking "is the harness trending better or drifting?" → REVIEW stream 3.
+  • Closing a sprint / shipping a release / resolving an incident / ending a project → Retro.
+  • Tier 1/2/3 output verification before handoff → `REVIEW_PROTOCOL.md` (self-applied by every agent; *not* REVIEW-the-agent's job — see edge case b).
+**Reasoning:** "Continually audits other agents, to ensure they are optimal" (James's stated intent) means *continuously* + *across the agent system*, not just per-agent in isolation. Agents don't operate in a vacuum — their effectiveness depends on protocols, surfaces, and hygiene. Expanding REVIEW's scope to "agent system" (agents + their operating environment) gives continuous meta-observability a coherent home without creating a sixth-cube agent. Retro stays narrow and true to intent — SDLC-anchored, post-hoc, multi-source pattern recognition. The two agents complement: Retro observes patterns (slow signal, deep), REVIEW prioritizes and edits the system (fast signal, broad).
+**Sequencing — recurrence handoff:**
+  • Retro registers a P-NNN pattern → P-NNN register is a REVIEW stream-3 input.
+  • REVIEW reads the register, picks the fix vector: stream 1 (agent edit), stream 2 (protocol/surface edit), or escalation to James/CEO.
+  • One-shot observations stay in their original surface until recurrence triggers Retro's register.
+  • "Retro observes; REVIEW prioritizes and edits."
+**Edge cases:**
+  (a) **P-002 "harness under-leveraged"** — Retro caught it; fix vector is REVIEW stream 1 (strengthen agent definitions). V-008 ratifies this as the canonical handoff shape.
+  (b) **`REVIEW_PROTOCOL.md` is misnamed** — it's tier-based output verification, a self-applied protocol every agent runs. Not REVIEW-the-agent's job. Optional rename to `VERIFICATION_PROTOCOL.md`; deferred low-priority hygiene.
+  (c) **Current `agents/REVIEW.md` drift** — accreted scope beyond stated intent. Restructure deferred to Session 3 (prune Output Quality Evaluation per b; restructure Harness Health Monitoring into stream 2; keep Quality Standard Research under stream 1).
+  (d) **`RETRO_PROTOCOL.md` weekly-cadence default** vs James's SDLC-anchored intent — flagged but out of V-008 scope. Belongs to the Session 1 deferred decision ("weekly retro automation vs manual run").
+  (e) **Tier verification of REVIEW's own outputs** — REVIEW agent outputs (agent-definition edits, signal summaries) are themselves Tier 2/3; REVIEW self-applies `REVIEW_PROTOCOL.md` like every other agent. No special carve-out.
+**ADR:** [`docs/adr/0006-review-retro-boundary.md`](docs/adr/0006-review-retro-boundary.md). Closes [`ai-agent-harness#4`](https://github.com/itsginfo/ai-agent-harness/issues/4).
 
 ### Session 3 — additions if surfaced during sweep
 
@@ -268,3 +294,4 @@ Each scenario gets a tool-order sequence + decision points where the path forks.
 | 2026-05-19 | **V-004 accepted** — `/grill-with-docs` wins over `/grill-me`; doc-only deprecation (symlink stays installed). Strict-superset reasoning; degrades gracefully on greenfield projects. No ADR (fails the 3-of-3 ADR-offer test: low reversal cost, no real trade-off). | 2 (CTO with PM review) |
 | 2026-05-19 | **V-005 accepted** — Review pipeline sequencing: `/review` first pass + `/codex:adversarial-review` second pass on judgment-call gate (architecture / trade-off / one-way door / author-requested). Trigger taxonomy codified for REVIEW agent checklist. `/codex:review` retired doc-only (no surviving use case under V-005 gate). `/codex:rescue` out of scope (trial-tagged status unchanged). MethodRX HIPAA exclusion preserved. ADR [`0005-review-pipeline-sequencing.md`](docs/adr/0005-review-pipeline-sequencing.md). Partially supersedes ADR-0001 Option 3 `/codex:review` clause. | 2 (CTO with PM review) |
 | 2026-05-19 | **V-006 accepted** — `/review` vs `/security-review` boundary verdict. Neither contains the other: `/review` breadth-first (correctness/standards/tests); `/security-review` depth-first on the security axis (OWASP/secrets/auth/input/crypto/permissions). Third parallel pass on its own risk-surface trigger gate, independent of V-005's adversarial-Codex gate. MethodRX HIPAA code: `/security-review` automatic. Default-on bias for in-doubt cases (asymmetric blast radius). No ADR (fails 3-of-3 test — low reversal cost; trigger taxonomy is a checklist, not architectural commitment). Codified in `agents/SECURITY.md` playbook during Session 3. | 2 (CTO with PM review) |
+| 2026-05-19 | **V-008 accepted** — REVIEW vs Retro reconciliation (Option G: expand REVIEW to agent system optimality). REVIEW owns three streams: agent-capability auditing + operating-environment auditing + system-improvement signaling (continuous). Retro owns SDLC-anchored learning loop (sprint/release/incident/project end). Recurrence handoff: Retro observes patterns (P-NNN register); REVIEW reads register + edits the system. `REVIEW_PROTOCOL.md` re-anchored as agent-agnostic self-verification (optional rename `VERIFICATION_PROTOCOL.md` deferred). Closes [`ai-agent-harness#4`](https://github.com/itsginfo/ai-agent-harness/issues/4). REVIEW.md restructure + Retro.md cross-ref edit deferred to Session 3. ADR [`0006-review-retro-boundary.md`](docs/adr/0006-review-retro-boundary.md). | 2 (CTO with PM review) |
