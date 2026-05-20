@@ -672,20 +672,20 @@ Match the trigger to the *top-level* workflow; sub-step into others as the path 
 flowchart TB
     KC{"Knowledge<br/>to persist<br/>(classify)"}
 
-    KC -->|Substantive decision<br/>(passes 3-of-3 ADR test)| ADR[("<b>docs/adr/</b><br/>NNNN-kebab.md<br/>per repo<br/><i>V-001</i>")]
-    KC -->|Project fact<br/>(path, command,<br/>convention)| CLM[("<b>CLAUDE.md</b> /<br/><b>AGENTS.md</b> latent<br/><i>V-002</i>")]
-    KC -->|User preference /<br/>behavioral correction| AM[("<b>Auto-memory</b><br/>~/.claude/projects/<br/>&lt;slug&gt;/memory/<br/><i>V-002</i>")]
-    KC -->|System-level knowledge<br/>(Flywheel, ACF, Burble)| WK[("<b>wiki/</b><br/>entity pages<br/><i>V-002 boundary</i>")]
-    KC -->|Engagement-language<br/>glossary term| CT[("<b>CONTEXT.md</b><br/>per repo<br/><i>V-002 boundary</i>")]
-    KC -->|External artifact<br/>cited in passing| SRC[("<b>wiki/sources.md</b><br/>append-only")]
-    KC -->|Per-project narrative /<br/>in-flight state| PS[("<b>PROJECT_STATE.md</b><br/>lean resume ≤10 ln<br/>+ Session Log drain<br/>+ Live Watch<br/><i>V-003</i>")]
+    KC -->|"Substantive decision<br/>(passes 3-of-3 ADR test)"| ADR[("docs/adr/<br/>NNNN-kebab.md<br/>per repo<br/>V-001")]
+    KC -->|"Project fact<br/>(path, command,<br/>convention)"| CLM[("CLAUDE.md /<br/>AGENTS.md latent<br/>V-002")]
+    KC -->|"User preference /<br/>behavioral correction"| AM[("Auto-memory<br/>~/.claude/projects/<br/>[slug]/memory/<br/>V-002")]
+    KC -->|"System-level knowledge<br/>(Flywheel, ACF, Burble)"| WK[("wiki/<br/>entity pages<br/>V-002 boundary")]
+    KC -->|"Engagement-language<br/>glossary term"| CT[("CONTEXT.md<br/>per repo<br/>V-002 boundary")]
+    KC -->|"External artifact<br/>cited in passing"| SRC[("wiki/sources.md<br/>append-only")]
+    KC -->|"Per-project narrative /<br/>in-flight state"| PS[("PROJECT_STATE.md<br/>lean resume <=10 ln<br/>+ Session Log drain<br/>+ Live Watch<br/>V-003")]
 
-    DEC[("<s>DECISIONS.md</s><br/><i>FROZEN 2026-05-18</i><br/>historical only")]:::frozen
-    DEC -.->|points new entries to| ADR
+    DEC[("DECISIONS.md<br/>FROZEN 2026-05-18<br/>historical only")]:::frozen
+    DEC -.->|"points new entries to"| ADR
 
     RD{{"On-demand<br/>read view"}}
     RD -->|"/status<br/>(consumes,<br/>never writes)"| PS
-    RD -->|reads| GHP[("GH Project #1<br/>tracker")]
+    RD -->|"reads"| GHP[("GH Project #1<br/>tracker")]
 
     classDef surface fill:#dde7ff,stroke:#335599,color:#000
     classDef decision fill:#ffeecc,stroke:#cc8800,color:#000
@@ -705,28 +705,28 @@ flowchart TB
     %% Intake pipeline (V-007)
     subgraph INTAKE["Intake pipeline (V-007 / ADR-0007)"]
         direction LR
-        CTX(["Conversation<br/>context"]) -->|substantive new work| TP["/to-prd<br/>1 PRD issue"]
+        CTX(["Conversation<br/>context"]) -->|"substantive new work"| TP["/to-prd<br/>1 PRD issue"]
         TP --> TI["/to-issues<br/>N vertical-slice issues"]
-        TI --> TR["/triage<br/>state machine<br/>(needs-triage → ready-for-* / wontfix)"]
-        TR -.->|grilling needed| GW["/grill-with-docs<br/><i>V-004</i>"]
+        TI --> TR["/triage<br/>state machine<br/>(needs-triage to ready-for-* / wontfix)"]
+        TR -.->|"grilling needed"| GW["/grill-with-docs<br/>V-004"]
 
         ESC{{"Escape lanes<br/>(skip pipeline)"}}
-        ESC -->|Routine Request| GH1["gh issue create<br/>(often retroactive)"]
-        ESC -->|Bug report| GH2["gh issue create<br/>+ /triage"]
-        ESC -->|Editorial refinement| GH3["gh issue edit<br/>(not /triage)"]
-        ESC -->|Single issue not from plan| GH4["gh issue create"]
+        ESC -->|"Routine Request"| GH1["gh issue create<br/>(often retroactive)"]
+        ESC -->|"Bug report"| GH2["gh issue create<br/>+ /triage"]
+        ESC -->|"Editorial refinement"| GH3["gh issue edit<br/>(not /triage)"]
+        ESC -->|"Single issue not from plan"| GH4["gh issue create"]
     end
 
     %% Review pipeline (V-005 + V-006)
     subgraph REVIEW["Review pipeline (V-005 / V-006)"]
         direction TB
-        PR(["Reviewable PR"]) --> RV["/review<br/>(first pass — always)"]
-        RV --> JG{Judgment<br/>gate fired?}
-        JG -->|"architecture /<br/>one-way door /<br/>non-trivial trade-off /<br/>author-requested"| CAR["/codex:adversarial-review<br/>(V-005 second pass)<br/><b>BLOCKED on MethodRX HIPAA</b>"]
-        JG -->|skip on routine| SECG{Risk-surface<br/>gate fired?}
+        PR(["Reviewable PR"]) --> RV["/review<br/>(first pass - always)"]
+        RV --> JG{"Judgment<br/>gate fired?"}
+        JG -->|"architecture /<br/>one-way door /<br/>non-trivial trade-off /<br/>author-requested"| CAR["/codex:adversarial-review<br/>(V-005 second pass)<br/>BLOCKED on MethodRX HIPAA"]
+        JG -->|"skip on routine"| SECG{"Risk-surface<br/>gate fired?"}
         CAR --> SECG
-        SECG -->|"auth / endpoint /<br/>DB query / input /<br/>crypto / secrets /<br/>files / RBAC"| SR["/security-review<br/>(V-006)<br/><b>AUTOMATIC on MethodRX</b>"]
-        SECG -->|skip on CSS / copy /<br/>docs / dep-bumps| RPV[REVIEW_PROTOCOL.md<br/>tier verification<br/>self-applied]
+        SECG -->|"auth / endpoint /<br/>DB query / input /<br/>crypto / secrets /<br/>files / RBAC"| SR["/security-review<br/>(V-006)<br/>AUTOMATIC on MethodRX"]
+        SECG -->|"skip on CSS / copy /<br/>docs / dep-bumps"| RPV[REVIEW_PROTOCOL.md<br/>tier verification<br/>self-applied]
         SR --> RPV
         RPV --> CMT[Commit + push if authorized]
     end
@@ -734,10 +734,10 @@ flowchart TB
     %% Recurring task pipeline (V-009)
     subgraph RECURRING["Recurring task (V-009)"]
         direction LR
-        RTASK(["Recurring or<br/>scheduled task"]) --> LT{Lifetime?}
-        LT -->|within session| LP["/loop<br/>(ScheduleWakeup)<br/>cache: 60–270s OR 1200s+;<br/>avoid 300s"]
-        LT -->|outlives session| SCH["/schedule<br/>(CronCreate routine,<br/>remote-agent sandbox)"]
-        LT -.->|network host<br/>NOT on allowlist| LP
+        RTASK(["Recurring or<br/>scheduled task"]) --> LT{"Lifetime?"}
+        LT -->|"within session"| LP["/loop<br/>(ScheduleWakeup)<br/>cache: 60-270s OR 1200s+;<br/>avoid 300s"]
+        LT -->|"outlives session"| SCH["/schedule<br/>(CronCreate routine,<br/>remote-agent sandbox)"]
+        LT -.->|"network host<br/>NOT on allowlist"| LP
         SCH -.->|"fails 2x with<br/>different symptoms"| DISABLE[Disable + convert<br/>to /loop or manual]
     end
 
