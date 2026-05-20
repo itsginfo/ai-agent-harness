@@ -100,7 +100,6 @@ Rows = tools (one per surface). Columns = job categories: `Intake` · `Planning`
 In-progress. Numbers shifted by +1 from the Session-1 skeleton because Session 1 split V-002 into atomic per-seam verdicts (V-002 + V-003 + two boundaries). Original `ai-agent-harness#8` issue body still references the pre-shift numbers (V-003 through V-009); cross-reference here.
 
 Remaining:
-- V-009 — Routines vs `/loop` vs `/schedule`
 - V-010 — Status surfaces (`/zoom-out` vs `/status` vs `PROJECT_STATE.md`)
 
 #### V-004 — Grilling-style design conversation
@@ -224,6 +223,31 @@ Remaining:
   (d) **Cross-issue parent/child references** — `/to-issues` handles via its `Parent` and `Blocked by` template fields. Don't manually wire dependencies post-creation via `gh issue edit` unless restructuring.
 **ADR:** [`docs/adr/0007-intake-pipeline-sequencing.md`](docs/adr/0007-intake-pipeline-sequencing.md)
 
+#### V-009 — Recurring task surface (intra-session vs cross-session)
+
+**Winner:** Lifetime-axis split. **`/loop`** for intra-session recurrence; **`/schedule`** for cross-session recurrence.
+**Loser:** N/A — neither tool contains the other; the verdict is the split rule itself.
+**Job category:** Schedule — recurrence + scheduled execution
+**Use when:** Deciding where a recurring or scheduled task should run. Lifetime is the load-bearing axis: does the recurrence need to outlive the current session?
+
+**Canonical trigger phrases:**
+  • "Poll CI / a deploy until it lands" → **`/loop`** (intra-session; cache-aware delays — E3)
+  • "Self-pace iteration until I tell you to stop" → **`/loop`** (stateful — retains conversation context per fire)
+  • "Run X every morning at 8am" → **`/schedule`** (cron-shaped routine)
+  • "Remind me to check Y on 2026-06-08" → **`/schedule`** (single-fire degenerate routine)
+  • "Watch a deadline and alert at threshold" → **`/schedule`**
+
+**Reasoning:** Two execution models packaged as skills. `/loop` uses `ScheduleWakeup` → intra-session callback on the human's machine; no sandbox, full conversation context per fire, dies at session end. `/schedule` uses `CronCreate` → claude.ai-hosted routine in the Anthropic remote-agent sandbox; restrictive outbound allowlist, fresh agent per fire, outlives any session. Both could theoretically do "recurrence," but the lifetime requirement settles the pick deterministically. The "routine" is `/schedule`'s output artifact (also creatable via the `claude.ai/code/routines` UI); treating it as a third row would duplicate the constraints — same shape as `/triage` → GitHub Issue in V-007.
+**Sequencing:** **Failure-mode fallback** — if a routine fails twice with different network symptoms, disable and convert the work to `/loop` (or manual). Two patches without a working theory is the signal to step back. Anchored on the 2026-04-29 daily check-in incident (see `wiki/sandbox-allowlist.md`).
+**Edge cases:**
+  (a) **E1 — One-shot future fire** ("do X tomorrow at 9am"): owned by `/schedule` as a degenerate single-fire routine. `/loop` does not compete because it dies at session end.
+  (b) **E2 — Hybrid "active now, keep going after I close the laptop" — UNSOLVED.** Two workarounds (start with `/loop`, convert to `/schedule` before exit; OR start with `/schedule` and accept fresh-context cost per fire) trade off in different directions. No verdict pick — the trade-off is real and per-task. Flagged so designers don't assume a default exists.
+  (c) **E3 — Long-poll** external systems the harness can't notify you about (CI, deploy, remote queue): `/loop` with cache-aware delays. 60–270s keeps the prompt cache warm (5min TTL); 1200s+ when a long wait amortizes the cache miss. Avoid 300s — worst-of-both.
+  (d) **E4 — Network-access override.** When the recurring task needs a host not on the routine sandbox allowlist, **`/loop` wins regardless of lifetime** — the routine literally can't do the work. Detail at `wiki/sandbox-allowlist.md`.
+  (e) **E5 — Observability split.** Routine fires log to claude.ai's routine history (cross-session audit trail). `/loop` fires exist only in the active conversation. Pick `/schedule` when after-the-fact auditability matters.
+  (f) **E6 — Fresh-context cost.** Every routine fire is a fresh agent — no carryover beyond what's in PROJECT_STATE / git / MCP-fed sources. Design routines to read state from durable sources, not from prior-fire memory.
+**ADR:** [`docs/adr/0008-recurring-task-surface.md`](docs/adr/0008-recurring-task-surface.md)
+
 ### Session 3 — additions if surfaced during sweep
 
 To be filled if the agent-files or protocol sweep surfaces verdicts not anticipated above.
@@ -325,3 +349,4 @@ Each scenario gets a tool-order sequence + decision points where the path forks.
 | 2026-05-19 | **V-006 accepted** — `/review` vs `/security-review` boundary verdict. Neither contains the other: `/review` breadth-first (correctness/standards/tests); `/security-review` depth-first on the security axis (OWASP/secrets/auth/input/crypto/permissions). Third parallel pass on its own risk-surface trigger gate, independent of V-005's adversarial-Codex gate. MethodRX HIPAA code: `/security-review` automatic. Default-on bias for in-doubt cases (asymmetric blast radius). No ADR (fails 3-of-3 test — low reversal cost; trigger taxonomy is a checklist, not architectural commitment). Codified in `agents/SECURITY.md` playbook during Session 3. | 2 (CTO with PM review) |
 | 2026-05-19 | **V-008 accepted** — REVIEW vs Retro reconciliation (Option G: expand REVIEW to agent system optimality). REVIEW owns three streams: agent-capability auditing + operating-environment auditing + system-improvement signaling (continuous). Retro owns SDLC-anchored learning loop (sprint/release/incident/project end). Recurrence handoff: Retro observes patterns (P-NNN register); REVIEW reads register + edits the system. `REVIEW_PROTOCOL.md` re-anchored as agent-agnostic self-verification (optional rename `VERIFICATION_PROTOCOL.md` deferred). Closes [`ai-agent-harness#4`](https://github.com/itsginfo/ai-agent-harness/issues/4). REVIEW.md restructure + Retro.md cross-ref edit deferred to Session 3. ADR [`0006-review-retro-boundary.md`](docs/adr/0006-review-retro-boundary.md). | 2 (CTO with PM review) |
 | 2026-05-19 | **V-007 accepted** — Issue tracker intake pipeline: `/to-prd` (context → 1 PRD) → `/to-issues` (plan → N vertical slices) → `/triage` (state machine on existing issues). Each owns its pipeline position. Four escape lanes: Routine Requests (`gh issue create` direct, often retroactive); bug reports (`gh issue create` + `/triage`, skip PRD); editorial refinement (`gh issue edit`, not `/triage`); single new issue not from plan (`gh issue create`). `/triage` natively invokes `/grill-with-docs` per V-004. Cross-repo uniform across GH Project #1. `agents/PM.md` "Work intake" section deferred to Session 3. ADR [`0007-intake-pipeline-sequencing.md`](docs/adr/0007-intake-pipeline-sequencing.md). | 2 (CTO with PM review) |
+| 2026-05-20 | **V-009 accepted** — Recurring task surface: lifetime-axis split between `/loop` (intra-session via `ScheduleWakeup`; no sandbox; dies at session end) and `/schedule` (cross-session via `CronCreate`; produces a routine on the Anthropic remote-agent sandbox; outlives session). "Routine" is `/schedule`'s output artifact, named in body, not a third row (parallel to `/triage` → GH Issue in V-007). Failure-mode fallback: routine fails twice with different network symptoms → disable + convert to `/loop` or manual. Network-access override: host not on sandbox allowlist → `/loop` wins regardless of lifetime; constraint detail at `wiki/sandbox-allowlist.md` (belt-and-suspenders pointer, not restated). E2 hybrid case ("active now, keep going after laptop close") explicitly UNSOLVED — two workarounds, no default. Cache-window guidance for `/loop` delays codified in E3. Crib + per-project propagation deferred to Session 3. ADR [`0008-recurring-task-surface.md`](docs/adr/0008-recurring-task-surface.md). | 2 (CTO with PM review) |
