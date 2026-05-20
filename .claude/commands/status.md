@@ -33,12 +33,10 @@ Summarize:
 
 **Step 3: Read `PROJECT_STATE.md`**
 
-Open `projects/<project>/PROJECT_STATE.md` in the harness. Read only:
-- ⚡ RESUME INSTRUCTION
-- In-Flight Tasks ⚡
-- Next 3 Actions (Prioritized)
-
-> **Session-3 re-edit note:** when V-003 propagation lands (lean resume ≤10 ln + Session Log drain + live-watch triage), the section list above shifts. Re-edit Step 3 at that time.
+Open `projects/<project>/PROJECT_STATE.md` in the harness. Per the post-V-003 shape ([ADR-0004](../../docs/adr/0004-project-state-shape.md)), read only:
+- **⚡ RESUME INSTRUCTION** (lean, ≤ 10 lines — the next-action surface)
+- **Live Watch** (date-bound standing items with known expirations)
+- **Session Log — latest 1–3 rows** (one-liners with pointers; this is where prior-session resumes drain)
 
 **Step 4: Output the snapshot**
 
@@ -53,9 +51,9 @@ GH SNAPSHOT:
   Project #N board: [count by column, or "no board"]
 
 PROJECT_STATE:
-  In-flight: [task + state, or "None"]
-  Next actions: [1, 2, 3]
-  Resume instruction: [exact text from PROJECT_STATE]
+  Resume instruction: [exact text from PROJECT_STATE — verbatim, ≤10 lines]
+  Live Watch: [row count + each "Item — Watch by" pair, or "None"]
+  Recent activity: [latest 1–3 Session Log rows, verbatim]
 
 DRIFT DETECTED: [Yes/No — if GH and PROJECT_STATE disagree on anything material]
 ```

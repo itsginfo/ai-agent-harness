@@ -116,48 +116,67 @@ Never end a session with uncommitted work. Even a WIP commit is recoverable; unc
 
 Now update the narrative layer to reflect what just happened in the tracker and git.
 
-**Update In-Flight Tasks:**
+> **V-003 shape rules apply** ([ADR-0004](../docs/adr/0004-project-state-shape.md)): resume instruction is ≤ 10 lines (next-action only); `Session Log` rows are one-liners with pointers; `Watch out for` items triage to canonical homes (ADR / CLAUDE.md / live-watch / wiki / retire).
+
+**3a — Prune + drain (V-003 — do this BEFORE writing the new resume):**
+
+The current `⚡ RESUME INSTRUCTION` is the *prior* session's resume — it represents the state coming in. Before overwriting, drain it to `Session Log` as a one-liner:
+
+```
+| [Date] | [AGENT] | [What landed]. See [ADR / wiki / commit pointer]. |
+```
+
+The row is the verdict/outcome; the *detail* lives in the ADR or commit, not the row. If the prior resume already had pointers (ADR/wiki/commit refs), keep those; if it didn't, add the relevant commit hash now.
+
+**3b — Write the new lean Resume Instruction (V-003 — ≤ 10 visible lines):**
+
+```markdown
+## ⚡ RESUME INSTRUCTION
+
+**[State + posture in one sentence.]** [What was just done, or what's in-flight, with a tracker pointer.]
+
+**Next:** [The single most important next action — file/issue/decision specific enough that the next agent can pick up cold.]
+
+**Branch check first.** Project repo: `[branch]`. Harness: `main`. [Local-only branches that should not be pushed without direction.]
+```
+
+No accumulated session summaries; no historical recap. The detail lives in the Session Log row you just drained.
+
+**⚠️ Verify the RESUME INSTRUCTION is accurate.** Read it back as if you are the next agent opening a cold session:
+- Does it reflect the ACTUAL end state, not the state at the start of this session?
+- If a task was closed/unblocked/changed this session, is that reflected here?
+- Would an agent reading only this instruction + the tracker get a correct picture?
+- Is it ≤ 10 visible lines? If not, more drained pointers, less paragraph.
+
+**3c — Audit `Live Watch` + Watch-out-for items (V-003 triage taxonomy):**
+
+For each standing item the prior resume mentioned, decide its canonical home:
+
+| Triage destination | When to use |
+|---|---|
+| **ADR** (`docs/adr/NNNN-*.md`) | Architectural rules or standing decisions (per V-001). |
+| **CLAUDE.md** (project-instructions surface) | Project facts every agent needs at boot — paths, frozen surfaces, active conventions (per V-002). |
+| **PROJECT_STATE `Live Watch` table** | Time-sensitive standing items with a **known expiration** (e.g., "SSL cert renewal due 2026-06-01 ahead of 2026-06-08 expiry"). |
+| **Wiki entity page** (`projects/[project]/wiki/*.md`) | Stable systems knowledge (per V-002 boundary on CONTEXT.md vs wiki). |
+| **Retire** | Decayed, duplicated elsewhere, or no longer relevant. |
+
+Items that don't land in one of these are not safe to keep in the resume. Move or retire before closing.
+
+**3d — Update In-Flight Tasks:**
 - Remove any tasks completed this session (they're closed in the tracker; remove the ⚡ entry here)
 - Update the state of any tasks still in progress with exact current state
 - The In-Flight entry must be specific enough to resume from cold: file, function, step, decision point
 
-**Write the Resume Instruction:**
-
-This is the most important thing you write. Use this template:
-
-```markdown
-## ⚡ RESUME INSTRUCTION
-If you're reading this in a new session: [project] is [overall status].
-Last session ([date]) [completed X / was working on Y].
-
-Highest priority right now: [specific task, tracker ref — e.g. `repo#N`].
-Start by: [exact first action — file to open, command to run, decision to make].
-Watch out for: [any gotcha, dependency, or constraint the next agent needs to know].
-```
-
-Write this as if explaining to someone who has never seen this project. Be specific.
-
-**⚠️ Before moving on: Verify the RESUME INSTRUCTION is accurate.**
-Read it back as if you are the next agent opening a cold session. Ask:
-- Does it reflect the ACTUAL end state, not the state at the start of this session?
-- If a task was closed/unblocked/changed this session, is that reflected here?
-- Would an agent reading only this instruction + the tracker get a correct picture?
-
-If the answer to any of these is No — rewrite it before closing.
-
-**Update Next 3 Actions:**
+**3e — Update Next 3 Actions:**
 - Remove completed items
 - Add new items discovered this session
-- Ensure each item has a tracker ref (GH issue `repo#N`, or Monday `#ID` for legacy projects)
+- Ensure each item has a tracker ref (GH issue `repo#N`)
 
-**Update Blocked / Open Questions:**
+**3f — Update Blocked / Open Questions:**
 - Reflect what you added to the tracker
 - Add context that the tracker can't hold (why it's really blocked, what the options are)
 
-**Append to Session Log:**
-```
-| [Date] | [AGENT] | [2-sentence summary of what happened] |
-```
+**3g — Confirm Session Log row is in place** (you wrote it in 3a). One row per session; one-liner only; no paragraph drift.
 
 ---
 

@@ -1,8 +1,19 @@
 # DECISIONS — Skydive City Phase 1
 
-> Decision log for significant choices made during this project.
+> ## ❄️ FROZEN 2026-05-18 — Historical record only.
+>
+> Per **V-001** ([harness ADR-0002](../../docs/adr/0002-adr-vs-decisions-md.md), accepted 2026-05-18): the canonical decision-recording surface is now per-repo `docs/adr/` (numbered `NNNN-kebab-name.md`).
+>
+> **Do not append new entries here.** Write new decisions to:
+> - **Harness-scope decisions:** `agent-driven-enterprise/docs/adr/`
+> - **SkydiveCity-scope decisions:** `skydivecity-com/docs/adr/` (started 2026-05-07 with ADR-0001 + ADR-0002)
+>
+> Pre-2026-05-18 entries below stay in place — no retroactive migration. `PROJECT_STATE.md` → `Decisions (Summary)` indexes both old DECISIONS.md sections and post-freeze ADRs.
+
+---
+
+> Decision log for significant choices made during this project (pre-2026-05-18).
 > Format: one entry per decision. Newest entries at top.
-> See `protocols/SESSION_END.md` for the entry template.
 >
 > **Harness path:** `/Users/jamesmeirowsky/Projects/agent-driven-enterprise`
 > **Related project state:** `projects/skydivecity/PROJECT_STATE.md`
