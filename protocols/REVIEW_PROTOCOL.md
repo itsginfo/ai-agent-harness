@@ -1,5 +1,7 @@
 # Protocol: REVIEW & VERIFICATION
 
+> **Note (V-008 / [ADR-0006](../docs/adr/0006-review-retro-boundary.md)):** This is the **tier-based output verification protocol** that *every agent self-applies* on its own work before handoff. It is **agent-agnostic.** The REVIEW *agent* ([`agents/REVIEW.md`](../agents/REVIEW.md)) is a separate concept — REVIEW-the-agent owns agent system optimality across three streams (capability / environment / signaling), not per-output tier gates. An optional file rename to `VERIFICATION_PROTOCOL.md` is deferred as low-priority hygiene; the filename stays for now and refs across the harness continue to point here.
+
 > Every agent output has a tier. The tier determines how much verification is required before the output is acted on. Run this protocol before handing off, committing, sending, or acting on any agent-produced output.
 
 ---

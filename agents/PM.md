@@ -19,6 +19,52 @@ The PM is instantiated for a specific project, not for the entire portfolio. The
 
 ---
 
+## Work Intake (V-007 / [ADR-0007](../docs/adr/0007-intake-pipeline-sequencing.md))
+
+> Defines how work enters the tracker before it lands on a sprint plan. The pipeline runs one-direction; escape lanes skip it for shapes that don't earn the ceremony.
+
+### Pipeline — three skills, each owning a stage
+
+```
+conversation        plan / PRD            existing
+context             with vertical         issue
+   ↓                slices                   ↓
+  /to-prd     →   /to-issues       →     /triage
+   ↓                ↓                        ↓
+1 PRD issue      N vertical-slice         state machine
+(needs-triage)   issues                   (needs-triage →
+                 (needs-triage)            needs-info /
+                                           ready-for-agent /
+                                           ready-for-human /
+                                           wontfix)
+```
+
+- **`/to-prd`** — synthesize-from-context. Conversation context → 1 PRD issue tagged `needs-triage`. Engineering-scoping only; no execution.
+- **`/to-issues`** — break-down-a-plan. Plan or PRD → N vertical-slice issues, each tagged `needs-triage`. Skill runs an iterative quiz on granularity / dependencies / HITL-vs-AFK before writing.
+- **`/triage`** — operate-on-existing. State machine over an existing issue. Natively invokes `/grill-with-docs` (V-004) as a sub-step when grilling is needed.
+
+Cross-repo: the pipeline applies uniformly across all repos linked to GH Project #1.
+
+### Escape lanes — skip the pipeline
+
+The pipeline imposes PRD-ceremony on intake. That's the right shape for substantive new engineering work with a design landscape. For other shapes, route directly:
+
+| Shape | Route | Why skip |
+|---|---|---|
+| **Routine Request** under Managed Services | `gh issue create` directly (often retroactively, after the work is done) | Established Phase-1-post pattern (`skydivecity-com#5`–`#9`). PRD ceremony has no value when the design landscape is the client's narrow ask. |
+| **Bug report** | `gh issue create` directly, then `/triage` (which may invoke `/grill-with-docs`) | Bugs aren't user-story-shaped. Skip `/to-prd` + `/to-issues`. |
+| **One-issue content refinement** (typo, link, checkbox) | `gh issue edit` directly | Not `/triage`. State-edit-vs-content-edit boundary — `/triage`'s AI-disclaimer comments are noise for editorial changes. |
+| **Single new issue not from a plan** | `gh issue create` directly | `/to-issues` is for breaking *plans* into N slices, not for filing one issue. |
+
+### Edge cases
+
+- **Quick state move on existing issue** ("move #42 to `ready-for-agent`") — stays in `/triage` per its "Quick state override" section. `gh issue edit` doesn't generate agent briefs; `/triage` does.
+- **Routine Request that grows into Project Work mid-execution** — per Managed Services SOW v1.1 §4.4 mid-work discovery rule, file a new issue or open a Project SOW conversation rather than retrofitting `/to-prd` onto an in-flight Routine Request.
+- **Issue auto-creation from external sources** (Slack, email, monitoring) — route to `/triage` for evaluation (same shape as bug-report intake).
+- **Cross-issue parent/child references** — `/to-issues` handles via its `Parent` / `Blocked by` template fields. Don't manually wire dependencies post-creation via `gh issue edit` unless restructuring.
+
+---
+
 ## Responsibilities
 
 **Sprint Planning**
@@ -247,3 +293,4 @@ Load first: PROJECT_STATE.md → active sprint board → open blockers → depen
 |------|--------|
 | 2026-04-22 | v1.0 — Initial agent created |
 | 2026-04-22 | v2.0 — Rewritten with research-backed scope clarity. Explicitly scoped to per-project execution (not cross-portfolio management). Added DORA metrics, blocker protocol (4h rule), acceptance criteria discipline, gate sequencing, failure modes, and full system prompt template based on Atlassian PM research, DORA framework, and Anthropic context engineering principles. |
+| 2026-05-20 | v2.1 — **Work Intake section added** per V-007 / [ADR-0007](../docs/adr/0007-intake-pipeline-sequencing.md). Pipeline (`/to-prd` → `/to-issues` → `/triage`) + four escape lanes (Routine Requests, bug reports, editorial refinement, single new issue not from plan). Cross-repo uniform across GH Project #1. |

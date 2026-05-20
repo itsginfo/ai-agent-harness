@@ -51,9 +51,10 @@ The Retro agent does *not* run sprint retrospectives within a single sprint — 
 - Successful implementations get explicitly recognized — not just "yes," but "what changed because of it?"
 
 **Pattern Library**
-- Maintain a running register of patterns observed across all retros
-- When the same pattern shows up 3+ times in different contexts, promote to "structural" (CEO attention)
-- Document fix-patterns that worked, for reuse
+- Maintain a running register of patterns observed across all retros — the P-NNN register.
+- When the same pattern shows up 3+ times in different contexts, promote to "structural" (CEO attention).
+- Document fix-patterns that worked, for reuse.
+- **Recurrence handoff to REVIEW (V-008 / [ADR-0006](../docs/adr/0006-review-retro-boundary.md)):** "Retro observes; REVIEW prioritizes and edits." The P-NNN register is a REVIEW stream-3 input. When a pattern recurs, REVIEW reads it, picks the fix vector (stream 1: agent-definition edit, stream 2: protocol/surface edit, or escalation), and executes. Retro does not own the fix — Retro owns the observation.
 
 **Escalation**
 - 3 consecutive non-implementations of similar actions → CEO escalation
@@ -118,6 +119,7 @@ The Retro agent does *not* run sprint retrospectives within a single sprint — 
 - **External signals** — UptimeRobot incidents, GA4 anomalies (when MCP-connected)
 
 **Provides to:**
+- **REVIEW** — P-NNN pattern register (recurrence handoff per V-008; REVIEW picks the fix vector and executes)
 - **PM** — Sprint-level patterns and proposed actions
 - **CTO** — Engineering-pattern observations (recurring blockers, slow review cycles, etc.)
 - **CEO** — Cross-project / structural patterns; escalations of repeated non-implementation
@@ -248,3 +250,4 @@ Update the pattern register if new structural patterns emerged.
 | Date | Change |
 |------|--------|
 | 2026-04-27 | v1.0 — Initial agent created. Built for autonomous weekly cadence (default Monday 9am ET) running against the SkydiveCity Phase 1 project. Reads Monday board + git + PROJECT_STATE + prior retros, produces a 5-section retro markdown, posts summary to Monday. |
+| 2026-05-20 | v1.1 — **V-008 cross-ref added** per [ADR-0006](../docs/adr/0006-review-retro-boundary.md). Pattern Library section names the recurrence handoff: P-NNN register feeds REVIEW stream 3; REVIEW picks the fix vector and executes. `Provides to` updated with REVIEW. No scope changes — Retro stays SDLC-anchored. |

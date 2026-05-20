@@ -138,7 +138,30 @@ These custom commands are available in this repo:
 |---------|-------------|
 | `/project:session-start` | Runs the full SESSION_START boot sequence |
 | `/project:session-end` | Runs the SESSION_END close sequence |
-| `/project:status` | Quick status check — Monday + PROJECT_STATE summary |
+| `/project:status` | On-demand read view of `PROJECT_STATE.md` + GH Project (read-only; V-010) |
+
+---
+
+## Tool reach-for rules
+
+> Boot-time signal — distilled from V-001 → V-010 in [`TOOL_LANDSCAPE.md`](TOOL_LANDSCAPE.md). The crib answers *which* tool; the long-form doc answers *why*. Per-project `CLAUDE.md` files inherit a copy of this block (marked `Synced from harness on YYYY-MM-DD`) plus a `### Project-specific overrides` subsection.
+
+| Situation / Trigger | Reach for | Avoid / Skip | See |
+|---|---|---|---|
+| Record a substantive architectural / process / standing-rule decision | `docs/adr/NNNN-kebab-name.md` (per repo, harness or project) | Don't append to `DECISIONS.md` (frozen 2026-05-18) | V-001 / [ADR-0002](docs/adr/0002-adr-vs-decisions-md.md) |
+| Write a fact to auto-load next session — *project fact* (path, command, frozen surface, convention in force) | `CLAUDE.md` (this file or per-project) | Don't put in auto-memory (cross-conversation persistence ≠ in-repo reviewability) | V-002 / [ADR-0003](docs/adr/0003-boot-context-split.md) |
+| Write a fact to auto-load next session — *user preference / behavioral correction* | Auto-memory (`~/.claude/projects/<slug>/memory/`) | Don't put in CLAUDE.md or PROJECT_STATE | V-002 / [ADR-0003](docs/adr/0003-boot-context-split.md) |
+| Write to `PROJECT_STATE.md` at session-end | Lean resume (≤10 ln) + drain prior to Session Log + triage Watch-out-for items (ADR / CLAUDE.md / live-watch / wiki / retire) | Don't accrete paragraphs in the resume; don't write paragraph-rows in Session Log | V-003 / [ADR-0004](docs/adr/0004-project-state-shape.md) |
+| Grilling-style design conversation ("grill me", "stress-test this plan", "interview me on the plan") | `/grill-with-docs` | Don't reach for `/grill-me` (strict superset — retired doc-only 2026-05-19) | V-004 |
+| Reviewable PR — first pass on every PR | `/review` (Claude Code, in-session) | Don't skip; even single-file edits warrant a first pass | V-005 / [ADR-0005](docs/adr/0005-review-pipeline-sequencing.md) |
+| Reviewable PR — second pass when judgment gate fires (architecture / non-trivial trade-off / one-way door / author requests adversarial) | `/codex:adversarial-review` (cross-model, GPT-5) | Skip on routine work (single-file content, migration scripts, dep bumps, docs/lint); **HIPAA-touching MethodRX code blocked entirely** (no BAA) | V-005 / [ADR-0005](docs/adr/0005-review-pipeline-sequencing.md) |
+| Reviewable PR — risk-surface gate fired (auth / endpoint / DB query / input validation / crypto / secrets / file upload / RBAC) | `/security-review` (independent of V-005's gate) | Skip on CSS / copy / docs / dep-bumps. **HIPAA-touching MethodRX code = automatic.** Default-on bias for in-doubt cases (asymmetric blast radius). | V-006 |
+| Substantive new engineering work with design landscape → tracker | `/to-prd` (start of pipeline) → `/to-issues` → `/triage` | Don't run pipeline on **escape lanes:** Routine Requests (`gh issue create` direct, often retroactive); bugs (`gh` + `/triage`, skip PRD); editorial refinement (`gh issue edit`, not `/triage`); single new issue not from plan | V-007 / [ADR-0007](docs/adr/0007-intake-pipeline-sequencing.md) |
+| "Is the agent system optimal?" (continuous meta-observability across agents + protocols + surfaces) | REVIEW agent — three streams (capability / environment / signaling) | Don't reach for Retro — Retro is SDLC-anchored, not continuous | V-008 / [ADR-0006](docs/adr/0006-review-retro-boundary.md) |
+| Learning loop at a delivery boundary (sprint / release / incident / project end) | Retro agent (P-NNN pattern register + 2-3 actions + follow-through) | Don't reach for REVIEW for delivery-boundary retrospection. **Recurrence handoff:** Retro observes, REVIEW prioritizes and edits. | V-008 / [ADR-0006](docs/adr/0006-review-retro-boundary.md) |
+| Recurring or scheduled task — needs to **outlive** the current session | `/schedule` (cron-style routine on Anthropic remote-agent sandbox) | Verify host is on sandbox allowlist before depending on outbound HTTP (`skydivecity/wiki/sandbox-allowlist.md`); routine fails twice with different network symptoms → disable + convert to `/loop` | V-009 / [ADR-0008](docs/adr/0008-recurring-task-surface.md) |
+| Recurring task — only needs to live **within** the current session | `/loop` (intra-session callback via `ScheduleWakeup`) | Cache windows: 60–270s in-cache; 1200s+ amortizes the miss; **avoid 300s** (worst of both) | V-009 / [ADR-0008](docs/adr/0008-recurring-task-surface.md) |
+| On-demand project-state read view (mid-conversation re-orientation) | `/status` (consumes `PROJECT_STATE.md` + GH Project; read-only) | Don't write from `/status` — if `/status` shows wrong state, fix `PROJECT_STATE.md`, not the command | V-010 |
 
 ---
 
@@ -211,4 +234,4 @@ Single-context layout — `CONTEXT.md` and `docs/adr/` at the repo root (created
 
 ---
 
-*Last Updated: 2026-04-23 | Harness v1.4*
+*Last Updated: 2026-05-20 | Harness v1.5 — added `## Tool reach-for rules` crib (V-001 → V-010 distilled per ADR-0001). Monday-first boot defaults (Step 3) are out-of-scope here; cleanup tracked at [`ai-agent-harness#7`](https://github.com/itsginfo/ai-agent-harness/issues/7).*

@@ -169,6 +169,48 @@ Security maintains awareness of current OWASP Top 10 categories and ensures Revi
 
 ---
 
+## Risk-Surface Trigger Taxonomy (V-006)
+
+> Codifies V-006 (TOOL_LANDSCAPE.md). The `/security-review` slash command runs on its **own risk-surface trigger gate**, independent of V-005's adversarial-Codex gate. This taxonomy is the checklist test — not a vibe test.
+
+**Run `/security-review` when the change touches any of:**
+
+- [ ] **Authentication / session / login / token handling.** Including: login flows, password handling, session creation/teardown, MFA wiring, OAuth / OIDC, JWT issue or verify, API-key handling, refresh-token flows.
+- [ ] **New external endpoint or API surface.** Including: new HTTP route, new RPC method, new webhook receiver, expanded surface on an existing endpoint (new query params accepted from user, new method on existing route).
+- [ ] **DB query construction.** Including: any string-concatenated SQL/NoSQL, raw-query escape hatches, ORM `$raw` / `$queryRaw` usage, user-input-driven query shape.
+- [ ] **Input validation / sanitization.** Including: any new user-input ingestion path, new form field, new request body shape, new file upload validation, new user-supplied URL or path.
+- [ ] **Cryptography / TLS / hashing / random.** Including: TLS configuration changes, certificate handling, cryptographic primitive usage, KDF / HMAC, randomness source, password hashing algorithm.
+- [ ] **Secret management.** Including: `.env` schema changes, KMS calls, secrets-manager integration, credential rotation, new secret added.
+- [ ] **File upload or external file ingestion.** Including: user upload endpoints, file-type validation, antivirus integration, S3 / blob-store writes, file processing pipelines.
+- [ ] **Permission / RBAC / ACL changes.** Including: new role added, role-check logic, resource-level permission gates, admin-vs-user boundary changes.
+- [ ] **HIPAA-touching code** (MethodRX) — **automatic.** No judgment required; the trigger fires.
+
+**Skip `/security-review` when:**
+
+- [ ] Single-file content edit (CSS, copy, image swap)
+- [ ] Single-purpose data-shape script (`migration/wp-*`-style — script input is operator-controlled, not user input)
+- [ ] Dependency bump (wrong layer — that's `npm audit` / dependabot / `pip-audit`)
+- [ ] Docs-only / lint / formatting
+
+**Default when in doubt: run `/security-review`.**
+
+Reasoning: **asymmetric blast radius.** Missed security issue = potential breach + remediation + disclosure cost. Wasted pass = ~30 seconds of compute. The bias toward running is intentional; the trigger taxonomy keeps it from firing on routine work where the bias would just produce noise.
+
+**Per-project carve-outs:**
+
+- **MethodRX (HIPAA):** `/security-review` is automatic on any code change. `/codex:adversarial-review` is blocked entirely (no BAA with OpenAI; CTO standing rule 2026-04-30).
+- **SkydiveCity:** standard taxonomy applies. Burble-side content / CSS / copy work bypasses the gate (Burble's WP / SaaS surface is operator-controlled, not user-input-driven).
+
+**Sequencing with V-005:**
+
+- V-005 `/review` (first pass) — runs on every reviewable PR; correctness + standards + tests.
+- V-005 `/codex:adversarial-review` (second pass) — runs on judgment-call gate (architecture / one-way door / author-requested).
+- V-006 `/security-review` — runs on risk-surface gate (this taxonomy). **Independent of V-005's gate.** Can compound — a PR touching auth architecture + introducing one-way door fires all three.
+
+`/review` + `/security-review` run in parallel semantically — output order doesn't matter; both feed the human triage. `/security-review` finding correctness bugs outside its tunnel is valid — the *trigger* is risk surface, but the *output* isn't constrained to security-only findings.
+
+---
+
 ## Context Toolkit (Load at Session Start)
 
 1. Current vulnerability tracker (open findings, severity, status)
@@ -305,3 +347,4 @@ Risk accepted (if any): [What risk, who approved, what monitoring is in place]
 |------|--------|
 | 2026-04-22 | v1.0 — Created as standalone Security Agent (split from combined SRR agent). File: SEC.md |
 | 2026-04-22 | v2.0 — Renamed to SECURITY.md (full name convention). Enhanced with STRIDE framework, OWASP Top 10 reference, vulnerability SLAs, gate criteria, risk acceptance process, failure modes, and full system prompt template based on OWASP threat modeling research and Anthropic context engineering principles. |
+| 2026-05-20 | v2.1 — **V-006 trigger taxonomy added** as the operational checklist for `/security-review`. Independent of V-005's adversarial-Codex gate. MethodRX HIPAA automatic; SkydiveCity Burble-side bypass. Default-on bias for in-doubt cases (asymmetric blast radius). |

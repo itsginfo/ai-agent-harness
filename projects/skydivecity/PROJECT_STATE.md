@@ -6,11 +6,11 @@
 
 ## ⚡ RESUME INSTRUCTION
 
-**Tool-landscape v1 Session 3 / Pass A in-flight** (CTO + PM review, [`ai-agent-harness#8`](https://github.com/itsginfo/ai-agent-harness/issues/8)). Pass A items 1–4 + 11 = this PROJECT_STATE V-003 reshape + `_PROJECT_TEMPLATE/PROJECT_STATE.md` mirror + MethodRX same + `protocols/SESSION_END.md` "prune + drain" step + `/status` Section-3 re-edit + SkydiveCity `DECISIONS.md` frozen banner. Verdict references in [`TOOL_LANDSCAPE.md`](../../TOOL_LANDSCAPE.md).
+**Tool-landscape v1 propagation complete.** All 10 verdicts (V-001 → V-010) live in harness `docs/adr/` + `TOOL_LANDSCAPE.md`; Session 3 Pass A (V-003 file-shape) + Pass B (agent/doc edits + crib propagation) both landed 2026-05-20. [`ai-agent-harness#8`](https://github.com/itsginfo/ai-agent-harness/issues/8) can close on landing — pending confirmation on the four stretch artifacts (Matrix / Diagram / Workflow Guide / Conflict Log) which are still marked "to be filled" in TOOL_LANDSCAPE.md.
 
-**Next:** Pass B (items 5–10, 12 — agent/doc edits per V-005/V-006/V-007/V-008 + crib propagation). End with item 9 (crib block in harness `CLAUDE.md`) since it consolidates V-001 → V-010. If client work pulls bandwidth first: pick from `skydivecity-com#1`–`#4` in priority order — `#4` (SSL) is the dated one, due ~2026-06-01 ahead of 2026-06-08 cert expiry.
+**Default mode now:** Managed Services active under executed SOW v1.1 + MNDA v1.0 (both 2026-05-12). Wait for incoming Routine Requests / Sev 1-3 incidents; no proactive comm cadence.
 
-**Default mode:** Managed Services active under executed SOW v1.1 + MNDA v1.0 (both 2026-05-12). Wait for incoming Routine Requests / Sev 1-3 incidents; no proactive comm cadence.
+**If bandwidth opens:** pick from `skydivecity-com#1`–`#4` in priority order. `#4` (SSL renewal verification) is the dated one — due ~2026-06-01 ahead of 2026-06-08 cert expiry. `#3` (deploy.sh 17K-file delta) gates unfreezing `deploy.sh --live`.
 
 **Branch check first.** Project repo `develop`; harness `main`. Phase 2 redesign branch (`feature/redesign-phase2`) is local-only and paused — do not push without explicit James direction.
 
@@ -195,7 +195,7 @@ See [`wiki/README.md`](../../projects/skydivecity/wiki/README.md) for convention
 
 | Date | Agent | Summary |
 |------|-------|---------|
-| 2026-05-20 | CTO Agent | **Tool-landscape v1 Session 3 / Pass A.** PROJECT_STATE.md V-003 reshape (this file) + `_PROJECT_TEMPLATE` mirror + MethodRX same + `protocols/SESSION_END.md` "prune + drain" step (3a/b/c) + `/status` Section-3 re-edit + SkydiveCity `DECISIONS.md` frozen banner. See [`docs/adr/0004`](../../docs/adr/0004-project-state-shape.md). |
+| 2026-05-20 | CTO Agent | **Tool-landscape v1 Session 3 complete (Pass A + Pass B).** Pass A (file-shape) — PROJECT_STATE V-003 reshape + `_PROJECT_TEMPLATE` mirror + MethodRX same + `protocols/SESSION_END.md` "prune + drain" (3a/b/c) + `/status` Section-3 re-edit + SkydiveCity `DECISIONS.md` frozen banner. Commit `1847e12`. Pass B (agent/doc edits) — `agents/REVIEW.md` v3.0 three-stream restructure (V-008) + `agents/Retro.md` v1.1 cross-ref (V-008 handoff) + `agents/SECURITY.md` v2.1 V-006 trigger taxonomy + `agents/PM.md` v2.1 Work-intake section (V-007) + harness `CLAUDE.md` `## Tool reach-for rules` crib (V-001 → V-010) + crib propagated to SkydiveCity + MethodRX `CLAUDE.md` (with MethodRX HIPAA/Codex-blocked overrides) + `REVIEW_PROTOCOL.md` agent-agnostic banner (doc-only deprecation, not renamed). |
 | 2026-05-20 | CTO Agent | **Tool-landscape v1 Session 2 closed (V-010 landed, 7/7 in the book).** `/status` is read view; `PROJECT_STATE.md` is write surface (V-003). Both `/status` copies rewritten in-verdict to drop Monday MCP refs. No ADR (fails 3-of-3 test). [`TOOL_LANDSCAPE.md`](../../TOOL_LANDSCAPE.md) updated. |
 | 2026-05-20 | CTO Agent | **Tool-landscape v1 Session 2 (V-009).** Lifetime-axis split for recurring task surface. ADR [`0008`](../../docs/adr/0008-recurring-task-surface.md). |
 | 2026-05-19 (later) | CTO Agent | **Tool-landscape v1 Session 2 — 5 of 7 verdicts (V-004/V-005/V-006/V-008/V-007).** ADRs [`0005`](../../docs/adr/0005-review-pipeline-sequencing.md), [`0006`](../../docs/adr/0006-review-retro-boundary.md), [`0007`](../../docs/adr/0007-intake-pipeline-sequencing.md). Closes [`ai-agent-harness#4`](https://github.com/itsginfo/ai-agent-harness/issues/4). Commits `b00f6f0` `e551c47` `f1ed0da` `2191369` `e476b0a`. |
