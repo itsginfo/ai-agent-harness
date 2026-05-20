@@ -1,11 +1,11 @@
 # Tool Landscape — Reconciliation
 
-> **Status:** v0 skeleton (2026-05-18) — Session 1 of 3.
+> **Status:** v1 complete (2026-05-20) — Sessions 1 + 2 + 3 landed; all 10 verdicts (V-001 → V-010) + 4 stretch artifacts (Matrix / Conflict log / Workflow guide / Diagram) filled.
 > **Tracking:** [ai-agent-harness#8](https://github.com/itsginfo/ai-agent-harness/issues/8) · **Establishment ADR:** [`docs/adr/0001-tool-landscape-establishment.md`](docs/adr/0001-tool-landscape-establishment.md)
 > **Authoritative for:** which tool to reach for, at what step, when more than one could do the job.
 > **Audience:** agents and James, in both directions.
 
-This document is the long-form reference. The 30-line **crib table** in [`CLAUDE.md` `## Tool reach-for rules`](CLAUDE.md) is the boot-time signal; reasoning lives here.
+This document is the long-form reference. The 14-row **crib table** in [`CLAUDE.md` `## Tool reach-for rules`](CLAUDE.md) is the boot-time signal; reasoning lives here.
 
 ---
 
@@ -52,9 +52,76 @@ Boundary clarifications use a shorter form (no winner/loser; just the boundary s
 
 ## Matrix
 
-*To be filled in Session 3 (final synthesis) — needs all verdicts settled to be accurate.*
+> Rows = tools / surfaces (grouped by layer). Columns = job categories. Cells: **owns** (primary surface), **co-owns** (sequenced or boundary-partnered), **enters via** (gateway / read view), **gate** (approval surface), **boundary** (different job that looks adjacent), blank (not in this category). Verdict references in the right margin.
 
-Rows = tools (one per surface). Columns = job categories: `Intake` · `Planning` · `Design` · `Build` · `Review` · `Deploy` · `Knowledge persistence` · `Retrospection` · `Status` · `Schedule`. Cells mark `owns`, `co-owns`, `enters via`, `boundary`, or blank.
+| Tool / Surface | Intake | Planning | Design | Build | Review | Deploy | Knowledge persist. | Retrospection | Status | Schedule | Verdict |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| **Matt Pocock skills** | | | | | | | | | | | |
+| `/to-prd` | owns (start) | | | | | | | | | | V-007 |
+| `/to-issues` | owns (mid) | | | | | | | | | | V-007 |
+| `/triage` | owns (state machine) | | | | | | | | | | V-007 |
+| `/grill-with-docs` | | co-owns | owns | | | | co-owns (ADR write) | | | | V-004, V-001 |
+| `/grill-me` | | | (retired doc-only) | | | | | | | | V-004 |
+| `/review` | | | | | owns (first pass) | gate | | | | | V-005 |
+| `/security-review` | | | | | owns (security axis) | gate | | | | | V-006 |
+| `/qa` | | | | co-owns (test plan) | co-owns | | | | | | — |
+| `/diagnose` | | | | owns (debug loop) | | | | | | | — |
+| `/tdd` | | | | co-owns (test-first) | | | | | | | — |
+| `/improve-codebase-architecture` | | | owns (audit) | | | | | | | | — |
+| `/simplify` | | | | | co-owns (refactor scan) | | | | | | — |
+| `/fewer-permission-prompts` | | | | enters via (allowlist) | | | | | | | — |
+| **Agent harness** | | | | | | | | | | | |
+| PM agent | owns (sprint plan from intake) | owns | | | | | | | co-owns | | V-007 |
+| CTO agent | | co-owns | owns (architecture) | owns | co-owns | owns | | | | | — |
+| CMO agent | | | | | | | | | | | — |
+| CFO agent | | | | | | | | | | | — |
+| CEO agent | | owns (cross-project) | | | | | | | co-owns | | — |
+| REVIEW agent | | | | | boundary (per-output → REVIEW_PROTOCOL) | | owns (agent files + env + signals) | co-owns (recurrence handoff) | | | V-008 |
+| Retro agent | | | | | | | co-owns (P-NNN register) | owns (SDLC-anchored) | | | V-008 |
+| SECURITY agent | | | | | owns (gate) | gate | | | | | V-006 |
+| RELIABILITY agent | | | | | | owns (gate) | | co-owns (incidents) | | | — |
+| QA agent | | | | co-owns (verification) | co-owns | gate | | | | | — |
+| PROJECT_STATE.md | | enters via | | | | | owns (per-project narrative) | | enters via (read) | | V-003, V-010 |
+| docs/adr/ | | | | | | | owns (decisions) | | | | V-001 |
+| CLAUDE.md / AGENTS.md | | | | | | | owns (project facts at boot) | | | | V-002 |
+| Auto-memory (per-conversation) | | | | | | | owns (user prefs + behavioral) | | | | V-002 |
+| DECISIONS.md (frozen 2026-05-18) | | | | | | | (historical only) | | | | V-001 |
+| Retrospectives folder | | | | | | | co-owns (with Retro) | owns | | | V-008 |
+| Protocols (SESSION_START / END / REVIEW / A2A / RETRO / TOKEN_LIMIT) | | | | | enters via (REVIEW_PROTOCOL) | enters via (SESSION_END) | enters via (operational) | enters via | | | — |
+| **Wiki** | | | | | | | | | | | |
+| Project wiki entity pages | | | | | | | owns (systems knowledge) | | | | V-002 boundary |
+| Harness wiki | | | | | | | owns (harness-scoped) | | | | — |
+| CONTEXT.md (glossary) | | | | | | | owns (engagement language) | | | | V-002 boundary |
+| sources.md (per-project) | | | | | | | owns (citation log) | | | | — |
+| **OpenAI Codex plugin** | | | | | | | | | | | |
+| `/codex:adversarial-review` | | | | | owns (second pass on judgment gate) | gate | | | | | V-005 |
+| `/codex:review` | | | | | (retired doc-only) | | | | | | V-005 |
+| `/codex:rescue` | | | | (trial-tagged) | | | | | | | ADR-0001 |
+| **Task subagents (Claude Code built-in)** | | | | | | | | | | | |
+| `Explore` | | enters via (codebase reads) | | | | | enters via (codebase scan) | | | | — |
+| `Plan` | | owns (delegated planning) | | | | | | | | | — |
+| `general-purpose` | | co-owns | | co-owns | | | | | | | — |
+| `claude-code-guide` | | | | enters via (Claude Code Q&A) | | | | | | | — |
+| **Routines + scheduling** | | | | | | | | | | | |
+| `/loop` (intra-session) | | | | | | | | | | owns (intra-session) | V-009 |
+| `/schedule` (cross-session) | | | | | | | | | | owns (cross-session) | V-009 |
+| Routine (artifact, claude.ai-hosted) | | | | | | | (audit trail per fire) | | | (output of `/schedule`) | V-009 |
+| **Read views** | | | | | | | | | | | |
+| `/status` | | | | | | | (consumes PROJECT_STATE + GH Project) | | owns (read view) | | V-010 |
+
+### Reading the matrix
+
+- **`owns`** = the primary surface for that job. If you're doing this job, start here.
+- **`co-owns`** = part of a sequenced pipeline (e.g., `/to-prd` → `/to-issues` → `/triage`) or a boundary partner (e.g., Retro + REVIEW handoff on recurrence). Read the verdict for the sequencing rule.
+- **`enters via`** = the surface is the gateway into the job — a read view, a starting point, or an operational protocol that triggers other work.
+- **`gate`** = approval surface for that job; the work doesn't ship without clearing this gate.
+- **`boundary`** = adjacent-looking, different job (e.g., REVIEW agent vs `REVIEW_PROTOCOL.md` per-output verification). Read the verdict to understand why the seam is there.
+- **blank** = the tool has no stake in that job category.
+
+**Gaps and conventions:**
+- CMO / CFO agents have all-blank rows — they own work outside the 10-category lens (marketing copy, financial models). They surface in the Workflow Guide where their work intersects (e.g., a Routine Request that touches homepage content rates is CMO-owned end-to-end).
+- The `Knowledge persistence` column is the densest because most of the verdicts (V-001 through V-003) are about decision/state/preference surfaces.
+- The `Retrospection` column has explicit co-ownership: REVIEW reads Retro's pattern register; Retro doesn't own continuous meta-observability (V-008).
 
 ---
 
@@ -328,28 +395,410 @@ Pairs that look adjacent but do different jobs. No winner; the boundary statemen
 
 ## Workflow guide
 
-*To be filled in Session 3.* Will cover six canonical task sequences:
+> Six canonical task sequences. Each names the tool order + the decision points where the path forks. Verdict references inline. Read this when you want a walk-through; read the verdicts (above) when you want a receipt.
 
-1. Routine Request (Managed Services)
-2. Sev 2 incident
-3. Planning conversation ("how should we approach Y?")
-4. Code change with review
-5. Knowledge-capture moment
-6. Session boundary
+---
 
-Each scenario gets a tool-order sequence + decision points where the path forks.
+### 1. Routine Request (Managed Services)
+
+**Trigger:** Rich or Matt asks for a specific change to SkydiveCity (homepage rate update, booking-page copy edit, event addition, GTM ID change, etc.).
+
+**Sequence:**
+
+1. **Boot** — SESSION_START block ([protocols/SESSION_START.md](protocols/SESSION_START.md)). Branch check first.
+2. **Capture the ask** — what's the change, source of the request, acceptance criteria.
+3. **🔀 Decision: shape of the work** —
+   - *Routine Request* (Managed Services SOW v1.1 scope) → continue.
+   - *Project Work* (mid-work discovery per SOW v1.1 §4.4) → STOP. Open a Project SOW conversation; don't retrofit `/to-prd` onto an in-flight Routine Request (V-007 edge case b).
+   - *Bug report* → jump to Workflow #2 (Sev 2 incident) sequence; intake stays `gh issue create` direct + `/triage`.
+4. **Tracker — escape lane (V-007).** `gh issue create` directly. Often retroactive (after the change ships). Skip `/to-prd` + `/to-issues` ceremony; the design landscape is the client's narrow ask.
+5. **🔀 Decision: prod DB write involved?** —
+   - Yes → follow the 5-phase change-control procedure per [`wiki/prod-write-procedure.md`](projects/skydivecity/wiki/prod-write-procedure.md): read-only inventory → SHA-verified upload → execute with logged output → live verification → checkpoint. **Dev-first applies to inventory too**, not just writes.
+   - No (Burble-side CSS / copy / GTM admin) → no commits in `skydivecity-com` repo; change lands in Burble or admin tooling.
+6. **Implement** — Edit/Write tools or admin UI.
+7. **Verify live** — HTTP 200, content render, byte-precise grep of rendered HTML (admin UIs can hide saved whitespace per `feedback_verify_tag_injection_in_html`).
+8. **Close the issue** — full acceptance-criteria checkoff.
+9. **Proactive Checkpoint** — commit + push if authorized + comment on issue.
+10. **SESSION_END** — drain to PROJECT_STATE Session Log (V-003 / [ADR-0004](docs/adr/0004-project-state-shape.md)).
+
+**Anchors:** Phase-1-post pattern (`skydivecity-com#5`–`#9` are all Routine Requests under this workflow).
+
+---
+
+### 2. Sev 2 incident
+
+**Trigger:** production issue surfaces — page broken, analytics dark, SSL expired, customer report of broken booking flow, etc.
+
+**Sequence:**
+
+1. **Boot** — SESSION_START block. If emergency local-dev break-fix per project `CLAUDE.md` emergency bypass clause, narrow-scope and skip strategic ceremony.
+2. **🔀 Decision: severity classification** —
+   - *Sev 1* (production down) → CTO + RELIABILITY on-call; immediate comm to client.
+   - *Sev 2* (degraded; partial outage; analytics dark) → continue.
+   - *Sev 3* (cosmetic / non-blocking) → file `gh issue create` + close cold.
+3. **Investigate first** (per `feedback_investigation_before_fixes`). For hard bugs / performance regressions → `/diagnose` (reproduce → minimize → hypothesize → instrument → fix → regression-test).
+4. **🔀 Decision: is this a recurring pattern?** Check Retro's P-NNN register and the most recent retro file. If pattern recurrence (2+ times across distinct retros), this is REVIEW stream-1 / stream-2 work, not just a fix. Per V-008 recurrence handoff, surface the pattern back to Retro on closeout if recurrence is plausible.
+5. **🔀 Decision: HIPAA-region code (MethodRX)?** —
+   - Yes → in-repo gates (`/review-plan` 6-gate pipeline) authoritative. `/security-review` *automatic*. `/codex:*` *blocked entirely* (no BAA, CTO standing rule 2026-04-30).
+   - No → standard review pipeline.
+6. **Implement fix** — Edit/Write. Branch check first.
+7. **Review pipeline (V-005)** —
+   - `/review` first pass (always).
+   - `/codex:adversarial-review` second pass if judgment gate fires (architecture, one-way door, non-trivial trade-off, author requests). Skip if HIPAA-region (per step 5).
+8. **Security pipeline (V-006)** — `/security-review` if risk-surface gate fires (auth / endpoint / DB query / input / crypto / secrets / files / RBAC). Default-on bias for in-doubt cases.
+9. **Tier verification** — self-apply [REVIEW_PROTOCOL.md](protocols/REVIEW_PROTOCOL.md). Tier 3 (deployed) requires James approval before push.
+10. **Push + close** — Proactive Checkpoint Protocol commit; push if authorized; close GH issue with fix commentary.
+11. **Live verify** — confirm fix is real on prod (byte-precise where applicable).
+12. **SESSION_END** — Session Log row. If pattern was new, surface to Retro for P-NNN register. If pattern was already in register, REVIEW reads on next pulse.
+
+**Anchors:** SkydiveCity Burble GTM whitespace fix ([`skydivecity-com#9`](https://github.com/itsginfo/skydivecity-com/issues/9)) ran this workflow end-to-end on 2026-05-18. Two residual verifications carried in Live Watch.
+
+---
+
+### 3. Planning conversation ("how should we approach Y?")
+
+**Trigger:** James asks for design / planning / architecture conversation. Or you surface a problem that needs design before implementation.
+
+**Sequence:**
+
+1. **Boot** — SESSION_START block.
+2. **🔀 Decision: shape of the conversation** —
+   - *Grilling* (stress-test a plan, interview-style, "grill me on this") → `/grill-with-docs` (V-004). The skill explores the codebase first, asks one question at a time, challenges terms against `CONTEXT.md`, applies 3-of-3 ADR-offer rule on landing.
+   - *Exploring* (brainstorm options, open-ended) → direct conversation; no skill invoked.
+   - *Architecture audit* (existing code) → `/improve-codebase-architecture` (skill produces findings; CTO triages).
+3. **Conversation runs** — agent asks one question at a time if grilling; otherwise dialogue.
+4. **🔀 Decision: does a substantive decision land?** Apply `/grill-with-docs`'s 3-of-3 ADR-offer test:
+   - Real trade-off (not strict superset)?
+   - Hard to reverse / sustained convention?
+   - Surprising-without-context to a future reader?
+   - All 3 → write `docs/adr/NNNN-kebab-name.md` per V-001 / [ADR-0002](docs/adr/0002-adr-vs-decisions-md.md). Per-repo: harness-scope ADRs in `agent-driven-enterprise/docs/adr/`, project-scope in `<project>/docs/adr/`.
+   - Fewer than 3 → verdict-row-only entry in `TOOL_LANDSCAPE.md` (or wherever the equivalent doc lives); no ADR pollution.
+5. **🔀 Decision: glossary term surfaced?** Update `CONTEXT.md` inline (engagement-language convention per Matt Pocock).
+6. **🔀 Decision: planning output shape?** —
+   - *Single PRD-shaped item* → `/to-prd` (V-007 start of pipeline) → 1 GH issue tagged `needs-triage`.
+   - *Multi-issue plan with vertical slices* → `/to-issues` (V-007 mid-pipeline) → N GH issues, each tagged `needs-triage`.
+   - *Single issue not from a plan* → `gh issue create` directly (V-007 escape lane).
+7. **Update PROJECT_STATE.md** — new ADRs land in `Decisions (Summary)` index; new in-flight work lands in `In-Flight Tasks` or `Next 3 Actions`.
+8. **SESSION_END** — drain to Session Log.
+
+**Anchors:** Tool-landscape v1 itself ran through this workflow on 2026-05-18 (`/grill-with-docs` on [`ai-agent-harness#8`](https://github.com/itsginfo/ai-agent-harness/issues/8) → 14 captured decisions → 8 ADRs across 3 sessions).
+
+---
+
+### 4. Code change with review
+
+**Trigger:** implementing a feature, bug fix, refactor, or dep bump.
+
+**Sequence:**
+
+1. **Boot** — SESSION_START block.
+2. **Branch check first** — `git -C <repo> branch --show-current`. Don't `cd` (per `feedback_no_cd_use_absolute_paths`); use absolute paths or `git -C`.
+3. **🔀 Decision: familiar codebase?** —
+   - Familiar → direct Edit/Write.
+   - Unfamiliar → spawn `Explore` subagent for breadth-first context (don't use Explore for known-target lookups; that's `grep`'s job).
+4. **Read the wiki first** if the work touches a topic in the project's [Wiki Quick-Index](projects/skydivecity/wiki/) (Flywheel, ACF, Burble, prod-write, tracking stack, sandbox allowlist).
+5. **Implement** — Edit/Write tools.
+6. **🔀 Decision: refactor scan needed?** Reviewing changed code for reuse / quality / efficiency → `/simplify`.
+7. **Review pipeline (V-005 / [ADR-0005](docs/adr/0005-review-pipeline-sequencing.md))** —
+   - **First pass:** `/review` (always, even single-file edits). MethodRX: in-repo `/review-plan` 6-gate pipeline is authoritative; `/review` is outer-layer sanity check.
+   - **🔀 Decision: judgment gate fired?** (architecture-touching · non-trivial trade-off · one-way door · author requests adversarial)
+     - Yes → `/codex:adversarial-review` second pass. **Blocked on MethodRX HIPAA code** (no BAA).
+     - No → skip second pass.
+8. **Security pipeline (V-006)** —
+   - **🔀 Decision: risk-surface gate fired?** (auth · endpoint · DB query · input validation · crypto · secrets · file upload · RBAC)
+     - Yes → `/security-review`. **Automatic on MethodRX.** Default-on bias for in-doubt cases (asymmetric blast radius).
+     - No → skip.
+9. **Tier verification** — self-apply [REVIEW_PROTOCOL.md](protocols/REVIEW_PROTOCOL.md). Tier 3 (committed/irreversible) requires James approval before push.
+10. **🔀 Decision: prod DB write involved?** Yes → switch to Workflow #1's 5-phase change-control procedure for the actual write. Code change still uses this workflow.
+11. **Proactive Checkpoint Protocol** — commit after every major task with `checkpoint:` prefix. Never amend.
+12. **🔀 Decision: push authorized?** Default = ask. Exception: established conventions in active sessions (harness checkpoint commits get pushed; client-facing or destructive operations always require explicit approval).
+13. **SESSION_END** — Session Log row + resume update.
+
+**Anchors:** Tool-landscape v1 propagation itself (Pass A + Pass B, this session) ran this workflow on a doc-shape codebase rather than executable code.
+
+---
+
+### 5. Knowledge-capture moment
+
+**Trigger:** a fact, decision, preference, or system detail emerges during session that should persist beyond this conversation.
+
+**Sequence:**
+
+1. **Classify the content (V-002 / V-001 — five axes):**
+   - **Substantive decision** (architectural, process, standing rule) → `docs/adr/NNNN-kebab.md` per V-001. Apply 3-of-3 ADR-offer test first.
+   - **Project fact** (path, command, frozen surface, convention in force, agent skill config) → `CLAUDE.md` (project or harness).
+   - **User preference / behavioral correction** (how the user wants to be worked with; lessons across conversations) → auto-memory (`~/.claude/projects/<slug>/memory/`).
+   - **System-level knowledge** (Flywheel, ACF, Burble — durable systems that compound) → wiki entity page (`projects/[project]/wiki/[name].md`). Graduation rule: ≥2 retros OR user-elevated OR redesign-prep need.
+   - **Engagement-language term with ambiguity to resolve** → `CONTEXT.md` (per Matt Pocock single-context layout).
+   - **External artifact cited in passing** (URL, gist, paper, repo) → `wiki/sources.md` append (one line: `YYYY-MM-DD | Topic | URL | One-line context | Cited by`).
+   - **Per-project narrative or in-flight state** → `PROJECT_STATE.md` (resume / In-Flight / Live Watch / Session Log per V-003).
+2. **🔀 Decision: does it fit exactly one surface?** Per V-002 non-duplication rule, the fact lives in exactly one surface. If you find a duplicate, one must retire (e.g., `feedback/project_issue_tracker_migration.md` originally duplicated `CLAUDE.md`; auto-memory entry rewrote to "post-migration architecture reference" 2026-05-18).
+3. **Write to the chosen surface.** For ADRs, use the kebab-name + numbered convention. For wiki pages, cross-link via `[[wiki-link]]` to related pages.
+4. **🔀 Decision: cross-link relevant?** —
+   - New ADR → add to `PROJECT_STATE.md` `Decisions (Summary)` table (per V-001 going forward).
+   - New wiki page → cross-link from related pages via `[[wiki-link]]`.
+   - New auto-memory entry → add to `MEMORY.md` index with one-line hook.
+5. **🔀 Decision: live-watch material?** If the fact is time-sensitive with a known expiration (SSL cert renewal, vendor email follow-up, soak window) → add to `PROJECT_STATE.md` `Live Watch` table. Retire when the date passes.
+6. **SESSION_END** — drain to Session Log.
+
+**Anchors:** Most session-end work hits this workflow. V-003 reshape + V-002 non-duplication + V-001 ADR-first all converge here.
+
+---
+
+### 6. Session boundary
+
+**Trigger:** end of session OR token-limit warning OR switching agents (A2A handoff) OR before closing Claude Code.
+
+**Sequence (per [protocols/SESSION_END.md](protocols/SESSION_END.md), now V-003-aware):**
+
+1. **🔀 Decision: token-limit imminent?** —
+   - Yes → emergency closeout (Steps 1, 3a-b, 2 in that order — minimum viable close).
+   - No → full sequence.
+2. **Step 1 — Update the issue tracker first.** Default tracker per project's CLAUDE.md "Per-Project Overrides" — all 3 active projects use `gh` CLI. Close completed issues; comment in-progress; flag blockers.
+3. **Step 2 — Commit code.** Proactive Checkpoint Protocol commit (`checkpoint:` prefix) with co-author tag. Push if authorized; never amend; never `--no-verify` unless explicitly requested.
+4. **Step 3 — Update PROJECT_STATE.md (V-003 shape rules):**
+   - **3a Drain** — move the *prior* session's resume paragraph to `Session Log` as a one-liner with commit/ADR pointer. The row IS the verdict; detail lives in the ADR or commit.
+   - **3b New lean resume** — ≤ 10 visible lines. State + posture + next-action + branch-check warning. No accumulated session summaries.
+   - **3c Audit `Watch out for` / Live Watch items** — triage taxonomy: ADR (architectural rules) / CLAUDE.md (project facts) / Live Watch table (date-bound standing items) / Wiki (stable systems knowledge) / Retire. Items that don't fit one of these aren't safe to keep in the resume.
+   - 3d–3g — Update In-Flight, Next 3, Blocked / Open Questions, confirm Session Log row.
+5. **Step 4 — Log decisions.** New decisions land in per-repo `docs/adr/` (V-001 / [ADR-0002](docs/adr/0002-adr-vs-decisions-md.md)). `DECISIONS.md` is frozen — no new entries.
+6. **Step 5 — Save deliverables to Google Drive** if applicable. Update `PROJECT_STATE.md` Links table.
+7. **Step 5b — Verify outputs** (REVIEW_PROTOCOL.md tier check). Tier 1 self-verify; Tier 2 read end-to-end; Tier 3 James reviews before push.
+8. **Step 5c — Wiki ingest.** External artifacts cited → `wiki/sources.md` append. Recurring topics → consider wiki entity page if graduation rule fires. Skip if no triggers.
+9. **🔀 Decision: A2A handoff to another agent?** Yes → produce handoff package per [`protocols/A2A_PROTOCOL.md`](protocols/A2A_PROTOCOL.md) (tier + verification status + scope). No → continue.
+10. **🔀 Decision: recurring pattern surfaced this session?** Yes → Retro registers P-NNN in retro pattern register; REVIEW reads register on next REVIEW-stream pulse (V-008 handoff). No → continue.
+11. **Step 6 — Output SESSION END summary block.**
+
+**Anchors:** This session itself runs this workflow at close. The 2026-05-20 Session Log row is the drained output of the Pass A + Pass B work.
+
+---
+
+### Workflow guide — orthogonality + composition
+
+These six workflows are *not* mutually exclusive. They compose:
+
+- A **Sev 2 incident** that requires a **code change** runs Workflow #2 with Workflow #4's review pipeline as its sub-step.
+- A **Routine Request** that requires a **prod DB write** runs Workflow #1 with `wiki/prod-write-procedure.md` as its sub-step (which is itself a Workflow #5 reference).
+- Every workflow ends in Workflow #6 (Session boundary).
+- A **Planning conversation** that lands a substantive decision triggers Workflow #5 (Knowledge-capture moment) inline for the ADR write.
+
+Match the trigger to the *top-level* workflow; sub-step into others as the path forks.
 
 ---
 
 ## Conflict/overlap log
 
-*To be filled in Session 3.* Prose form of every place two tools could both do the job, with the recommended pick and why. Should converge with the verdicts above; this is the "in-paragraph" view rather than the "structured-entry" view.
+> Prose narrative of every place two tools could both do the job — same content as the verdicts and boundary clarifications above, in "what story does this tell" form rather than structured-entry form. Read this when you want the *why* without the *receipt*.
+
+### Knowledge persistence
+
+**`docs/adr/` vs `DECISIONS.md` vs `PROJECT_STATE.md` — three surfaces, three different jobs.** ADRs (per-repo `docs/adr/NNNN-kebab.md`) own *substantive architectural / process / standing-rule decisions* going forward — one file per decision, atomic, GitHub-diffable, established Matt Pocock + software-engineering convention, `/grill-with-docs` natively produces them (V-001). `DECISIONS.md` is frozen 2026-05-18 (V-001 / ADR-0002); pre-freeze entries stay where they were written, but no new entries land there. `PROJECT_STATE.md` is the *per-project narrative + sprint surface* — resume instruction (≤10 lines, V-003), in-flight tasks, open questions, decisions index, session log. The decisions index in PROJECT_STATE.md *points at* ADRs going forward; it does not duplicate the decision content. Net: ADRs answer "why did we decide X?", PROJECT_STATE answers "where are we right now in this project?", DECISIONS.md answers "what did we decide before 2026-05-18?". No overlap — three different jobs.
+
+**`CLAUDE.md` / `AGENTS.md` vs auto-memory — boundary by content type, model-agnostic (V-002).** Both are boot-time context surfaces, but they own different *kinds* of facts. `CLAUDE.md` (Claude Code) / `AGENTS.md` (Codex *latent*) own **project facts** — paths, commands, what's installed or frozen, conventions in force, protocols active, agent skill config. They live in-repo, are versioned, diffable, reviewable. Auto-memory (`~/.claude/projects/<slug>/memory/`) owns **user preferences and behavioral corrections** — how the user wants to be worked with, lessons across conversations. It persists across conversations with agent curation. Single-surface alternatives fail in both directions: CLAUDE.md alone loses cross-conversation persistence; auto-memory alone loses in-repo reviewability. The model-agnostic framing transfers cleanly if Codex graduates to peer primary — Matt Pocock-to-Codex skills migration is the documented watch trigger. Non-duplication is a hard rule: a fact lives in exactly one of the two.
+
+**Wiki entity pages vs `CONTEXT.md` vs auto-memory — different cuts of "stable knowledge."** Wiki entity pages own *system-level knowledge* (Flywheel, ACF, Burble, etc.) — compounding, durable across sessions, recurrence-triggered creation. `CONTEXT.md` owns *engagement-language glossary* per Matt Pocock convention — terms with ambiguity to resolve. Both stable knowledge that compounds, but they cut at different joints: language vs systems. Proper nouns without ambiguity (e.g., "Burble") don't earn a `CONTEXT.md` entry just because they appear in contracts; the *systems* go in wiki. Auto-memory crosses both axes — it's keyed by *user* preference, not by project facts or system knowledge. The seam is V-002's boundary clarification.
+
+**Retrospective pattern register vs wiki entity pages — graduation rule (boundary, no verdict).** Retrospectives own the *pattern register* (P-NNN with occurrence counts, recorded inline in retro files). Wiki entity pages own *stable systems knowledge*. A P-NNN graduates from the register to a wiki entity page when (a) it occurs ≥ 2 times across distinct retros, OR (b) explicit user-elevation, OR (c) redesign-prep need (per Phase B precedent). Graduation can produce a new page OR an addendum to an existing page — fit-driven. Example: P-001 ("script production-validation gap") would absorb into `prod-write-procedure.md`, not warrant a new page. Register stays in retro files until pattern count > 10.
+
+### Review
+
+**`/review` vs `/codex:adversarial-review` — sequenced pipeline, not alternatives (V-005).** First pass runs `/review` on every reviewable PR (Claude Code, in-session, same-model). Second pass runs `/codex:adversarial-review` *only when the judgment gate fires* — architecture-touching, non-trivial trade-off, one-way door, or author requests adversarial framing. Skip the second pass for routine work (single-file content edits, migration scripts, dep bumps, docs/lint). The two aren't redundant: they're a cross-model coverage pipeline. Self-review blind spots (same model that built it reviewing it) are real and named; cross-model second pass surfaces failure modes the first model can't self-detect (HARN-5 trial: 8 passes, 14 findings on single-tree solutions that the first pass missed). The judgment gate keeps the second pass from firing on every PR — but in-doubt cases default to running (asymmetric blast radius: missed finding = breach/incident; wasted pass = ~30s). MethodRX HIPAA code blocks `/codex:adversarial-review` entirely (no BAA, CTO standing rule 2026-04-30). [ADR-0005].
+
+**`/review` vs `/security-review` — boundary, not winner-take-all (V-006).** Neither contains the other. `/review` is breadth-first: correctness, standards, missing tests, edge cases, scope-bounded architecture. `/security-review` is depth-first on the security axis: OWASP top 10, secrets, auth surface, input validation, injection, crypto/TLS, permissions. Strict-superset framing fails in both directions: `/review` misses OWASP-trained tunnel-vision findings ("this query concatenates user input"); `/security-review` misses missing tests / style / non-security correctness. They run in parallel semantically — order doesn't matter; both feed the human triage. `/security-review` fires on its own risk-surface gate (auth / endpoint / DB / input / crypto / secrets / files / RBAC / HIPAA-automatic), independent of V-005's judgment gate. A PR touching auth architecture + introducing a one-way door fires all three (V-005 first pass, V-005 second pass, V-006 security pass).
+
+**`/codex:review` retirement — strict subset of V-005's gate (V-005 sub-decision).** Non-adversarial Codex review (`/codex:review`) was originally part of the Codex plugin's offering alongside the adversarial variant. Under V-005's judgment gate, it has no surviving use case: clear the gate → you want adversarial framing (correctness is a free subset); fail the gate → skip Codex entirely. Retired doc-only 2026-05-19 (symlink stays installed; revival is one TOOL_LANDSCAPE.md row edit away). `/codex:rescue` is out of V-005 scope — different seam (investigation/fix delegation), still trial-tagged per ADR-0001 Option 3.
+
+**`REVIEW_PROTOCOL.md` vs `agents/REVIEW.md` — boundary by purpose, not by name (V-008 edge case b).** Same naming, different jobs. `REVIEW_PROTOCOL.md` is *tier-based output verification* — Tier 1/2/3 self-applied by every agent on its own work before handoff. Agent-agnostic. `agents/REVIEW.md` is the REVIEW *agent* — owns agent system optimality across three streams (capability auditing / operating-environment auditing / system-improvement signaling). The "REVIEW agent" does not execute `REVIEW_PROTOCOL.md`; any agent does. Rename to `VERIFICATION_PROTOCOL.md` is optional / deferred low-priority hygiene; the agent-agnostic banner inside the file resolves the naming confusion without the rename churn.
+
+**`/simplify` vs `/review` — boundary (refactor scan vs PR review).** `/simplify` does a refactor-quality scan on changed code — find dead code, reused patterns, over-abstraction. `/review` does a PR review — correctness + standards + tests + architecture. `/simplify` is invoked when you're about to refactor or after you've finished refactoring; `/review` is invoked on every reviewable PR. They can compound on the same PR (run `/simplify` to clean up, then `/review` to gate-check the result) but they're different tools for different moments.
+
+### Intake
+
+**`/to-prd` vs `/to-issues` vs `/triage` — three-stage pipeline + four escape lanes (V-007).** The three skills look like alternatives because each can produce a GH issue, but their input shapes are different. `/to-prd` synthesizes from *conversation context* → 1 PRD issue. `/to-issues` breaks down *a plan or PRD* → N vertical-slice issues. `/triage` operates on *an existing issue* via state machine (`needs-triage` → `needs-info` / `ready-for-agent` / `ready-for-human` / `wontfix`). Forcing them into one mega-skill conflates the shapes; forcing every intake through the pipeline creates PRD-ceremony on shapes that don't earn it. The escape lanes (gh issue create direct for Routine Requests + bugs + single issues not from plan; gh issue edit direct for editorial refinement) handle the off-pipeline shapes without breaking `/triage`'s state-machine integrity. `/triage` natively invokes `/grill-with-docs` (V-004) when issue grilling is needed. Pipeline is one-directional — issues move forward, not back. [ADR-0007].
+
+### Retrospection
+
+**REVIEW agent vs Retro agent — boundary by purpose + recurrence handoff (V-008).** REVIEW (expanded scope per V-008) owns *"is the agent system optimal?"* — continuous + cadenced, across agents and their operating environment. Three streams: agent-capability auditing, operating-environment auditing, system-improvement signaling. Retro owns the *SDLC-anchored learning loop* — sprint end, release, incident, project end. Pattern register (P-NNN with occurrence counts) + 2-3 next-period actions + action follow-through. The recurrence handoff is the carve-out: **Retro observes patterns; REVIEW prioritizes and edits.** When Retro registers a P-NNN, REVIEW reads the register and picks the fix vector — stream 1 (agent edit), stream 2 (protocol/surface edit), or escalation. Concrete example: P-002 ("harness under-leveraged") was registered by Retro on 2026-04-27; the fix vector is REVIEW stream 1 (strengthen agent definitions). Tool-landscape v1 is the active resolution path. [ADR-0006]. Closes [`ai-agent-harness#4`](https://github.com/itsginfo/ai-agent-harness/issues/4).
+
+**`RETRO_PROTOCOL.md` vs `agents/Retro.md` — boundary (protocol = recipe; agent = executor).** Same shape as `REVIEW_PROTOCOL.md` vs `REVIEW.md`. The protocol is the retrospective recipe (5-section structure, follow-through, pattern register format); the agent is the executor that runs the recipe on a scheduled cadence. The protocol can be executed by the Retro agent OR by any other agent that needs to run a retrospective. No overlap — complementary by design. The Session 1 deferred decision ("weekly retro automation vs manual run") is about whether the *automation* runs; the protocol-vs-agent boundary is unaffected.
+
+### Schedule
+
+**`/loop` vs `/schedule` — lifetime-axis split (V-009).** Both could theoretically do "recurrence," but the lifetime requirement settles the pick deterministically. `/loop` is intra-session: uses `ScheduleWakeup`, runs on the human's machine, no sandbox, full conversation context per fire, dies at session end. Right tool when: polling CI / a deploy until it lands; self-pacing iteration until told to stop; long-poll an external system the harness can't notify you about. `/schedule` is cross-session: uses `CronCreate`, produces a routine on the Anthropic remote-agent sandbox, restrictive outbound allowlist, fresh agent per fire, outlives any session. Right tool when: "run X every morning at 8am"; "remind me to check Y on a specific date"; "watch a deadline and alert at threshold." The "routine" is `/schedule`'s output artifact (named in body), not a third row. **Network-access override:** if the host isn't on the sandbox allowlist, `/loop` wins regardless of lifetime — the routine literally can't do the work. **E2 hybrid case ("active now, keep going after laptop close") is UNSOLVED** — two workarounds trade off in different directions, no default; pick per task. **Failure-mode fallback:** routine fails twice with different network symptoms → disable + convert to `/loop` or manual. The 2026-04-29 daily check-in incident anchors this rule. [ADR-0008].
+
+### Status
+
+**`/status` vs `PROJECT_STATE.md` — read-vs-write seam, not a peer race (V-010).** `/status` is a *read view* — stateless, on-demand, structured-snapshot output, no file artifact. James-facing mid-conversation re-orientation. `PROJECT_STATE.md` is a *write surface* — stateful, accreted-then-pruned, narrative format, the persistent file artifact. The read/write split mirrors how `SESSION_START` (read) and `SESSION_END` (write) relate to `PROJECT_STATE.md` for agents; `/status` is the equivalent on-demand read for James. They cannot conflict by design — `/status` consumes from `PROJECT_STATE.md`, never writes to it. **Stale output is the failure mode** — if `/status` shows wrong state, fix `PROJECT_STATE.md`, not `/status`. The V-003 reshape (Session 3 Pass A) forced a mechanical re-edit of `/status`'s section list (RESUME + In-Flight + Next 3 → resume + Live Watch + Session Log latest); reasoning and code lived in separate places but the edits landed together.
+
+### Design
+
+**`/grill-with-docs` vs `/grill-me` — strict superset, doc-only retirement (V-004).** Both run the same one-question-at-a-time grilling loop and the same "explore the codebase before asking" rule. `/grill-with-docs` adds four behaviors: challenge the user's terms against the existing glossary, propose canonical names for fuzzy/overloaded terms, cross-reference user claims against code, update `CONTEXT.md` inline as terms resolve. It also carries a disciplined 3-of-3 ADR-offer rule that prevents ADR pollution. `/grill-me` has none of this, so picking it forfeits all four upsides and the ADR discipline with no compensating gain. Strict-superset framing made this a doc-only deprecation — `/grill-me` symlink stays installed (revival is reversible), but the verdict is clear. Greenfield project with no `CONTEXT.md` or `docs/adr/` yet? `/grill-with-docs` degrades gracefully — it creates files lazily.
+
+**`/grill-with-docs` vs `CONTEXT.md` / `docs/adr/` — sequenced production, not competition.** `/grill-with-docs` is the *conversation skill* that runs the grilling loop; `CONTEXT.md` and `docs/adr/` are *artifacts* the skill produces or updates. The skill is the verb; the surfaces are the nouns. No overlap — they're sequenced (skill runs, surfaces get updated).
+
+**`/improve-codebase-architecture` vs CTO technical backlog — sequenced, not competing.** The skill produces findings (deepening opportunities in a codebase, informed by the domain language in `CONTEXT.md` and the decisions in `docs/adr/`). The CTO agent decides what enters the backlog and prioritizes against other tech-debt. The skill is the input surface; the backlog is the output surface. Skill findings without CTO triage = pile of recommendations no one acts on; CTO backlog without skill input = the team only sees what's loud enough to surface organically.
+
+### Build
+
+**`/diagnose` vs 5-phase prod-write procedure — different jobs, sometimes co-fire.** `/diagnose` is a debug loop — reproduce, minimize, hypothesize, instrument, fix, regression-test. Used when a bug is reported or a regression is observed. The 5-phase prod-write procedure (read-only inventory → SHA-verified upload → execute with logged output → live verification → checkpoint, per `wiki/prod-write-procedure.md`) is a *change-control gate* for production database writes. They can co-fire: a diagnosed bug whose fix requires a prod DB write triggers both — `/diagnose` to scope the fix, prod-write-procedure to ship it. They don't compete; they sequence.
+
+**`/tdd` vs CTO standing test discipline — different layers.** `/tdd` is a *workflow skill* — red-green-refactor loop, integration tests, test-first development. CTO standing test discipline is *policy* — every feature has a test, every fix has a regression test, code coverage is monitored. The skill is one of several ways to satisfy the policy; the policy stands whether the skill is used or not. Skill enables policy; doesn't replace it.
+
+### Utility / boundary
+
+**`/fewer-permission-prompts` vs `CLAUDE.md` permissions block — sequenced (skill produces, CLAUDE.md persists).** The skill scans recent transcripts for common read-only Bash + MCP tool calls and produces a prioritized allowlist. `CLAUDE.md` (or `.claude/settings.json`) is where the allowlist actually lives — versioned, in-repo, applied at session boot. Skill is the producer; settings file is the durable surface. The Matt Pocock skill *can't* solve the problem alone — it produces the list but doesn't persist it; the user takes the output and pastes it into the settings file.
+
+**Task subagents (`Explore`) vs direct `grep` — boundary by scope.** `Explore` is for *breadth*: locating code by pattern across the codebase, grepping for symbols, answering "where is X defined / which files reference Y." Direct `grep` (or the `Grep` tool) is for *known targets*: you already know the file and the symbol, you just want to find it fast. `Explore` reads excerpts rather than whole files — don't use it for cross-file consistency checks, design-doc audits, or open-ended analysis (it'll miss content past its read window). The breadth-vs-target split is the seam.
+
+**`A2A_PROTOCOL.md` vs Task subagents — boundary (human-orchestrated vs runtime-delegated).** Both are agent-to-agent handoff mechanisms but at different layers. A2A is *human-orchestrated*: PM hands off to CTO via PROJECT_STATE.md, the next session reads the handoff package, the receiving agent takes over with full context continuity. Task subagents are *runtime delegation* within a single session: the main agent spawns an `Explore` or `Plan` subagent for a specific sub-task and consumes its output. A2A persists across sessions; subagents die when the session ends. Different lifecycles, different orchestration models.
+
+**`/codex:adversarial-review` vs `REVIEW_PROTOCOL.md` — boundary (per-PR review vs per-output tier verification).** `/codex:adversarial-review` is a per-PR review gate (V-005 second pass). `REVIEW_PROTOCOL.md` is per-output tier verification — Tier 1/2/3 self-applied by every agent on its own work before handoff. Different scopes: one looks at a PR (multiple files, multiple changes), one looks at a single output before it leaves the producing agent. Confusable because both use the word "review"; not the same job.
+
+### What's deliberately NOT here
+
+- **CMO / CFO / CEO agent overlaps with skill-layer tools** — surfaced as needed in the Workflow Guide rather than as standalone conflicts here. The conflicts are workflow-shaped (e.g., a Routine Request that touches homepage content rates is CMO-owned end-to-end), not tool-vs-tool.
+- **`/zoom-out` vs other tools** — explicitly scoped *out* of V-010 in framing. `/zoom-out` is a peer of `Explore` / wiki entity pages / `CONTEXT.md` / direct `grep` (code-architecture map), not of `/status` or `PROJECT_STATE.md` (project status). No verdict; if a future seam emerges between `/zoom-out` and a code-architecture peer, that's its own entry.
+- **`RETRO_PROTOCOL.md` weekly-cadence default vs SDLC-anchored intent** — Session 1 deferred decision, still deferred. Not a conflict between two tools; a single-tool design question about its own cadence.
 
 ---
 
 ## Diagram
 
-*To be filled in Session 3 (Mermaid in-doc).* Will show surfaces (where artifacts land), flows (what triggers what), and the human/agent decision points across the six layers.
+> Three Mermaid views — one for surfaces (where artifacts land), one for the review + intake pipelines (what triggers what), one for the agent-system handoff (V-008 REVIEW ↔ Retro). Together they cover the six layers without becoming an unreadable mega-diagram.
+
+### A. Surface map — where artifacts land (V-001 / V-002 / V-003 / V-010)
+
+```mermaid
+flowchart TB
+    KC{"Knowledge<br/>to persist<br/>(classify)"}
+
+    KC -->|Substantive decision<br/>(passes 3-of-3 ADR test)| ADR[("<b>docs/adr/</b><br/>NNNN-kebab.md<br/>per repo<br/><i>V-001</i>")]
+    KC -->|Project fact<br/>(path, command,<br/>convention)| CLM[("<b>CLAUDE.md</b> /<br/><b>AGENTS.md</b> latent<br/><i>V-002</i>")]
+    KC -->|User preference /<br/>behavioral correction| AM[("<b>Auto-memory</b><br/>~/.claude/projects/<br/>&lt;slug&gt;/memory/<br/><i>V-002</i>")]
+    KC -->|System-level knowledge<br/>(Flywheel, ACF, Burble)| WK[("<b>wiki/</b><br/>entity pages<br/><i>V-002 boundary</i>")]
+    KC -->|Engagement-language<br/>glossary term| CT[("<b>CONTEXT.md</b><br/>per repo<br/><i>V-002 boundary</i>")]
+    KC -->|External artifact<br/>cited in passing| SRC[("<b>wiki/sources.md</b><br/>append-only")]
+    KC -->|Per-project narrative /<br/>in-flight state| PS[("<b>PROJECT_STATE.md</b><br/>lean resume ≤10 ln<br/>+ Session Log drain<br/>+ Live Watch<br/><i>V-003</i>")]
+
+    DEC[("<s>DECISIONS.md</s><br/><i>FROZEN 2026-05-18</i><br/>historical only")]:::frozen
+    DEC -.->|points new entries to| ADR
+
+    RD{{"On-demand<br/>read view"}}
+    RD -->|"/status<br/>(consumes,<br/>never writes)"| PS
+    RD -->|reads| GHP[("GH Project #1<br/>tracker")]
+
+    classDef surface fill:#dde7ff,stroke:#335599,color:#000
+    classDef decision fill:#ffeecc,stroke:#cc8800,color:#000
+    classDef frozen fill:#eee,stroke:#999,color:#666,stroke-dasharray: 5 5
+    class ADR,CLM,AM,WK,CT,SRC,PS,GHP surface
+    class KC,RD decision
+```
+
+**Read this diagram:** classify the content first (left), land it on exactly one surface (V-002 non-duplication rule). DECISIONS.md is frozen — no new entries; pre-freeze entries stay where they were written. `/status` (V-010) is a read view, never a write.
+
+---
+
+### B. Pipelines — intake + review + security + recurring (V-005 / V-006 / V-007 / V-009)
+
+```mermaid
+flowchart TB
+    %% Intake pipeline (V-007)
+    subgraph INTAKE["Intake pipeline (V-007 / ADR-0007)"]
+        direction LR
+        CTX(["Conversation<br/>context"]) -->|substantive new work| TP["/to-prd<br/>1 PRD issue"]
+        TP --> TI["/to-issues<br/>N vertical-slice issues"]
+        TI --> TR["/triage<br/>state machine<br/>(needs-triage → ready-for-* / wontfix)"]
+        TR -.->|grilling needed| GW["/grill-with-docs<br/><i>V-004</i>"]
+
+        ESC{{"Escape lanes<br/>(skip pipeline)"}}
+        ESC -->|Routine Request| GH1["gh issue create<br/>(often retroactive)"]
+        ESC -->|Bug report| GH2["gh issue create<br/>+ /triage"]
+        ESC -->|Editorial refinement| GH3["gh issue edit<br/>(not /triage)"]
+        ESC -->|Single issue not from plan| GH4["gh issue create"]
+    end
+
+    %% Review pipeline (V-005 + V-006)
+    subgraph REVIEW["Review pipeline (V-005 / V-006)"]
+        direction TB
+        PR(["Reviewable PR"]) --> RV["/review<br/>(first pass — always)"]
+        RV --> JG{Judgment<br/>gate fired?}
+        JG -->|"architecture /<br/>one-way door /<br/>non-trivial trade-off /<br/>author-requested"| CAR["/codex:adversarial-review<br/>(V-005 second pass)<br/><b>BLOCKED on MethodRX HIPAA</b>"]
+        JG -->|skip on routine| SECG{Risk-surface<br/>gate fired?}
+        CAR --> SECG
+        SECG -->|"auth / endpoint /<br/>DB query / input /<br/>crypto / secrets /<br/>files / RBAC"| SR["/security-review<br/>(V-006)<br/><b>AUTOMATIC on MethodRX</b>"]
+        SECG -->|skip on CSS / copy /<br/>docs / dep-bumps| RPV[REVIEW_PROTOCOL.md<br/>tier verification<br/>self-applied]
+        SR --> RPV
+        RPV --> CMT[Commit + push if authorized]
+    end
+
+    %% Recurring task pipeline (V-009)
+    subgraph RECURRING["Recurring task (V-009)"]
+        direction LR
+        RTASK(["Recurring or<br/>scheduled task"]) --> LT{Lifetime?}
+        LT -->|within session| LP["/loop<br/>(ScheduleWakeup)<br/>cache: 60–270s OR 1200s+;<br/>avoid 300s"]
+        LT -->|outlives session| SCH["/schedule<br/>(CronCreate routine,<br/>remote-agent sandbox)"]
+        LT -.->|network host<br/>NOT on allowlist| LP
+        SCH -.->|"fails 2x with<br/>different symptoms"| DISABLE[Disable + convert<br/>to /loop or manual]
+    end
+
+    classDef decision fill:#ffeecc,stroke:#cc8800,color:#000
+    classDef skill fill:#ddffdd,stroke:#338833,color:#000
+    classDef gate fill:#ffdddd,stroke:#883333,color:#000
+    class JG,SECG,LT,ESC decision
+    class TP,TI,TR,GW,RV,CAR,SR,LP,SCH skill
+    class RPV,CMT,DISABLE,GH1,GH2,GH3,GH4 gate
+```
+
+**Read this diagram:** three concurrent pipelines that compose on a single PR / task. A PR can fire V-005 first pass + V-005 second pass (judgment gate) + V-006 (risk-surface gate) simultaneously — three orthogonal review surfaces, parallel by semantics. Intake escape lanes preserve the natural shape of non-PRD work. Recurring task picks `/loop` or `/schedule` deterministically off the lifetime axis, with two override conditions (allowlist + failure mode).
+
+---
+
+### C. Agent system meta — recurrence handoff (V-008)
+
+```mermaid
+flowchart LR
+    %% SDLC retrospective loop
+    subgraph RETRO["Retro agent (SDLC-anchored)"]
+        direction TB
+        DELIVERY(["Sprint end /<br/>Release /<br/>Incident /<br/>Project end"]) --> RETROFILE[Retro file<br/>+ P-NNN entry]
+        RETROFILE --> REGISTER[(P-NNN<br/>pattern register)]
+    end
+
+    %% REVIEW three streams
+    subgraph REV_AGENT["REVIEW agent (continuous)"]
+        direction TB
+        S1["Stream 1<br/>Agent-capability<br/>auditing"] --> AGENT_EDIT[agents/*.md edits]
+        S2["Stream 2<br/>Operating-environment<br/>auditing"] --> PROTO_EDIT[protocols/*.md +<br/>surface edits]
+        S3["Stream 3<br/>System-improvement<br/>signaling"] --> SIGNAL[Quarterly signal<br/>for James]
+    end
+
+    REGISTER -.->|"V-008 handoff:<br/>'Retro observes;<br/>REVIEW prioritizes + edits'"| S3
+    S3 -->|pick fix vector| S1
+    S3 -->|pick fix vector| S2
+    S3 -->|escalate| JAMES((James /<br/>CEO))
+
+    %% Self-application
+    RPV2[REVIEW_PROTOCOL.md<br/>tier verification<br/>self-applied by every agent]:::protocol
+    RPV2 -.->|REVIEW agent self-applies<br/>on its own outputs| AGENT_EDIT
+    RPV2 -.->|Retro agent self-applies<br/>on its retro outputs| RETROFILE
+
+    classDef agentbox fill:#fddbdd,stroke:#883333,color:#000
+    classDef artifact fill:#dde7ff,stroke:#335599,color:#000
+    classDef protocol fill:#fff7dd,stroke:#998800,color:#000
+    class RETROFILE,REGISTER,AGENT_EDIT,PROTO_EDIT,SIGNAL artifact
+    class S1,S2,S3 agentbox
+```
+
+**Read this diagram:** the two agents own different jobs (Retro = SDLC-anchored learning loop; REVIEW = continuous agent-system optimality across three streams). The recurrence handoff is the named carve-out: pattern register entries flow Retro → REVIEW stream 3, which picks the fix vector (stream 1 agent edit, stream 2 protocol/surface edit, or escalation to James). `REVIEW_PROTOCOL.md` is the agent-agnostic tier verification protocol — every agent self-applies it (including REVIEW + Retro themselves on their own outputs).
+
+---
+
+### Cross-diagram seams (what's NOT shown)
+
+- **Workflow composition** — these three diagrams cover the *what fires when* layer; the Workflow Guide (above) covers *the six canonical workflows that compose them*. A Sev 2 incident with a code fix runs Diagram B's review pipeline as a sub-step of Workflow #2.
+- **Boot / SESSION_START** — every workflow begins with the boot block + branch check; not redrawn each time.
+- **A2A handoff** — agent-to-agent handoff package format lives in `protocols/A2A_PROTOCOL.md`; not drawn here (single protocol, no fork).
+- **Task subagents** — `Explore` / `Plan` / `general-purpose` are runtime delegation tools used inline within any workflow; they don't have their own surface row in the diagrams.
 
 ---
 
@@ -371,3 +820,6 @@ Each scenario gets a tool-order sequence + decision points where the path forks.
 | 2026-05-19 | **V-007 accepted** — Issue tracker intake pipeline: `/to-prd` (context → 1 PRD) → `/to-issues` (plan → N vertical slices) → `/triage` (state machine on existing issues). Each owns its pipeline position. Four escape lanes: Routine Requests (`gh issue create` direct, often retroactive); bug reports (`gh issue create` + `/triage`, skip PRD); editorial refinement (`gh issue edit`, not `/triage`); single new issue not from plan (`gh issue create`). `/triage` natively invokes `/grill-with-docs` per V-004. Cross-repo uniform across GH Project #1. `agents/PM.md` "Work intake" section deferred to Session 3. ADR [`0007-intake-pipeline-sequencing.md`](docs/adr/0007-intake-pipeline-sequencing.md). | 2 (CTO with PM review) |
 | 2026-05-20 | **V-009 accepted** — Recurring task surface: lifetime-axis split between `/loop` (intra-session via `ScheduleWakeup`; no sandbox; dies at session end) and `/schedule` (cross-session via `CronCreate`; produces a routine on the Anthropic remote-agent sandbox; outlives session). "Routine" is `/schedule`'s output artifact, named in body, not a third row (parallel to `/triage` → GH Issue in V-007). Failure-mode fallback: routine fails twice with different network symptoms → disable + convert to `/loop` or manual. Network-access override: host not on sandbox allowlist → `/loop` wins regardless of lifetime; constraint detail at `wiki/sandbox-allowlist.md` (belt-and-suspenders pointer, not restated). E2 hybrid case ("active now, keep going after laptop close") explicitly UNSOLVED — two workarounds, no default. Cache-window guidance for `/loop` delays codified in E3. Crib + per-project propagation deferred to Session 3. ADR [`0008-recurring-task-surface.md`](docs/adr/0008-recurring-task-surface.md). | 2 (CTO with PM review) |
 | 2026-05-20 | **V-010 accepted** — Status surfaces boundary: `/status` is the James-facing on-demand read view; `PROJECT_STATE.md` is the canonical per-project narrative write surface (per V-003). Read-vs-write seam, not a peer race. `/status` reads from `PROJECT_STATE.md` + GH Project (integrated snapshot) and never writes. `/zoom-out` cut from V-010 scope in framing (different subject domain — code architecture, not status). Stale Monday-MCP path in both `/status` copies fixed in-verdict by rewriting to `gh issue list` + `gh project item-list`. V-003 reshape (Session 3) will force a mechanical re-edit of `/status`'s section list — captured as a Session 3 propagation item. No ADR (fails 3-of-3 test — read-vs-write is data-flow direction, not architectural commitment; reversal cost is one-file edit). **Session 2 complete (7/7 verdicts landed).** | 2 (CTO with PM review) |
+| 2026-05-20 | **Session 3 / Pass A landed (file-shape edits).** Items 1–4 + 11 of the 12-item propagation work list: `projects/skydivecity/PROJECT_STATE.md` V-003 reshape (lean resume ≤10 ln + Session Log drain + Live Watch table + Watch-out-for triage) + `projects/_PROJECT_TEMPLATE/PROJECT_STATE.md` mirror + `projects/methodrx/PROJECT_STATE.md` same + `protocols/SESSION_END.md` Step 3 gains "prune + drain" sub-steps (3a/b/c) + both `/status` copies re-edited to read the new V-003 sections + `projects/skydivecity/DECISIONS.md` frozen banner per V-001. Commit `1847e12`. | 3 (CTO with PM review) |
+| 2026-05-20 | **Session 3 / Pass B landed (agent + doc edits + crib propagation).** Items 5–10 + 12 of the work list: `agents/REVIEW.md` v3.0 three-stream restructure (V-008 / ADR-0006) + `agents/Retro.md` v1.1 cross-ref + `agents/SECURITY.md` v2.1 V-006 trigger taxonomy + `agents/PM.md` v2.1 Work-intake section (V-007 / ADR-0007) + harness `CLAUDE.md` `## Tool reach-for rules` crib block (V-001 → V-010 distilled per ADR-0001) + per-project crib propagation to `SkydiveCity.com/CLAUDE.md` + `method-rx/CLAUDE.md` (with MethodRX HIPAA / Codex-blocked overrides) + `REVIEW_PROTOCOL.md` agent-agnostic banner (doc-only deprecation per `feedback_prefer_doc_only_deprecation`; no rename). Commits `cbc4282` (harness) + `3ec4df9` (skydivecity-com). | 3 (CTO with PM review) |
+| 2026-05-20 | **Session 3 stretch artifacts landed — tool-landscape v1 COMPLETE.** All four `to be filled` placeholders resolved: Matrix (tools × job-categories, ownership map) + Conflict/overlap log (prose narrative of verdicts + boundaries, grouped by job category) + Workflow guide (six canonical sequences: Routine Request / Sev 2 incident / Planning conversation / Code change with review / Knowledge-capture moment / Session boundary — with decision points where the path forks) + Diagram (three Mermaid views: surface map, pipelines, agent-system handoff). Status banner flipped to **v1 complete**. **Closes [`ai-agent-harness#8`](https://github.com/itsginfo/ai-agent-harness/issues/8).** | 3 (CTO with PM review) |
