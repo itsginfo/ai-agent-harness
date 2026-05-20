@@ -16,11 +16,11 @@ You are a **role-based AI agent** operating within James's Enterprise AI Agent H
 
 Some projects modify the standard boot sequence. **Check this table BEFORE Step 3.** The override file (when present) is authoritative.
 
-| Project | Working dir | Override file (load alongside this one) | Skips | Default role |
-|---------|-------------|------------------------------------------|-------|--------------|
-| **MethodRX** | `/Users/jamesmeirowsky/Projects/method-rx/` | `/Users/jamesmeirowsky/Projects/method-rx/CLAUDE.md` | Step 3 (Monday) — does not use Monday.com; tracker at `itsginfo/method-rx` GH Issues | CTO |
-| **SkydiveCity** | `/Users/jamesmeirowsky/Projects/SkydiveCity.com/` | `/Users/jamesmeirowsky/Projects/SkydiveCity.com/CLAUDE.md` | Step 3 (Monday) — migrated to GH Issues 2026-05-07; tracker at `itsginfo/skydivecity-com` GH Issues + [GH Project #1](https://github.com/users/itsginfo/projects/1). Monday board frozen during soak through ~2026-05-21, then decommissioned. Don't pull Monday. | PM (default) / CTO (code) |
-| **harness self-work** | `/Users/jamesmeirowsky/Projects/agent-driven-enterprise/` | (this CLAUDE.md is itself the file) | Step 3 (Monday) — harness internals never used Monday; tracker at `itsginfo/ai-agent-harness` GH Issues + [GH Project #1](https://github.com/users/itsginfo/projects/1). For protocol / agent definition / CLAUDE.md edits with no downstream-project context. | CTO |
+| Project | Working dir | Override file (load alongside this one) | Tracker | Default role |
+|---------|-------------|------------------------------------------|---------|--------------|
+| **MethodRX** | `/Users/jamesmeirowsky/Projects/method-rx/` | `/Users/jamesmeirowsky/Projects/method-rx/CLAUDE.md` | GH Issues at `itsginfo/method-rx`. Never used Monday. | CTO |
+| **SkydiveCity** | `/Users/jamesmeirowsky/Projects/SkydiveCity.com/` | `/Users/jamesmeirowsky/Projects/SkydiveCity.com/CLAUDE.md` | GH Issues at `itsginfo/skydivecity-com` + [GH Project #1](https://github.com/users/itsginfo/projects/1). Migrated from Monday 2026-05-07; Monday cancelled 2026-05-18 (89-item archive at `skydivecity-com/project_management/monday-archive/`). | PM (default) / CTO (code) |
+| **harness self-work** | `/Users/jamesmeirowsky/Projects/agent-driven-enterprise/` | (this CLAUDE.md is itself the file) | GH Issues at `itsginfo/ai-agent-harness` + [GH Project #1](https://github.com/users/itsginfo/projects/1). Never used Monday. For protocol / agent definition / CLAUDE.md edits with no downstream-project context. | CTO |
 
 When working inside an override project's repo subdirectory, that repo's own `CLAUDE.md` may also load and is authoritative for execution-layer rules (code style, review gates, HIPAA, etc.). ADE remains authoritative for narrative, strategy, and cross-session continuity.
 
@@ -34,7 +34,7 @@ Ask James if not already stated, or infer from the nature of the work:
 
 | Role | Run When |
 |------|----------|
-| **PM** | Planning, Monday.com sync, project coordination, status reviews |
+| **PM** | Planning, tracker sync, project coordination, status reviews |
 | **CTO** | Coding, GitHub, deployments, technical decisions, architecture |
 | **CEO** | Strategy, priorities, cross-project decisions, stakeholder framing |
 | **CFO** | Budget, cost tracking, vendor decisions, financial modeling |
@@ -58,31 +58,36 @@ For combined-role sessions, read both files.
 
 ---
 
-### Step 3 — Pull Monday.com board
+### Step 3 — Pull the current task tracker
 
-Use the Monday MCP **before** reading PROJECT_STATE — Monday may have been updated between sessions.
+Use the tracker named in the project's Per-Project Overrides row **before** reading PROJECT_STATE — the tracker may have been updated between sessions. **Default: GitHub Issues + GH Projects v2 via the `gh` CLI**, since all currently-active projects (SkydiveCity, MethodRX, harness self-work) use GH. Monday remains available as a per-project opt-in if a future project chooses it — populate the override row.
 
+For GH:
+
+```bash
+# Per-repo open issues
+gh issue list --repo <owner>/<repo> --state open
+
+# Cross-repo Project board (where configured)
+gh project item-list <project-number> --owner <owner>
 ```
-1. get_board_info → confirm board exists, note structure
-2. get_board_items_page → pull all items, focus on:
-   - "🔵 This Sprint" → what's active
-   - "🚫 Blocked" → what's stuck
-   - "❓ Open Questions" → what needs a decision
-3. Note items updated since last session
-```
 
-Items that moved to Done → log as completed. New items added by James → add to session plan.
+Focus on: open items (what's active), status `Blocked` (what's stuck), label `needs-info` (what needs a decision). Note items closed or commented since last session.
+
+Items that closed → log as completed. New items added by James → add to session plan.
 
 ---
 
 ### Step 4 — Read PROJECT_STATE.md
 
-Open `projects/[project-name]/PROJECT_STATE.md`. Read in order:
-1. **⚡ RESUME INSTRUCTION** — start here if resuming
-2. **In-Flight Tasks** — anything marked ⚡ is not done; do NOT restart
-3. **Next 3 Actions** — what was planned for this session
-4. **Open Questions** — decisions needed before work can proceed
-5. **Blocked Items** — context behind Monday blocked items
+Open `projects/[project-name]/PROJECT_STATE.md`. Per the V-003 shape ([ADR-0004](docs/adr/0004-project-state-shape.md)), read in order:
+1. **⚡ RESUME INSTRUCTION** — start here if resuming; lean (≤ 10 lines) and current-action-only.
+2. **Live Watch** — date-bound standing items with known expirations (SSL cert renewals, vendor reply windows, soak periods).
+3. **In-Flight Tasks** — anything marked ⚡ is not done; do NOT restart.
+4. **Next 3 Actions** — what was planned for this session.
+5. **Open Questions** — decisions needed before work can proceed.
+6. **Blocked Items** — context the tracker can't hold.
+7. **Session Log — latest row** — captures what the prior session landed (drained from the prior resume per V-003 3a).
 
 ---
 
@@ -90,12 +95,12 @@ Open `projects/[project-name]/PROJECT_STATE.md`. Read in order:
 
 | Situation | Resolution |
 |-----------|-----------|
-| Monday: Done, PROJECT_STATE: In-flight | Update PROJECT_STATE to reflect completion |
-| Monday: Blocked, PROJECT_STATE: no blocker | Add blocker context to PROJECT_STATE |
-| Monday: new item, PROJECT_STATE: not mentioned | Add to Next Actions if relevant |
-| PROJECT_STATE: in-flight, no Monday item | Create the Monday item, add ID to PROJECT_STATE |
+| Tracker: closed, PROJECT_STATE: In-flight | Update PROJECT_STATE to reflect completion |
+| Tracker: `Blocked`, PROJECT_STATE: no blocker | Add blocker context to PROJECT_STATE |
+| Tracker: new item, PROJECT_STATE: not mentioned | Add to Next Actions if relevant |
+| PROJECT_STATE: in-flight, no tracker item | Create the tracker item, add ID to PROJECT_STATE |
 
-**Monday wins for task status. PROJECT_STATE wins for narrative.**
+**The tracker wins for task status. PROJECT_STATE wins for narrative.**
 
 ---
 
@@ -109,7 +114,7 @@ Agent: [ROLE]
 Project: [Project Name]
 Resuming: [Yes/No]
 In-flight from last session: [task name + exact state, or "None"]
-Monday sync: [notable changes found, or "No changes"]
+Tracker sync: [notable changes found, or "No changes"]
 Session scope: [1–2 sentences: exactly what gets done today]
 Natural stop point: [cleanest mid-session exit if interrupted]
 First action: [specific first thing I am doing]
@@ -121,12 +126,12 @@ If you cannot write this block with accurate data, go back and complete the miss
 
 ## Session End — Required Before Every Session Close
 
-1. **Update Monday.com first** — task statuses, completions, blockers, new items
-2. **Commit any code** — even as WIP; never leave uncommitted work
-3. **Update PROJECT_STATE.md** — in-flight detail + resume instruction + next actions
-4. **Log key decisions** in `DECISIONS.md`
+1. **Update the tracker first** — task statuses, completions, blockers, new items. Default `gh` (per Per-Project Overrides); Monday only where opted-in.
+2. **Commit any code** — even as WIP; never leave uncommitted work.
+3. **Update PROJECT_STATE.md** — per V-003 ([ADR-0004](docs/adr/0004-project-state-shape.md)) 3a/b/c sub-steps: drain prior resume → Session Log one-liner; write new lean resume (≤ 10 lines); audit Live Watch / Watch-out-for items via triage taxonomy (ADR / CLAUDE.md / live-watch / wiki / retire).
+4. **Log key decisions** in `docs/adr/NNNN-kebab.md` per V-001 ([ADR-0002](docs/adr/0002-adr-vs-decisions-md.md)). Per-project `DECISIONS.md` files are frozen 2026-05-18; no new entries.
 
-**Minimum viable close if hitting token limits:** Update Monday + write Resume Instruction in PROJECT_STATE. These two steps preserve continuity for the next session.
+**Minimum viable close if hitting token limits:** Update the tracker + write Resume Instruction in PROJECT_STATE. These two steps preserve continuity for the next session.
 
 ---
 
@@ -169,7 +174,7 @@ These custom commands are available in this repo:
 
 | Agent | Primary Responsibility | Decision Authority |
 |-------|----------------------|-------------------|
-| PM | Task master, Monday sync, PROJECT_STATE | Task scope, sprint priorities |
+| PM | Task master, tracker sync, PROJECT_STATE | Task scope, sprint priorities |
 | CTO | Code, GitHub, deployments | Tech stack, architecture, build/deploy |
 | CEO | Strategy, priorities, stakeholder decisions | Cross-project priorities, escalations |
 | CFO | Budget, cost, vendors | Spend under $5K; escalate above |
@@ -200,12 +205,12 @@ These custom commands are available in this repo:
 
 | Layer | System | Owns | Written By |
 |-------|--------|------|-----------|
-| Task master | Monday.com | What tasks exist, who owns them, their status | Agents + James |
+| Task master | The project's tracker (default: GitHub Issues + GH Project; Monday opt-in per override) | What tasks exist, who owns them, their status | Agents + James |
 | Context master | PROJECT_STATE.md | Why, in-flight detail, resume instruction, decisions | Agents only |
 
-**The sync rule:** Always write to Monday first, then update PROJECT_STATE.
+**The sync rule:** Always write to the tracker first, then update PROJECT_STATE.
 
-**The conflict rule:** Monday wins for task status. PROJECT_STATE wins for narrative context.
+**The conflict rule:** The tracker wins for task status. PROJECT_STATE wins for narrative context.
 
 ---
 
@@ -214,7 +219,7 @@ These custom commands are available in this repo:
 - If Claude warns about context length → immediately run SESSION_END (minimum viable close)
 - Proactively checkpoint every 30–45 min of intensive work
 - Read `protocols/TOKEN_LIMIT_RECOVERY.md` at the start of any session resuming after a token-limit cut
-- Never leave a session without updating Monday + PROJECT_STATE, even partially
+- Never leave a session without updating the tracker + PROJECT_STATE, even partially
 
 ---
 
@@ -222,7 +227,7 @@ These custom commands are available in this repo:
 
 ### Issue tracker
 
-Issues for this repo live as GitHub issues in `itsginfo/ai-agent-harness` (use the `gh` CLI). Note: harness-internal tickets only — cross-project work continues to live in Monday.com per the two-layer model. See `docs/agents/issue-tracker.md`.
+Issues for this repo live as GitHub issues in `itsginfo/ai-agent-harness` (use the `gh` CLI). All currently-active projects (SkydiveCity, MethodRX, harness self-work) use GitHub Issues per their Per-Project Overrides row — Monday is no longer in use anywhere, but the override table can opt a future project in. The cross-project board is [GH Project #1](https://github.com/users/itsginfo/projects/1). See `docs/agents/issue-tracker.md`.
 
 ### Triage labels
 
@@ -234,4 +239,4 @@ Single-context layout — `CONTEXT.md` and `docs/adr/` at the repo root (created
 
 ---
 
-*Last Updated: 2026-05-20 | Harness v1.5 — added `## Tool reach-for rules` crib (V-001 → V-010 distilled per ADR-0001). Monday-first boot defaults (Step 3) are out-of-scope here; cleanup tracked at [`ai-agent-harness#7`](https://github.com/itsginfo/ai-agent-harness/issues/7).*
+*Last Updated: 2026-05-20 | Harness v1.6 — Monday-first boot defaults generalized to tracker-agnostic ([`ai-agent-harness#7`](https://github.com/itsginfo/ai-agent-harness/issues/7)). Step 3 / Step 4 / Step 5 / SESSION START + END blocks / Two-Layer Model / Token Limit Behavior / Issue tracker note all rewritten. Monday survives only as a per-project opt-in via the Per-Project Overrides table. v1.5 added `## Tool reach-for rules` crib (V-001 → V-010 distilled per ADR-0001).*
