@@ -109,8 +109,9 @@ See [`wiki/README.md`](../../projects/skydivecity/wiki/README.md) for convention
 | Item | Watch by | Tracker | Notes |
 |------|----------|---------|-------|
 | **SSL cert renewal** | ~2026-06-01 (ahead of 2026-06-08 expiry) | [`skydivecity-com#4`](https://github.com/itsginfo/skydivecity-com/issues/4) | Flywheel auto-renewal expected; verify Let's Encrypt rotation in admin panel. |
-| **#9 GA4 T+24h re-pull** | 2026-05-19 | [`skydivecity-com#9`](https://github.com/itsginfo/skydivecity-com/issues/9) (open checkbox) | Pull GA4 Pages report filtered to host `bookings.burblesoft.com`, single-day 2026-05-18, confirm fix sticks. |
 | **#9 Google Ads dashboard reconciliation** | Awaiting Beyond Marketing reply (vendor emailed 2026-05-18) | [`skydivecity-com#9`](https://github.com/itsginfo/skydivecity-com/issues/9) (open checkbox) | Confirms conversion-counter increment + Enhanced Conversions PII receipt from James's test checkout. |
+
+> *Retired 2026-05-20:* "T+24h GA4 re-pull" row (watch date 2026-05-19 passed; verification action remains as an open checkbox on `skydivecity-com#9` — the issue is the canonical owner now, not this Live Watch table per V-003 rule "items leave this table when the date passes or the condition resolves").
 
 ---
 
@@ -119,7 +120,7 @@ See [`wiki/README.md`](../../projects/skydivecity/wiki/README.md) for convention
 > Active work tracked in [GH Project #1](https://github.com/users/itsginfo/projects/1). Below is narrative context the issue body doesn't capture.
 
 - **Polish backlog (4 GH issues, all `routine-request`)** — `skydivecity-com#1` (Burble + FB CTAs — needs source URLs from Rich/Matt), `#2` (featured images — has source files locally, needs `wp-image-import-local.php` mapping additions), `#3` (deploy.sh 17K-file delta — `deploy.sh --live` is FROZEN until resolved), `#4` (SSL cert renewal verification — see Live Watch).
-- **Harness-improvement backlog (5 GH issues open, all `harness-improvement`)** — `ai-agent-harness#1` (Proactive Checkpoint Protocol enforcement; recurring), `#3` (Wiki Phase C — deferred-tracker, 0/4 trigger conditions fired; re-evaluate ~2026-08-18), `#5` (P-002 gaps audit — V-008 ratified this as REVIEW stream-1 work), `#7` (generalize harness `CLAUDE.md` boot defaults), `#8` (tool-landscape v1 — Session 2 complete 2026-05-20 with all 7 verdicts V-004 through V-010 landed; **Session 3 propagation in flight this session — Pass A**). Closed in this engagement: `#2` (Wiki Phase B) on 2026-05-18; `#4` (Retro vs REVIEW reconciliation) on 2026-05-19; `#6` (Monday → GH migration) on 2026-05-18.
+- **Harness-improvement backlog (4 GH issues open, all `harness-improvement`)** — `ai-agent-harness#1` (Proactive Checkpoint Protocol enforcement; recurring), `#3` (Wiki Phase C — deferred-tracker, 0/4 trigger conditions fired; re-evaluate ~2026-08-18), `#5` (P-002 gaps audit — V-008 ratified this as REVIEW stream-1 work; canonical home for the audit work), `#7` (generalize harness `CLAUDE.md` Monday-first boot defaults to tracker-agnostic). Closed in this engagement: `#2` (Wiki Phase B) on 2026-05-18; `#4` (Retro vs REVIEW reconciliation) on 2026-05-19; `#6` (Monday → GH migration) on 2026-05-18; `#8` (tool-landscape v1) on **2026-05-20** with all 10 verdicts + 8 ADRs + crib + 4 stretch artifacts landed.
 
 **Phase 2 Discovery thread (PAUSED 2026-04-30 evening — separate workstream from Phase 1):**
 - **`feature/redesign-phase2` branch is local-only at `7aed723`**, no commits unique to it, no files added. **HARN-6 strategy** (branch-awareness gap) was discarded 2026-05-01 in favor of multi-team branching reframe; same-repo vs separate-repo for Phase 2 depends on whether Phase 2 tech stack stays WordPress.
@@ -157,9 +158,9 @@ See [`wiki/README.md`](../../projects/skydivecity/wiki/README.md) for convention
 
 > When you complete one, update the GH issue first (status, comment if substantive), then return here.
 
-1. **[Active] Tool-landscape v1 Pass B** — items 5–10 + 12 per [`TOOL_LANDSCAPE.md`](../../TOOL_LANDSCAPE.md) work-list. Agent/doc edits: REVIEW.md restructure (V-008), Retro.md cross-ref, SECURITY.md trigger taxonomy (V-006), PM.md work-intake (V-007), crib block in harness `CLAUDE.md`, crib propagation to SkydiveCity + MethodRX `CLAUDE.md`, optional `REVIEW_PROTOCOL.md` rename. End with the crib block (item 9).
-2. **[Unlocked by SOW execution] SCOPE-1 (Burble booking calendar)** — first Project-SOW candidate; see Pending Project SOWs section. Next move: scope-gathering session with Rich/Matt to define specific changes, then Project SOW pricing.
-3. **[Whenever bandwidth] Polish backlog** — `skydivecity-com#1`–`#4` (Burble URLs, featured images, deploy.sh delta, SSL renewal — see Live Watch).
+1. **[Unlocked by SOW execution] SCOPE-1 (Burble booking calendar)** — first Project-SOW candidate; see Pending Project SOWs section. Next move: scope-gathering session with Rich/Matt to define specific changes, then Project SOW pricing.
+2. **[Standing watch, dated] SSL cert renewal (`skydivecity-com#4`)** — Flywheel auto-renewal expected before 2026-06-08 expiry. Verify ~2026-06-01 per Live Watch.
+3. **[Whenever bandwidth] Polish backlog** — `skydivecity-com#1`–`#3` (Burble URLs, featured images, deploy.sh 17K-file delta). `#3` is the gate-clearer that unfreezes `deploy.sh --live`.
 
 ---
 
