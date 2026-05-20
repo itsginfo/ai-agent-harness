@@ -100,7 +100,6 @@ Rows = tools (one per surface). Columns = job categories: `Intake` · `Planning`
 In-progress. Numbers shifted by +1 from the Session-1 skeleton because Session 1 split V-002 into atomic per-seam verdicts (V-002 + V-003 + two boundaries). Original `ai-agent-harness#8` issue body still references the pre-shift numbers (V-003 through V-009); cross-reference here.
 
 Remaining:
-- V-007 — `/triage` vs `/to-issues` vs `/to-prd` (pre-figured in Session 1 grilling: `/to-prd` for new engineering PRDs only; `/to-issues` for plan → many issues; direct `gh issue edit` for one-issue refinement)
 - V-009 — Routines vs `/loop` vs `/schedule`
 - V-010 — Status surfaces (`/zoom-out` vs `/status` vs `PROJECT_STATE.md`)
 
@@ -194,6 +193,36 @@ Remaining:
   (d) **`RETRO_PROTOCOL.md` weekly-cadence default** vs James's SDLC-anchored intent — flagged but out of V-008 scope. Belongs to the Session 1 deferred decision ("weekly retro automation vs manual run").
   (e) **Tier verification of REVIEW's own outputs** — REVIEW agent outputs (agent-definition edits, signal summaries) are themselves Tier 2/3; REVIEW self-applies `REVIEW_PROTOCOL.md` like every other agent. No special carve-out.
 **ADR:** [`docs/adr/0006-review-retro-boundary.md`](docs/adr/0006-review-retro-boundary.md). Closes [`ai-agent-harness#4`](https://github.com/itsginfo/ai-agent-harness/issues/4).
+
+#### V-007 — Issue tracker intake pipeline (`/to-prd` → `/to-issues` → `/triage`)
+
+**Winner:** Three-stage pipeline — each skill owns its position. Not winner/loser.
+  • `/to-prd` — conversation context → 1 PRD issue (`needs-triage`). Engineering scoping only.
+  • `/to-issues` — plan/PRD → N vertical-slice issues (`needs-triage`). Iterative quiz on granularity/dependencies/HITL-vs-AFK.
+  • `/triage` — state machine on existing issues (`needs-triage` → `needs-info`/`ready-for-agent`/`ready-for-human`/`wontfix`). Invokes `/grill-with-docs` (per V-004) as a sub-step when grilling is needed.
+**Loser:** N/A — sequencing verdict; pipeline applies one-direction.
+**Job category:** Intake — issue-tracker work intake + state-machine progression
+**Use when:**
+  • Substantive new engineering work with design landscape → `/to-prd` (start of pipeline).
+  • A PRD/plan exists with multiple vertical slices → `/to-issues`.
+  • Operating on an *existing* issue — state move, initial grill, agent brief, "show me what needs attention" → `/triage`.
+**Skip the pipeline for (escape lanes):**
+  • **Routine Requests under Managed Services** — `gh issue create` directly (often retroactively). Established Phase-1-post pattern (`#5`–`#9`). PRD ceremony has no value when the design landscape is the client's narrow ask.
+  • **Bug reports** — `gh issue create` directly, then `/triage` (which may invoke `/grill-with-docs`). Skip `/to-prd` + `/to-issues` — bugs aren't user-story-shaped.
+  • **One-issue content refinement (typo, link, checkbox)** — `gh issue edit` directly. Not `/triage`. State-edit-vs-content-edit boundary.
+  • **Single new issue not from a plan** — `gh issue create` directly. `/to-issues` is for breaking *plans* into N slices.
+**Reasoning:** The three skills look like alternatives because each can produce a GH issue, but their input shapes are meaningfully different — synthesize-from-context (`/to-prd`) vs break-down-a-plan (`/to-issues`) vs operate-on-existing (`/triage`). Forcing them into one mega-skill or using `/triage` for everything conflates the shapes. Forcing every intake through the pipeline (no escapes) creates PRD-ceremony on Routine Requests and `/triage`-comment bloat on editorial work. Pipeline + escape lanes preserves the natural shape of each surface and keeps `/triage`'s AI-disclaimer comments meaningful.
+**Sequencing:**
+  • Pipeline is one-directional: `/to-prd` → `/to-issues` → `/triage` (issue moves forward, not back).
+  • `/triage` natively invokes `/grill-with-docs` (V-004) when issue grilling is needed.
+  • `/to-issues` has its own internal quiz step; doesn't invoke `/grill-with-docs`.
+  • Cross-repo: pipeline applies uniformly to `skydivecity-com` + `ai-agent-harness` (both in GH Project #1).
+**Edge cases:**
+  (a) **Quick state move on existing issue** ("move #42 to ready-for-agent") — stays in `/triage` per its "Quick state override" section. `gh issue edit` doesn't generate agent briefs; `/triage` does.
+  (b) **Routine Request that grows into Project Work mid-execution** — when scope expands beyond Routine Request boundaries (per Managed Services SOW v1.1 §4.4 carve-out + mid-work discovery rule), file a new issue or open a Project SOW conversation rather than retrofitting `/to-prd` onto the in-flight Routine Request.
+  (c) **Issue auto-creation from external sources (Slack / email / monitoring)** — out of V-007 scope. When added, route to `/triage` for evaluation (same as bug-report shape).
+  (d) **Cross-issue parent/child references** — `/to-issues` handles via its `Parent` and `Blocked by` template fields. Don't manually wire dependencies post-creation via `gh issue edit` unless restructuring.
+**ADR:** [`docs/adr/0007-intake-pipeline-sequencing.md`](docs/adr/0007-intake-pipeline-sequencing.md)
 
 ### Session 3 — additions if surfaced during sweep
 
@@ -295,3 +324,4 @@ Each scenario gets a tool-order sequence + decision points where the path forks.
 | 2026-05-19 | **V-005 accepted** — Review pipeline sequencing: `/review` first pass + `/codex:adversarial-review` second pass on judgment-call gate (architecture / trade-off / one-way door / author-requested). Trigger taxonomy codified for REVIEW agent checklist. `/codex:review` retired doc-only (no surviving use case under V-005 gate). `/codex:rescue` out of scope (trial-tagged status unchanged). MethodRX HIPAA exclusion preserved. ADR [`0005-review-pipeline-sequencing.md`](docs/adr/0005-review-pipeline-sequencing.md). Partially supersedes ADR-0001 Option 3 `/codex:review` clause. | 2 (CTO with PM review) |
 | 2026-05-19 | **V-006 accepted** — `/review` vs `/security-review` boundary verdict. Neither contains the other: `/review` breadth-first (correctness/standards/tests); `/security-review` depth-first on the security axis (OWASP/secrets/auth/input/crypto/permissions). Third parallel pass on its own risk-surface trigger gate, independent of V-005's adversarial-Codex gate. MethodRX HIPAA code: `/security-review` automatic. Default-on bias for in-doubt cases (asymmetric blast radius). No ADR (fails 3-of-3 test — low reversal cost; trigger taxonomy is a checklist, not architectural commitment). Codified in `agents/SECURITY.md` playbook during Session 3. | 2 (CTO with PM review) |
 | 2026-05-19 | **V-008 accepted** — REVIEW vs Retro reconciliation (Option G: expand REVIEW to agent system optimality). REVIEW owns three streams: agent-capability auditing + operating-environment auditing + system-improvement signaling (continuous). Retro owns SDLC-anchored learning loop (sprint/release/incident/project end). Recurrence handoff: Retro observes patterns (P-NNN register); REVIEW reads register + edits the system. `REVIEW_PROTOCOL.md` re-anchored as agent-agnostic self-verification (optional rename `VERIFICATION_PROTOCOL.md` deferred). Closes [`ai-agent-harness#4`](https://github.com/itsginfo/ai-agent-harness/issues/4). REVIEW.md restructure + Retro.md cross-ref edit deferred to Session 3. ADR [`0006-review-retro-boundary.md`](docs/adr/0006-review-retro-boundary.md). | 2 (CTO with PM review) |
+| 2026-05-19 | **V-007 accepted** — Issue tracker intake pipeline: `/to-prd` (context → 1 PRD) → `/to-issues` (plan → N vertical slices) → `/triage` (state machine on existing issues). Each owns its pipeline position. Four escape lanes: Routine Requests (`gh issue create` direct, often retroactive); bug reports (`gh issue create` + `/triage`, skip PRD); editorial refinement (`gh issue edit`, not `/triage`); single new issue not from plan (`gh issue create`). `/triage` natively invokes `/grill-with-docs` per V-004. Cross-repo uniform across GH Project #1. `agents/PM.md` "Work intake" section deferred to Session 3. ADR [`0007-intake-pipeline-sequencing.md`](docs/adr/0007-intake-pipeline-sequencing.md). | 2 (CTO with PM review) |
