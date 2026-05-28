@@ -1,18 +1,18 @@
 # PROJECT STATE — Skydive City
 
-> **Last updated:** 2026-05-20 by CTO Agent
+> **Last updated:** 2026-05-28 by PM Agent
 
 ---
 
 ## ⚡ RESUME INSTRUCTION
 
-**Engagement in stable Managed Services posture.** SOW v1.1 + MNDA v1.0 executed 2026-05-12; site stable since Phase 1 acceptance 2026-05-05. No proactive comm cadence — wait for incoming Routine Requests / Sev 1-3 incidents.
+**Managed Services stable; one client deliverable in-flight.** Built the Monthly Managed Services Report system this session (SOW §4.1) — reusable template + procedure at `skydivecity-com/project_management/reports/digital-ops-monthly/`, May 2026 first-report draft staged (§5/§6 filled; §1–§4 marked `[PULL]`). Commit `072e6af`; delivery tracked at [`skydivecity-com#10`](https://github.com/itsginfo/skydivecity-com/issues/10).
 
-**If client work surfaces:** SCOPE-1 (Burble booking calendar) is the open Project-SOW candidate awaiting Rich/Matt scope-gathering. Otherwise pick from polish backlog `skydivecity-com#1`–`#3` (Burble URLs, featured images, deploy.sh 17K-file delta) — `#4` (SSL cert) is dated and surfaces in Live Watch.
+**Next:** After month-end (2026-05-31), finish & deliver the May report by **2026-06-05** (`#10`) — request Burble booking count from Rich/Matt, pull §1 (UptimeRobot) / §3 (`site:` or GSC) / §4 (GA4 `405968715` + Ads `AW-414274214`) from UIs; §2 404 via SSH on James's go-ahead. Render PDF → **James reviews + sends (never auto-send).**
 
-**Harness-improvement backlog (3 open):** `ai-agent-harness#1` (Proactive Checkpoint enforcement; recurring), `#3` (Wiki Phase C deferred; re-eval ~2026-08-18), `#5` (P-002 gaps audit; REVIEW stream-1 work). All deferred per 2026-04-27 retro decision.
+**If no report bandwidth:** SCOPE-1 (Burble calendar) awaits Rich/Matt scope-gathering; polish backlog `#1`–`#3` opportunistic; SSL `#4` verify ~2026-06-01 (Live Watch). Harness backlog `ai-agent-harness#1/#3/#5` deferred.
 
-**Branch check first.** Project repo `develop`; harness `main`. Phase 2 redesign branch (`feature/redesign-phase2`) is local-only and paused — do not push without explicit James direction.
+**Branch check first.** Project repo `develop`; harness `main`. `feature/redesign-phase2` is local-only and paused — do not push without explicit James direction.
 
 ---
 
@@ -119,6 +119,7 @@ See [`wiki/README.md`](../../projects/skydivecity/wiki/README.md) for convention
 
 > Active work tracked in [GH Project #1](https://github.com/users/itsginfo/projects/1). Below is narrative context the issue body doesn't capture.
 
+- **Digital Ops Monthly Report — May 2026 (`skydivecity-com#10`, `routine-request`)** — SOW §4.1 first report. Template + procedure built (`project_management/reports/digital-ops-monthly/`); May draft staged (§5/§6 filled, §1–§4 `[PULL]` post-month-end). Deadline **2026-06-05**. §4 reconciliation gated on client-provided Burble count — graceful-degrades to liveness-only. *Reportable Work* principle added to `CONTEXT.md`.
 - **Polish backlog (4 GH issues, all `routine-request`)** — `skydivecity-com#1` (Burble + FB CTAs — needs source URLs from Rich/Matt), `#2` (featured images — has source files locally, needs `wp-image-import-local.php` mapping additions), `#3` (deploy.sh 17K-file delta — `deploy.sh --live` is FROZEN until resolved), `#4` (SSL cert renewal verification — see Live Watch).
 - **Harness-improvement backlog (3 GH issues open, all `harness-improvement`)** — `ai-agent-harness#1` (Proactive Checkpoint Protocol enforcement; recurring), `#3` (Wiki Phase C — deferred-tracker, 0/4 trigger conditions fired; re-evaluate ~2026-08-18), `#5` (P-002 gaps audit — V-008 ratified this as REVIEW stream-1 work; canonical home for the audit work). Closed in this engagement: `#2` (Wiki Phase B) on 2026-05-18; `#4` (Retro vs REVIEW reconciliation) on 2026-05-19; `#6` (Monday → GH migration) on 2026-05-18; `#8` (tool-landscape v1) on 2026-05-20 with all 10 verdicts + 8 ADRs + crib + 4 stretch artifacts; `#7` (harness `CLAUDE.md` + slash commands tracker-agnostic) on **2026-05-20** (commit `4298e4d`).
 
@@ -158,9 +159,9 @@ See [`wiki/README.md`](../../projects/skydivecity/wiki/README.md) for convention
 
 > When you complete one, update the GH issue first (status, comment if substantive), then return here.
 
-1. **[Unlocked by SOW execution] SCOPE-1 (Burble booking calendar)** — first Project-SOW candidate; see Pending Project SOWs section. Next move: scope-gathering session with Rich/Matt to define specific changes, then Project SOW pricing.
+1. **[In-flight, deadline 2026-06-05] Finish & deliver the May Digital Ops Monthly Report (`skydivecity-com#10`)** — after month-end (2026-05-31): request Burble count from Rich/Matt, pull §1/§3/§4 from UIs, optional §2 via SSH, render PDF, James reviews + sends. First report under SOW §4.1.
 2. **[Standing watch, dated] SSL cert renewal (`skydivecity-com#4`)** — Flywheel auto-renewal expected before 2026-06-08 expiry. Verify ~2026-06-01 per Live Watch.
-3. **[Whenever bandwidth] Polish backlog** — `skydivecity-com#1`–`#3` (Burble URLs, featured images, deploy.sh 17K-file delta). `#3` is the gate-clearer that unfreezes `deploy.sh --live`.
+3. **[Whenever bandwidth] SCOPE-1 + polish backlog** — SCOPE-1 (Burble calendar) scope-gathering when Rich/Matt available; polish `#1`–`#3` (Burble URLs, featured images, deploy.sh 17K-file delta). `#3` is the gate-clearer that unfreezes `deploy.sh --live`.
 
 ---
 
@@ -196,6 +197,7 @@ See [`wiki/README.md`](../../projects/skydivecity/wiki/README.md) for convention
 
 | Date | Agent | Summary |
 |------|-------|---------|
+| 2026-05-28 | PM Agent | **Digital Ops Monthly Report system built (SOW §4.1).** Reusable template + procedure README + May 2026 first-report draft (§5/§6 filled, §1–§4 pending post-month-end pulls); *Reportable Work* principle added to `CONTEXT.md`. Commit `072e6af`. May delivery tracked at [`skydivecity-com#10`](https://github.com/itsginfo/skydivecity-com/issues/10) (deadline 2026-06-05). |
 | 2026-05-20 | CTO Agent | **Tool-landscape v1 COMPLETE + harness #7 done.** All 10 verdicts (V-001 → V-010) + 8 ADRs + crib block + per-project propagation + 4 stretch artifacts (Matrix / Conflict log / Workflow guide / 3 Mermaid views) landed; harness `CLAUDE.md` v1.5 → v1.6 + both slash command files (`session-start.md` + `session-end.md`) flipped tracker-agnostic + V-003-aware. Commits: `1847e12` (Pass A) → `cbc4282` (Pass B harness) → `3ec4df9` (Pass B SkydiveCity) → `bd260e3` (stretch artifacts) → `9567cb7` (Mermaid parse-error fix) → `20ec9af` (session-end PROJECT_STATE drain) → `4298e4d` (#7 close). Closed: [`#8`](https://github.com/itsginfo/ai-agent-harness/issues/8) (tool-landscape v1) + [`#7`](https://github.com/itsginfo/ai-agent-harness/issues/7) (harness Monday-first cleanup). See [`TOOL_LANDSCAPE.md`](../../TOOL_LANDSCAPE.md). |
 | 2026-05-20 | CTO Agent | **Tool-landscape v1 Session 2 closed (V-010 landed, 7/7 in the book).** `/status` is read view; `PROJECT_STATE.md` is write surface (V-003). Both `/status` copies rewritten in-verdict to drop Monday MCP refs. No ADR (fails 3-of-3 test). [`TOOL_LANDSCAPE.md`](../../TOOL_LANDSCAPE.md) updated. |
 | 2026-05-20 | CTO Agent | **Tool-landscape v1 Session 2 (V-009).** Lifetime-axis split for recurring task surface. ADR [`0008`](../../docs/adr/0008-recurring-task-surface.md). |
