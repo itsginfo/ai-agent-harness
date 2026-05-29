@@ -6,11 +6,11 @@
 
 ## ⚡ RESUME INSTRUCTION
 
-**Managed Services stable; one client deliverable in-flight.** Built the Monthly Managed Services Report system this session (SOW §4.1) — reusable template + procedure at `skydivecity-com/project_management/reports/digital-ops-monthly/`, May 2026 first-report draft staged (§5/§6 filled; §1–§4 marked `[PULL]`). Commit `072e6af`; delivery tracked at [`skydivecity-com#10`](https://github.com/itsginfo/skydivecity-com/issues/10).
+**Managed Services stable; two workstreams in-flight.** **(1) E-commerce Merch Discovery** (Project Work, `/grill-with-docs`) — working notes at `skydivecity-com/project_management/ecommerce-merch-discovery.md` (commit `1e304ac`). Platform locked (Square Online + Square POS, one native ledger, `shop.skydivecity.com` link-out); Q1–Q5 done (catalog: tees size×color, jerseys/hoodies size-only, no-variation misc; ≈100–110 SKUs; no personalization; staff-owned photos/copy). ⛔ **BLOCKED** on James confirming with Rich/Matt whether Burble-balance merch purchases decrement stock + whether that tender must be preserved (5 homework Qs in doc) — this gates the single-ledger architecture. **(2) May Digital Ops Report** (`#10`, deadline **2026-06-05**) — unchanged this session; see commit `072e6af`.
 
-**Next:** After month-end (2026-05-31), finish & deliver the May report by **2026-06-05** (`#10`) — request Burble booking count from Rich/Matt, pull §1 (UptimeRobot) / §3 (`site:` or GSC) / §4 (GA4 `405968715` + Ads `AW-414274214`) from UIs; §2 404 via SSH on James's go-ahead. Render PDF → **James reviews + sends (never auto-send).**
+**Next:** Resume merch grilling on an **unblocked branch** (licensing/subscription costs → direct LOE input, or returns/exchanges) while the Burble confirmation settles the architecture (candidate ADR). Separately, after month-end (2026-05-31) finish/deliver May report `#10`: request Burble booking count from Rich/Matt; pull §1 (UptimeRobot) / §3 (GSC) / §4 (GA4 `405968715` + Ads `AW-414274214`); §2 404 via SSH on go-ahead; render PDF → **James reviews + sends (never auto-send).**
 
-**If no report bandwidth:** SCOPE-1 (Burble calendar) awaits Rich/Matt scope-gathering; polish backlog `#1`–`#3` opportunistic; SSL `#4` verify ~2026-06-01 (Live Watch). Harness backlog `ai-agent-harness#1/#3/#5` deferred.
+**Backlog if no bandwidth:** SCOPE-1 (Burble calendar) awaits Rich/Matt; polish `#1`–`#3` opportunistic; SSL `#4` verify ~2026-06-01 (Live Watch). Harness `ai-agent-harness#1/#3/#5` deferred.
 
 **Branch check first.** Project repo `develop`; harness `main`. `feature/redesign-phase2` is local-only and paused — do not push without explicit James direction.
 
@@ -119,6 +119,7 @@ See [`wiki/README.md`](../../projects/skydivecity/wiki/README.md) for convention
 
 > Active work tracked in [GH Project #1](https://github.com/users/itsginfo/projects/1). Below is narrative context the issue body doesn't capture.
 
+- **E-commerce Merch Discovery — Project Work (no tracker item yet; pre-PRD per V-007)** — `/grill-with-docs` scoping toward a PRD + exec-summary-with-LOE. Working notes: `skydivecity-com/project_management/ecommerce-merch-discovery.md` (commit `1e304ac`). **Locked:** Square Online + Square POS, one native ledger, no sync connector, `shop.skydivecity.com` link-out (Q1–Q4); catalog shape + scale, no personalization, staff-owned photos/copy (Q5). **Flagged risks:** (a) no catalog owner designated today → client-side staffing dependency; (b) catalog is dynamic → recurring ops + Option-B lean. ⛔ **BLOCKED** on the Burble-tender question (see Blocked Items). Resume on an unblocked branch (licensing/subscription costs, returns/exchanges, customer accounts, gift cards, reporting) or wait for Burble confirmation.
 - **Digital Ops Monthly Report — May 2026 (`skydivecity-com#10`, `routine-request`)** — SOW §4.1 first report. Template + procedure built (`project_management/reports/digital-ops-monthly/`); May draft staged (§5/§6 filled, §1–§4 `[PULL]` post-month-end). Deadline **2026-06-05**. §4 reconciliation gated on client-provided Burble count — graceful-degrades to liveness-only. *Reportable Work* principle added to `CONTEXT.md`.
 - **Polish backlog (4 GH issues, all `routine-request`)** — `skydivecity-com#1` (Burble + FB CTAs — needs source URLs from Rich/Matt), `#2` (featured images — has source files locally, needs `wp-image-import-local.php` mapping additions), `#3` (deploy.sh 17K-file delta — `deploy.sh --live` is FROZEN until resolved), `#4` (SSL cert renewal verification — see Live Watch).
 - **Harness-improvement backlog (3 GH issues open, all `harness-improvement`)** — `ai-agent-harness#1` (Proactive Checkpoint Protocol enforcement; recurring), `#3` (Wiki Phase C — deferred-tracker, 0/4 trigger conditions fired; re-evaluate ~2026-08-18), `#5` (P-002 gaps audit — V-008 ratified this as REVIEW stream-1 work; canonical home for the audit work). Closed in this engagement: `#2` (Wiki Phase B) on 2026-05-18; `#4` (Retro vs REVIEW reconciliation) on 2026-05-19; `#6` (Monday → GH migration) on 2026-05-18; `#8` (tool-landscape v1) on 2026-05-20 with all 10 verdicts + 8 ADRs + crib + 4 stretch artifacts; `#7` (harness `CLAUDE.md` + slash commands tracker-agnostic) on **2026-05-20** (commit `4298e4d`).
@@ -140,7 +141,9 @@ See [`wiki/README.md`](../../projects/skydivecity/wiki/README.md) for convention
 
 > For active blockers, see GH issues with status `Blocked` on [Project #1](https://github.com/users/itsginfo/projects/1).
 
-*(None — site in stable Managed Services posture.)*
+**Site itself: no blockers** — stable Managed Services posture.
+
+**E-commerce Merch Discovery (Project Work) — ⛔ inventory branch blocked.** Customers can pay for merch with their **Burble balance** (James, confirmed-pending 2026-05-28), so Burble is likely a third stock-decrementing tender channel. Problem splits into (a) stock decrement — solvable by routing stock to Square; (b) **stored-value tender** — the sticky part, since Burble balance lives in Burble and a Square sale can't natively be paid with it. **Gates the locked "single native Square ledger" architecture** and may raise scope to "consolidate a 3-channel setup" (candidate ADR). **Waiting on James:** confirm with Rich/Matt — does a Burble-balance merch sale decrement stock; what share of sales use it; API/export availability; why merch is in Burble; **crux: is Burble-balance merch tender a hard requirement or negotiable?** Full analysis + options in `ecommerce-merch-discovery.md`.
 
 ---
 
@@ -159,9 +162,9 @@ See [`wiki/README.md`](../../projects/skydivecity/wiki/README.md) for convention
 
 > When you complete one, update the GH issue first (status, comment if substantive), then return here.
 
-1. **[In-flight, deadline 2026-06-05] Finish & deliver the May Digital Ops Monthly Report (`skydivecity-com#10`)** — after month-end (2026-05-31): request Burble count from Rich/Matt, pull §1/§3/§4 from UIs, optional §2 via SSH, render PDF, James reviews + sends. First report under SOW §4.1.
-2. **[Standing watch, dated] SSL cert renewal (`skydivecity-com#4`)** — Flywheel auto-renewal expected before 2026-06-08 expiry. Verify ~2026-06-01 per Live Watch.
-3. **[Whenever bandwidth] SCOPE-1 + polish backlog** — SCOPE-1 (Burble calendar) scope-gathering when Rich/Matt available; polish `#1`–`#3` (Burble URLs, featured images, deploy.sh 17K-file delta). `#3` is the gate-clearer that unfreezes `deploy.sh --live`.
+1. **[In-flight, blocked + has unblocked branches] E-commerce Merch Discovery** — *James:* confirm the Burble-tender question with Rich/Matt (5 Qs in `ecommerce-merch-discovery.md`; crux = is Burble-balance merch tender hard-requirement or negotiable). *Agent:* resume `/grill-with-docs` on an unblocked branch (licensing/subscription costs → direct LOE input, or returns/exchanges). Toward PRD (task #6) + exec-summary-with-LOE (task #7).
+2. **[In-flight, deadline 2026-06-05] Finish & deliver the May Digital Ops Monthly Report (`skydivecity-com#10`)** — after month-end (2026-05-31): request Burble booking count from Rich/Matt, pull §1/§3/§4 from UIs, optional §2 via SSH, render PDF, James reviews + sends. First report under SOW §4.1.
+3. **[Standing watch, dated] SSL cert renewal (`skydivecity-com#4`)** — verify ~2026-06-01 per Live Watch. **[Whenever bandwidth]** SCOPE-1 (Burble calendar) scope-gathering when Rich/Matt available; polish `#1`–`#3` (`#3` unfreezes `deploy.sh --live`).
 
 ---
 
@@ -197,6 +200,7 @@ See [`wiki/README.md`](../../projects/skydivecity/wiki/README.md) for convention
 
 | Date | Agent | Summary |
 |------|-------|---------|
+| 2026-05-28 (later) | PM Agent | **E-commerce Merch Discovery grilling (Project Work) — Q5 complete + Burble-tender finding.** Square-everywhere single-ledger locked (Q1–Q4); catalog shape/scale + no-personalization + staff-owned photos/copy (Q5); flagged "no catalog owner today" risk. ⛔ Inventory branch blocked — customers can pay for merch with Burble balance → likely 3rd stock-decrementing tender channel, gates the single-ledger architecture (candidate ADR). Commit `1e304ac`. See [`ecommerce-merch-discovery.md`](https://github.com/itsginfo/skydivecity-com/blob/develop/project_management/ecommerce-merch-discovery.md). |
 | 2026-05-28 | PM Agent | **Digital Ops Monthly Report system built (SOW §4.1).** Reusable template + procedure README + May 2026 first-report draft (§5/§6 filled, §1–§4 pending post-month-end pulls); *Reportable Work* principle added to `CONTEXT.md`. Commit `072e6af`. May delivery tracked at [`skydivecity-com#10`](https://github.com/itsginfo/skydivecity-com/issues/10) (deadline 2026-06-05). |
 | 2026-05-20 | CTO Agent | **Tool-landscape v1 COMPLETE + harness #7 done.** All 10 verdicts (V-001 → V-010) + 8 ADRs + crib block + per-project propagation + 4 stretch artifacts (Matrix / Conflict log / Workflow guide / 3 Mermaid views) landed; harness `CLAUDE.md` v1.5 → v1.6 + both slash command files (`session-start.md` + `session-end.md`) flipped tracker-agnostic + V-003-aware. Commits: `1847e12` (Pass A) → `cbc4282` (Pass B harness) → `3ec4df9` (Pass B SkydiveCity) → `bd260e3` (stretch artifacts) → `9567cb7` (Mermaid parse-error fix) → `20ec9af` (session-end PROJECT_STATE drain) → `4298e4d` (#7 close). Closed: [`#8`](https://github.com/itsginfo/ai-agent-harness/issues/8) (tool-landscape v1) + [`#7`](https://github.com/itsginfo/ai-agent-harness/issues/7) (harness Monday-first cleanup). See [`TOOL_LANDSCAPE.md`](../../TOOL_LANDSCAPE.md). |
 | 2026-05-20 | CTO Agent | **Tool-landscape v1 Session 2 closed (V-010 landed, 7/7 in the book).** `/status` is read view; `PROJECT_STATE.md` is write surface (V-003). Both `/status` copies rewritten in-verdict to drop Monday MCP refs. No ADR (fails 3-of-3 test). [`TOOL_LANDSCAPE.md`](../../TOOL_LANDSCAPE.md) updated. |
