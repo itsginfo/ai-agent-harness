@@ -108,6 +108,7 @@ See [`wiki/README.md`](../../projects/skydivecity/wiki/README.md) for convention
 
 | Item | Watch by | Tracker | Notes |
 |------|----------|---------|-------|
+| **May Burble booking count** (gates §4 reconciliation) | Reply by ~2026-06-04 to make the 2026-06-05 report deadline | [`skydivecity-com#10`](https://github.com/itsginfo/skydivecity-com/issues/10) | James emailed Rich (CC Matt) 2026-06-01. If no reply by 06-04, §4 ships liveness-only + reconciliation deferred (graceful degradation per report README). |
 | **#9 Google Ads dashboard reconciliation** | Awaiting Beyond Marketing reply (vendor emailed 2026-05-18) | [`skydivecity-com#9`](https://github.com/itsginfo/skydivecity-com/issues/9) (open checkbox) | Confirms conversion-counter increment + Enhanced Conversions PII receipt from James's test checkout. |
 
 > *Retired 2026-06-01:* "SSL cert renewal" row — verified resolved ([`#4`](https://github.com/itsginfo/skydivecity-com/issues/4) closed). Renewal fired May 8; Google Trust Services wildcard cert valid → 2026-08-06; next auto-renewal ~2026-07-07 needs no action. Issuer fact (was wrongly "Let's Encrypt") corrected in [`wiki/flywheel.md`](../../projects/skydivecity/wiki/flywheel.md).
