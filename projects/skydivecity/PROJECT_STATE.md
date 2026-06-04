@@ -1,6 +1,6 @@
 # PROJECT STATE — Skydive City
 
-> **Last updated:** 2026-06-02 by PM Agent
+> **Last updated:** 2026-06-04 by PM Agent
 
 ---
 
@@ -203,6 +203,7 @@ See [`wiki/README.md`](../../projects/skydivecity/wiki/README.md) for convention
 
 | Date | Agent | Summary |
 |------|-------|---------|
+| 2026-06-04 | PM Agent | **Tandem booking calendar weekday-header row restored ([`#12`](https://github.com/itsginfo/skydivecity-com/issues/12), routine request, closed).** Client reported Su Mo Tu … labels missing on the Burble PICK DATE step. Root cause was our own CSS: the `#7` empty-date-row collapse rule (`tr:not(:has(td:not(:empty)))`) matched the jQuery-UI `<thead>` header row (holds `<th>`, no `<td>`) and hid it. Fix: scope to `tbody tr`. `tandem-bookings-page-styles.css` committed for the first time (`90148b8`, `develop`); Burble CSS panel updated + verified live by James. Wiki [`burble-integration.md`](../../projects/skydivecity/wiki/burble-integration.md) updated (defect + session + tracked-file note). |
 | 2026-06-02 | PM Agent | **May Digital Ops Monthly Report DELIVERED — `#10` closed.** James sent the report (PDF `2026-05.pdf`) To Rich, CC Matt on 2026-06-02 — 3 days ahead of the SOW §4.1 deadline (2026-06-05). First monthly Managed Services report complete. Prior session's delivery email draft was never persisted (conversation-only) → reconstructed faithfully from `2026-05.md` this session. `#10` body checkboxes completed + closed with delivery comment. Live Watch: May-report row retired, June-report row (due ~2026-07-05) added. Lingering Beyond Marketing conversion-counter verification remains tracked on `#9`. |
 | 2026-06-01 (later) | PM Agent | **May Digital Ops Monthly Report content-complete + rendered (`#10`).** All 6 §§ filled: §1 100% uptime (UptimeRobot API + new `pull-uptime.sh`), §2 404 (live WP-CLI; ~7d retention caveat; scanner-noise vs legacy URLs), §3 GSC 376 indexed + decline-trend flagged for monitoring (`#11` GSC set up: verification file at `/www/`, see [`flywheel.md`](../../projects/skydivecity/wiki/flywheel.md)), §4 GA4 liveness (`purchase` ×166 / $68,298, partial-month) reconciled vs Rich's 538 Burble reservations (window+unit mismatch → directionally consistent, no false variance). PDF rendered (md-to-pdf, 5pp). Commits `f8b8243`→`d1e0e07`. **Awaiting James review + send** (To Rich, CC Matt). GA4 SA-key automation blocked by org policy `iam.disableServiceAccountKeyCreation` (correct default); OAuth path optional pre-June. |
 | 2026-06-01 | PM Agent | **SSL cert renewal verified resolved — `#4` closed.** Auto-renewal fired May 8; live cert is Google Trust Services wildcard (`skydivecity.com` + `*.skydivecity.com`), valid → 2026-08-06; next renewal ~2026-07-07, no action. Corrected issuer fact in [`wiki/flywheel.md`](../../projects/skydivecity/wiki/flywheel.md) (was wrongly "Let's Encrypt"). Beyond Marketing visibility checkbox dropped per James. SSL row retired from Live Watch. |
