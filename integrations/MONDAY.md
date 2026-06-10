@@ -1,8 +1,10 @@
 # Integration Guide — Monday.com
 
-> **MCP Status:** Connected  
-> **Primary Owner:** PM Agent  
-> **Last Updated:** 2026-04-22
+> ⚠️ **LEGACY — Monday is decommissioned as the default tracker.** Subscription cancelled 2026-05-18 after the Monday → GitHub migration ([`ai-agent-harness#6`](https://github.com/itsginfo/ai-agent-harness/issues/6); ADR-0001/0002 in `skydivecity-com`). The default tracker is **GitHub Issues + GH Projects v2** (`integrations/GITHUB.md`). No active project uses Monday. This guide is retained only for a future project that opts in via its Per-Project Overrides row in harness `CLAUDE.md` — a re-subscription would be required. The 89-item SkydiveCity archive lives at `skydivecity-com/project_management/monday-archive/`.
+
+> **MCP Status:** Connected (account cancelled — calls will fail until re-subscribed)
+> **Primary Owner:** PM Agent
+> **Last Updated:** 2026-06-10 (legacy annotation; content below unchanged from 2026-04-22)
 
 ---
 

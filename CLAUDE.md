@@ -18,7 +18,7 @@ Some projects modify the standard boot sequence. **Check this table BEFORE Step 
 
 | Project | Working dir | Override file (load alongside this one) | Tracker | Default role |
 |---------|-------------|------------------------------------------|---------|--------------|
-| **MethodRX** | `/Users/jamesmeirowsky/Projects/method-rx/` | `/Users/jamesmeirowsky/Projects/method-rx/CLAUDE.md` | GH Issues at `itsginfo/method-rx`. Never used Monday. | CTO |
+| **MethodRX** | `/Users/jamesmeirowsky/Projects/method-rx/` | `/Users/jamesmeirowsky/Projects/method-rx/CLAUDE.md` | GH Issues at `EQ-Labs-LLC/method_rx` (gh auth via the `itsginfo` OAuth account; repo renamed from `project_awesome_rx`). Never used Monday. | CTO |
 | **SkydiveCity** | `/Users/jamesmeirowsky/Projects/SkydiveCity.com/` | `/Users/jamesmeirowsky/Projects/SkydiveCity.com/CLAUDE.md` | GH Issues at `itsginfo/skydivecity-com` + [GH Project #1](https://github.com/users/itsginfo/projects/1). Migrated from Monday 2026-05-07; Monday cancelled 2026-05-18 (89-item archive at `skydivecity-com/project_management/monday-archive/`). | PM (default) / CTO (code) |
 | **harness self-work** | `/Users/jamesmeirowsky/Projects/agent-driven-enterprise/` | (this CLAUDE.md is itself the file) | GH Issues at `itsginfo/ai-agent-harness` + [GH Project #1](https://github.com/users/itsginfo/projects/1). Never used Monday. For protocol / agent definition / CLAUDE.md edits with no downstream-project context. | CTO |
 
