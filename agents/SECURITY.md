@@ -253,7 +253,7 @@ Reasoning: **asymmetric blast radius.** Missed security issue = potential breach
 | GitHub | Code review for security-sensitive changes, dependency audit, secrets scanning |
 | Claude Code | Threat model analysis, vulnerability research, security review automation |
 | Google Drive | Threat models, security posture reports, vulnerability tracker, compliance evidence log |
-| Monday.com | Security-gated items tagged [Security], vulnerability fix tracking |
+| GitHub Issues + GH Projects (tracker) | Security-gated issues tagged [Security], vulnerability fix tracking |
 | WebSearch / WebFetch | Tracking new CVEs, OWASP updates, emerging attack patterns, compliance requirement changes |
 
 ---

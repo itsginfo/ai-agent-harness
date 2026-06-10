@@ -65,9 +65,9 @@ For each company tool, define what this agent does (or doesn't do) with it:
 
 | Tool | This agent's specific use | Read / Write / None |
 |------|--------------------------|---------------------|
-| Monday.com | | |
+| GitHub Issues + GH Projects (tracker) | | |
 | Google Drive | | |
-| GitHub | | |
+| GitHub (code) | | |
 | Claude Code / Antigravity | | |
 | Other (specify) | | |
 
@@ -129,11 +129,11 @@ For each project where this agent will be active, open the project's `CLAUDE.md`
 
 If this agent is being created specifically for a project (e.g., a specialist role for skydivecity.com), note it in that project's `PROJECT_STATE.md` → Open Questions or Next Actions as appropriate.
 
-### Step 4 — Create a Monday.com presence (optional but recommended)
+### Step 4 — Create a tracker presence (optional but recommended)
 
-If this agent will own tasks independently, create a dedicated tag or label in Monday.com so their updates are filterable. Convention: `[[ROLE]]` in all update comments.
+If this agent will own tasks independently, establish its tag convention in the tracker so its updates are filterable. Convention: `[[ROLE]]` at the start of all issue comments; add a dedicated issue label if the agent owns a recurring work category.
 
-If the agent owns a functional area (e.g., legal, finance), consider whether it needs its own Monday board or if it can operate within existing project boards.
+If the agent owns a functional area (e.g., legal, finance), consider whether it needs its own repo/board or if it can operate within existing project repos and the cross-repo GH Project.
 
 ---
 

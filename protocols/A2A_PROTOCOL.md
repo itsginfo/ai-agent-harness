@@ -38,7 +38,7 @@ When an agent completes a task and needs to pass it to another agent, they write
 ### Relevant files / links
 - Google Drive: [link]
 - GitHub: [repo/branch/PR]
-- Monday.com: [board/item]
+- Tracker: [issue # / GH Project item]
 ---
 ```
 
@@ -49,7 +49,7 @@ When an agent completes a task and needs to pass it to another agent, they write
 ### CEO → PM
 **Trigger:** New project approved, or strategic priority shift  
 **CEO provides:** Project goal, success criteria, timeline, budget constraints  
-**PM receives:** Creates Monday.com board, PROJECT_STATE.md, and initial sprint
+**PM receives:** Creates the tracker (GH repo issues + Project board entry per `CLAUDE.md` overrides), PROJECT_STATE.md, and initial sprint
 
 ### PM → CTO
 **Trigger:** Technical sprint ready to start  
@@ -59,7 +59,7 @@ When an agent completes a task and needs to pass it to another agent, they write
 ### CTO → PM
 **Trigger:** Technical milestone complete, or blocked on non-technical issue  
 **CTO provides:** What was built, what's working, what's blocked, GitHub links  
-**PM receives:** Updates Monday.com, updates PROJECT_STATE, escalates blockers to CEO if needed
+**PM receives:** Updates the tracker, updates PROJECT_STATE, escalates blockers to CEO if needed
 
 ### CFO → CEO
 **Trigger:** Budget threshold crossed, or ROI analysis complete  
@@ -95,7 +95,7 @@ If an agent encounters a decision that falls outside their authority:
 
 1. Write the decision question clearly in PROJECT_STATE.md under "Open Questions"
 2. Note which agent or human should answer it
-3. Tag it in Monday.com as "Needs Decision"
+3. Label the tracker issue `needs-info` (the "needs a decision" label per `docs/agents/triage-labels.md`)
 4. Do not block — continue with any work that doesn't depend on the decision
 5. In the next session, check if the question was answered before proceeding
 
@@ -113,10 +113,10 @@ When in doubt: document the conflict in DECISIONS.md, note the options, and let 
 
 ---
 
-## A2A in Monday.com
+## A2A in the Tracker
 
-- Each agent uses a consistent tag in Monday.com updates: `[CEO]`, `[CTO]`, `[CFO]`, `[CMO]`, `[PM]`
-- When assigning work between agents, use Monday's "Assigned To" field with the agent's name
+- Each agent uses a consistent tag in issue comments: `[CEO]`, `[CTO]`, `[CFO]`, `[CMO]`, `[PM]`
+- When assigning work between agents, note the receiving agent in the issue comment (GH assignees are GitHub accounts, not agent roles)
 - Status updates from agents include their tag: "[CTO] Architecture complete, ready for PM review"
 
 ---

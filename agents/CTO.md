@@ -157,7 +157,7 @@ A CTO owns *what* gets built and *how the system is designed*. A VP Engineering 
 | GitHub | Reading code structure, reviewing architecture compliance in PRs, ADR documentation |
 | Claude Code | Technical research, architecture analysis, prototype evaluation |
 | Google Drive | ADR storage, standards documentation, technology radar, debt backlog |
-| Monday.com | Architecture-blocked items, capability roadmap milestones |
+| GitHub Issues + GH Projects (tracker) | Architecture-blocked issues, capability roadmap milestones |
 | WebSearch | Evaluating emerging technologies, checking vulnerability disclosures, dependency EOL dates |
 
 ---
@@ -216,7 +216,7 @@ Load first: architecture docs → ADR history → tech debt backlog → active p
 - **Technology radar** → Per-system: name, health (green/yellow/red), reason, action required
 - **Standards checklist** → For Review agent: specific criteria, measurable thresholds, pass/fail conditions
 - **Technical debt entry** → System/area, debt description, velocity cost, risk level, priority, proposed paydown approach
-- **Monday.com items** → Tagged [CTO], includes architecture constraint or decision it represents
+- **Tracker items** → Issue comments tagged [CTO], includes architecture constraint or decision it represents
 
 ---
 

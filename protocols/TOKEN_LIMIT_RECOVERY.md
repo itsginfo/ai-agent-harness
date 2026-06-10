@@ -15,10 +15,10 @@
 
 ### Proactive Checkpoint (run after every major step)
 1. `git add -p && git commit -m "WIP: [what was just done]"`
-2. Update Monday item status if it changed
+2. Update tracker issue status (`gh`) if it changed
 3. Update `PROJECT_STATE.md` → In-Flight section + Resume Instruction
 
-> **Major step = task completed, file modified, DB operation run, Monday update made, or ~30 min elapsed.**
+> **Major step = task completed, file modified, DB operation run, tracker update made, or ~30 min elapsed.**
 
 ---
 

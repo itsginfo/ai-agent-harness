@@ -1,16 +1,16 @@
 # PROJECT STATE — MethodRX
 
-> **Last updated:** 2026-06-10 by CTO Agent (corrected Anthropic-BAA record error — no BAA/DPA exists; Claude-on-MethodRX basis is no-PHI / synthetic-mock-only; Fable 5 adoption deferred. Prior in-flight work — PR #341 / issue #342 — unchanged; see RESUME below.)
+> **Last updated:** 2026-06-10 by CTO Agent (strategic — stakeholder support intake process v1 decided + shipped to PR #347; PR #341 merged; lost 2026-05-02 workflow audit recovered from stash.)
 
 ---
 
 ## ⚡ RESUME INSTRUCTION
 
-**Local stack redeployed to `cd18c37` — healthy, HTTP 200 at localhost:3002, all 88 migrations applied.** Env audit (task #1) done; the "env-blocked" diagnosis was wrong (override `!override`→`.env.local.docker` works). Detail: repo `docs/adr/0019` + Session Log 2026-06-04 (PM).
+**Support intake process v1 decided and shipped — PR #347 open, rollout tracked at GH #346.** GitHub Issues = single SoT (xlsx retires); reporter-converts via GitHub Slack app; 5-column lifecycle + DoR gate; biweekly Refinement; no-PHI-in-requests policy. Full detail: repo `docs/SUPPORT_INTAKE_PROCESS.md` + ADR-0021. PR #341 merged this session (`main` @ `cec7028`).
 
-**Next:** (1) merge **PR #341** (`platform/dev-env-overlay` — dev-env docs/templates **+ folded 2026-06-10: ADR-0020 no-LLM-BAA/synthetic-only posture, CLAUDE.md guardrail, dev-env ADR renumbered →0019; branch merged with main @6aec1d5 (lead dev's 9 commits incl. ADRs 0014–0018), clean**; `/security-review` clean, no prod impact); (2) lead-dev / prod-owner on **issue #342** (broken `036b` backfill — fresh-env/DR/new-prod migration landmine); (3) pick first real feature/fix.
+**Next:** (1) review/merge **PR #347**, then execute rollout checklist **#346** — James does the Slack↔GH app install (steps in session transcript + #346); Claude can create labels + Project board via `gh` (token has `project` scope) and attempt branch protection. (2) Triage the **Dependabot HIGH** on `main` (1 high, 6 moderate — surfaced at push). (3) Issue **#342** routing to lead dev (carried).
 
-**Branch check first.** Project repo: `platform/dev-env-overlay` (PR #341 open; base `main`). Harness: `main`. Parked WIP still in `git stash@{0}` — do not push without direction.
+**Branch check first.** Project repo: `platform/support-intake-process` (PR #347 open; base `main`). Harness: `main`. `stash@{0}` partially recovered (audit md now committed); CONTRIBUTING.md WIP + settings still parked — do not pop/drop without direction.
 
 **⚠ Known fragility:** entrypoint force-applies migrations every start + crash-loops on any failed/guarded migration (tasks #5/#6) — don't fresh-install without reading them.
 
@@ -56,8 +56,8 @@
 
 ## Current Sprint Context
 
-**Mode:** Onboarding complete; no active sprint.
-**Posture:** Wait for first feature/fix from James. Deployment-debt tasks (#1 + #5) sized for a paired session whenever scheduled.
+**Mode:** First strategic work item active — support intake process v1 (task #8, GH #346 / PR #347).
+**Posture:** Land PR #347, then execute the #346 rollout. Deployment-debt task #5 still sized for a paired session whenever scheduled.
 
 ---
 
@@ -73,7 +73,7 @@
 
 | # | Task | Owner | Status | Notes |
 |---|------|-------|--------|-------|
-| 1 | Env-var architecture audit | CTO-led, lead-dev review | 🟢 Largely resolved 2026-06-04 | **✅ 2026-06-04 resolution (repo branch `platform/dev-env-overlay`, see repo `docs/adr/0019`):** Audit done. KEY CORRECTION — the env was never a redeploy blocker; `docker-compose.override.yml` (`!override` → `.env.local.docker`) already routes dev env correctly, verified on compose v5.0.2 (`config`+`build` resolve with `.env.production` absent). The proposed de-prod-base + `docker-compose.prod.yml` + `deploy.sh` restructure was **rejected as unnecessary** — `!override` defeats the env_file-concatenation problem, so **zero prod-path change**. Delivered: (a) backfilled the 13 missing `.env.example` keys; (c) created canonical `.env.local.docker.example` (tracked via gitignore whitelist); documented build-time vs runtime vs `NEXT_PUBLIC_*` + that `DATABASE_URL`/`POSTGRES_PASSWORD` are compose-managed; (e) PHI-key review vs `docs/ROTATION.md` — handling is robust + rotation-locked, NO gap (ROTATION.md's `.env.local.docker` references are correct under the override). Remaining-optional: prune redundant env files (`.env.local.docker.template`, the `.backup-2026-05-02` per task #3); `deploy.sh` env-content validation (low priority). **Original 2026-05-02 scope/findings (now mostly addressed) below.** Driven by 2026-05-02 finding: `.env.local.docker` distributed to new dev contained mixed prod/dev values (prod DB creds, non-prod app vars). **Scope:** (a) reconcile `.env.example` ↔ `.env.production.tpl` drift (~13 keys missing from dev template); (b) document build-time vs runtime vs `NEXT_PUBLIC_*` taxonomy; (c) define canonical `.env.local.docker.example`; (d) add env-content validation to `deploy.sh`; (e) review PHI key handling against `docs/ROTATION.md`; (f) document dev-box exposure model. See `DECISIONS.md` 2026-05-02. **▸ 2026-06-04 findings (from blocked local redeploy):** (1) **compose `env_file:` loads `.env.production` for the app even in local dev — `.env.local.docker` is never read by compose**; this is the central taxonomy mismatch (ROTATION.md treats `.env.local.docker` as the dev file). (2) `.env.production` is **absent** on James's box — the running stack survives only on env baked into a ~4-wk-old container; **any rebuild is blocked** until a dev-safe `.env.production` is generated. (3) `.env.example` is **missing 13 keys** the dev runtime uses (`BETTER_AUTH_SECRET/URL`, 2FA flags, `CLAMD_HOST/PORT`, `PHI_KEY_VERSION`, `NEXT_PUBLIC_APP_URL`, `SUPPORT_ATTACHMENT_EXPIRY_DAYS`) — copying it boots a broken app. (4) Five env files coexist with no canonical dev source: `.env.example`, `.env.local.docker`, `.env.local.docker.backup-2026-05-02`, `.env.local.docker.template`, `.env.production.tpl`. (5) Prod path is `op inject -i .env.production.tpl -o .env.production` (1Password); **the dev path for generating `.env.production` is undocumented** — add it. (6) `.env.production.tpl` is tracked and was updated by the 2026-06-04 pull, so the `.env.example ↔ .tpl` reconcile target is moving. **Audit must produce a documented, dev-safe way to populate `.env.production` (or remap dev to a separate env_file) before the local stack can be redeployed.** |
+| 8 | Support intake process v1 rollout | James + Nathan (+ CTO for gh-automatable steps) | 🟡 Open (started 2026-06-10) | **Tracked at GH #346; process lands via PR #347 (open).** Decided per repo ADR-0021 + `docs/SUPPORT_INTAKE_PROCESS.md`. Manual steps: Slack↔GH app install (James, Slack admin), GH accounts + onboarding for Rhonda/Betsy, xlsx migration + retirement, biweekly Refinement scheduling, branch protection on `main`. Claude-automatable next session: labels + Project board via `gh` (`itsginfo` token has `project` scope). Also folds the close-the-loop notification that task #4 (release notes agent) would complement. |
 | 2 | Inform lead dev that distributed `.env.local.docker` had prod DB creds | James | 🟡 Open | Lead dev may need to consider rotation on the production side. Surfaced 2026-05-02. |
 | 3 | Delete `.env.local.docker.backup-2026-05-02` once new file verified working | James | 🟡 Open | Backup contains original prod-tinged file. Gitignored, but should not linger longer than needed. |
 | 4 | Explore a release notes agent | CTO | 🟡 Open | Investigate building an agent (or workflow) that auto-generates release notes from commits/PRs/changelog data. Scope evaluation: standalone ADE agent vs. in-repo tooling vs. CI integration. Added 2026-05-02. |
@@ -93,7 +93,8 @@
 
 | # | Question | Raised By | Needs Answer From | Status |
 |---|----------|-----------|-------------------|--------|
-| 1 | What's the first feature/fix James wants to work on after onboarding? | CTO | James | ❓ Open |
+| 1 | ~~What's the first feature/fix James wants to work on after onboarding?~~ **Answered 2026-06-10:** support intake process v1 (task #8). | CTO | James | ✅ Resolved |
+| 6 | Do the Google Workspace and Slack plans carry BAAs? Support requests traverse both; until confirmed, the no-PHI-in-requests policy (ADR-0021) is the operative control on those channels. | CTO | James / compliance | ❓ Open (raised 2026-06-10; also on #346 checklist) |
 | 2 | Is there a Better-Auth migration follow-up that needs scheduling? (See `repo/markdowns/better-auth-migration-plan.md`) | CTO | James | ❓ Open |
 | 3 | ~~When does the env-var architecture audit get scheduled?~~ **Done 2026-06-04** (task #1 largely resolved; see repo `docs/adr/0019`). | CTO | James | ✅ Resolved |
 | 4 | SMTP for local dev — placeholders, MailHog container, or real Gmail app password? Currently placeholders. | CTO | James | ❓ Open |
@@ -103,11 +104,9 @@
 
 ## Next 3 Actions (Prioritized)
 
-1. **Merge PR #341** (`platform/dev-env-overlay`) — James — dev-env docs/templates; `/security-review` clean (no findings), no prod impact. Then delete the branch.
-2. **Lead dev / prod-deploy owner on GH issue #342** — James to route — broken `036b` backfill threatens fresh-env / DR / new-prod migrations; fix = `$queryRaw` NULL scan. Pair with entrypoint hardening (task #5).
-3. **Decide first real feature/fix** — James — onboarding + deployment-debt cleanup largely done; next session should carry a concrete product goal. (Tasks #2 prod-cred notify + #3 backup cleanup remain low-effort James items.)
-
-> *PR #316 (repo-rename URL cleanup) merged 2026-05-09 — removed from Next Actions during 2026-06-04 session-start drift reconciliation.*
+1. **Review/merge PR #347 + execute rollout #346** — James (+ Nathan review) — Slack↔GH app install is James's manual step (instructions in #346 + session transcript); Claude then creates labels + Project board via `gh` and attempts branch protection on `main`.
+2. **Triage the Dependabot HIGH on `main`** — CTO/lead dev — 1 high + 6 moderate flagged at push 2026-06-10 (`github.com/EQ-Labs-LLC/method_rx/security/dependabot`); <7-day standard for the high.
+3. **Lead dev / prod-deploy owner on GH issue #342** — James to route — broken `036b` backfill threatens fresh-env / DR / new-prod migrations; fix = `$queryRaw` NULL scan. Pair with entrypoint hardening (task #5). (Tasks #2 prod-cred notify + #3 backup cleanup remain low-effort James items.)
 
 ---
 
@@ -123,6 +122,7 @@
 | 2026-05-02 | Local migration quick-fix: ALTER TABLE manually; track proper entrypoint fix as task #5 | `DECISIONS.md` § 2026-05-02 — Local migration quick-fix |
 | 2026-06-04 | Keep override-based dev env model (`!override` → `.env.local.docker`); reject de-prod-base/overlay restructure; **zero prod-path change** | repo `docs/adr/0019` |
 | 2026-06-04 | Broken `036b` backfill script: track + escalate to lead dev, no in-session code change (shared HIPAA code + prod-owner alignment) | task #6 (this file) |
+| 2026-06-10 | **Stakeholder support intake v1:** GitHub Issues = single system of record (xlsx retired); reporter-driven human-gated Slack→Issue conversion (GitHub Slack app); 5-column lifecycle + Definition-of-Ready gate; P1–P3 priority (stakeholders propose, Nathan confirms); biweekly Refinement; no-PHI-in-requests policy extending ADR-0020 to the support pipeline; "no code without an issue" w/ CI enforcement; automation gated behind technical PHI screen or BAA. Rejected: full auto email→issue, xlsx+sync, JIRA SD now (trigger conditions documented). | repo `docs/adr/0021` + `docs/SUPPORT_INTAKE_PROCESS.md` (PR #347) |
 | 2026-06-10 | **Corrected compliance basis:** no Anthropic BAA/DPA exists; Claude-on-MethodRX rests on the no-PHI / synthetic-mock-data-only boundary, not a BAA. Supersedes the false "Anthropic BAA exists" premise in frozen `skydivecity/DECISIONS.md` 2026-04-30. Model choice not HIPAA-gated; Fable 5 adoption deferred (cost/capability call only). **Formalized as repo `docs/adr/0020`** (MethodRX-scoped per James — not harness; renumbered 0015→0020 after merging main's ADRs 0014–0018). | repo `docs/adr/0020-no-llm-vendor-baa-synthetic-data-only.md` + this file (Compliance + Open Q #5) + memory `project_anthropic_no_baa_phi_boundary` + `repo/CLAUDE.md` guardrail |
 
 ---
@@ -139,6 +139,7 @@
 
 | Date | Agent | Summary |
 |------|-------|---------|
+| 2026-06-10 (PM) | CTO Agent | **Strategic — stakeholder support intake process v1 (`/grill-with-docs`).** Hunt for James's remembered intake-workflow artifacts came up empty across GH/Drive/claude.ai — then the 2026-05-02 audit was **recovered from `git stash@{0}`** (never committed; now preserved at `archive/plans/audit-remediation-plans/`). Grill session re-derived + sharpened it: see Decisions row 2026-06-10 / repo ADR-0021 + `docs/SUPPORT_INTAKE_PROCESS.md`. Shipped PR **#347** (process doc, ADR-0021, issue forms w/ no-PHI attestation, PR template, issue-reference CI check, CONTEXT.md intake glossary); filed rollout issue **#346**; commented #307 (related, deferred end-user scope). Also: **merged PR #341** (prior Next-Action #1); fixed stale `project_awesome_rx` repo name in parent CLAUDE.md; `/security-review` clean; flagged Dependabot 1-HIGH/6-mod on main. Prior resume drained here. |
 | 2026-06-10 | CTO Agent | **Tactical → compliance — Fable 5 question surfaced a BAA-record error.** Researching a move from Opus 4.8 to the newly-released **Claude Fable 5** (`claude-fable-5`, GA 2026-06-09; $10/$50 per MTok; 1M ctx / 128k out; 30-day retention, **no ZDR**, "Covered Model"; safety classifiers can refuse → `stop_reason: refusal`, fallback to Opus 4.8) surfaced that the documented basis for Claude-on-MethodRX — an **assumed Anthropic BAA** (`skydivecity/DECISIONS.md` 2026-04-30) — is **false**: no BAA/DPA exists. James confirmed **no PHI / real data has ever been sent to Claude (synthetic mock data only)** — the actual, sound compliance basis. Corrected the live record: Compliance section + Open Q #5 + Decisions Summary + this log; added a no-PHI guardrail to `repo/CLAUDE.md` Security Non-Negotiables; saved memory `project_anthropic_no_baa_phi_boundary`. Frozen `skydivecity/DECISIONS.md` 2026-04-30 premise left in place (can't edit a frozen file) — superseded here; **formal ADR recommended, placement TBD with James** (harness vs MethodRX-project scope). Fable 5 itself: under the no-PHI boundary it is **not** HIPAA-gated; adoption is a plain cost/capability call (2× price, new refusal/fallback handling, near-drop-in API) — **deferred, no change**. |
 | 2026-06-04 (PM) | CTO Agent | **Strategic — resume-after-crash + completed redeploy + env audit (task #1).** Resumed after laptop reboot (stack auto-restarted clean). **Disproved the "env-blocked" diagnosis:** `docker-compose.override.yml`'s `!override` already routes dev to `.env.local.docker` (verified `config`+`build` with `.env.production` absent); retracted the proposed prod-path change. Completed the redeploy to `cd18c37` — which surfaced the *real* blocker: guarded migration `physician_business_scope_b` aborting on 15 NULL-`businessId` seed rows. Fixed via raw-SQL backfill (all → business 1, no collisions, snapshot saved) + `migrate resolve --rolled-back` + restart → 88 migrations applied, HTTP 200. **Found + escalated task #6:** the `036b` backfill script is broken against the current Prisma client (breaks fresh-env/DR/new-prod migrations). Env-audit deliverables on branch `platform/dev-env-overlay`: `.env.example` +13 keys, `.env.local.docker.example`, gitignore whitelist, repo `docs/adr/0019`. Tasks #1 resolved, #5 updated, #6 opened. |
 | 2026-06-04 | CTO Agent | **Tactical — sync + attempted local redeploy (blocked).** Synced local `main` 9fae5bf→`cd18c37` (47 commits: May sprint, PioneerRx DAT parser, BedAssignment partial-unique-index, AP% exclusion); parked 2026-05-02 WIP in `git stash@{0}`. Drift fix: PR #316 merged 2026-05-09, removed from Next Actions. Pre-redeploy verify caught a blocker: compose `env_file:` loads `.env.production` (not `.env.local.docker`) even for local dev, and `.env.production` is **absent** — rebuild blocked. James chose to **fold into task #1** (env-var audit). Findings recorded on task #1; local stack left on stale code (untouched). Migration pre-checks were green (no local Template dupes → 20260515 safe; 17 pending). |

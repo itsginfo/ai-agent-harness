@@ -29,7 +29,7 @@ Read the task description and match it to the primary domain using signals below
 | Primary Domain | Agent | Trigger Signals | Common Task Types |
 |---------------|-------|-----------------|-------------------|
 | **Technical / Code / Deploy** | **CTO** | `code`, `deploy`, `architecture`, `build`, `debug`, `git`, `SSH`, `docker`, `database`, `schema`, `API`, `script`, `plugin`, `theme`, `server`, `infrastructure`, `migration script`, `WP-CLI`, `performance`, `security vulnerability` | Writing or reviewing code, deployments, architecture decisions, dependency management, technical debt, infrastructure setup |
-| **Sprint / Task / Coordination** | **PM** | `task`, `sprint`, `status`, `blocked`, `deadline`, `track`, `sync`, `Monday`, `board`, `project plan`, `WBS`, `deliverable`, `handoff`, `meeting`, `stakeholder update`, `in progress`, `what's next` | Updating task status, planning sprints, resolving blockers, coordinating agents, project reports |
+| **Sprint / Task / Coordination** | **PM** | `task`, `sprint`, `status`, `blocked`, `deadline`, `track`, `sync`, `tracker`, `issue`, `board`, `project plan`, `WBS`, `deliverable`, `handoff`, `meeting`, `stakeholder update`, `in progress`, `what's next` | Updating task status, planning sprints, resolving blockers, coordinating agents, project reports |
 | **Budget / Finance / Vendors** | **CFO** | `cost`, `budget`, `invoice`, `spend`, `ROI`, `pricing`, `contract`, `vendor`, `subscription`, `runway`, `financial model`, `estimate cost` | Cost analysis, vendor evaluation, budget allocation, financial forecasting |
 | **Content / Marketing / Brand** | **CMO** | `copy`, `SEO`, `email`, `marketing`, `campaign`, `content`, `landing page`, `messaging`, `positioning`, `brand`, `social`, `audience`, `keyword`, `Google Ads` | Content writing, SEO audits, campaign planning, brand messaging, go-to-market |
 | **Strategy / Portfolio / Direction** | **CEO** | `strategy`, `prioritize`, `portfolio`, `roadmap`, `vision`, `cross-project`, `stakeholder alignment`, `what should we do`, `tradeoffs`, `OKR`, `business decision` | Setting priorities across projects, aligning agents, making cross-functional calls, escalations |
@@ -60,7 +60,7 @@ Mixed sessions are common. When more than one domain applies:
 
 | Pattern | Load Primary | Note Secondary |
 |---------|-------------|----------------|
-| "Deploy the code AND update Monday" | CTO | PM (update Monday at session end) |
+| "Deploy the code AND update the tracker" | CTO | PM (update tracker at session end) |
 | "Review the sprint plan AND check the architecture" | PM | CTO (flag any arch concerns) |
 | "Write the content AND update the project status" | CMO | PM (status update at session end) |
 | "Fix the bug AND check if it's a security issue" | CTO | Security (flag for Security review if needed) |
@@ -76,8 +76,8 @@ Routing rationale: [1 sentence — why this domain was chosen]
 
 Example:
 ```
-Agent: CTO (+ PM for Monday status update at close)
-Routing rationale: Task is deploying code via SSH — technical execution; Monday sync is secondary closeout work.
+Agent: CTO (+ PM for tracker status update at close)
+Routing rationale: Task is deploying code via SSH — technical execution; tracker sync is secondary closeout work.
 ```
 
 ---

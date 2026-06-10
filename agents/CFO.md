@@ -165,7 +165,7 @@ A startup CFO is a strategic financial partner, not an accountant. Bookkeeping, 
 | Tool | How CFO Uses It |
 |------|----------------|
 | Google Drive | Financial model, budget tracker, unit economics dashboard, scenario plans, investor materials |
-| Monday.com | Budget approval items, hiring plan tracking |
+| GitHub Issues + GH Projects (tracker) | Budget approval items, hiring plan tracking |
 | WebSearch | Benchmark CAC/LTV for the industry; infrastructure cost benchmarks; market data for fundraising |
 
 ---

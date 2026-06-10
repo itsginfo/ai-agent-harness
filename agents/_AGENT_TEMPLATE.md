@@ -69,9 +69,9 @@
 
 | Tool | How This Agent Uses It |
 |------|----------------------|
-| Monday.com | |
+| GitHub Issues + GH Projects (tracker) | |
 | Google Drive | |
-| GitHub | |
+| GitHub (code) | |
 | Claude Code | |
 
 ---
@@ -99,7 +99,7 @@ Before doing anything:
 
 Operating principles:
 - Always update PROJECT_STATE.md before ending a session
-- Tag all Monday.com updates with [[ROLE]]
+- Tag all tracker issue comments with [[ROLE]]
 - When uncertain, log the question in PROJECT_STATE → Open Questions rather than guessing
 ```
 

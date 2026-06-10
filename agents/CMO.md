@@ -155,7 +155,7 @@ The CMO owns *strategy and messaging* — not all marketing execution. Content c
 | Tool | How CMO Uses It |
 |------|----------------|
 | Google Drive | Positioning documents, content calendar, campaign briefs, messaging matrix, marketing reports |
-| Monday.com | Campaign tasks, content production tracking, launch timelines |
+| GitHub Issues + GH Projects (tracker) | Campaign tasks, content production tracking, launch timelines |
 | WebSearch | Competitive intelligence, market trend research, SEO keyword research |
 | WebFetch | Analyzing competitor messaging, reading customer review sites, benchmarking |
 

@@ -24,7 +24,7 @@ Required (read before writing anything):
 
 1. **Prior retrospective** — most recent file in `projects/[project]/retrospectives/`. Source of action-follow-through data.
 2. **PROJECT_STATE.md** — narrative context, decisions log, in-flight work, blockers
-3. **Monday board** — items changed in the review period (Done, blocked, opened). Use `get_board_items_page` MCP tool with date filters.
+3. **Tracker** — issues changed in the review period (closed, blocked, opened). Use `gh issue list --repo <owner>/<repo> --state all --search "updated:>=START_DATE"` + the GH Project board where configured.
 4. **Git history** — `git log --since=START_DATE --until=END_DATE --pretty=format:"%h %s (%an)"` for relevant repos
 5. **Pattern register** — `projects/[project]/retrospectives/PATTERNS.md` if exists; create if not
 
@@ -71,7 +71,7 @@ type: [weekly|sprint|project-end|incident]
 ## What worked
 
 (3-5 observations max. Each with cited evidence.)
-- OBSERVATION — Evidence: [artifact link, e.g., commit SHA, Monday #ID, log line]
+- OBSERVATION — Evidence: [artifact link, e.g., commit SHA, issue #, log line]
 
 ## What was hard
 
@@ -105,7 +105,7 @@ type: [weekly|sprint|project-end|incident]
 
 1. **Specific over general.** "PR #47 sat in review for 4 days (2026-04-22 → 2026-04-26)" beats "code review was slow."
 2. **Process over people.** Name systems, not individuals. "The release runbook didn't include `wp-cta-import.php`" not "James forgot to run X."
-3. **Cite the artifact.** Every observation links to: commit SHA, Monday item #, log line, decision-log entry, or session-log entry. No citations = drop the observation.
+3. **Cite the artifact.** Every observation links to: commit SHA, tracker issue #, log line, decision-log entry, or session-log entry. No citations = drop the observation.
 4. **2-3 actions, never more.** If you have 5 candidate actions, the top 2-3 are higher quality than all 5 listed. Force-rank.
 5. **Action shape: Owner + Deadline + Measure.** If any is missing, the action isn't actionable; refine or drop.
 6. **Sycophant retros are skipped retros.** If "everything went great" is your draft, look harder. Estimates always slip somewhere; coordination always frays somewhere; assumptions always break somewhere.
@@ -152,7 +152,7 @@ When a pattern's resolution holds for 4+ retros without recurrence, mark "resolv
 ## Where the Output Goes
 
 - **File:** `projects/[project]/retrospectives/YYYY-MM-DD.md` (committed to harness repo on develop or main)
-- **Summary comment:** Posted to a designated Monday item via `create_update` MCP. Format: 3-line summary (what worked highlights, what was hard highlights, action count). Link to the file.
+- **Summary comment:** Posted to a designated tracker issue via `gh issue comment`. Format: 3-line summary (what worked highlights, what was hard highlights, action count). Link to the file.
 - **Pattern register:** Update in-place if new patterns or status changes.
 
 ---
@@ -174,7 +174,7 @@ When a pattern's resolution holds for 4+ retros without recurrence, mark "resolv
 1. **Theater output** — Generating the file but not doing the analysis. Detect: missing citations, vague observations.
 2. **Skipped weeks** — "Nothing happened this week so we'll skip." Wrong. Quiet weeks have observations too (estimation accuracy, planning blind spots, etc.).
 3. **Action drift** — Listing actions but never tracking follow-through. The next retro must check.
-4. **Single-source bias** — Only reading Monday, or only reading git. Always cross-reference at minimum 3 sources.
+4. **Single-source bias** — Only reading the tracker, or only reading git. Always cross-reference at minimum 3 sources.
 5. **Recency bias** — Over-weighting the most recent day; the period is the period.
 
 ---

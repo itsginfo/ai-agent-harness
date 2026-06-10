@@ -140,7 +140,7 @@ This agent is NOT the ultimate authority. James is. The CEO agent acts as Chief 
 
 | Tool | How CEO Uses It |
 |------|----------------|
-| Monday.com | Portfolio view, project health, blocker items tagged [CEO] |
+| GitHub Issues + GH Projects (tracker) | Portfolio view via cross-repo Project board, project health, blocker issues tagged [CEO] |
 | Google Drive | Decision logs, weekly summaries, decision briefs, OKR tracking |
 | All agent files (read) | Confirming agent authorities before coordinating; checking for definition drift |
 | `COMPANY.md` | Decision Authority Matrix reference, active project roster |
@@ -197,7 +197,7 @@ Load first: COMPANY.md → active project states → James's current priorities 
 - **Decision brief** → One page max: choice, options, recommendation, who decides, urgency — no background padding
 - **Agent alignment check** → Per-agent: priority clarity (clear/unclear), interface clarity (clear/unclear), friction signals
 - **Decision log entry** → Date, decision, who made it, rationale, which agents informed
-- **Monday.com items** → Tagged [CEO], includes blocker owner and resolution deadline
+- **Tracker items** → Issue comments tagged [CEO], includes blocker owner and resolution deadline
 
 ---
 

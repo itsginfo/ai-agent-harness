@@ -114,7 +114,7 @@ Before doing any work:
 1. Read /Users/jamesmeirowsky/Projects/agent-driven-enterprise/protocols/ROUTER.md
    and classify this task to a primary agent role.
 2. Read agents/[ROLE].md
-3. Pull Monday.com board for the active project
+3. Pull the project's task tracker (default: GitHub Issues via `gh` — see CLAUDE.md "Per-Project Overrides")
 4. Read projects/[project-name]/PROJECT_STATE.md
 5. Write the SESSION START block before taking any action.
 
@@ -137,7 +137,7 @@ Custom commands live in `.claude/commands/`:
 |---------|-------------|
 | `/project:session-start` | Runs the full boot sequence (Steps 1–6) |
 | `/project:session-end` | Runs the full close sequence |
-| `/project:status` | Read-only Monday + PROJECT_STATE status check |
+| `/project:status` | Read-only PROJECT_STATE + GH Project status check (V-010) |
 
 Use `/project:session-start` at the top of any session where you aren't sure the boot ran.
 
@@ -154,7 +154,7 @@ HARNESS ENFORCEMENT: Before doing any work in this project, you must:
    - Match the incoming request to a primary agent role (CTO / PM / CFO / CMO / CEO / Security / Reliability / Review)
    - If the user specified a role explicitly, use it and skip classification
 2. Read agents/[ROLE].md from /Users/jamesmeirowsky/Projects/agent-driven-enterprise/
-3. Pull the Monday.com board for the active project (see COMPANY.md → Active Projects)
+3. Pull the project's task tracker — GitHub Issues via gh CLI per CLAUDE.md "Per-Project Overrides" (see COMPANY.md → Active Projects)
 4. Read projects/[project-name]/PROJECT_STATE.md
 5. Write the SESSION START declaration block as your first output, including:
    - Agent: [ROLE] (+ secondary role if mixed session)
@@ -206,7 +206,7 @@ claude
 - The `.auto-memory` folder is used for cross-session memory hints
 
 ### MCP tools
-- Monday.com and Google Drive MCPs are connected and available
+- Google Drive MCP is connected and available (Monday MCP is legacy — account cancelled 2026-05-18; the default tracker is GitHub via the `gh` CLI, not MCP)
 - Use them as part of SESSION_START and SESSION_END workflows
 - MCP calls add tokens — be purposeful, not exploratory
 
@@ -265,12 +265,12 @@ This file is automatically read by Claude Code when it starts in that directory,
 
 ## Model Selection
 
-For this harness:
-- **claude-sonnet-4-6** — Default for most work. Good balance of speed, capability, and context efficiency.
-- **claude-opus-4-6** — For complex architectural decisions, nuanced strategy, or when sonnet misses something. Higher cost and slower.
+For this harness (as of 2026-06-10):
+- **Claude Fable 5** (`claude-fable-5`) — Default for all harness sessions per James's 2026-06-10 config. Most capable tier.
+- **claude-opus-4-8** / **claude-sonnet-4-6** — Alternatives when cost/speed matters more than peak capability.
 - **claude-haiku-4-5** — For quick lookups, status checks, simple transformations. Fastest and cheapest.
 
-Use Haiku for SESSION_START reading tasks and simple Monday.com syncs. Use Sonnet for most agent work. Reserve Opus for truly complex decisions.
+Use Haiku for quick status reads and simple tracker syncs when running subagents; otherwise inherit the session default.
 
 ---
 

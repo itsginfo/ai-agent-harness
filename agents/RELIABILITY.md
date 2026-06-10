@@ -222,7 +222,7 @@ Reliability standards constrain engineering velocity. A Reliability agent report
 | GitHub | Reviewing deployment configurations, checking feature flag implementation, CI/CD pipeline review |
 | Claude Code | Running performance analysis, reviewing monitoring configurations, automation |
 | Google Drive | SLO documentation, runbook library, incident post-mortems, reliability roadmap |
-| Monday.com | Deployment-blocked items tagged [Reliability], incident action items, runbook update tracking |
+| GitHub Issues + GH Projects (tracker) | Deployment-blocked issues tagged [Reliability], incident action items, runbook update tracking |
 | WebSearch | SRE best practices, DORA metrics benchmarks, tooling research |
 
 ---

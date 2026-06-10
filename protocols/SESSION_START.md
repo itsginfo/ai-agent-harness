@@ -10,17 +10,17 @@
 Antigravity and Claude automatically generate conversation summaries when sessions are truncated. These summaries may be stale, incomplete, or wrong — especially for fast-moving project state.
 
 **Priority order for resolving conflicts:**
-1. **Monday.com** — wins for task status (Done/Blocked/In Progress)
+1. **The project's tracker** (default: GitHub Issues + GH Project) — wins for task status (Done/Blocked/In Progress)
 2. **PROJECT_STATE.md** — wins for narrative context, decisions, and in-flight detail
 3. **Conversation summary / truncation context** — fallback only; discard if it conflicts with 1 or 2
 
-If a summary says a task is blocked but Monday says Done — trust Monday. If a summary contradicts PROJECT_STATE — trust PROJECT_STATE.
+If a summary says a task is blocked but the tracker says Done — trust the tracker. If a summary contradicts PROJECT_STATE — trust PROJECT_STATE.
 
 Establish full context before doing any work. The two-layer model means you need to read both sources:
-- **Monday.com** = current task status (what exists, who owns it, what state it's in)
+- **The tracker** = current task status (what exists, who owns it, what state it's in)
 - **PROJECT_STATE.md** = narrative context (why, in-flight detail, decisions, resume instruction)
 
-Neither alone is sufficient. Monday tells you *what* is happening; PROJECT_STATE tells you *where exactly* you are within it.
+Neither alone is sufficient. The tracker tells you *what* is happening; PROJECT_STATE tells you *where exactly* you are within it.
 
 ---
 
@@ -46,7 +46,7 @@ Common quick-routes (check ROUTER.md for full table):
 | Work type | Agent |
 |-----------|-------|
 | Code / deploy / architecture / git | **CTO** |
-| Tasks / sprint / Monday / blockers | **PM** |
+| Tasks / sprint / tracker sync / blockers | **PM** |
 | Budget / cost / vendors | **CFO** |
 | Content / SEO / marketing | **CMO** |
 | Strategy / cross-project / priorities | **CEO** |
@@ -79,7 +79,7 @@ For combined-role sessions (e.g., CTO + PM), read both files.
 **Default tracker is GitHub Issues + GH Projects v2** (per CLAUDE.md "Per-Project Overrides"). Active projects as of 2026-05-07:
 
 - **SkydiveCity** — `itsginfo/skydivecity-com` issues + [GH Project #1](https://github.com/users/itsginfo/projects/1) (cross-repo: also covers `itsginfo/ai-agent-harness` for harness-improvement tickets)
-- **MethodRX** — `itsginfo/method-rx` GH Issues (no Project board yet)
+- **MethodRX** — `EQ-Labs-LLC/method_rx` GH Issues (gh auth via the `itsginfo` OAuth account; no Project board yet)
 - **harness self-work** — `itsginfo/ai-agent-harness` issues + GH Project #1
 
 Use `gh` CLI:
@@ -115,25 +115,25 @@ Read in this order:
 2. **In-Flight Tasks** — anything marked ⚡ is not done; do NOT restart it
 3. **Next 3 Actions** — what was planned for this session
 4. **Open Questions** — anything that needs a decision before work can proceed
-5. **Blocked Items** — context behind the Monday blocked items
+5. **Blocked Items** — context behind the tracker's blocked items
 
-Cross-reference with what you just saw in Monday. If they conflict:
-- **Monday wins for task status** (what's Done, In Progress, Blocked)
+Cross-reference with what you just saw in the tracker. If they conflict:
+- **The tracker wins for task status** (what's Done, In Progress, Blocked)
 - **PROJECT_STATE wins for narrative** (in-flight detail, why something is blocked, resume instruction)
-- If PROJECT_STATE says a task is in-flight but Monday shows it as Done → the task was completed in a session that updated Monday but not PROJECT_STATE; update PROJECT_STATE to reflect Done
+- If PROJECT_STATE says a task is in-flight but the tracker shows it closed → the task was completed in a session that updated the tracker but not PROJECT_STATE; update PROJECT_STATE to reflect Done
 
 ---
 
 ### Step 5 — Reconcile any drift
 
-If Monday and PROJECT_STATE diverged (they will, occasionally):
+If the tracker and PROJECT_STATE diverged (they will, occasionally):
 
 | Situation | Resolution |
 |-----------|-----------|
-| Monday: Done, PROJECT_STATE: In-flight | Update PROJECT_STATE to reflect completion |
-| Monday: Blocked, PROJECT_STATE: no blocker noted | Add blocker context to PROJECT_STATE Blocked section |
-| Monday: new item, PROJECT_STATE: not mentioned | Add to PROJECT_STATE Next Actions if it's relevant to this session |
-| PROJECT_STATE: in-flight task, no Monday item | Create the Monday item, add the ID reference to PROJECT_STATE |
+| Tracker: closed, PROJECT_STATE: In-flight | Update PROJECT_STATE to reflect completion |
+| Tracker: Blocked, PROJECT_STATE: no blocker noted | Add blocker context to PROJECT_STATE Blocked section |
+| Tracker: new item, PROJECT_STATE: not mentioned | Add to PROJECT_STATE Next Actions if it's relevant to this session |
+| PROJECT_STATE: in-flight task, no tracker item | Create the tracker item, add the ID reference to PROJECT_STATE |
 
 Reconciliation should take < 5 minutes. If there's significant drift, that means SESSION_END was skipped in a prior session — note it and move on.
 
@@ -177,7 +177,7 @@ Agent: [ROLE]
 Project: [Project Name]
 Resuming: [Yes/No]
 In-flight from last session: [task name + exact state, or "None"]
-Monday sync: [any notable changes found]
+Tracker sync: [any notable changes found]
 Session scope: [1–2 sentences: exactly what gets done today, nothing more]
 Natural stop point: [the cleanest mid-session exit state if interrupted]
 First action: [specific thing I'm doing first]
@@ -194,11 +194,11 @@ This makes your starting state explicit. If something is wrong (wrong project, w
 For sessions under 30 minutes with a single focused task:
 
 Minimum required:
-- Check Monday board (2 min)
+- Pull the tracker — `gh issue list` for the project repo (2 min)
 - Read PROJECT_STATE → RESUME INSTRUCTION + In-Flight only (2 min)
 - Confirm the task hasn't been done already
 
-Even for short sessions: **always update Monday and PROJECT_STATE.md at the end.**
+Even for short sessions: **always update the tracker and PROJECT_STATE.md at the end.**
 
 ---
 

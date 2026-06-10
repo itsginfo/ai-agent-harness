@@ -21,7 +21,7 @@ A half-finished draft reviewed by one agent is not the same risk as code pushed 
 
 **Examples:**
 - Draft documents not yet shared externally
-- Monday.com task updates / status changes
+- Tracker issue updates / status changes
 - PROJECT_STATE.md edits
 - Research summaries, notes, analysis for internal use
 - Code in a local branch not yet pushed or reviewed
@@ -111,7 +111,7 @@ Any of these automatically bumps an output one tier higher, regardless of catego
 If you only have 2 minutes before handing off:
 
 1. **Name the tier** (1, 2, or 3)
-2. **State what's confirmed** ("numbers verified against Monday board", "logic checked", etc.)
+2. **State what's confirmed** ("numbers verified against the tracker", "logic checked", etc.)
 3. **Flag what's assumed** ("assumed Q1 actuals are correct as entered")
 
 This minimal record is better than no verification. The next agent or James can make an informed decision about whether to dig deeper.

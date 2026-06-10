@@ -148,14 +148,15 @@ In the In-flight section, reference specific files and functions:
 
 ---
 
-## GitHub Issues and Monday.com
+## GitHub Issues as the Task Tracker
 
-For each project, maintain a lightweight link between GitHub Issues and Monday.com:
+GitHub Issues + GH Projects v2 **is** the default tracker (since the 2026-05-07 Monday migration; see `CLAUDE.md` → Per-Project Overrides for each project's repo and board). Intake routes per V-007:
 
-- Bug reports → Open a GitHub Issue + create a Monday.com item in the relevant sprint
-- Feature requests → Monday.com backlog item first; GitHub Issue created when development starts
-- In Monday.com item notes, include the GitHub Issue URL
-- In GitHub Issue description, include the Monday.com item URL
+- Bug reports → `gh issue create` directly, then `/triage`
+- Substantive new engineering work → `/to-prd` → `/to-issues` → `/triage`
+- Routine Requests / single issues not from a plan → `gh issue create` directly (escape lanes)
+- Cross-repo visibility → add the repo to the account-level GH Project board (e.g. [Project #1](https://github.com/users/itsginfo/projects/1))
+- Triage label vocabulary: `docs/agents/triage-labels.md`
 
 ---
 

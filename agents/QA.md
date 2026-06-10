@@ -169,7 +169,7 @@ QA is not "the team that breaks things to be annoying." QA exists because *the p
 | Lighthouse / axe-core | Performance + a11y baseline checks |
 | SSL Labs | TLS / cert validation |
 | BrowserStack / Sauce Labs | Cross-browser / device matrix |
-| Monday.com | Defect tracking, gate decision audit trail |
+| GitHub Issues + GH Projects (tracker) | Defect tracking, gate decision audit trail |
 | Google Drive | Test plans, QA reports, regression suite documentation |
 | GitHub | Link defects to commits / PRs; integrate with CI gates |
 
