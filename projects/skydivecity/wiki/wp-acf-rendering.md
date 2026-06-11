@@ -41,6 +41,19 @@ For non-page content updates (homepage flex sections, event postmeta, etc.) the 
 
 - 2026-04-27 (eve) — first hit; `wp-page-acf-import.php` authored as the fix. DECISIONS 2026-04-27 (eve) entry.
 - 2026-05-17 — Homepage rate cards update reused the `update_field()` flex-content pattern ([`#8`](https://github.com/itsginfo/skydivecity-com/issues/8)).
+- 2026-06-11 — Media-package pricing update ([`#13`](https://github.com/itsginfo/skydivecity-com/issues/13)) mapped the pricing architecture (below).
+
+---
+
+## Where prices live (mapped 2026-06-11, `#13`)
+
+Site prices are NOT in page meta — they live on two dedicated post types, embedded into pages via ACF `pricing_booking` flex blocks (serialized ID arrays like `content_7_pricing_booking_0_pricing_tables = [5613]`):
+
+- **`pricingtable`** — multi-row/multi-column tables (`prices_{N}_price{1,2}` postmeta; `header_price1/2` column labels). One table can render on several pages: media table 5613 renders on `/skydiving-prices/` AND `/media-packages/`. Tandem table is 1090.
+- **`bookinglink`** — image+cost tiles (`cost`, `details`, `link`, `type` postmeta), rendered by `parts/builder/pricing_booking_links.php`.
+- ⚠️ **Orphaned posts hold stale prices.** `bookinglink` 5508/1088/1089 are referenced by no page yet keep old price text — a price-change inventory must check rendered embedding, not just grep values. `migration/wp-media-pricing-inventory.php` (commit `d0b836c`) is the reusable Phase-1 script for this.
+- **Cash/CC convention:** pricing tables carry a Cash + Credit Card column pair, CC = cash + $10 (reconfirmed by Rich 2026-06-11).
+- **Cloudflare/Flywheel edge cache** serves stale HTML after a DB price write (~35 min observed 2026-06-11); verify with cache-busted query first, plain re-check after a cycle (see [[flywheel]]).
 
 ---
 

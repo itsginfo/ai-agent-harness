@@ -50,6 +50,12 @@
 
 ---
 
+## Feature flags — SDC vs other Burble dropzones
+
+- **"Display lowest prices available in calendar" is NOT enabled on SDC's funnel** (confirmed by James 2026-06-11, `#14`). SDC timeslot buttons show time only — no price line. Other dropzones' Burble pages (e.g. Chicago Skydiving Center) DO show stacked time+price; **screenshots from other DZs are not evidence of SDC behavior**. If this feature is enabled later (with a price-per-timeslot strategy, i.e. the Dynamic Pricing rollout), Rich wants the price styled *next to* the time, not under it (ex-`#14` preference, carried on the Dynamic Pricing item in PROJECT_STATE).
+
+---
+
 ## Open questions
 
 - **Does Burble provide an integration API beyond the admin form?** Not verified. If yes, custom JS/JSON-LD injection could be authored instead of pasted-into-panel.
