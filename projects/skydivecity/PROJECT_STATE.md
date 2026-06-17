@@ -1,14 +1,14 @@
 # PROJECT STATE — Skydive City
 
-> **Last updated:** 2026-06-17 by PM Agent (`#15` — Ads conversion-counting resolved by Marcella; diagram Ads row corrected; correction-to-Marcella + Option A remediation pending)
+> **Last updated:** 2026-06-17 by PM Agent (`#15` — remediation decided: Option B rollback agreed with BM; agreement reply drafted, awaiting James send + GTM change)
 
 ---
 
 ## ⚡ RESUME INSTRUCTION
 
-**Managed Services steady state. `#15` (Sev-3 GA4 incident) BM-gated.** Marcella confirmed 2026-06-17: primary Ads conversion = **GA4-imported "Burble Purchase"** (drives bidding); GTM Enhanced-Conv. tag is **secondary/uncounted** (over-reports). So her *counted* Ads conversions ride the GA4 revenue timeline — **alive pre-05-18, dark post** — i.e. her recollection was right and our earlier "began firing May 18" framing was wrong for the counted conversion. Diagram corrected (Primary/Secondary split, commit `cc0f173`); wiki [[tracking-stack]] updated (`94f0dd5`).
+**Managed Services steady state. `#15` (Sev-3 GA4 incident) — remediation path DECIDED: Option B (rollback), agreed with Marcella 2026-06-17.** BM removes GTM's GA4 config tag (+ GTM FB pixel) so Burble native owns GA4 again → restores pre-05-18 purchases/revenue/funnel-events + the GA4-imported "Burble Purchase" Ads conversion (Smart Bidding signal). All in BM's container, **no Burble change**. Accepted tradeoff: GA4 `page_view` on booking pages goes dark again (native `send_page_view:false`) — funnel events still cover drop-off; Burble = source of truth. Option A (single GTM pipeline) kept as documented future option per Marcella.
 
-**Next:** (1) **Draft a short correction to Marcella** — the 2026-06-13 reply called the Ads conversion "intact / began firing May 18," misleading for her primary (which went dark). *Offered to James; awaiting go.* (2) **Option A remediation** (still BM-gated) gained a requirement: restored GA4 `purchase` must preserve the "Burble Purchase" key-event identity so the GA4→Ads import resumes counting (revives Smart Bidding) with no re-pointing. Then BM coordinates GTM-side → test booking.
+**Next:** (1) **James sends the Option B agreement reply** (draft: `correspondence/2026-06-17-beyond-marketing-option-b-agreement.md`). (2) **Schedule the GTM change + test booking with BM** — verify purchase+revenue land in GA4, imported Ads conversion counts, FB fires once. (3) Then fold the May-report window correction into the June Digital Ops Report (~2026-07-05). Diagram reframed (Option B = chosen), commit `2337bac`; both BM replies (correction `417cddd`, agreement `2337bac`) still DRAFT/unsent.
 
 **Also open:** `#13` awaits Matt's Burble-side pricing confirmation (website side done). **June Digital Ops Report due ~2026-07-05 — must include facts-only May-report correction** (166/$68,298 was May 1–17 pre-fix). Merch Discovery ⛔ BLOCKED on Burble-tender question (unblocked branches available). Dynamic Pricing ON HOLD per Rich (carry-along: price-next-to-time, ex-`#14`).
 
