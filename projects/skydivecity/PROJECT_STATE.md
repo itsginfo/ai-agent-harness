@@ -1,14 +1,14 @@
 # PROJECT STATE — Skydive City
 
-> **Last updated:** 2026-06-17 by PM Agent (`#15` — BM walkthrough diagram built; new open question on Ads conversion-counting mechanism awaiting Marcella's answer)
+> **Last updated:** 2026-06-17 by PM Agent (`#15` — Ads conversion-counting resolved by Marcella; diagram Ads row corrected; correction-to-Marcella + Option A remediation pending)
 
 ---
 
 ## ⚡ RESUME INSTRUCTION
 
-**Managed Services steady state. `#15` (Sev-3 GA4 incident) still BM-gated, now with an active thread:** James is walking Beyond Marketing (Marcella) through the dual-pipeline conflict using an interactive HTML data-flow diagram built 2026-06-17 (`correspondence/2026-06-17-tracking-architecture-walkthrough.html`, committed `96c3df3`, not pushed).
+**Managed Services steady state. `#15` (Sev-3 GA4 incident) BM-gated.** Marcella confirmed 2026-06-17: primary Ads conversion = **GA4-imported "Burble Purchase"** (drives bidding); GTM Enhanced-Conv. tag is **secondary/uncounted** (over-reports). So her *counted* Ads conversions ride the GA4 revenue timeline — **alive pre-05-18, dark post** — i.e. her recollection was right and our earlier "began firing May 18" framing was wrong for the counted conversion. Diagram corrected (Primary/Secondary split, commit `cc0f173`); wiki [[tracking-stack]] updated (`94f0dd5`).
 
-**One open question gates the diagram's Ads row** — confirm with Marcella how SDC's Ads account counts booking conversions: (a) GTM/website tag only → diagram correct as-is; (b) GA4 import only → Ads row flips to the revenue timeline (alive-before/dark-after); (c) both → split the row + flag double-count. Verified: native fires no Ads conversion, GTM AW tag is sole *page-fired* source (dark before / live after). Unverified: whether Ads also imports from GA4. **When James reports back: update the diagram's Ads row accordingly, keep verified parts untouched.** Then resume the BM-gated remediation (Option A) per `#15`.
+**Next:** (1) **Draft a short correction to Marcella** — the 2026-06-13 reply called the Ads conversion "intact / began firing May 18," misleading for her primary (which went dark). *Offered to James; awaiting go.* (2) **Option A remediation** (still BM-gated) gained a requirement: restored GA4 `purchase` must preserve the "Burble Purchase" key-event identity so the GA4→Ads import resumes counting (revives Smart Bidding) with no re-pointing. Then BM coordinates GTM-side → test booking.
 
 **Also open:** `#13` awaits Matt's Burble-side pricing confirmation (website side done). **June Digital Ops Report due ~2026-07-05 — must include facts-only May-report correction** (166/$68,298 was May 1–17 pre-fix). Merch Discovery ⛔ BLOCKED on Burble-tender question (unblocked branches available). Dynamic Pricing ON HOLD per Rich (carry-along: price-next-to-time, ex-`#14`).
 
