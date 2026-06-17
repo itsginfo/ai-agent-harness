@@ -26,6 +26,12 @@ Source of record: `project_management/W1-10-tracking-audit.md` (committed 2026-0
 - **Google Ads "Gift Card Purchase"** — Separate trigger; lower volume.
 - **Facebook Pixel** — Same GTM container.
 
+> **⚠️ Conversion counting — two sources, only one is counted (confirmed by Beyond Marketing 2026-06-17, `#15`).** Google Ads has **two** conversion sources for booking sales, and they ride **opposite timelines**:
+> - **Primary (counted, drives bidding): GA4-imported "Burble Purchase"** — imported from the GA4 `purchase` key event, which is sourced from **Burble's native pipeline**. So it tracks the *revenue* timeline: **counting before 2026-05-18, dark after** (native `purchase` suppressed by the dual-pipeline conflict).
+> - **Secondary (NOT counted, excluded from bidding): the GTM AW tag** on `/index/finish/`. Dark before 05-18 (GTM unloaded), firing after. BM keeps it secondary because it **over-reports** (much higher than GA4) — consistent with the URL trigger re-firing on confirmation-page refresh/back-nav without transaction-ID dedup.
+>
+> **Correction to the 2026-06-13 framing:** "the GTM AW tag is the sole Ads conversion source / dark-before-live-after" was true only for *page-fired* conversions. The conversion BM actually **counts** is the GA4 import, which went **dark after 05-18** — so the post-fix impact includes BM's primary Ads conversions + Smart Bidding signal, not just GA4 revenue. **Option A requirement:** the restored GA4 `purchase` must preserve the "Burble Purchase" key-event identity so the GA4→Ads import resumes counting with no re-pointing.
+
 ---
 
 ## Per-step funnel paths (discovered 2026-05-18)
