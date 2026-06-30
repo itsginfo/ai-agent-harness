@@ -6,15 +6,11 @@
 
 ## ⚡ RESUME INSTRUCTION
 
-**Managed Services steady state. One item HELD, awaiting external confirmation:**
+**Managed Services steady state. `#15` GA4 incident CLOSED 2026-06-29 (BM executed Option B, native events verified firing). One item staged + held:**
 
-**⏸️ `#16` Omnyra AI (Routine Request) — AFF repoint STAGED, held on cert.** Josh delivered the spec: tool runs entirely on Omnyra's Vercel infra under `academy.skydivecity.com` (student signup, replaces AFF Google Form) + `careers.skydivecity.com` (pilot recruitment). DNS (2× `CNAME → cname.vercel-dns.com`, **DNS-only/gray cloud**) ✅ done by James. WP work = repoint the AFF signup form (`…iDEihYGAfZQ`) → `https://academy.skydivecity.com` in **4 published fields** (1613 nav "Schedule AFF Class", 1872 "AFF CTA" block, 1099 "AFF FAQs" ×2 in-body links). Idempotent script `migration/wp-aff-omnyra-academy-repoint-2026-06-29.php` written + **fully dev-validated** (dry→live→idempotent re-run clean). **HELD per James: `academy.skydivecity.com` not yet serving a valid cert** (Josh to confirm). **On Josh's go:** prod read-only inventory → 5-phase prod write → live-verify links + click-through → close `#16`.
+**⏸️ `#16` Omnyra AFF repoint (Routine Request) — STAGED, prod write HELD on cert.** Script `migration/wp-aff-omnyra-academy-repoint-2026-06-29.php` written + dev-validated (repoints AFF signup form → `https://academy.skydivecity.com` in 4 published fields). Held because `academy.skydivecity.com` isn't serving a valid cert yet (Josh to confirm; can self-check via `curl`). Full context in In-Flight Tasks.
 
-**Careers:** no careers section on site today → skip `careers.` wiring for now; **add "create a careers/employment page → careers.skydivecity.com" as a recommendation in the June Ops Report** (per James 2026-06-29).
-
-**Next:** (1) When Josh confirms cert → execute the staged repoint (above). (2) **June Digital Ops Report due ~2026-07-05** — first clean full-month conversion baseline; **must include** facts-only May-report correction (166/$68,298 = May 1–17 pre-fix) **+** the careers-page recommendation. (3) `#13` close-out — awaits Matt's Burble-side pricing confirmation (website side ✅ live). (4) Merch Discovery ⛔ BLOCKED on Burble-tender Q (unblocked branches available). Dynamic Pricing ON HOLD per Rich (carry-along: price-next-to-time, ex-`#14`).
-
-**✅ `#15` GA4 incident CLOSED 2026-06-29.** BM executed Option B (removed GTM's GA4 config tag → Burble native owns GA4 again); post-change testing confirmed native events firing → purchase/revenue/funnel tracking restored. Mirror-image model held; event-based-reporting hypothesis confirmed (so B was viable-not-compromise). No Burble change. Detail: Session Log + `#15` close comment.
+**Next:** (1) On cert confirmation → prod read-only inventory → 5-phase write → live-verify + click-through → close `#16`. (2) **June Ops Report due ~2026-07-05** — must include the May-report correction (166/$68,298 = May 1–17 pre-fix) + a careers-page recommendation (`careers.skydivecity.com`). (3) `#13` close-out awaits Matt's Burble-side pricing confirm. (4) Merch Discovery ⛔ blocked on Burble-tender Q (unblocked branches available).
 
 **Branch check first.** Project repo `develop`; harness `main`. `feature/redesign-phase2` is local-only and paused — do not push without explicit James direction.
 
@@ -177,12 +173,11 @@ See [`wiki/README.md`](../../projects/skydivecity/wiki/README.md) for convention
 
 > When you complete one, update the GH issue first (status, comment if substantive), then return here.
 
-1. **[ACTIVE INCIDENT, call pending] `#15` GA4 purchase tracking** — Option B email sent; Marcella wants a verification call (this afternoon / tomorrow). *Schedule it.* On the call, **resolve the booking-page_view question** (she relies on booking page_views for funnel reports/audiences; Option B keeps them dark) — this gates whether we stay Option B, add native `send_page_view`, or reopen Option A. Then BM GTM change → end-to-end test booking → corroborate in GA4 UI. May-report window correction folded into June report.
-2. **[NEW scope, walkthrough Mon] `#16` Omnyra AI integration** — James meets Josh Caruso 2026-06-22 for the tool walkthrough. *Agent (after walkthrough):* capture integration mechanics → `/to-prd` toward a Project SOW (SCOPE-2). Likely replaces the AFF Google Form signup with Omnyra's hosted page/endpoint.
+1. **[STAGED, held on cert] `#16` Omnyra AFF repoint** — script `migration/wp-aff-omnyra-academy-repoint-2026-06-29.php` written + dev-validated. **Trigger:** Josh confirms `academy.skydivecity.com` serves a valid cert (or self-check via `curl`). *Then:* prod read-only inventory → 5-phase write (4 fields → academy.) → live-verify links + click-through → close `#16`.
+2. **[Recurring, due ~2026-07-05] June Digital Ops Monthly Report** — first clean full-month baseline. **Must include:** (a) facts-only May-report correction (166/$68,298 = May 1–17 pre-fix); (b) recommendation to create a careers/employment page → `careers.skydivecity.com`. Follow `reports/digital-ops-monthly/README.md`; file the issue at month-end.
 3. **[Awaiting client] `#13` close-out** — confirm Matt applied Burble-side media pricing, then close. *(Website side ✅ executed + live-verified uncached. `#14` closed not-planned — was CSC's page, not ours.)*
 4. **[In-flight, blocked + has unblocked branches] E-commerce Merch Discovery** — *James:* confirm the Burble-tender question with Rich/Matt (5 Qs in `ecommerce-merch-discovery.md`; crux = is Burble-balance merch tender hard-requirement or negotiable). *Agent:* resume `/grill-with-docs` on an unblocked branch (licensing/subscription costs → direct LOE input, or returns/exchanges). Toward PRD (task #6) + exec-summary-with-LOE (task #7).
-5. **[Recurring, due ~2026-07-05] June Digital Ops Monthly Report** — first clean full-month conversion baseline (May funnel was dark pre-2026-05-18). Follow `reports/digital-ops-monthly/README.md`; file the issue at month-end. *(May report `#10` ✅ delivered 2026-06-02.)*
-6. **[Whenever bandwidth]** SCOPE-1 (Burble calendar) scope-gathering when Rich/Matt available; polish `#1`–`#3` (`#3` unfreezes `deploy.sh --live`). *(SSL `#4` closed 2026-06-01 — auto-renewal verified resolved; next renewal ~2026-07-07 needs no action.)*
+5. **[Whenever bandwidth]** SCOPE-1 (Burble calendar) scope-gathering when Rich/Matt available; polish `#1`–`#3` (`#3` unfreezes `deploy.sh --live`). *(SSL `#4` closed 2026-06-01 — auto-renewal verified resolved; next renewal ~2026-07-07 needs no action.)*
 
 ---
 
