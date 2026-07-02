@@ -15,6 +15,8 @@ Confirm: SSH reachable; target slugs/IDs don't collide with existing records; re
 
 **Dev-first rule** (added 2026-05-17, [`#8`](https://github.com/itsginfo/skydivecity-com/issues/8) lesson): Inventory scripts run on **local Docker first** via `docker exec skydivecity_wordpress wp eval-file`, **then** SCP to prod for the prod read. **Don't skip dev for "just a read"** — the discipline that catches script bugs on dev also catches them on inventory scripts. Memory: [[feedback_dev_first_applies_to_inventory]].
 
+**⚠️ Resolve target posts by SLUG, not hardcoded ID** (added 2026-07-02, `#17` lesson): **Post IDs diverge between dev and prod.** Content created directly on prod (e.g. the 2027 boogie events, added on prod 2026-05-11) gets prod-assigned IDs; the dev DB assigns different ones. A script that hardcodes an event/post ID from dev will target the wrong object on prod — often a *revision* — and either error or silently no-op. **For UPDATES, resolve by `get_page_by_path($slug, OBJECT, $post_type)`** (with an optional `POST_ID` env override). CREATE scripts are already slug-safe (idempotent slug check). **Core page IDs (page 2 = Home) ARE stable** dev↔prod — only newer created posts drift. Phase-1 inventory is where this gets caught (compare the expected ID's `post_type`/title on prod before writing).
+
 ### Phase 2 — SHA-verified upload
 `scp -O` the script to `/tmp/` on Flywheel — default `scp` is rejected because Flywheel's SFTP subsystem is locked (see [[flywheel]]). After upload, `sha256sum` local + prod and confirm bit-for-bit identity.
 
