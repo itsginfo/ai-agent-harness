@@ -42,6 +42,7 @@ For non-page content updates (homepage flex sections, event postmeta, etc.) the 
 - 2026-04-27 (eve) — first hit; `wp-page-acf-import.php` authored as the fix. DECISIONS 2026-04-27 (eve) entry.
 - 2026-05-17 — Homepage rate cards update reused the `update_field()` flex-content pattern ([`#8`](https://github.com/itsginfo/skydivecity-com/issues/8)).
 - 2026-06-11 — Media-package pricing update ([`#13`](https://github.com/itsginfo/skydivecity-com/issues/13)) mapped the pricing architecture (below).
+- 2026-07-02 — Home AFF CTA ([`#19`](https://github.com/itsginfo/skydivecity-com/issues/19)) hit the home-page orphan-meta trap; band body found to be a live SEO block (see Orphan ACF meta section below).
 
 ---
 
@@ -56,6 +57,15 @@ Site prices are NOT in page meta — they live on two dedicated post types, embe
 - **Cloudflare/Flywheel edge cache** serves stale HTML after a DB price write (~35 min observed 2026-06-11); verify with cache-busted query first, plain re-check after a cycle (see [[flywheel]]).
 
 ---
+
+## Orphan ACF meta on the home page (page 2) — verify against the *rendered* page
+
+The home page (`post_id 2`) carries **dead ACF meta from prior layouts that does NOT render** — e.g. `content_1_formatted_*` and `content_2_left_*` keys survive from old flex layouts, while the LIVE band renders from `content_3_*`. Editing the orphan keys publishes cleanly and changes the DB but changes nothing on the front end.
+
+**Rule:** on the home page, edit only the LIVE `content_3_*` keys, and **verify against the rendered HTML, not the DB row.** Same failure family as the orphaned `bookinglink` posts above — the DB holds more keys than the page consumes.
+
+- Surfaced 2026-07-02 on [`#19`](https://github.com/itsginfo/skydivecity-com/issues/19) (home AFF CTA): a card-repoint edit was dropped after a render check showed no live AFF card existed; the "Best Skydiving School" band is `content_3_*`. A later pass found the band "body" field is a live **5-paragraph SEO/brand block** (30yrs / 80-countries / Z-Hills + internal links), not a throwaway line — so copy changes there were applied **non-destructively (prepend), not replace.**
+- Corollary for the redesign: preserve that SEO body copy as a migratable asset (see Redesign implications below).
 
 ## Redesign implications
 

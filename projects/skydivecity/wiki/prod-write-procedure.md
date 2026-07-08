@@ -58,6 +58,7 @@ What each phase actually catches:
 
 - 2026-05-11 — 3 events added (WINTERFEST/FLOCKFEST/FLAMINGOFEST 2027), `skydivecity-com#5`. Procedure was established this session.
 - 2026-05-17 — Homepage Tandem rates update ($249 / $199 / Pasco County Resident Special rename), [`#8`](https://github.com/itsginfo/skydivecity-com/issues/8). Procedure followed; dev-first inventory lesson added mid-session after James caught a phase-1 skip.
+- 2026-07-02 — 4 prod writes (`#17`/`#18`/`#19`/`#22`), commit `4337b5b`. Phase-1 inventory caught the dev↔prod post-ID divergence (`#17` hardcoded 5878 = a prod *revision*; real WINTERFEST = 5865) → the **resolve-by-slug** rule above was added this session.
 
 ---
 
