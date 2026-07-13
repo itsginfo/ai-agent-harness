@@ -26,6 +26,7 @@
 | **Any** prod DB write (postmeta, taxonomy, content, ACF) — 5-phase pattern | [`prod-write-procedure.md`](../../projects/skydivecity/wiki/prod-write-procedure.md) |
 | GTM / GA4 / Google Ads — IDs, triggers, conversion measurement | [`tracking-stack.md`](../../projects/skydivecity/wiki/tracking-stack.md) |
 | Designing claude.ai scheduled remote agents (routines) | [`sandbox-allowlist.md`](../../projects/skydivecity/wiki/sandbox-allowlist.md) |
+| **Any outward-facing email / recipient choice / who-owns-what** (client, Beyond Marketing, Omnyra) | [`stakeholders.md`](../../projects/skydivecity/wiki/stakeholders.md) |
 
 See [`wiki/README.md`](../../projects/skydivecity/wiki/README.md) for conventions and [`wiki/sources.md`](../../projects/skydivecity/wiki/sources.md) for the cited-artifacts log.
 

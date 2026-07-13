@@ -33,6 +33,7 @@ This directory exists because of HARN-2 — the evaluation of Karpathy's LLM Wik
   - `prod-write-procedure.md` — 5-phase change-control pattern for any prod DB write
   - `tracking-stack.md` — GTM / GA4 / Google Ads IDs, per-step funnel paths, defects
   - `sandbox-allowlist.md` — Remote-agent outbound HTTP constraint; lessons for routine design
+  - `stakeholders.md` — Contact/role map both sides (SDC · ITSG · Beyond Marketing · Omnyra · Flywheel) + routing conventions *(added 2026-07-13)*
 - *(future)* **`index.md`** — Categorical catalog of entity pages (Phase C — see [`ai-agent-harness#3`](https://github.com/itsginfo/ai-agent-harness/issues/3); deferred until volume justifies).
 
 ---
