@@ -30,9 +30,10 @@
 
 | Person | Role | Contact | Route to them for… |
 |---|---|---|---|
-| **Laura Jane** | **Website / Marketing Manager — BM's website relationship owner** (CMS, Cloudflare DNS, SSL, GA4/GTM, content publishing). | ⚠️ direct email NOT on record | **Website / development / SDLC / redesign-workflow** conversations. *This is the default BM contact.* |
-| **Marcella** | **Analytics contact** (GA4/GTM), surfaced during the `#15` GA4 purchase-tracking incident. | ⚠️ direct email NOT on record | **Analytics / tag-management / conversion-tracking** matters specifically. **Not** general website/dev. |
-| *(generic)* | BM shared inbox / tag-publishing identity. | ✅ `info@amazethecustomer.com` | Fallback only; prefer a named recipient. |
+| **James La Barrie** | **CEO & Owner of BM** — **decision-maker for business-impacting changes** (SDLC / git-workflow adoption, process, contractual-workflow). | ✅ `james@beyondmarketing.xyz` | **Business-impacting decisions.** SDLC / workflow / anything that changes how BM operates. Laura Jane escalates larger calls to him. |
+| **Laura Jane Happick** | **Director of Web Maintenance** — BM's day-to-day website relationship owner (CMS, Cloudflare DNS, SSL, GA4/GTM, content publishing). Escalates larger decisions to James La Barrie. | ✅ `laurajane@beyondmarketing.xyz` | **Website / development / redesign-workflow execution** day-to-day. Default BM contact for *doing*; loop James La Barrie for *deciding*. |
+| **Marcella Smith** | **General Manager, SHRM-CP** — owns **Analytics** for the account (GA4/GTM); surfaced during the `#15` GA4 purchase-tracking incident. | ✅ `marcella@beyondmarketing.xyz` | **Analytics / tag-management / conversion-tracking** matters specifically. **Not** general website/dev. |
+| *(generic)* | BM shared inbox / tag-publishing identity. | ✅ `info@amazethecustomer.com` | Fallback only; prefer a named recipient. Note the different domain vs the `@beyondmarketing.xyz` named contacts. |
 
 ---
 
@@ -53,8 +54,9 @@
 | **Status comms / monthly ops report** | Rich | Matt | [[feedback_status_email_recipients]] |
 | **Pricing / business-alignment decision** | Rich | Matt | Q8 (pricing = Rich's source-of-truth) |
 | **Content (copy/images/events)** | Cassie Young | — | Q8 (content lane) |
-| **Website / dev / SDLC / redesign workflow** | Laura Jane (BM) | Rich (+ Matt) | Phase 1 Plan §8.1 |
-| **Analytics / GA4 / GTM / conversion tracking** | Marcella (BM) | Rich | `#15` incident |
+| **Website / dev / redesign-workflow execution** | Laura Jane Happick (BM) | Rich (+ Matt) | Phase 1 Plan §8.1 |
+| **Business-impacting decision (SDLC / workflow / process)** | James La Barrie (BM CEO) | Laura Jane, Rich | 2026-07-22 roster clarification |
+| **Analytics / GA4 / GTM / conversion tracking** | Marcella Smith (BM) | Rich | `#15` incident |
 | **AFF / Omnyra academy** | Josh Caruso | Rich | `#16` |
 
 ---
