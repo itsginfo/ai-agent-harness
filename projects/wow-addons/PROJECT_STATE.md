@@ -6,7 +6,7 @@
 
 ## ⚡ RESUME INSTRUCTION
 
-**Maintenance mode. Addon set is reconciled and clean as of 2026-08-04; repo + wiki committed and pushed.** No work in-flight. The project maintains a WoW Classic `AddOns/` folder and reconciles provider update batches against local edits.
+**Maintenance mode — ADE onboarding COMPLETE (2026-08-05); addon set reconciled and clean (2026-08-04).** Both repos committed, pushed, in sync; nothing in-flight. The project maintains a WoW Classic `AddOns/` folder and reconciles provider update batches against local edits.
 
 **Next:** Nothing until the next update batch lands. When it does → work the recurring issue [`JamesMeirowsky/wow-addons#1`](https://github.com/JamesMeirowsky/wow-addons/issues/1): drop a fresh `AddOns-copy/` **before** updating, then run [`docs/reconciliation-runbook.md`](https://github.com/JamesMeirowsky/wow-addons/blob/main/docs/reconciliation-runbook.md). Expected recurring action: **re-restore `RXPGuides/map.lua`** (upstream never adopts our fix).
 
