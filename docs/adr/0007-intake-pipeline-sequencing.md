@@ -1,6 +1,8 @@
 # V-007: Issue tracker intake pipeline — `/to-prd` → `/to-issues` → `/triage`
 
-**Status:** accepted (2026-05-19)
+**Status:** accepted (2026-05-19) · **extended by [ADR-0009](0009-wayfinder-decision-map-layer.md)** (2026-08-06)
+
+> **Name update (per ADR-0009):** Matt Pocock v1.1 renamed these skills — read `/to-prd` as **`/to-spec`** and `/to-issues` as **`/to-tickets`** throughout this document. ADR-0009 also adds `/wayfinder` as a new top layer (multi-session decision-mapping) and keeps our V-005/V-006 review back half instead of upstream's `implement`/`code-review`. This body is left intact as the historical record.
 
 **Verdict number:** V-007 (seventh verdict in [`TOOL_LANDSCAPE.md`](../../TOOL_LANDSCAPE.md))
 

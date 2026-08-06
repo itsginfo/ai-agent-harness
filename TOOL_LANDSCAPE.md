@@ -20,7 +20,7 @@ This document is the long-form reference. The 14-row **crib table** in [`CLAUDE.
 
 ## Tool layers in scope
 
-1. **Matt Pocock engineering skills** — `/triage`, `/to-issues`, `/to-prd`, `/qa`, `/improve-codebase-architecture`, `/diagnose`, `/tdd`, `/grill-with-docs`, `/grill-me`, `/simplify`, `/fewer-permission-prompts`, `/security-review`, `/review`. Installed per-repo via `/setup-matt-pocock-skills`.
+1. **Matt Pocock engineering skills** — `/triage`, `/to-tickets`, `/to-spec`, `/qa`, `/improve-codebase-architecture`, `/diagnose`, `/tdd`, `/grill-with-docs`, `/grill-me`, `/simplify`, `/fewer-permission-prompts`, `/security-review`, `/review`. Installed per-repo via `/setup-matt-pocock-skills`.
 2. **Agent harness** — agent role definitions (`agents/`), protocols (`protocols/`), `PROJECT_STATE.md`, per-project `DECISIONS.md`, retrospectives, GH Issues + GH Project #1 tracker layer.
 3. **Wiki** — `projects/<name>/wiki/` and harness-root `wiki/`. Entity pages for stable system knowledge.
 4. **OpenAI Codex plugin + CLI** — `/codex:review`, `/codex:adversarial-review`, `/codex:rescue`. Hard MethodRX/HIPAA exclusion (no BAA, CTO standing rule 2026-04-30).
@@ -57,8 +57,9 @@ Boundary clarifications use a shorter form (no winner/loser; just the boundary s
 | Tool / Surface | Intake | Planning | Design | Build | Review | Deploy | Knowledge persist. | Retrospection | Status | Schedule | Verdict |
 |---|---|---|---|---|---|---|---|---|---|---|---|
 | **Matt Pocock skills** | | | | | | | | | | | |
-| `/to-prd` | owns (start) | | | | | | | | | | V-007 |
-| `/to-issues` | owns (mid) | | | | | | | | | | V-007 |
+| `/wayfinder` | owns (multi-session decision map) | | | | | | | | | | V-007 / ADR-0009 |
+| `/to-spec` (was `/to-prd`) | owns (start) | | | | | | | | | | V-007 |
+| `/to-tickets` (was `/to-issues`) | owns (mid) | | | | | | | | | | V-007 |
 | `/triage` | owns (state machine) | | | | | | | | | | V-007 |
 | `/grill-with-docs` | | co-owns | owns | | | | co-owns (ADR write) | | | | V-004, V-001 |
 | `/grill-me` | | | (retired doc-only) | | | | | | | | V-004 |
@@ -112,7 +113,7 @@ Boundary clarifications use a shorter form (no winner/loser; just the boundary s
 ### Reading the matrix
 
 - **`owns`** = the primary surface for that job. If you're doing this job, start here.
-- **`co-owns`** = part of a sequenced pipeline (e.g., `/to-prd` → `/to-issues` → `/triage`) or a boundary partner (e.g., Retro + REVIEW handoff on recurrence). Read the verdict for the sequencing rule.
+- **`co-owns`** = part of a sequenced pipeline (e.g., `/to-spec` → `/to-tickets` → `/triage`) or a boundary partner (e.g., Retro + REVIEW handoff on recurrence). Read the verdict for the sequencing rule.
 - **`enters via`** = the surface is the gateway into the job — a read view, a starting point, or an operational protocol that triggers other work.
 - **`gate`** = approval surface for that job; the work doesn't ship without clearing this gate.
 - **`boundary`** = adjacent-looking, different job (e.g., REVIEW agent vs `REVIEW_PROTOCOL.md` per-output verification). Read the verdict to understand why the seam is there.
@@ -257,35 +258,42 @@ Complete (7/7). Numbers shifted by +1 from the Session-1 skeleton because Sessio
   (e) **Tier verification of REVIEW's own outputs** — REVIEW agent outputs (agent-definition edits, signal summaries) are themselves Tier 2/3; REVIEW self-applies `REVIEW_PROTOCOL.md` like every other agent. No special carve-out.
 **ADR:** [`docs/adr/0006-review-retro-boundary.md`](docs/adr/0006-review-retro-boundary.md). Closes [`ai-agent-harness#4`](https://github.com/itsginfo/ai-agent-harness/issues/4).
 
-#### V-007 — Issue tracker intake pipeline (`/to-prd` → `/to-issues` → `/triage`)
+#### V-007 — Issue tracker intake pipeline (`[/wayfinder | /grill-with-docs]` → `/to-spec` → `/to-tickets` → `/triage`)
 
-**Winner:** Three-stage pipeline — each skill owns its position. Not winner/loser.
-  • `/to-prd` — conversation context → 1 PRD issue (`needs-triage`). Engineering scoping only.
-  • `/to-issues` — plan/PRD → N vertical-slice issues (`needs-triage`). Iterative quiz on granularity/dependencies/HITL-vs-AFK.
+> **Updated 2026-08-06 (ADR-0009):** Matt Pocock v1.1 renamed `/to-prd`→**`/to-spec`** and `/to-issues`→**`/to-tickets`**, and added **`/wayfinder`** (multi-session decision-mapping) as a new top layer. We adopt the front half and keep our own V-005/V-006 review back half (not upstream's `implement`/`code-review` — deferred). ADR-0007 is the historical record; ADR-0009 extends it.
+
+**Winner:** Layered pipeline — each skill owns its position. Not winner/loser.
+  • **Entry fork** — `/wayfinder` (work larger than one session, OR foggy/no-clear-destination → decision-map issue + child decision tickets) **OR** `/grill-with-docs` (fits one session, clear destination → single-session dialogue). Either/or, PM's choice at intake.
+  • `/to-spec` (was `/to-prd`) — conversation context → 1 spec issue (`needs-triage`/`ready-for-agent`). Engineering scoping only.
+  • `/to-tickets` (was `/to-tickets`, merged `to-plan`) — plan/spec/conversation → N vertical-slice tickets declaring blocking edges. Iterative quiz on granularity/dependencies/HITL-vs-AFK.
   • `/triage` — state machine on existing issues (`needs-triage` → `needs-info`/`ready-for-agent`/`ready-for-human`/`wontfix`). Invokes `/grill-with-docs` (per V-004) as a sub-step when grilling is needed.
+  • **Divergence seam** — after `/to-tickets` we hand to OUR back half: `/triage` → build → V-005/V-006 (`/review`→`/security-review`→`/codex:adversarial-review`), NOT upstream's `implement`/`code-review` (deferred, not rejected).
+  • **Wayfinder integration** — `wayfinder:*` role labels are orthogonal to (compose with) the triage state labels; map + children live on GH Project #1; PROJECT_STATE points to the active map. Run wayfinder's native workflow — don't handcuff it with harness ceremony.
 **Loser:** N/A — sequencing verdict; pipeline applies one-direction.
 **Job category:** Intake — issue-tracker work intake + state-machine progression
 **Use when:**
-  • Substantive new engineering work with design landscape → `/to-prd` (start of pipeline).
-  • A PRD/plan exists with multiple vertical slices → `/to-issues`.
+  • Substantive new engineering work with design landscape → `/to-spec` (start of pipeline).
+  • A PRD/plan exists with multiple vertical slices → `/to-tickets`.
   • Operating on an *existing* issue — state move, initial grill, agent brief, "show me what needs attention" → `/triage`.
 **Skip the pipeline for (escape lanes):**
   • **Routine Requests under Managed Services** — `gh issue create` directly (often retroactively). Established Phase-1-post pattern (`#5`–`#9`). PRD ceremony has no value when the design landscape is the client's narrow ask.
-  • **Bug reports** — `gh issue create` directly, then `/triage` (which may invoke `/grill-with-docs`). Skip `/to-prd` + `/to-issues` — bugs aren't user-story-shaped.
+  • **Bug reports** — `gh issue create` directly, then `/triage` (which may invoke `/grill-with-docs`). Skip `/to-spec` + `/to-tickets` — bugs aren't user-story-shaped.
   • **One-issue content refinement (typo, link, checkbox)** — `gh issue edit` directly. Not `/triage`. State-edit-vs-content-edit boundary.
-  • **Single new issue not from a plan** — `gh issue create` directly. `/to-issues` is for breaking *plans* into N slices.
-**Reasoning:** The three skills look like alternatives because each can produce a GH issue, but their input shapes are meaningfully different — synthesize-from-context (`/to-prd`) vs break-down-a-plan (`/to-issues`) vs operate-on-existing (`/triage`). Forcing them into one mega-skill or using `/triage` for everything conflates the shapes. Forcing every intake through the pipeline (no escapes) creates PRD-ceremony on Routine Requests and `/triage`-comment bloat on editorial work. Pipeline + escape lanes preserves the natural shape of each surface and keeps `/triage`'s AI-disclaimer comments meaningful.
+  • **Single new issue not from a plan** — `gh issue create` directly. `/to-tickets` is for breaking *plans* into N slices.
+**Reasoning:** The skills look like alternatives because each can produce a GH issue, but their input shapes are meaningfully different — map-a-multi-session-destination (`/wayfinder`) vs sharpen-one-decision (`/grill-with-docs`) vs synthesize-from-context (`/to-spec`) vs break-down-a-plan (`/to-tickets`) vs operate-on-existing (`/triage`). Forcing them into one mega-skill or using `/triage` for everything conflates the shapes. Forcing every intake through the pipeline (no escapes) creates spec-ceremony on Routine Requests and `/triage`-comment bloat on editorial work. Pipeline + escape lanes preserves the natural shape of each surface. The entry fork (wayfinder vs grill) is settled by size/fog: > one session or foggy → wayfinder; else grill.
 **Sequencing:**
-  • Pipeline is one-directional: `/to-prd` → `/to-issues` → `/triage` (issue moves forward, not back).
+  • Pipeline is one-directional: `[/wayfinder | /grill-with-docs]` → `/to-spec` → `/to-tickets` → `/triage` (forward, not back).
+  • Divergence seam after `/to-tickets`: hand to OUR back half (`/triage` → build → V-005/V-006), NOT upstream's `implement`/`code-review` (deferred).
   • `/triage` natively invokes `/grill-with-docs` (V-004) when issue grilling is needed.
-  • `/to-issues` has its own internal quiz step; doesn't invoke `/grill-with-docs`.
+  • `/to-tickets` has its own internal quiz step; doesn't invoke `/grill-with-docs`.
   • Cross-repo: pipeline applies uniformly to `skydivecity-com` + `ai-agent-harness` (both in GH Project #1).
 **Edge cases:**
   (a) **Quick state move on existing issue** ("move #42 to ready-for-agent") — stays in `/triage` per its "Quick state override" section. `gh issue edit` doesn't generate agent briefs; `/triage` does.
-  (b) **Routine Request that grows into Project Work mid-execution** — when scope expands beyond Routine Request boundaries (per Managed Services SOW v1.1 §4.4 carve-out + mid-work discovery rule), file a new issue or open a Project SOW conversation rather than retrofitting `/to-prd` onto the in-flight Routine Request.
+  (b) **Routine Request that grows into Project Work mid-execution** — when scope expands beyond Routine Request boundaries (per Managed Services SOW v1.1 §4.4 carve-out + mid-work discovery rule), file a new issue or open a Project SOW conversation rather than retrofitting `/to-spec` onto the in-flight Routine Request.
   (c) **Issue auto-creation from external sources (Slack / email / monitoring)** — out of V-007 scope. When added, route to `/triage` for evaluation (same as bug-report shape).
-  (d) **Cross-issue parent/child references** — `/to-issues` handles via its `Parent` and `Blocked by` template fields. Don't manually wire dependencies post-creation via `gh issue edit` unless restructuring.
-**ADR:** [`docs/adr/0007-intake-pipeline-sequencing.md`](docs/adr/0007-intake-pipeline-sequencing.md)
+  (d) **Cross-issue parent/child references** — `/to-tickets` handles via its `Parent` and `Blocked by` template fields (`/wayfinder` maps decision dependencies at a higher layer). Don't manually wire dependencies post-creation via `gh issue edit` unless restructuring.
+  (e) **Oversized/foggy effort** — `/wayfinder` maps it as a `wayfinder:map` issue + child decision tickets across sessions; feeds `/to-spec` once a slice's decisions resolve. `wayfinder:*` labels are orthogonal to triage state labels. Don't handcuff wayfinder's native workflow (ADR-0009 §F).
+**ADR:** [`docs/adr/0007-intake-pipeline-sequencing.md`](docs/adr/0007-intake-pipeline-sequencing.md) · extended by [`0009-wayfinder-decision-map-layer.md`](docs/adr/0009-wayfinder-decision-map-layer.md)
 
 #### V-009 — Recurring task surface (intra-session vs cross-session)
 
@@ -409,9 +417,9 @@ Pairs that look adjacent but do different jobs. No winner; the boundary statemen
 2. **Capture the ask** — what's the change, source of the request, acceptance criteria.
 3. **🔀 Decision: shape of the work** —
    - *Routine Request* (Managed Services SOW v1.1 scope) → continue.
-   - *Project Work* (mid-work discovery per SOW v1.1 §4.4) → STOP. Open a Project SOW conversation; don't retrofit `/to-prd` onto an in-flight Routine Request (V-007 edge case b).
+   - *Project Work* (mid-work discovery per SOW v1.1 §4.4) → STOP. Open a Project SOW conversation; don't retrofit `/to-spec` onto an in-flight Routine Request (V-007 edge case b).
    - *Bug report* → jump to Workflow #2 (Sev 2 incident) sequence; intake stays `gh issue create` direct + `/triage`.
-4. **Tracker — escape lane (V-007).** `gh issue create` directly. Often retroactive (after the change ships). Skip `/to-prd` + `/to-issues` ceremony; the design landscape is the client's narrow ask.
+4. **Tracker — escape lane (V-007).** `gh issue create` directly. Often retroactive (after the change ships). Skip `/to-spec` + `/to-tickets` ceremony; the design landscape is the client's narrow ask.
 5. **🔀 Decision: prod DB write involved?** —
    - Yes → follow the 5-phase change-control procedure per [`wiki/prod-write-procedure.md`](projects/skydivecity/wiki/prod-write-procedure.md): read-only inventory → SHA-verified upload → execute with logged output → live verification → checkpoint. **Dev-first applies to inventory too**, not just writes.
    - No (Burble-side CSS / copy / GTM admin) → no commits in `skydivecity-com` repo; change lands in Burble or admin tooling.
@@ -475,8 +483,8 @@ Pairs that look adjacent but do different jobs. No winner; the boundary statemen
    - Fewer than 3 → verdict-row-only entry in `TOOL_LANDSCAPE.md` (or wherever the equivalent doc lives); no ADR pollution.
 5. **🔀 Decision: glossary term surfaced?** Update `CONTEXT.md` inline (engagement-language convention per Matt Pocock).
 6. **🔀 Decision: planning output shape?** —
-   - *Single PRD-shaped item* → `/to-prd` (V-007 start of pipeline) → 1 GH issue tagged `needs-triage`.
-   - *Multi-issue plan with vertical slices* → `/to-issues` (V-007 mid-pipeline) → N GH issues, each tagged `needs-triage`.
+   - *Single PRD-shaped item* → `/to-spec` (V-007 start of pipeline) → 1 GH issue tagged `needs-triage`.
+   - *Multi-issue plan with vertical slices* → `/to-tickets` (V-007 mid-pipeline) → N GH issues, each tagged `needs-triage`.
    - *Single issue not from a plan* → `gh issue create` directly (V-007 escape lane).
 7. **Update PROJECT_STATE.md** — new ADRs land in `Decisions (Summary)` index; new in-flight work lands in `In-Flight Tasks` or `Next 3 Actions`.
 8. **SESSION_END** — drain to Session Log.
@@ -614,7 +622,7 @@ Match the trigger to the *top-level* workflow; sub-step into others as the path 
 
 ### Intake
 
-**`/to-prd` vs `/to-issues` vs `/triage` — three-stage pipeline + four escape lanes (V-007).** The three skills look like alternatives because each can produce a GH issue, but their input shapes are different. `/to-prd` synthesizes from *conversation context* → 1 PRD issue. `/to-issues` breaks down *a plan or PRD* → N vertical-slice issues. `/triage` operates on *an existing issue* via state machine (`needs-triage` → `needs-info` / `ready-for-agent` / `ready-for-human` / `wontfix`). Forcing them into one mega-skill conflates the shapes; forcing every intake through the pipeline creates PRD-ceremony on shapes that don't earn it. The escape lanes (gh issue create direct for Routine Requests + bugs + single issues not from plan; gh issue edit direct for editorial refinement) handle the off-pipeline shapes without breaking `/triage`'s state-machine integrity. `/triage` natively invokes `/grill-with-docs` (V-004) when issue grilling is needed. Pipeline is one-directional — issues move forward, not back. [ADR-0007].
+**`/to-spec` vs `/to-tickets` vs `/triage` — three-stage pipeline + four escape lanes (V-007).** The three skills look like alternatives because each can produce a GH issue, but their input shapes are different. `/to-spec` synthesizes from *conversation context* → 1 PRD issue. `/to-tickets` breaks down *a plan or PRD* → N vertical-slice issues. `/triage` operates on *an existing issue* via state machine (`needs-triage` → `needs-info` / `ready-for-agent` / `ready-for-human` / `wontfix`). Forcing them into one mega-skill conflates the shapes; forcing every intake through the pipeline creates PRD-ceremony on shapes that don't earn it. The escape lanes (gh issue create direct for Routine Requests + bugs + single issues not from plan; gh issue edit direct for editorial refinement) handle the off-pipeline shapes without breaking `/triage`'s state-machine integrity. `/triage` natively invokes `/grill-with-docs` (V-004) when issue grilling is needed. Pipeline is one-directional — issues move forward, not back. [ADR-0007].
 
 ### Retrospection
 
@@ -705,8 +713,8 @@ flowchart TB
     %% Intake pipeline (V-007)
     subgraph INTAKE["Intake pipeline (V-007 / ADR-0007)"]
         direction LR
-        CTX(["Conversation<br/>context"]) -->|"substantive new work"| TP["/to-prd<br/>1 PRD issue"]
-        TP --> TI["/to-issues<br/>N vertical-slice issues"]
+        CTX(["Conversation<br/>context"]) -->|"substantive new work"| TP["/to-spec<br/>1 PRD issue"]
+        TP --> TI["/to-tickets<br/>N vertical-slice issues"]
         TI --> TR["/triage<br/>state machine<br/>(needs-triage to ready-for-* / wontfix)"]
         TR -.->|"grilling needed"| GW["/grill-with-docs<br/>V-004"]
 
