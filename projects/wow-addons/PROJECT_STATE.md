@@ -1,16 +1,16 @@
 # PROJECT STATE — WoW Classic AddOns
 
-> **Last updated:** 2026-08-05 by CTO Agent (**onboarded to ADE**; 2026-08-04 reconciliation recorded — RXPGuides `map.lua` fix restored, `!CUF` version mismatch fixed.)
+> **Last updated:** 2026-08-06 by CTO Agent (**tracker moved to `itsginfo/wow-addons`** to end account drift; recurring reconciliation re-filed as `#2`; new build item `#1` seeded — auto-best-gear addon.)
 
 ---
 
 ## ⚡ RESUME INSTRUCTION
 
-**Maintenance mode — ADE onboarding COMPLETE (2026-08-05); addon set reconciled and clean (2026-08-04).** Both repos committed, pushed, in sync; nothing in-flight. The project maintains a WoW Classic `AddOns/` folder and reconciles provider update batches against local edits.
+**Two tracks now.** (1) **Maintenance** — addon set reconciled and clean (2026-08-04); idle until the next provider update batch lands. (2) **NEW build** — [`#1` auto-best-gear addon](https://github.com/itsginfo/wow-addons/issues/1) (Pawn scoring + ItemRack equipping, Priest pilot), seeded 2026-08-06, not yet started.
 
-**Next:** Nothing until the next update batch lands. When it does → work the recurring issue [`JamesMeirowsky/wow-addons#1`](https://github.com/JamesMeirowsky/wow-addons/issues/1): drop a fresh `AddOns-copy/` **before** updating, then run [`docs/reconciliation-runbook.md`](https://github.com/JamesMeirowsky/wow-addons/blob/main/docs/reconciliation-runbook.md). Expected recurring action: **re-restore `RXPGuides/map.lua`** (upstream never adopts our fix).
+**Next:** Chart the `/wayfinder` map for [`#1`](https://github.com/itsginfo/wow-addons/issues/1) — that is the issue's own stated next step. **Blocking decision first: which Priest spec leads the pilot scale (Shadow vs Holy/Disc)?** They score gear oppositely; see Open Questions. On an update batch instead → [`#2`](https://github.com/itsginfo/wow-addons/issues/2): drop a fresh `AddOns-copy/` **before** updating, then run [`docs/reconciliation-runbook.md`](https://github.com/itsginfo/wow-addons/blob/main/docs/reconciliation-runbook.md); expect to **re-restore `RXPGuides/map.lua`** (upstream never adopts our fix).
 
-**Branch check first.** Project repo `JamesMeirowsky/wow-addons`: `main` (synced). Harness: `main`. Two gh accounts — project repo is under **JamesMeirowsky**; harness pushes as **itsginfo**. `AddOns/` + `AddOns-copy/` are gitignored (~640 MB each).
+**Branch check first.** Project repo [`itsginfo/wow-addons`](https://github.com/itsginfo/wow-addons): `main`. Harness: `main`. **Single account — both repos are `itsginfo`** as of 2026-08-06 (the old `JamesMeirowsky/wow-addons` is superseded; `gh` active-user still drifts, so `gh auth switch --user itsginfo` before pushing). `AddOns/` + `AddOns-copy/` are gitignored (~640 MB each).
 
 ---
 
@@ -20,10 +20,10 @@
 
 | When working on… | Read first |
 |---|---|
-| Reconciling an update batch (procedure, upstream sources, CRLF gotchas) | [`docs/reconciliation-runbook.md`](https://github.com/JamesMeirowsky/wow-addons/blob/main/docs/reconciliation-runbook.md) |
-| What carries our edits + revert risk | [`docs/local-edits-inventory.md`](https://github.com/JamesMeirowsky/wow-addons/blob/main/docs/local-edits-inventory.md) |
-| Why customizations are standalone addons, not provider-addon edits | [`docs/adr/0001-customizations-as-standalone-addons.md`](https://github.com/JamesMeirowsky/wow-addons/blob/main/docs/adr/0001-customizations-as-standalone-addons.md) |
-| History of reconciliations | [`docs/status-log.md`](https://github.com/JamesMeirowsky/wow-addons/blob/main/docs/status-log.md) |
+| Reconciling an update batch (procedure, upstream sources, CRLF gotchas) | [`docs/reconciliation-runbook.md`](https://github.com/itsginfo/wow-addons/blob/main/docs/reconciliation-runbook.md) |
+| What carries our edits + revert risk | [`docs/local-edits-inventory.md`](https://github.com/itsginfo/wow-addons/blob/main/docs/local-edits-inventory.md) |
+| Why customizations are standalone addons, not provider-addon edits | [`docs/adr/0001-customizations-as-standalone-addons.md`](https://github.com/itsginfo/wow-addons/blob/main/docs/adr/0001-customizations-as-standalone-addons.md) |
+| History of reconciliations | [`docs/status-log.md`](https://github.com/itsginfo/wow-addons/blob/main/docs/status-log.md) |
 
 ---
 
@@ -32,13 +32,13 @@
 | Field | Value |
 |-------|-------|
 | **Project Name** | WoW Classic AddOns — update reconciliation & customization maintenance |
-| **Overall Status** | 🟢 Maintenance — reconciled & clean (2026-08-04) |
+| **Overall Status** | 🟢 Maintenance (reconciled & clean 2026-08-04) + 🟡 one new build item scoped, not started ([`#1`](https://github.com/itsginfo/wow-addons/issues/1)) |
 | **Lead Agent** | CTO |
 | **Human Owner** | James |
 | **Primary SPOC** | James (personal project) |
 | **Start Date** | 2026-08-05 (ADE onboarding; project files date to 2026-07) |
 | **Target Date** | N/A — ongoing maintenance |
-| **Current Mode** | Maintenance — reconcile provider update batches as they arrive |
+| **Current Mode** | Maintenance (reconcile update batches as they arrive) + build scoping on `#1` |
 
 ---
 
@@ -46,9 +46,9 @@
 
 | Resource | Link / Path | Notes |
 |----------|-------------|-------|
-| **Project GitHub Repo** | [JamesMeirowsky/wow-addons](https://github.com/JamesMeirowsky/wow-addons) | Private. `main` active. Push as **JamesMeirowsky** gh account. |
+| **Project GitHub Repo** | [itsginfo/wow-addons](https://github.com/itsginfo/wow-addons) | Private. `main` active. Push as **itsginfo** gh account (moved off `JamesMeirowsky` 2026-08-06). |
 | **Project Root (local)** | `/Users/jamesmeirowsky/Projects/wow-addons` | `AddOns/` + `AddOns-copy/` gitignored (~640 MB each). |
-| **Tracker** | GH Issues on the repo | Recurring reconciliation: [`#1`](https://github.com/JamesMeirowsky/wow-addons/issues/1). No Project board (single-repo solo). |
+| **Tracker** | GH Issues on the repo | Recurring reconciliation: [`#2`](https://github.com/itsginfo/wow-addons/issues/2). Build item: [`#1`](https://github.com/itsginfo/wow-addons/issues/1) auto-best-gear addon. No Project board (single-repo solo). |
 | **Project-side CLAUDE.md** | `CLAUDE.md` (repo root) | Execution-layer context + status; auto-loads. |
 | **`docs/adr/`** | `docs/adr/` (repo) | Project architectural decisions. |
 | **Reconciliation runbook** | `docs/reconciliation-runbook.md` | The core procedure. |
@@ -71,7 +71,7 @@
 
 ## Live Watch
 
-> Time-sensitive standing items with **known expirations**. Update batches arrive on no fixed schedule, so the recurring reconciliation is tracked on issue `#1`, not here.
+> Time-sensitive standing items with **known expirations**. Update batches arrive on no fixed schedule, so the recurring reconciliation is tracked on issue `#2`, not here.
 
 | Item | Watch by | Tracker | Notes |
 |------|----------|---------|------|
@@ -81,7 +81,7 @@
 
 ## In-Flight Tasks ⚡
 
-*(None — working tree clean, all pushed.)*
+*(None — both repos committed & pushed 2026-08-09.)*
 
 ---
 
@@ -93,15 +93,17 @@
 
 ## Open Questions
 
-*(None)*
+| # | Question | Owner | Blocks | Raised |
+|---|----------|-------|--------|--------|
+| 1 | **Which Priest spec leads the auto-best-gear pilot scale — Shadow, or Holy/Disc?** Shadow wants spell power / spell hit / crit; Holy-Disc wants healing power / spirit / mp5 and a throughput-vs-efficiency tradeoff. They score the same gear **oppositely**, so one hardcoded scale must be chosen before the MVP is written. | **James** | The `#1` MVP ("one hardcoded Priest scale") — scoping can proceed, implementation can't. | 2026-08-06 ([`#1`](https://github.com/itsginfo/wow-addons/issues/1)) |
 
 ---
 
 ## Next 3 Actions (Prioritized)
 
-1. **On next update batch** — [`#1`](https://github.com/JamesMeirowsky/wow-addons/issues/1) — refresh `AddOns-copy/` before updating, run the runbook, re-restore `map.lua`, log + commit.
-2. *(none queued)*
-3. *(none queued)*
+1. **Chart the `/wayfinder` map for [`#1`](https://github.com/itsginfo/wow-addons/issues/1)** (auto-best-gear addon) — the issue's own stated next step. Read AutoGear + Pawn source to map reuse-vs-build, sketch the `.toc` + file skeleton. Per ADR-0001 this ships as a **standalone addon**, never as edits to Pawn/ItemRack.
+2. **Resolve Open Question 1** (Priest spec) — James's call; unblocks the `#1` MVP scale.
+3. **On next update batch** — [`#2`](https://github.com/itsginfo/wow-addons/issues/2) — refresh `AddOns-copy/` before updating, run the runbook, re-restore `map.lua`, log + commit.
 
 ---
 
@@ -111,7 +113,8 @@
 
 | Date | Decision | Reference |
 |------|----------|-----------|
-| 2026-08-05 | Customizations live in standalone addons, not provider-addon edits | [ADR-0001](https://github.com/JamesMeirowsky/wow-addons/blob/main/docs/adr/0001-customizations-as-standalone-addons.md) (project repo) |
+| 2026-08-05 | Customizations live in standalone addons, not provider-addon edits | [ADR-0001](https://github.com/itsginfo/wow-addons/blob/main/docs/adr/0001-customizations-as-standalone-addons.md) (project repo) |
+| 2026-08-06 | **Project repo + tracker are `itsginfo`, not `JamesMeirowsky`** — single canonical account, ending the two-account drift. Old repo's issues were not migrated; the reconciliation tracker was re-filed as `#2`. | No ADR (operational, not architectural) — project `CLAUDE.md` header + this file |
 
 ---
 
@@ -122,7 +125,8 @@
 | Date | Agent | Summary |
 |------|-------|---------|
 | 2026-08-04 | CTO | First tracked reconciliation. `RXPGuides/map.lua` fix reverted by update → restored; `!CUF` version mismatch fixed; Questie/GuildRoster/Cell/Clique verified stock. Built wiki + committed. Repo `b8358bc`, `096188d`. See `docs/status-log.md`. |
-| 2026-08-05 | CTO | Onboarded project to ADE: `projects/wow-addons/` scaffold, harness `CLAUDE.md` + `COMPANY.md` rows, project `docs/adr/0001`, tracker issue `#1`. |
+| 2026-08-05 | CTO | Onboarded project to ADE: `projects/wow-addons/` scaffold, harness `CLAUDE.md` + `COMPANY.md` rows, project `docs/adr/0001`, tracker issue (on the since-superseded `JamesMeirowsky` repo). |
+| 2026-08-06 | CTO | Moved repo + tracker to `itsginfo` to end account drift; reconciliation issue re-filed as `#2`; seeded `#1` auto-best-gear addon (Pawn scoring + ItemRack equipping, Priest pilot) from a feasibility discussion. Reconciled this file to the new tracker: repo links, `#1`/`#2` renumbering, Priest-spec Open Question, wayfinder queued. No addon batch this session. |
 
 ---
 
