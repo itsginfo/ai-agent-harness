@@ -1,14 +1,16 @@
 # PROJECT STATE — WoW Classic AddOns
 
-> **Last updated:** 2026-08-06 by CTO Agent (**tracker moved to `itsginfo/wow-addons`** to end account drift; recurring reconciliation re-filed as `#2`; new build item `#1` seeded — auto-best-gear addon.)
+> **Last updated:** 2026-08-09 by CTO Agent (update batch reconciled — **nothing reverted**; RXPGuides absent from the batch so `map.lua` survived. New risk logged: inert `!CUF` twin inside `Cell_UnitFrames/`.)
 
 ---
 
 ## ⚡ RESUME INSTRUCTION
 
-**Two tracks now.** (1) **Maintenance** — addon set reconciled and clean (2026-08-04); idle until the next provider update batch lands. (2) **NEW build** — [`#1` auto-best-gear addon](https://github.com/itsginfo/wow-addons/issues/1) (Pawn scoring + ItemRack equipping, Priest pilot), seeded 2026-08-06, not yet started.
+**Two tracks.** (1) **Maintenance** — batch reconciled 2026-08-09, **nothing reverted**; idle until the next batch. (2) **NEW build** — [`#1` auto-best-gear addon](https://github.com/itsginfo/wow-addons/issues/1) (Pawn scoring + ItemRack equipping, Priest pilot), seeded 2026-08-06, **not yet started**.
 
-**Next:** Chart the `/wayfinder` map for [`#1`](https://github.com/itsginfo/wow-addons/issues/1) — that is the issue's own stated next step. **Blocking decision first: which Priest spec leads the pilot scale (Shadow vs Holy/Disc)?** They score gear oppositely; see Open Questions. On an update batch instead → [`#2`](https://github.com/itsginfo/wow-addons/issues/2): drop a fresh `AddOns-copy/` **before** updating, then run [`docs/reconciliation-runbook.md`](https://github.com/itsginfo/wow-addons/blob/main/docs/reconciliation-runbook.md); expect to **re-restore `RXPGuides/map.lua`** (upstream never adopts our fix).
+**Next:** Chart the `/wayfinder` map for [`#1`](https://github.com/itsginfo/wow-addons/issues/1) — the issue's own stated next step. **Blocking decision first: which Priest spec leads the pilot scale (Shadow vs Holy/Disc)?** See Open Question 1. Also open: whether to delete the inert `!CUF` twin (Open Question 2).
+
+**⚠️ Baseline hygiene — the 2026-08-09 lesson.** `AddOns-copy/` is now **stale** (it is the pre-2026-08-09 state). **Refresh it BEFORE the next provider update, not during** — last time the manifest capture raced the update and had to be thrown away. On a batch → [`#2`](https://github.com/itsginfo/wow-addons/issues/2), then run [`docs/reconciliation-runbook.md`](https://github.com/itsginfo/wow-addons/blob/main/docs/reconciliation-runbook.md); still expect to **re-restore `RXPGuides/map.lua`** whenever RXP *is* in a batch (it wasn't in this one).
 
 **Branch check first.** Project repo [`itsginfo/wow-addons`](https://github.com/itsginfo/wow-addons): `main`. Harness: `main`. **Single account — both repos are `itsginfo`** as of 2026-08-06 (the old `JamesMeirowsky/wow-addons` is superseded; `gh` active-user still drifts, so `gh auth switch --user itsginfo` before pushing). `AddOns/` + `AddOns-copy/` are gitignored (~640 MB each).
 
@@ -96,6 +98,7 @@
 | # | Question | Owner | Blocks | Raised |
 |---|----------|-------|--------|--------|
 | 1 | **Which Priest spec leads the auto-best-gear pilot scale — Shadow, or Holy/Disc?** Shadow wants spell power / spell hit / crit; Holy-Disc wants healing power / spirit / mp5 and a throughput-vs-efficiency tradeoff. They score the same gear **oppositely**, so one hardcoded scale must be chosen before the MVP is written. | **James** | The `#1` MVP ("one hardcoded Priest scale") — scoping can proceed, implementation can't. | 2026-08-06 ([`#1`](https://github.com/itsginfo/wow-addons/issues/1)) |
+| 2 | **Delete the inert `!CUF` twin inside `Cell_UnitFrames/`, or keep + diff it each batch?** A byte-identical copy of our shim ships/updates with Cell_UnitFrames. It never loads (WoW only loads top-level `.toc`s) but is the likely vector that overwrote our top-level `README.txt` on 2026-08-09. Worth first establishing provenance — did we place it, or does CUF genuinely ship it? | **James** (CTO recommends: establish provenance, then delete) | Nothing today; it's a recurring-cleanliness risk to ADR-0001's premise. | 2026-08-09 ([`#2`](https://github.com/itsginfo/wow-addons/issues/2)) |
 
 ---
 
@@ -127,6 +130,7 @@
 | 2026-08-04 | CTO | First tracked reconciliation. `RXPGuides/map.lua` fix reverted by update → restored; `!CUF` version mismatch fixed; Questie/GuildRoster/Cell/Clique verified stock. Built wiki + committed. Repo `b8358bc`, `096188d`. See `docs/status-log.md`. |
 | 2026-08-05 | CTO | Onboarded project to ADE: `projects/wow-addons/` scaffold, harness `CLAUDE.md` + `COMPANY.md` rows, project `docs/adr/0001`, tracker issue (on the since-superseded `JamesMeirowsky` repo). |
 | 2026-08-06 | CTO | Moved repo + tracker to `itsginfo` to end account drift; reconciliation issue re-filed as `#2`; seeded `#1` auto-best-gear addon (Pawn scoring + ItemRack equipping, Priest pilot) from a feasibility discussion. Reconciled this file to the new tracker: repo links, `#1`/`#2` renumbering, Priest-spec Open Question, wayfinder queued. No addon batch this session. |
+| 2026-08-09 | CTO | Landed the stale 2026-08-06 reconcile in both repos. Then reconciled a live update batch (`#2`): **nothing reverted** — RXPGuides wasn't in the batch so `map.lua` kept our fix; `!CUF` shim code untouched, 20/20 Cell hooks OK vs CUF 1.10.64. One merge (re-appended a dropped known-bad-approach changelog line to `!CUF/README.txt`). Surfaced a new risk: an inert `!CUF` twin inside `Cell_UnitFrames/` that ships with CUF updates — decision pending. Repo `c488bc6`; batch logged on `#2`. |
 
 ---
 
