@@ -77,6 +77,7 @@
 | Item | Watch by | Tracker | Notes |
 |------|----------|---------|------|
 | **Verify `!CUF` 1.2.8 taint fix in-game** | **next play session** | [`#3`](https://github.com/itsginfo/wow-addons/issues/3) | Shipped unverified 2026-08-10. Expires the moment James next logs in and forces roster churn. Revert path: `backups/2026-08-10/pre-fix/`. |
+| **Verify SpellAnnouncerClassicPlus 2.0.0 in-game** | **next play session** | `227bf06` | Fork of the dead SpellAnnouncerClassic 1.0.13, rebuilt for 1.15.9. Syntax-checked only — never run. **Disable the original addon first**; they share globals (`SAC`, `Auras`, `Spells`, `raidIcons`). Revert = re-enable the original, which is untouched. |
 | **Refresh `AddOns-copy/` BEFORE the next provider update** | before next batch | [`#2`](https://github.com/itsginfo/wow-addons/issues/2) | It is now the pre-2026-08-09 state = stale. On 2026-08-09 the baseline capture raced an in-progress update and had to be discarded; `AddOns-copy/` was the only reason we weren't blind. |
 
 ---
@@ -105,9 +106,10 @@
 
 ## Next 3 Actions (Prioritized)
 
-1. **Verify `!CUF` 1.2.8 in-game** — [`#3`](https://github.com/itsginfo/wow-addons/issues/3). Unverified code is live in the addon folder right now; that's the only outstanding risk. Checklist is on the issue.
-2. **Chart the `/wayfinder` map for [`#1`](https://github.com/itsginfo/wow-addons/issues/1)** (auto-best-gear addon) — read AutoGear + Pawn source to map reuse-vs-build, sketch the `.toc` + file skeleton. Gated on **Open Question 1** (Priest spec — James's call). Per ADR-0001 this ships as a **standalone addon**.
-3. **On next update batch** — [`#2`](https://github.com/itsginfo/wow-addons/issues/2) — refresh `AddOns-copy/` **first**, run the runbook, re-restore `map.lua` if RXP is in the batch, log + commit.
+1. **Verify the two unverified addons in-game** — `!CUF` 1.2.8 ([`#3`](https://github.com/itsginfo/wow-addons/issues/3)) and **SpellAnnouncerClassicPlus 2.0.0** (`227bf06`). Both are live in the addon folder and neither has ever run. SAC Plus needs the original `SpellAnnouncerClassic` **disabled first** — they share globals. Checklists: `#3`, and the session summary for SAC Plus.
+2. **Fix the ItemRack `GetMouseFocus` error** — [`#4`](https://github.com/itsginfo/wow-addons/issues/4). Root-caused already: ItemRack's own shim only engages when `GetMouseFocus` is *absent*, but on 1.15.9 both it and `GetMouseFoci` exist, so the deprecated path is taken and spams from a repeating OnUpdate timer. Fix as a **standalone shim addon** (ADR-0001), not an edit to `ItemRack.lua`.
+3. **Chart the `/wayfinder` map for [`#1`](https://github.com/itsginfo/wow-addons/issues/1)** (auto-best-gear addon) — read AutoGear + Pawn source to map reuse-vs-build, sketch the `.toc` + file skeleton. Gated on **Open Question 1** (Priest spec — James's call). Per ADR-0001 + ADR-0002 this ships as a **standalone, tracked** addon.
+4. **On next update batch** — [`#2`](https://github.com/itsginfo/wow-addons/issues/2) — refresh `AddOns-copy/` **first**, run the runbook, re-restore `map.lua` if RXP is in the batch, log + commit.
 
 ---
 
