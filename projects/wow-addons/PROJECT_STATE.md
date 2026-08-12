@@ -1,6 +1,6 @@
 # PROJECT STATE — WoW Classic AddOns
 
-> **Last updated:** 2026-08-10 by CTO Agent (shipped `!CUF` **1.2.8** secure-frame taint fix — **unverified in-game**, tracked on `#3`. Prior 2026-08-09 batch reconcile landed clean.)
+> **Last updated:** 2026-08-12 by CTO Agent (authored addons now version-controlled in place — [ADR-0002](https://github.com/itsginfo/wow-addons/blob/main/docs/adr/0002-version-control-our-own-addons.md). `!CUF` **1.2.8** taint fix is still **unverified in-game** — `#3`.)
 
 ---
 
@@ -23,6 +23,7 @@
 | Reconciling an update batch (procedure, upstream sources, CRLF gotchas) | [`docs/reconciliation-runbook.md`](https://github.com/itsginfo/wow-addons/blob/main/docs/reconciliation-runbook.md) |
 | What carries our edits + revert risk | [`docs/local-edits-inventory.md`](https://github.com/itsginfo/wow-addons/blob/main/docs/local-edits-inventory.md) |
 | Why customizations are standalone addons, not provider-addon edits | [`docs/adr/0001-customizations-as-standalone-addons.md`](https://github.com/itsginfo/wow-addons/blob/main/docs/adr/0001-customizations-as-standalone-addons.md) |
+| Why our own addons are tracked inside gitignored `AddOns/` | [`docs/adr/0002-version-control-our-own-addons.md`](https://github.com/itsginfo/wow-addons/blob/main/docs/adr/0002-version-control-our-own-addons.md) |
 | History of reconciliations | [`docs/status-log.md`](https://github.com/itsginfo/wow-addons/blob/main/docs/status-log.md) |
 
 ---
@@ -47,7 +48,7 @@
 | Resource | Link / Path | Notes |
 |----------|-------------|-------|
 | **Project GitHub Repo** | [itsginfo/wow-addons](https://github.com/itsginfo/wow-addons) | Private. `main` active. Push as **itsginfo** gh account (moved off `JamesMeirowsky` 2026-08-06). |
-| **Project Root (local)** | `/Users/jamesmeirowsky/Projects/wow-addons` | `AddOns/` + `AddOns-copy/` gitignored (~640 MB each). |
+| **Project Root (local)** | `/Users/jamesmeirowsky/Projects/wow-addons` | `AddOns-copy/` + *provider* addons gitignored (~640 MB); **addons we author are tracked** (ADR-0002). |
 | **Tracker** | GH Issues on the repo | Recurring reconciliation: [`#2`](https://github.com/itsginfo/wow-addons/issues/2). Build item: [`#1`](https://github.com/itsginfo/wow-addons/issues/1) auto-best-gear addon. No Project board (single-repo solo). |
 | **Project-side CLAUDE.md** | `CLAUDE.md` (repo root) | Execution-layer context + status; auto-loads. |
 | **`docs/adr/`** | `docs/adr/` (repo) | Project architectural decisions. |
@@ -64,7 +65,7 @@
 
 ### Operating Notes
 - **The only fragile edit is `RXPGuides/map.lua`** (CreateObjectPool fix; upstream never adopts). Every RXP update reverts it → re-restore.
-- **All Cell customization is a standalone addon (`!CUF_PrivateAuraCompat`)** that never edits Cell files → updates can't revert it. Prefer this pattern for new work. (ADR-0001.)
+- **All Cell customization is a standalone addon (`!CUF_PrivateAuraCompat`)** that never edits Cell files → updates can't revert it. Prefer this pattern for new work (ADR-0001) — and **add a `.gitignore` negation line for each new authored addon**, or it silently has no history (ADR-0002).
 - **Baseline hygiene:** the durable "before" state is `AddOns-copy/`, refreshed by James before each update batch. Session scratchpad backups are ephemeral.
 
 ---
