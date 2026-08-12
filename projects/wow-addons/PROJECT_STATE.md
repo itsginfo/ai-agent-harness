@@ -32,7 +32,7 @@
 | Field | Value |
 |-------|-------|
 | **Project Name** | WoW Classic AddOns — update reconciliation & customization maintenance |
-| **Overall Status** | 🟢 Maintenance (reconciled & clean 2026-08-04) + 🟡 one new build item scoped, not started ([`#1`](https://github.com/itsginfo/wow-addons/issues/1)) |
+| **Overall Status** | 🟡 Batch reconciled clean 2026-08-09, but an **unverified** `!CUF` 1.2.8 fix is live in-game ([`#3`](https://github.com/itsginfo/wow-addons/issues/3)) + one build item scoped, not started ([`#1`](https://github.com/itsginfo/wow-addons/issues/1)) |
 | **Lead Agent** | CTO |
 | **Human Owner** | James |
 | **Primary SPOC** | James (personal project) |
@@ -82,7 +82,7 @@
 
 ## In-Flight Tasks ⚡
 
-*(None — both repos committed & pushed 2026-08-09.)*
+*(No uncommitted work — both repos committed & pushed 2026-08-10. **Carrying risk, not work:** `!CUF` 1.2.8 is live and unverified — see Live Watch / [`#3`](https://github.com/itsginfo/wow-addons/issues/3).)*
 
 ---
 
@@ -97,8 +97,8 @@
 | # | Question | Owner | Blocks | Raised |
 |---|----------|-------|--------|--------|
 | 1 | **Which Priest spec leads the auto-best-gear pilot scale — Shadow, or Holy/Disc?** Shadow wants spell power / spell hit / crit; Holy-Disc wants healing power / spirit / mp5 and a throughput-vs-efficiency tradeoff. They score the same gear **oppositely**, so one hardcoded scale must be chosen before the MVP is written. | **James** | The `#1` MVP ("one hardcoded Priest scale") — scoping can proceed, implementation can't. | 2026-08-06 ([`#1`](https://github.com/itsginfo/wow-addons/issues/1)) |
-| 3 | **How do we version-control our own addon source?** `!CUF_PrivateAuraCompat` is *our* code, but it lives in `AddOns/`, which is gitignored (~640 MB). Its only history is ad-hoc copies under `backups/`. ADR-0001 says put customizations in standalone addons — but those then sit outside version control, which is how a 1.2.8 fix can ship with no diffable history. Options: un-ignore just `AddOns/!*/`, or develop it in a tracked `src/` and copy into place. | **James** (CTO recommends: un-ignore `AddOns/!CUF_PrivateAuraCompat/` — smallest change, keeps one canonical copy) | Nothing today; it's a durability gap, and it partially undercuts ADR-0001. | 2026-08-10 ([`#3`](https://github.com/itsginfo/wow-addons/issues/3)) |
 | 2 | **Delete the inert `!CUF` twin inside `Cell_UnitFrames/`, or keep + diff it each batch?** A byte-identical copy of our shim ships/updates with Cell_UnitFrames. It never loads (WoW only loads top-level `.toc`s) but is the likely vector that overwrote our top-level `README.txt` on 2026-08-09. Worth first establishing provenance — did we place it, or does CUF genuinely ship it? | **James** (CTO recommends: establish provenance, then delete) | Nothing today; it's a recurring-cleanliness risk to ADR-0001's premise. | 2026-08-09 ([`#2`](https://github.com/itsginfo/wow-addons/issues/2)) |
+| 3 | **How do we version-control our own addon source?** `!CUF_PrivateAuraCompat` is *our* code, but it lives in `AddOns/`, which is gitignored (~640 MB). Its only history is ad-hoc copies under `backups/`. ADR-0001 says put customizations in standalone addons — but those then sit outside version control, which is how a 1.2.8 fix can ship with no diffable history. Options: un-ignore just `AddOns/!*/`, or develop it in a tracked `src/` and copy into place. | **James** (CTO recommends: un-ignore `AddOns/!CUF_PrivateAuraCompat/` — smallest change, keeps one canonical copy) | Nothing today; it's a durability gap, and it partially undercuts ADR-0001. | 2026-08-10 ([`#3`](https://github.com/itsginfo/wow-addons/issues/3)) |
 
 ---
 
