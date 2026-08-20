@@ -24,6 +24,23 @@
 
 ---
 
+## Public displays host (`us-displays.burblesoft.com`) — manifest board
+
+Separate Burble product from the booking funnel: a live **Customer Manifest** display board at `us-displays.burblesoft.com/cmp?dz_id=53` (SDC = **dz_id 53**). Renders as a JS SPA ("BurbleDZM", `dzm2-common/*.js`) showing a live clock + loads/slots. Built for **kiosk/TV displays and the Burble mobile app**, not documented for third-party web embedding.
+
+**⛔ Not embeddable in a website iframe as-is** (found 2026-08-20, [`#39`](https://github.com/itsginfo/skydivecity-com/issues/39) — Rich asked to put the manifest on skydivecity.com):
+
+- The `?dz_id=53` URL **301-redirects to `/cmp/` and drops the param**, then relies on a **session cookie** to remember the dropzone. The cookie is set by an AJAX login step (`/ajax_common`, `/ajax_dzm2_frontend_special`), not on the initial page load.
+- That cookie is `Set-Cookie: burblesoft=…; domain=.burblesoft.com; Secure; HttpOnly` — **no `SameSite` attribute** → browsers default it to `SameSite=Lax` → **it is never sent on a cross-site iframe request**. So an embedded board can't establish a session → the app alerts **"Login failed. Redirecting to the main page."** and blanks.
+- **Confirmed cross-site failure on BOTH HTTP and HTTPS** (tested an HTTPS embed via a `cloudflared` quick-tunnel — HTTPS did *not* fix it, ruling out the HTTP-localhost dev as the cause). Direct navigation / incognito works because it's **first-party**. A **native mobile app** embeds it fine because WebViews load it first-party / can force-allow third-party cookies — browsers cannot.
+- **The only clean fix is Burble-side:** set the display session cookie to `SameSite=None; Secure` (ideally add `Partitioned` for Chrome CHIPS), or provide an embed-designed URL/token. A reverse-proxy (to fake same-origin) is technically possible but fragile (websockets, absolute `js_vars.baseUrl`, cookie-domain rewrite), likely against ToS, and **not deployable on Flywheel's managed host** — rejected.
+- Working-today fallback: a first-party **link-out** (opens the board in a new tab). Rich/James want inline, so this is pending the Burble cookie change.
+- Dev artifacts (all dev-only): WP page 5892 `/live-manifest-mockup/` + `mywp/page-templates/template-manifest.php` (inline reveal-on-click UX; theme `mywp_wrapheader()`+`.section-builder` wrapper). Commit `d04c9bc`, not pushed.
+
+**General lesson:** a "revealed on click" iframe is still a cross-site iframe — deferring the load doesn't change cookie behavior. The click gesture only helps if the *embedded* site calls the Storage Access API, which we can't drive for a third party.
+
+---
+
 ## Known defects + behaviors
 
 **GTM container ID leading-whitespace defect** (caught + fixed 2026-05-18, [`#9`](https://github.com/itsginfo/skydivecity-com/issues/9)). Burble's analytics admin form had saved the GTM Tag Manager Key with 3 leading spaces. Rendered HTML at lines 1098 + 1102 of `bookings.burblesoft.com/index/53/18` emitted `' GTM-MB6JV3Q'`, so the GTM loader URL `gtm.js?id=%20GTM-MB6JV3Q` resolved nowhere. **Entire booking-funnel analytics dark for ≥12 days** (true duration unknown). Burble emits saved values verbatim — treated as an admin-form input defect, not a Burble platform defect.
