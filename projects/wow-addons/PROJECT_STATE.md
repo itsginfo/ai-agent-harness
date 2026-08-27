@@ -1,33 +1,25 @@
 # PROJECT STATE — WoW Classic AddOns
 
-> **Last updated:** 2026-08-19 by CTO Agent (**repo root is now the live game folder** — [ADR-0003](https://github.com/itsginfo/wow-addons/blob/main/docs/adr/0003-repo-root-is-the-live-addons-folder.md). **`!CUF_PrivateAuraCompat` turns out to be provider-owned, not ours** — [ADR-0004](https://github.com/itsginfo/wow-addons/blob/main/docs/adr/0004-cuf-privateauracompat-is-provider-owned.md); this retires the `#3` investigation.)
+> **Last updated:** 2026-08-27 by CTO Agent (**retroactive reconcile of two unlogged batches**, 08-20→26 and 08-27 — nothing of ours reverted, both fragile-edit guards pass. Boss mods swapped BigWigs → DBM; Auctioneer suite installed. **The `AddOns-copy/` baseline was never actually refreshed** — it is a hybrid, not a baseline. TSM edit filed retroactively as [`#7`](https://github.com/itsginfo/wow-addons/issues/7), closed.)
 
 ---
 
 ## ⚡ RESUME INSTRUCTION
 
-**Two structural things changed on 2026-08-19; the code work is done and pushed.**
+**Open the session in `/Applications/World of Warcraft/_classic_era_/Interface/AddOns`** (ADR-0003),
+not `~/Projects/wow-addons`. As of 2026-08-27 the tree is reconciled and clean — nothing of ours is
+reverted, both guard greps pass, all 16 Cell shim symbols present vs CUF 1.10.67.
 
-1. **The repo root is now the live game folder** — `/Applications/World of Warcraft/_classic_era_/Interface/AddOns`.
-   `.git`, `docs/`, `backups/`, `CLAUDE.md` all live there. **Open future sessions in that
-   directory, not `~/Projects/wow-addons`.** The old path now holds only `AddOns-copy/` (the
-   pre-update baseline, still needed) and an orphaned `AddOns/` copy that can be deleted.
-   ([ADR-0003](https://github.com/itsginfo/wow-addons/blob/main/docs/adr/0003-repo-root-is-the-live-addons-folder.md))
-2. **`!CUF_PrivateAuraCompat` is not our addon.** It is a module owned by the CurseForge project
-   "Cell - Unit Frames" (id 1310925). Every CUF update reverts it. That is why the `#3` taint error
-   came back after each of 1.2.8 / 1.2.9 / 1.3.0 — the fixes were being deleted, not failing.
-   ([ADR-0004](https://github.com/itsginfo/wow-addons/blob/main/docs/adr/0004-cuf-privateauracompat-is-provider-owned.md))
+**Next, in order:**
+1. **In-game verification is unblocked** — `#3` (`!CUF` 1.3.0) *and* SpellAnnouncerClassicPlus 2.0.0
+   can both be verified in one session on **Noop** or **Miig**; the "disable SAC original first"
+   precondition is already satisfied on both. Oldest item on the board. Needs James at the keyboard.
+2. **Answer Open Question 4** (`!CUF` remedy — fork / upstream / keep re-applying) and **OQ 5**
+   (is the 640 MB `AddOns-copy/` baseline still worth keeping?).
+3. **Then `#4` ItemRack** — root-caused, codeable, and ItemRack is enabled on all 7 characters.
 
-**Next:** **James's call on the ADR-0004 remedy** (Open Question 4) — fork `!CUF` under a name the
-provider doesn't own, upstream the patches, or keep re-applying each batch. Then **verify in-game**
-(`#3` + SpellAnnouncerClassicPlus) — still never run at any version. Then `#4` ItemRack, which is
-root-caused and codeable.
-
-**Branch check first.** Project repo [`itsginfo/wow-addons`](https://github.com/itsginfo/wow-addons):
-`main`, pushed through `9c799f0`, tag `pre-restructure-2026-08-19` marks the pre-move state.
-Harness: `main`. Both are `itsginfo`; `gh` active-user drifts, so `gh auth switch --user itsginfo`
-before pushing. In the project repo `git status` is now a **direct readout of what the game loads** —
-if our addon shows modified, a provider update reverted it.
+**Also carrying:** three config problems found 08-27 — Miig has no boss mod, `ElvUI_Options` is
+enabled without ElvUI on Noop/Stabbyj, stale BigWigs entries on 5 characters (see `#2`).
 
 ## Wiki Quick-Index
 
@@ -48,7 +40,7 @@ if our addon shows modified, a provider update reverted it.
 | Field | Value |
 |-------|-------|
 | **Project Name** | WoW Classic AddOns — update reconciliation & customization maintenance |
-| **Overall Status** | 🟡 2026-08-19 batch reconciled (2 reverts restored). SDLC restructured — repo root is the live game folder. **`!CUF` found to be provider-owned, retiring the `#3` root-cause work.** Nothing of ours has ever been verified in-game; one remedy decision open (OQ 4) |
+| **Overall Status** | 🟢 Tree reconciled and clean as of 2026-08-27 — two unlogged batches caught up, no reverts outstanding, both fragile-edit guards pass. **In-game verification is now unblocked** (Noop/Miig staged correctly). Open: OQ 1 (Priest spec), OQ 4 (`!CUF` remedy), OQ 5 (baseline), and three character-config problems |
 | **Lead Agent** | CTO |
 | **Human Owner** | James |
 | **Primary SPOC** | James (personal project) |
@@ -91,10 +83,11 @@ if our addon shows modified, a provider update reverted it.
 
 | Item | Watch by | Tracker | Notes |
 |------|----------|---------|------|
-| **Verify `!CUF` 1.3.0 taint fix in-game** | **next play session** | [`#3`](https://github.com/itsginfo/wow-addons/issues/3) | Never verified at *any* version — 1.2.8/1.2.9/1.3.0 were all reverted before testing. 1.3.0 gates hide-reinforce off entirely. Expect Blizzard party/raid frames to possibly reappear briefly after roster churn — that is the accepted trade-off. |
-| **Verify SpellAnnouncerClassicPlus 2.0.0 in-game** | **next play session** | `227bf06` | Syntax-checked only, never run. **Disable the original `SpellAnnouncerClassic` first** — shared globals (`SAC`, `Auras`, `Spells`, `raidIcons`). Revert = re-enable the original. |
-| **Re-check `!CUF` after every Cell_UnitFrames update** | each batch | [ADR-0004](https://github.com/itsginfo/wow-addons/blob/main/docs/adr/0004-cuf-privateauracompat-is-provider-owned.md) | Provider owns the folder; the revert is guaranteed, not possible. Now visible in `git status`; restore with `git checkout -- '!CUF_PrivateAuraCompat/'`. |
-| **Refresh `AddOns-copy/` BEFORE the next provider update** | before next batch | [`#2`](https://github.com/itsginfo/wow-addons/issues/2) | Now at `~/Projects/wow-addons/AddOns-copy/`, refreshed to the **post-2026-08-19** state. It was the only tree holding `!CUF` 1.3.0 and the `map.lua` fix when this batch landed. |
+| **Verify `!CUF` 1.3.0 AND SpellAnnouncerClassicPlus 2.0.0 in-game** | **next play session** | [`#3`](https://github.com/itsginfo/wow-addons/issues/3) + `227bf06` | **Now doable in one sitting, on `Noop` or `Miig`.** Both characters already have `SpellAnnouncerClassic` **disabled**, `SpellAnnouncerClassicPlus` **enabled**, and `!CUF_PrivateAuraCompat` **enabled** — the shared-globals precondition is satisfied, no config change needed first. Neither addon has ever run at any version. For `!CUF`, expect Blizzard party/raid frames to possibly reappear briefly after roster churn — accepted trade-off of 1.3.0 gating hide-reinforce off. |
+| **Re-check `!CUF` after every Cell_UnitFrames update** | each batch | [ADR-0004](https://github.com/itsginfo/wow-addons/blob/main/docs/adr/0004-cuf-privateauracompat-is-provider-owned.md) | Working as designed: CUF 1.10.66 → 1.10.67 reverted it on 08-24 and `git checkout -- '!CUF_PrivateAuraCompat/'` restored it. Provider twin inside `Cell_UnitFrames/` still ships 1.2.7; our top-level is 1.3.0. `git status` catches this for free. |
+| **Two fragile in-provider edits — grep guards, not `git status`** | each batch | [`#2`](https://github.com/itsginfo/wow-addons/issues/2) step 0 | `RXPGuides/map.lua` (`grep -c CreateObjectPool` → **3**) and `TradeSkillMaster/Core/Service/Tooltip/Accounting.lua` (`grep -c "LOCAL EDIT"` → **2**, see [`#7`](https://github.com/itsginfo/wow-addons/issues/7)). Both live in gitignored provider folders, so `git status` is blind to them. Both verified passing 2026-08-27. |
+| **⚠️ `AddOns-copy/` is a hybrid, not a baseline** | before next batch | [`#2`](https://github.com/itsginfo/wow-addons/issues/2) / **OQ 5** | The 08-19 note claiming it was "refreshed to the post-batch state" is **wrong** — only our authored addons were copied across; every provider addon is still at its pre-08-19 version (RXPGuides v4.10.22, Cell 1.10.64, Auctionator 333…). Do not trust it as a reference tree until refreshed or retired. |
+| **Purge 61 stale RXP display-form guide keys** | when WoW is next fully closed | [`#6`](https://github.com/itsginfo/wow-addons/issues/6) | Data-only edit to `WTF/Account/KRONCK/SavedVariables/RXPGuides.lua`; ~700 KB of a 1.55 MB file. **Requires WoW fully closed.** Pre-diagnosis backup at `backups/2026-08-19/rxp-savedvariables/`. Until done, they keep logging `Tried to load an invalid Guide`. |
 
 ## In-Flight Tasks ⚡
 
@@ -115,29 +108,32 @@ if our addon shows modified, a provider update reverted it.
 | 1 | **Which Priest spec leads the auto-best-gear pilot scale — Shadow, or Holy/Disc?** Shadow wants spell power / spell hit / crit; Holy-Disc wants healing power / spirit / mp5 and a throughput-vs-efficiency tradeoff. They score the same gear **oppositely**, so one hardcoded scale must be chosen before the MVP is written. | **James** | The `#1` MVP ("one hardcoded Priest scale") — scoping can proceed, implementation can't. | 2026-08-06 ([`#1`](https://github.com/itsginfo/wow-addons/issues/1)) |
 | ~~2~~ | ~~**Delete the inert `!CUF` twin inside `Cell_UnitFrames/`, or keep + diff it each batch?**~~ **RESOLVED 2026-08-19 — no action.** Provenance established from CurseForge's install manifest: the "Cell - Unit Frames" project (id 1310925) ships **both** paths as its two modules. The twin is not ours and was never the vector that overwrote `README.txt` — the provider's own update wrote both copies at once. Deleting it would just be undone next update. | — | — | Closed 2026-08-19 ([ADR-0004](https://github.com/itsginfo/wow-addons/blob/main/docs/adr/0004-cuf-privateauracompat-is-provider-owned.md)) |
 | 4 | **How do we keep our `!CUF` patches, now that the folder is provider-owned?** Three options: **(a)** fork under a name the provider doesn't own (e.g. `!CUF_PrivateAuraCompatPlus`) — survives permanently, but upstream's 1.2.7 stays enabled and both would double-patch Cell, so the fork must detect and stand down or the original be disabled; **(b)** upstream the patches to the CUF author — correct long-term, not in our control; **(c)** keep re-applying each update — now tractable since `git status` flags the revert. | **James** (CTO recommends **a**, with **b** in parallel) | Nothing immediately — (c) is in force and the folder is restored to 1.3.0. Blocks making `!CUF` durable. | 2026-08-19 ([ADR-0004](https://github.com/itsginfo/wow-addons/blob/main/docs/adr/0004-cuf-privateauracompat-is-provider-owned.md)) |
+| 5 | **Is the 640 MB `AddOns-copy/` whole-tree baseline still worth keeping?** It was justified when it was the only tree holding our edits. That is no longer true: `git status` now covers everything we author, and the two fragile in-provider edits are covered by step-0 grep guards plus pristine originals in `backups/`. Against that, it costs 640 MB, must be manually refreshed before every batch, and **was silently not refreshed on 08-19** — a baseline that can be wrong without anyone noticing is worse than no baseline. Options: **(a)** retire it, keep only per-file `backups/` of the fragile edits; **(b)** keep it but script the refresh so it cannot be skipped; **(c)** status quo. | **James** (CTO recommends **a**) | Nothing — but it is currently a false safety net | 2026-08-27 ([`#2`](https://github.com/itsginfo/wow-addons/issues/2)) |
 | ~~3~~ | ~~**How do we version-control our own addon source?**~~ **RESOLVED 2026-08-12** — James chose un-ignore-in-place. `.gitignore` now excludes `/AddOns/*` and negates per authored addon; `!CUF` 1.2.8 source imported (`c89ead8`). See [ADR-0002](https://github.com/itsginfo/wow-addons/blob/main/docs/adr/0002-version-control-our-own-addons.md). | — | — | Closed 2026-08-12 |
 
 ---
 
 ## Next 3 Actions (Prioritized)
 
-1. **Decide Open Question 4** — how `!CUF` patches survive future Cell_UnitFrames updates
-   ([ADR-0004](https://github.com/itsginfo/wow-addons/blob/main/docs/adr/0004-cuf-privateauracompat-is-provider-owned.md)).
-   CTO recommends forking under a provider-free folder name, with an upstream PR in parallel.
-   Until decided, option (c) is in force: re-apply from git after each CUF update.
-2. **Verify the two addons in-game** — `!CUF` 1.3.0 ([`#3`](https://github.com/itsginfo/wow-addons/issues/3))
-   and **SpellAnnouncerClassicPlus 2.0.0** (`227bf06`). Neither has ever run, at any version. SAC Plus
-   needs the original `SpellAnnouncerClassic` **disabled first** — shared globals. This is the oldest
-   item on the board and the only one that needs James at the keyboard.
+1. **Verify both addons in-game** — `!CUF` 1.3.0 ([`#3`](https://github.com/itsginfo/wow-addons/issues/3))
+   and **SpellAnnouncerClassicPlus 2.0.0** (`227bf06`), on **Noop** or **Miig**. Both are staged
+   correctly already — SAC original disabled, Plus enabled, `!CUF` enabled — so this is now one
+   sitting, not a config exercise. Oldest item on the board and the only one needing James at the
+   keyboard.
+2. **Answer the two open questions** — OQ 4 (`!CUF` remedy: fork under a provider-free name /
+   upstream to the CUF author / keep re-applying) and OQ 5 (retire or script the `AddOns-copy/`
+   baseline). Neither blocks work today; both are accumulating risk quietly.
 3. **Fix the ItemRack `GetMouseFocus` error** — [`#4`](https://github.com/itsginfo/wow-addons/issues/4).
-   Root-caused: ItemRack's own shim only engages when `GetMouseFocus` is *absent*, but on 1.15.9 both
-   it and `GetMouseFoci` exist, so the deprecated path is taken and spams from a repeating OnUpdate
-   timer. Ships as a **standalone shim addon** under a folder name no provider ships (ADR-0001 +
-   the ADR-0004 lesson), not an edit to `ItemRack.lua`.
-4. **Housekeeping** — delete the orphaned `~/Projects/wow-addons/AddOns/` copy (640 MB, superseded by
-   the live folder); re-check GuildRoster v0.5.1 against [`#5`](https://github.com/itsginfo/wow-addons/issues/5);
-   `/wayfinder` map for [`#1`](https://github.com/itsginfo/wow-addons/issues/1), still gated on
-   Open Question 1 (Priest spec).
+   Root-caused: ItemRack's own shim engages only when `GetMouseFocus` is *absent*, but on 1.15.9
+   both it and `GetMouseFoci` exist, so the deprecated path is taken and spams from a repeating
+   OnUpdate timer. **ItemRack is enabled on all 7 characters**, so this affects every login. Ships
+   as a standalone shim addon under a folder name no provider ships (ADR-0001 + the ADR-0004
+   lesson), not an edit to `ItemRack.lua`.
+4. **Character-config cleanup** (James's call, found 08-27) — **Miig has no boss mod** (still
+   enables the deleted BigWigs, never got `DBM-Core`); **`ElvUI_Options` enabled without ElvUI** on
+   Noop and Stabbyj, which will fail its dependency check; stale BigWigs entries on 5 characters.
+   Also still pending: purge the 61 stale RXP guide keys ([`#6`](https://github.com/itsginfo/wow-addons/issues/6),
+   needs WoW closed) and delete the orphaned `~/Projects/wow-addons/AddOns/` copy (640 MB).
 
 ## Decisions (Summary)
 
@@ -159,6 +155,8 @@ if our addon shows modified, a provider update reverted it.
 
 | Date | Agent | Summary |
 |------|-------|---------|
+| 2026-08-27 | CTO | **Retroactive reconcile of two unlogged batches** (08-20→26 and 08-27) on [`#2`](https://github.com/itsginfo/wow-addons/issues/2). Nothing of ours reverted: both guard greps pass (map.lua → 3, TSM → 2), `git status` clean, all 16 Cell shim symbols present vs CUF 1.10.67. Found the batch was an **addon-set reshuffle** — BigWigs+LittleWigs (~24 folders) removed and the DBM suite (~30) installed, ShadowedUnitFrames retired, ElvUI/Gargul/Attune/KillDex/TacoTip/BlizzMove added, Auctioneer suite (16) installed 08-27. **Discovered the `AddOns-copy/` baseline was never actually refreshed on 08-19** despite the runbook recording it as the batch's most valuable step — provider addons still sit at pre-08-19 versions, so it is a hybrid, not a baseline (→ OQ 5). Filed the orphaned TSM work as [`#7`](https://github.com/itsginfo/wow-addons/issues/7) and closed it. Surfaced three character-config problems (Miig has no boss mod; `ElvUI_Options` without ElvUI on Noop/Stabbyj; stale BigWigs entries on 5 chars) and confirmed **in-game verification is unblocked** — Noop and Miig are already staged for both `#3` and SAC Plus. |
+| 2026-08-24 | CTO | *(logged retroactively 08-27)* Patched **TSM's Accounting tooltip** — two unguarded nil prices latch `processingEvent` true, killing TSM's whole event pipeline until `/reload` ([`#7`](https://github.com/itsginfo/wow-addons/issues/7), `dc51f93`). Recorded as a genuine ADR-0001 exception: `TooltipBuilder` is unreachable from outside TSM's private table, so no standalone shim is possible. This is the **second** fragile in-provider edit, so the runbook's step 0 now carries two grep guards instead of claiming `map.lua` is the only one. Same session restored `!CUF` 1.3.0 after the CUF 1.10.67 update reverted it (ADR-0004 option (c), working as designed). Neither the tracker nor this file was updated at the time. |
 | 2026-08-04 | CTO | First tracked reconciliation. `RXPGuides/map.lua` fix reverted by update → restored; `!CUF` version mismatch fixed; Questie/GuildRoster/Cell/Clique verified stock. Built wiki + committed. Repo `b8358bc`, `096188d`. See `docs/status-log.md`. |
 | 2026-08-05 | CTO | Onboarded project to ADE: `projects/wow-addons/` scaffold, harness `CLAUDE.md` + `COMPANY.md` rows, project `docs/adr/0001`, tracker issue (on the since-superseded `JamesMeirowsky` repo). |
 | 2026-08-06 | CTO | Moved repo + tracker to `itsginfo` to end account drift; reconciliation issue re-filed as `#2`; seeded `#1` auto-best-gear addon (Pawn scoring + ItemRack equipping, Priest pilot) from a feasibility discussion. Reconciled this file to the new tracker: repo links, `#1`/`#2` renumbering, Priest-spec Open Question, wayfinder queued. No addon batch this session. |
