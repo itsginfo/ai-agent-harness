@@ -79,6 +79,20 @@ The home page (`post_id 2`) carries **dead ACF meta from prior layouts that does
 
 ---
 
+## Event content surfaces — where an event's copy actually renders (mapped 2026-08-27, `#40`)
+
+Events are `tribe_events` posts, but **the post is not always the page a customer sees.** Check the surface before editing, or you will edit something nobody reads.
+
+- **Plain events** (Flockfest, Flamingofest) — `post_content` renders directly at `/event/<slug>/`. Ordinary post edit; no ACF involved.
+- **Events with a Compass landing page** (Winterfest) — **`/event/winterfest-2027/` 301-redirects to `/winterfest/`**. The event post's `post_content` still surfaces in Events Calendar list/month views, so *both* need updating, but the landing page is the customer-facing one. It is **not** a WP content edit at all: the page is a generated PHP template (`mywp/page-templates/template-winterfest.php`, ~750KB), built from `project_management/winterfest-landing/compass-mockup/winterfest.body.html` + `winterfest.css` via `build-winterfest-wp.mjs`. Edit the source, rebuild, redeploy the template. Editing the WP page body does nothing.
+- **Images on a Compass landing page are inlined at build time as base64 data-URIs** (`{{KEYART}}`, `{{LOGO_LOCKUP}}`, `{{PALMS}}`, `{{LOGO_BADGE}}`). Swapping the hero art means replacing the source file and rebuilding — there is no Media Library attachment to change. Convert large PNGs to JPEG first; the whole image lands in the template file.
+- **Post IDs diverge dev↔prod** (Winterfest 5878 dev / 5865 prod). Every event script must resolve by **slug**, never by hardcoded ID.
+- **Verify in rendered HTML, not the admin UI** — grep the live page (cache-busted). See [[prod-write-procedure]].
+
+Reusable tool: `migration/wp-event-update-boogies-2026-08.php` — idempotent, slug-resolved, `DRY_RUN` default, image sideload behind a `REPLACE_THUMB` gate.
+
+---
+
 ## Open questions
 
 - Does the redesign keep `mywp` or swap to a new theme? Answer determines whether this page becomes a migration playbook or stays a steady-state reference.
