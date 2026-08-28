@@ -1,26 +1,28 @@
 # PROJECT STATE — WoW Classic AddOns
 
-> **Last updated:** 2026-08-28 by CTO Agent (**the masked TSM error is unmasked and diagnosed** — `DoCraft()` is protected, so TSM cannot enchant on Classic Era; not fixable on our side [`#10`](https://github.com/itsginfo/wow-addons/issues/10). The guard that revealed it is now a **third** fragile in-provider edit — the shim approach was wrong, `CLASS_MT` seals its metatable. Overnight batch reverted and restored both other edits.)
+> **Last updated:** 2026-08-28 by CTO Agent (**TSM enchanting resolved — it was a Leatrix Plus conflict, not a TSM bug**, fixed by turning off "Enhance profession frames" [`#10`](https://github.com/itsginfo/wow-addons/issues/10). Two speculative TSM edits reverted; three fragile edits stand, not five. `!CUF` 1.3.0 ran in-game for the first time ever.)
 
 ---
 
 ## ⚡ RESUME INSTRUCTION
 
 **Open in `/Applications/World of Warcraft/_classic_era_/Interface/AddOns`** (ADR-0003). Tree clean,
-all three guards pass. **New addons need a full client restart, not `/reload`** — WoW enumerates the
-AddOns directory only at launch.
+three guard greps pass, `luac -p` available locally. New addon folders need a **full client restart**;
+edits to existing addons only need `/reload`.
 
-**Resolved 08-28:** the TSM enchanting error chain is fully diagnosed. `DoCraft()` is protected and
-TSM calls it from tainted Lua, so enchanting via TSM cannot work
-([`#10`](https://github.com/itsginfo/wow-addons/issues/10)) — **do not attempt a local patch**; the
-fix is upstream (TSM already ships `SecureMacroActionButton`, just not wired to classic crafting).
-Workaround: enchant from Blizzard's Craft window; TSM still does queue/pricing/posting.
+**Nothing is broken right now.** The TSM enchanting saga closed as an addon conflict
+([`#10`](https://github.com/itsginfo/wow-addons/issues/10)) — **Leatrix Plus "Enhance profession
+frames" must stay OFF**, recorded in the project `CLAUDE.md` under Known addon conflicts with an
+explicit *do not patch TSM for this*.
 
 **Next:**
-1. **Two addons of ours still have never run** — `!CUF` 1.3.0 ([`#3`](https://github.com/itsginfo/wow-addons/issues/3))
-   and SpellAnnouncerClassicPlus 2.0.0. Both staged on Noop and Miig; one sitting clears them.
-2. **Open Question 4** (`!CUF` remedy) — the only open decision.
-3. `#4` ItemRack — latent, cosmetic, menu-only.
+1. **`!CUF` 1.3.0 has now run** — it printed its ElvUI-detected warning in-game, so it loads and
+   executes. It asks that **'Hide buffFrame' and 'Hide debuffFrame' be unchecked in Cell UnitFrames
+   settings** while ElvUI is active. Do that, then confirm no `ADDON_ACTION_BLOCKED` to close
+   [`#3`](https://github.com/itsginfo/wow-addons/issues/3).
+2. **SpellAnnouncerClassicPlus 2.0.0** — still never verified. Staged on Noop and Miig.
+3. **Open Question 4** (`!CUF` remedy) — the only open decision.
+4. Report the two upstream bugs (TSM overlay ordering; Leatrix's `SetFrameLevel` hook).
 
 ## Wiki Quick-Index
 
@@ -156,6 +158,7 @@ Workaround: enchant from Blizzard's Craft window; TSM still does queue/pricing/p
 
 | Date | Agent | Summary |
 |------|-------|---------|
+| 2026-08-28 (evening) | CTO | **TSM enchanting resolved — not a TSM bug.** `DoCraft()` is protected; TSM's own workaround overlays Blizzard's secure `CraftCreateButton` on its craft button. `Leatrix_Plus.lua:8126` hooks `SetFrameLevel` on that button and re-anchors it — its comment names TradeSkillMaster — and TSM sets the position *before* calling `SetFrameLevel(200)`, so Leatrix always fires last. Fixed by turning off Leatrix's **"Enhance profession frames"**; no code change. **Six hypotheses inside TSM's source were wrong**; what solved it was temporary `print` probes plus the observation that the overlay's x-position stayed at exactly 361 through every attempted fix — a value that will not move has a second owner. One cross-addon grep then found it immediately. Both speculative `CraftDetails.lua` edits reverted (`1639f35`), so the fragile-edit count went 3 → 5 → back to **3**. Recorded as a standing config note in the project `CLAUDE.md`, with the generalisable lesson added to the runbook. Also: **`!CUF` 1.3.0 executed in-game for the first time at any version**, printing its ElvUI-detected message — partially retiring [`#3`](https://github.com/itsginfo/wow-addons/issues/3). |
 | 2026-08-28 (cont.) | CTO | Reconciled an overnight batch that reverted **both** fragile edits: RXPGuides v4.10.25 → v4.10.26 wiped `map.lua` (guard 0) — re-applied **surgically** since upstream changed four hunks elsewhere in the file; Cell 1.10.67 → 1.10.68 reverted `!CUF`, restored from git. First real exercise of ADR-0005's two-sided backup, and it is what made the surgical path tractable. Then chased the TSM enchanting error to ground: **the shim I shipped for [`#9`](https://github.com/itsginfo/wow-addons/issues/9) could never have worked** — I had claimed `CLASS_MT` does not seal its metatable, but it sets `__metatable = false` at line 469 and my earlier grep window stopped at 420. It no-opped safely; deleted, and replaced with an in-provider guard — now the **third** such edit, so step 0 carries three greps. The guard worked: the masked error surfaced as `ADDON_ACTION_FORBIDDEN … DoCraft()`, filed as [`#10`](https://github.com/itsginfo/wow-addons/issues/10) — protected function called from tainted Lua, **not fixable locally**, upstream change needed. Also established that **Decursive is never the culprit** in these reports: it ships the only BugGrabber, which seizes the global error handler, so its path appears in every error on this machine. |
 | 2026-08-28 | CTO | Deleted the orphaned `~/Projects/wow-addons/AddOns/` copy (648 MB; ~1.3 GB freed across both trees, and that directory now holds no addon tree at all). Diagnosed `LUA_WARNING: Invalid static class key (ToDebugString)`, reported while disenchanting: **not a disenchant bug and not really a TSM bug** — WoW's `debuglocals()` probes every dumped local for `ToDebugString`/`GetDebugName`, and LibTSMClass's class metatable errors on any unrecognised key, so whenever a TSM class object is among the locals **the probe's throw replaces the real error**. Corroborated by two addons already carrying the identical guard for the identical reason (`Prat-3.0/addon/modules.lua:26`, Decursive's AceLocale table). Fixed with `TSMClassDebugProbeShim` ([`#9`](https://github.com/itsginfo/wow-addons/issues/9), `a27bb8a`) — instances were already safe, and `CLASS_MT` is patchable from outside only because it does not set `__metatable`. **This unmasks rather than fixes**: the next disenchant should surface the real error. |
 | 2026-08-27 | CTO | **Retroactive reconcile of two unlogged batches** (08-20→26 and 08-27) on [`#2`](https://github.com/itsginfo/wow-addons/issues/2). Nothing of ours reverted: both guard greps pass (map.lua → 3, TSM → 2), `git status` clean, all 16 Cell shim symbols present vs CUF 1.10.67. Found the batch was an **addon-set reshuffle** — BigWigs+LittleWigs (~24 folders) removed and the DBM suite (~30) installed, ShadowedUnitFrames retired, ElvUI/Gargul/Attune/KillDex/TacoTip/BlizzMove added, Auctioneer suite (16) installed 08-27. **Discovered the `AddOns-copy/` baseline was never actually refreshed on 08-19** despite the runbook recording it as the batch's most valuable step — provider addons still sit at pre-08-19 versions, so it is a hybrid, not a baseline (→ OQ 5). Filed the orphaned TSM work as [`#7`](https://github.com/itsginfo/wow-addons/issues/7) and closed it. Surfaced three character-config problems (Miig has no boss mod; `ElvUI_Options` without ElvUI on Noop/Stabbyj; stale BigWigs entries on 5 chars) and confirmed **in-game verification is unblocked** — Noop and Miig are already staged for both `#3` and SAC Plus. **Second half:** root-caused two new Auctioneer errors to a single removed API — Blizzard deleted `ChatFrame_OnHyperlinkShow`, which `Auc-Advanced` and `BeanCounter` both call unguarded; the Auc-Advanced call aborts `OnLoad` before `tooltip:Activate()`, which is *why* Enchantrix then reported Auctioneer missing and threw the second error. Fixed with a new standalone addon `!AucHyperlinkCompat` ([`#8`](https://github.com/itsginfo/wow-addons/issues/8), `8fa4c71`) rather than two more fragile provider edits. Retired the `AddOns-copy/` baseline per James's call ([ADR-0005](https://github.com/itsginfo/wow-addons/blob/main/docs/adr/0005-retire-whole-tree-baseline.md)), 646 MB freed, replaced by per-file backups of both sides of each edit. Installed Lua locally, closing the runbook's long-standing "cannot syntax-check Lua here" gap — all authored addons now pass `luac -p`. Confirmed `#4` is still latent upstream and deprioritised it. |
