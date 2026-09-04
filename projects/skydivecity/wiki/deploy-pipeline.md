@@ -6,6 +6,17 @@
 
 ---
 
+## Where things live now
+
+| | |
+|---|---|
+| **Product** — theme, mu-plugins, Compass, page sources, deploy pipeline | `Skydive-City/skydivecity-theme` (client-owned) |
+| **Engagement** — SOWs, reports, correspondence, PM records, `migration/` prod-write scripts | `itsginfo/skydivecity-com` |
+| **Local dev** | `theme-repo/` checkout overlaid onto the Docker `wp-content` mount |
+
+One copy of the theme, in the client's repo. Local dev, the deploy source and production all read
+from it.
+
 ## The automated path
 
 **Theme code and mu-plugins only.**
@@ -82,8 +93,11 @@ warning and no conflict. This is stated in the client repo's `CONTRIBUTING.md`, 
 
 - **Rollback horizon is short.** The client repo's history begins 2026-09-03. You can redeploy
   yesterday; you cannot redeploy April. Production's pre-pipeline state is not in that history.
-- **Three copies of the theme now exist** — local Docker (`files/wp-content/`), the ITSG repo, and
-  the client repo. They agreed at creation; nothing keeps them agreeing.
+- ~~Three copies of the theme~~ — **fixed 2026-09-04.** There is now one. Docker overlays the
+  client-repo checkout (`theme-repo/`, gitignored) on top of the `files/wp-content` mount, so the
+  theme edited locally *is* the one that deploys. The ITSG repo no longer carries the theme, the
+  mu-plugins or the design system — only the engagement. Setup and the mount table are in the
+  project repo's `README-LOCAL-DEV.md`.
 - **Deploy-key lifecycle is unowned.** The key sits in the client's repo secrets and in James's
   `~/.ssh`. It should be rotated or revoked when the engagement changes; nobody currently owns that.
 - **Rich can trigger a deploy.** He is an org owner. Unlikely, but the button is not ITSG-only.
