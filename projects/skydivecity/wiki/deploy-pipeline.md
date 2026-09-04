@@ -29,26 +29,32 @@ Deploy key fingerprint and the Flywheel gotchas live in [[flywheel]].
 
 ## What is NOT automated
 
-### 1. Compass page templates — the two-repo seam ⚠️ highest drift risk
+### 1. Compass page templates — ✅ FIXED 2026-09-04
 
-The Winterfest, FFP and `/compass` templates are **generated**. Their sources
-(`*.body.html`, `*.css`, `build-*.mjs`) live in **ITSG's** repo under `project_management/`.
-Only the built `.php` lands in the client repo.
+*(Was the highest drift risk. Recorded here because the shape of the fix is worth knowing.)*
 
-So editing a Compass page is **not** "commit and deploy". It is:
+The Winterfest and FFP page sources now live in the client theme repo under `page-sources/`,
+alongside the templates they build and the design system they consume. The build is entirely
+self-contained; there is no cross-repo copy left to forget.
 
+```bash
+# in a checkout of Skydive-City/skydivecity-theme
+vi page-sources/winterfest/winterfest.body.html
+node page-sources/winterfest/build-winterfest-wp.mjs
+git commit -am "..."        # commit BOTH the source and the rebuilt template
+# then Actions → "Deploy theme to production" (dry run first)
 ```
-edit the source in ITSG repo  →  node build-*.mjs  →  commit in ITSG repo
-                              →  COPY the built .php into the client repo
-                              →  commit there  →  run the workflow
-```
 
-**Nothing enforces or checks that copy.** Forget it and the client repo silently deploys a stale
-template over the good one. These are the pages we edit most often, which makes this the gap most
-likely to bite.
+**CI enforces it.** `verify-templates.yml` rebuilds all three generated templates on every push and
+fails if a committed template disagrees with its source. It never writes to the repo — the fix is
+always to rebuild locally and commit, so what deploys stays exactly what was reviewed. Tested
+against a deliberately stale template before being trusted.
 
-*Open decision:* move the mockup sources into the client repo (the client then owns something they
-can actually rebuild, per SOW §10's assignment of Compass), or automate the copy. Neither is done.
+Editing a `template-*.php` by hand is pointless; the next build overwrites it.
+
+**Still true:** ITSG's repo keeps the *engagement* material (intake, correspondence, design
+decisions). It no longer holds product source. `project_management/winterfest-landing/README.md`
+and the FFP equivalent point at the new home.
 
 ### 2. Prod content and database — unchanged, still 5-phase
 
