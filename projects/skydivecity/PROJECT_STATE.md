@@ -25,6 +25,7 @@
 | When working on… | Read first |
 |---|---|
 | Flywheel hosting, SSH, `deploy.sh`, SSL renewal, `scp -O` quirk | [`flywheel.md`](../../projects/skydivecity/wiki/flywheel.md) |
+| **Deploying anything — or wondering whether a change actually reaches prod** | [`deploy-pipeline.md`](../../projects/skydivecity/wiki/deploy-pipeline.md) |
 | Adding/updating WordPress pages or content, ACF Flexible Content, `mywp` theme | [`wp-acf-rendering.md`](../../projects/skydivecity/wiki/wp-acf-rendering.md) |
 | Burble booking funnel (`bookings.burblesoft.com`), CSS/copy/analytics customization | [`burble-integration.md`](../../projects/skydivecity/wiki/burble-integration.md) |
 | **Any** prod DB write (postmeta, taxonomy, content, ACF) — 5-phase pattern | [`prod-write-procedure.md`](../../projects/skydivecity/wiki/prod-write-procedure.md) |
