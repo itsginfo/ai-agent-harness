@@ -207,6 +207,7 @@ See [`wiki/README.md`](../../projects/skydivecity/wiki/README.md) for convention
 | 15 | **Who owns the deploy-key and Owner-access lifecycle** on the client's GitHub account when the engagement changes? | ⏳ Unowned — flagged in ADR-0005. |
 | 16 | **Which route did BM take for styling changes** — Additional CSS, via ITSG, or their own repo access? | ⏳ Was on the 2026-09-10 agenda; **ask James**. |
 | 18 | **Which mechanism for the new content model** — ACF Flexible Content re-authored on Compass, ACF Blocks, or native Gutenberg blocks? BM's "does the design system replace our builder" question. | ⏳ `#45`, with Kevin as input. |
+| 19 | **Who holds the ACF Pro and Gravity Forms licences?** ITSG holds none — the manifest's "commercial/ITSG" was a 2026-04-23 assumption (fixed `afed59b`). Likely BM (agency) or SDC; could be lapsed. Verify in WP Admin (Custom Fields → Updates) or ask Kevin. Should end up in Skydive City's name once the theme is theirs. | ⏳ Unverified — Rich/Kevin. |
 | 17 | **Will Matt be added as a second org owner?** Today the only owners are Rich and `itsginfo`, so the client's sole backup owner is their vendor. | ⏳ Raised, not actioned. |
 
 ---
