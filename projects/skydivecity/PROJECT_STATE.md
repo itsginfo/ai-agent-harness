@@ -6,17 +6,11 @@
 
 ## ⚡ RESUME INSTRUCTION
 
-**Managed Services active. Nothing in flight. Context was cleared after this session — everything needed is below.**
+**Managed Services active; redesign wayfinder complete (11/12); nothing in flight.** Last session (2026-09-14) closed `#45`/`#30`/`#37` via ADR-0006 + ADR-0007, shipped `#46`, ran `#23` clean, and filed `#47`/`#48`/`#49` off the new ITSG↔BM alignment (ITSG designs/builds/hosts/maintains; BM = post-launch continuity).
 
-**FIRST: James sends the BM explainer** ([Builder to Blocks](https://claude.ai/code/artifact/0c007961-877f-4f20-811f-61a43fa9b20b), To La Barrie, CC Kevin, Rich looped). **THEN the wayfinder is done** (11/12; `#32` deferred to homepage copy, `#34` = SOW §7 + BM tech contact) → **`/to-spec` for Phase 0** off ADR-0003/0004/0005/0006/0007: theme scaffold + Compass Blocks + `theme.json` export + Price entity + legacy-builder carry + port/retirement tooling + staging + the global-chrome constraint (chrome switches to Compass at activation for every page). **Rich track:** `#48` proposal (specifics + execution plan; gates `#47`), `#34` §7. **Ops:** `#44` stale content (ready), Winterfest email (flush cache first), `#40` Flamingofest link 10-01, Sept report ~10-05, `#23` next 09-17/18.
+**Next:** `/to-spec` for **Phase 0** of the Site Redesign, from ADR-0003/0004/0005/0006/0007 + `#27`. Inputs the spec must carry: theme scaffold (hybrid, block editor on) · Compass ACF Blocks 1:1 with `contracts.json` · `theme.json` generated from `design-system/tokens/` · Price entity + migration · Legacy-builder carry + implicit switch + retirement query · staging + rendered-HTML diff · **global chrome switches to Compass at activation for every page** (design constraint) · layout→component map (27 variants in use, run on prod). Gate: James has sent the BM explainer (`#49`); `#48` proposal for Rich is the parallel Rich-track item.
 
-**THEN, in order.** **(1) `#23` weekly maintenance — 20 days overdue** (last run 2026-08-21, three windows missed); James deferred it to "later today" on 09-10. Plugin updates + smoke over SSH; **the contact-form test needs James's hands** (browser MCP still broken). **(2) `#44` stale content** — unblocked, scope agreed: drop published rates (keep the **$5 tent**; RV varies by slot → point at Firefly), correct the facilities-page fleet copy, fold in the 3 orphaned USPA-2020 pages. **(3) Winterfest page-update email** drafted (`926e688`), unsent — **flush the Flywheel cache first**.
-
-**⚠️ Standing fact, gotten wrong twice in client-facing docs:** the **Winterfest landing page is LIVE in production**, since **2026-07-23** (`1a7c903`, same commit as FFP). It is **not** "a mockup". Tier 1 Phase 1 is a **PORT onto the new theme**, not a first build.
-
-**Also open:** **`#42`** awaits Cassie (event schedule · 4–5 *worst-case* LO photos, artifact `20251e9a`). **`#34`** §7 compensation still open — `#43`'s ~155–265h estimate is the intended re-entry. **`#40`** Flamingofest link **2026-10-01**. **September ops report** ~2026-10-05 (request Rich's Burble count near month-end).
-
-**Branch check first. THREE repos.** Product: **`Skydive-City/skydivecity-theme`** (client-owned) — theme, mu-plugins, Compass, `page-sources/`, pipeline. Engagement: `itsginfo/skydivecity-com` @ `ab399ae`. Local dev: **`theme-repo/`** checkout, gitignored, overlaid by Docker — **edit the theme THERE**, not under `files/` (now uploads/plugins only). All clean + pushed. ⚠️ A stale second checkout sits at `scratchpad/sdc-theme` — **use `theme-repo/`**. ⚠️ **Flywheel:** `ssh -tt` for `wp`/`ls`; prod SQL prefix `wp_vu3scguxbw_`; **transient failures are common — retry up to 3× before diagnosing** (a 3-failure run on 09-10 recovered on its own). See [[flywheel]], [[deploy-pipeline]]. ⚠️ **Browser MCP tools BROKEN** (9+ sessions) — headless Chrome is the substitute. Read [[stakeholders]] before any outward email. *(absolute paths, never `cd`; `gh auth switch --user itsginfo`.)*
+**Branch check first. THREE repos, all clean + pushed:** product `Skydive-City/skydivecity-theme` @ `d98215e` (main) · engagement `itsginfo/skydivecity-com` @ `f3203ee` (develop) · harness `main`. Edit the theme in `theme-repo/` (gitignored checkout), never under `files/`.
 
 ---
 
@@ -221,14 +215,13 @@ See [`wiki/README.md`](../../projects/skydivecity/wiki/README.md) for convention
 
 > When you complete one, update the GH issue first (status, comment if substantive), then return here.
 
-1. **James sends the BM explainer.** Then **`/to-spec` for Phase 0** (wayfinder complete). **[`#48` — Rich track]** proposal for Rich (specifics + execution plan); gates `#47`. **[`#34`]** BM technical contact = explainer ask #2; §7 compensation via `#43`.
-2. **[`#23` — 20 days overdue] Weekly maintenance.** Last run 2026-08-21; three windows missed. Plugin updates + smoke over SSH. ⚠️ **The contact-form test needs James's hands** — browser MCP has been broken 9+ sessions. Hold **Gravity Forms 2→3** as usual (major, governs the contact form).
-3. **[`#44` — unblocked, ready to work] Stale live content.** Drop published rates (keep the **$5 tent**; RV varies by slot → point at Firefly). Correct the facilities-page fleet copy. Fold in the **3 orphaned USPA-2020 pages** from `#43`.
-4. **[Ready, unsent] Winterfest page-update email** (`926e688`) — ⚠️ **flush the Flywheel page cache before sending.**
-5. **[`#42` — blocked on Cassie]** Event schedule + **4–5 worst-case LO photos** before any headshot treatment (artifact `20251e9a`).
-6. **[Dated] `#40` Flamingofest Burble link 2026-10-01** · **September ops report ~2026-10-05** — both on Live Watch.
-7. **[Strategic] `#34` §7 compensation** via `#43`'s estimate. **BM working session** may have resolved `#30`/`#35`/`#37` — check before re-opening them.
-8. **[Parked / unowned]** `sc-clean-excerpts.php` (written, not shipped — `project_management/parked/`) · Gravity Forms 2→3 · `#39` Burble ask undrafted · **deploy-key + Owner-access lifecycle unowned** (ADR-0005) · **Matt still not an org owner** — client's only backup owner is their vendor.
+1. **`/to-spec` — Phase 0 spec** off the five ADRs + `#27` (wayfinder complete). Precondition: James sends the BM explainer ([Builder to Blocks](https://claude.ai/code/artifact/0c007961-877f-4f20-811f-61a43fa9b20b)) — `#49`.
+2. **[`#48` — Rich track] Hosting + maintenance proposal** for Rich: hosting basis, maintenance delta vs `#23`, licences in SDC's name (OQ 19), BM retainer shrink, `#47` sequencing (recommend SDC-owned Flywheel account + ITSG collaborator). Gates `#47`. Pairs with `#34` §7 (via `#43`).
+3. **[`#44` — ready] Stale live content** — drop published rates (keep the $5 tent; RV → Firefly), facilities fleet copy, fold in the 3 orphaned USPA-2020 pages. 5-phase.
+4. **[Ready, unsent] Winterfest page-update email** (`926e688`) — flush the **Cloudflare** cache first (James has access).
+5. **[Dated]** `#40` Flamingofest Burble link **2026-10-01** · **September ops report ~2026-10-05** (request Rich's Burble count near month-end) · `#23` next window **~09-17/18** — all on Live Watch.
+6. **[`#42` — blocked on Cassie]** event schedule + 4–5 worst-case LO photos (artifact `20251e9a`).
+7. **[Parked / unowned]** Gravity Forms 2→3 (now 3.1.1; dev-first upgrade + form re-test) · `sc-clean-excerpts.php` (OQ 14) · `#39` Burble ask undrafted · deploy-key/Owner lifecycle (OQ 15) · Matt not an org owner (OQ 17) · ACF/GF licence holder unverified (OQ 19) · `#34` item 4 BM tech contact.
 
 ---
 
@@ -265,6 +258,7 @@ See [`wiki/README.md`](../../projects/skydivecity/wiki/README.md) for convention
 
 | Date | Agent | Summary |
 |------|-------|---------|
+| 2026-09-14 (close) | PM Agent | **Session closed per V-003.** Resume drained; lean resume points at `/to-spec` for Phase 0. Winterfest-is-LIVE standing fact moved to CLAUDE.md (project fact). All three repos clean + pushed. |
 | 2026-09-14 (end) | PM Agent | **ADR-0007 ACCEPTED — `#30` + `#37` closed; wayfinder map 11/12.** James confirmed port order (Winterfest → home → Tandem → AFF → Events → T2 → T3) and Winterfest re-shipped-not-redesigned as the tracer. ADR-0007 pushed to the theme repo + mirrored. Both issues Done on the board; `#27` map noted. Decision map artifact updated (v10). **The wayfinder stage is effectively complete** — remaining `#32`/`#34` are Rich-track commercial/copy items, not design decisions. Next: `/to-spec` for Phase 0. |
 | 2026-09-14 (later 3) | PM Agent | **`#23` weekly maintenance CLEAN (24 days overdue) · DNS + Rich facts recorded · ADR-0007 drafted.** 14 minor/patch applied + verified, DB backup triggered first (BackWPup job 2), smoke PASS on 7 pages + Burble, form test PASS (James). **Gravity Forms held** at 2.10.5 vs 3.1.1. Flywheel SSH gateway throttled ~15 min mid-run (auth OK, session closed pre-command; third occurrence) — recovered unaided. Facts: **DNS is SDC-owned at Cloudflare, James has access** (→ CLAUDE.md, `#47`); **Rich is in the loop** on hosting/maintenance and wants ITSG to bring specifics + an execution plan (`#48` reframed as a proposal). **ADR-0007 (theme cutover, identical-first) drafted as Proposed** in the theme repo; awaits James on port order + Winterfest role (`#37`). Also flagged: global chrome switches to Compass at activation for every page — a Phase 0 design constraint nobody had written down. |
 | 2026-09-14 (later 2) | PM Agent | **BM-facing explainer built** — [Builder to Blocks](https://claude.ai/code/artifact/0c007961-877f-4f20-811f-61a43fa9b20b): short answer · six facts about the new back end · identical-first as a 4-step timeline with page-state bars · lanes for the September alignment · 3 scenarios · straight answers · 4 asks of BM (Kevin's layout hour, tech contact, Flywheel handover, onboarding date). BM-safe (no SOW/commercials). Source committed `095f9b5`; noted on `#30` + `#49`. `#30` now waits only on James sending it + the cutover ADR. |
