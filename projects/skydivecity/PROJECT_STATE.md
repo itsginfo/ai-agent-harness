@@ -10,7 +10,7 @@
 
 **Next:** `/to-spec` for **Phase 0** of the Site Redesign, from ADR-0003/0004/0005/0006/0007 + `#27`. Inputs the spec must carry: theme scaffold (hybrid, block editor on) · Compass ACF Blocks 1:1 with `contracts.json` · `theme.json` generated from `design-system/tokens/` · Price entity + migration · Legacy-builder carry + implicit switch + retirement query · staging + rendered-HTML diff · **global chrome switches to Compass at activation for every page** (design constraint) · layout→component map (27 variants in use, run on prod). Gate: James has sent the BM explainer (`#49`); `#48` proposal for Rich is the parallel Rich-track item.
 
-**Branch check first. THREE repos, all clean + pushed:** product `Skydive-City/skydivecity-theme` @ `d98215e` (main) · engagement `itsginfo/skydivecity-com` @ `f3203ee` (develop) · harness `main`. Edit the theme in `theme-repo/` (gitignored checkout), never under `files/`.
+**Branch check first. THREE repos, all clean + pushed:** product `Skydive-City/skydivecity-theme` @ `d98215e` (main) · engagement `itsginfo/skydivecity-com` @ `6877747` (develop) · harness `main`. Edit the theme in `theme-repo/` (gitignored checkout), never under `files/`.
 
 ---
 
