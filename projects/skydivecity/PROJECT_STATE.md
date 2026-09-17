@@ -1,6 +1,6 @@
 # PROJECT STATE — Skydive City
 
-> **Last updated:** 2026-09-17 by PM Agent (**Phase 0 spec FILED — `#50`** via `/to-spec` off ADR-0003..0007 + `#27`; seams + scope calls confirmed by James. Next stage: `/to-tickets` on `#50`. BM explainer `#49` still unsent. `#21` close-as-superseded proposed, awaiting James. — see Session Log 2026-09-17 row.)
+> **Last updated:** 2026-09-17 by PM Agent (**Phase 0 spec FILED — `#50`** via `/to-spec` off ADR-0003..0007 + `#27`; seams + scope calls confirmed by James. Next stage: `/to-tickets` on `#50`. BM explainer `#49` still unsent. `#21` CLOSED as superseded. — see Session Log 2026-09-17 row.)
 
 ---
 
@@ -10,7 +10,7 @@
 
 **Next:** `/to-tickets` on `#50` — vertical slices, each ending at one seam. Suggested order is in the spec's Further Notes (prod inventory + map → contracts extension + generators → theme scaffold w/ Legacy carry + rendering rule + chrome + mode → port-status + diff tooling → staging rehearsal → Price + migration → Blocks tranche → M4 → M5 → activation → checkpoint). Gates: `#34` §7 still open (inventory/map/contracts are low-risk to start; theme scaffold + Block build should track signature) · `#49` explainer **still unsent** (its ask #1 consumes the inventory) · OQ 19 ACF Pro licence holder must be verified before the Block build.
 
-**Pending James:** `#21` — close as superseded by `#37` (ADR-0007) + `#42` + `#34`, or keep and add to the board? Proposed close; not actioned.
+**`#21` closed 2026-09-17** as superseded by `#37` (ADR-0007) + `#42` + `#34` — the page has been live since 2026-07-23.
 
 **Branch check first. THREE repos, all clean + pushed:** product `Skydive-City/skydivecity-theme` @ `d98215e` (main) · engagement `itsginfo/skydivecity-com` @ `3ff171c` (develop) · harness `main`. Edit the theme in `theme-repo/` (gitignored checkout), never under `files/`.
 
@@ -260,7 +260,7 @@ See [`wiki/README.md`](../../projects/skydivecity/wiki/README.md) for convention
 
 | Date | Agent | Summary |
 |------|-------|---------|
-| 2026-09-17 | PM Agent | **Phase 0 spec FILED → `#50`** via `/to-spec` (ADR-0003..0007 + `#27` + `#24` + SOW draft §3–4). Seams: rendered HTML · generator CI · WP-CLI. Scope calls: bounded Blocks tranche · `block.json` generated / field groups hand-authored w/ CI parity · mode defaults (events immersive, pages conversion) · legacy-page notice not lock · M4/M5 in as lean sections · dataLayer fires from legacy render. Board + `#27`/`#24` cross-linked. Boot reconcile: engagement hash drift fixed; `#21` off-board → close proposed. Next: `/to-tickets` on `#50`. |
+| 2026-09-17 | PM Agent | **Phase 0 spec FILED → `#50`** via `/to-spec` (ADR-0003..0007 + `#27` + `#24` + SOW draft §3–4). Seams: rendered HTML · generator CI · WP-CLI. Scope calls: bounded Blocks tranche · `block.json` generated / field groups hand-authored w/ CI parity · mode defaults (events immersive, pages conversion) · legacy-page notice not lock · M4/M5 in as lean sections · dataLayer fires from legacy render. Board + `#27`/`#24` cross-linked. Boot reconcile: engagement hash drift fixed; `#21` off-board → CLOSED as superseded (James). Next: `/to-tickets` on `#50`. |
 | 2026-09-14 (close) | PM Agent | **Session closed per V-003.** Resume drained; lean resume points at `/to-spec` for Phase 0. Winterfest-is-LIVE standing fact moved to CLAUDE.md (project fact). All three repos clean + pushed. |
 | 2026-09-14 (end) | PM Agent | **ADR-0007 ACCEPTED — `#30` + `#37` closed; wayfinder map 11/12.** James confirmed port order (Winterfest → home → Tandem → AFF → Events → T2 → T3) and Winterfest re-shipped-not-redesigned as the tracer. ADR-0007 pushed to the theme repo + mirrored. Both issues Done on the board; `#27` map noted. Decision map artifact updated (v10). **The wayfinder stage is effectively complete** — remaining `#32`/`#34` are Rich-track commercial/copy items, not design decisions. Next: `/to-spec` for Phase 0. |
 | 2026-09-14 (later 3) | PM Agent | **`#23` weekly maintenance CLEAN (24 days overdue) · DNS + Rich facts recorded · ADR-0007 drafted.** 14 minor/patch applied + verified, DB backup triggered first (BackWPup job 2), smoke PASS on 7 pages + Burble, form test PASS (James). **Gravity Forms held** at 2.10.5 vs 3.1.1. Flywheel SSH gateway throttled ~15 min mid-run (auth OK, session closed pre-command; third occurrence) — recovered unaided. Facts: **DNS is SDC-owned at Cloudflare, James has access** (→ CLAUDE.md, `#47`); **Rich is in the loop** on hosting/maintenance and wants ITSG to bring specifics + an execution plan (`#48` reframed as a proposal). **ADR-0007 (theme cutover, identical-first) drafted as Proposed** in the theme repo; awaits James on port order + Winterfest role (`#37`). Also flagged: global chrome switches to Compass at activation for every page — a Phase 0 design constraint nobody had written down. |
