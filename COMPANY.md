@@ -111,6 +111,7 @@ To build, operate, and continuously improve a portfolio of technology and busine
 | **MethodRX** | Active — healthcare SaaS (two-harness model; strategic layer here, execution in-repo) | CTO | GH Issues at [EQ-Labs-LLC/method_rx](https://github.com/EQ-Labs-LLC/method_rx) | [EQ-Labs-LLC/method_rx](https://github.com/EQ-Labs-LLC/method_rx) | — |
 | **Harness self-work** | Ongoing — protocols, agents, tool landscape | CTO | GH Issues + [GH Project #1](https://github.com/users/itsginfo/projects/1) | [itsginfo/ai-agent-harness](https://github.com/itsginfo/ai-agent-harness) | — |
 | **WoW AddOns** | Active — maintenance (reconcile provider update batches vs local edits) + auto-best-gear addon scoped | CTO | GH Issues ([`#2`](https://github.com/itsginfo/wow-addons/issues/2) recurring reconciliation, [`#1`](https://github.com/itsginfo/wow-addons/issues/1) auto-best-gear) | [itsginfo/wow-addons](https://github.com/itsginfo/wow-addons) (personal) | — |
+| **WoW Forever** | Active — reference library + addon compatibility against the Forever beta (beta opened 2026-09-17; launch 2026-11-04) | PM + CTO | GH Issues at [itsginfo/wow-forever](https://github.com/itsginfo/wow-forever) | [itsginfo/wow-forever](https://github.com/itsginfo/wow-forever) (personal) | — |
 
 ---
 
