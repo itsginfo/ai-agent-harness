@@ -10,8 +10,9 @@
 seeded with the confidence-tagged baseline, source library, and a first static API scan of 12
 installed addons against beta build 1.60.1.69893 (`analysis/2026-09-17/`).
 
-**Next:** [`#1`](https://github.com/itsginfo/wow-forever/issues/1) needs James in the beta client
-(load TomTom or Clique, find the TOC format Forever accepts). Agent-side, [`#2`](https://github.com/itsginfo/wow-forever/issues/2)
+**Next:** [`#1`](https://github.com/itsginfo/wow-forever/issues/1) needs James in the beta client.
+**ForeverProbe is installed** in `_classic_beta_/Interface/AddOns`; on first login run `/fprobe env`
+and paste into #1, then `/fprobe` with friendly and enemy targets and one fight (feeds #4). Agent-side, [`#2`](https://github.com/itsginfo/wow-forever/issues/2)
 (re-verify baseline against Blizzard primary sources) and [`#3`](https://github.com/itsginfo/wow-forever/issues/3)
 (re-scan Retail builds) can run without the game.
 
@@ -131,7 +132,7 @@ installed addons against beta build 1.60.1.69893 (`analysis/2026-09-17/`).
 
 | Date | Agent | Summary |
 |------|-------|---------|
-| 2026-09-17 | PM | Project bootstrapped. Reviewed two seed ChatGPT threads; registered in ADE; created `itsginfo/wow-forever` (commit `f6d7419`); wrote baseline, sources, addon-compatibility docs; built `tools/api_inventory.py`; ran first scan (12 addons, beta 1.60.1.69893); seeded `#1`–`#5`. |
+| 2026-09-17 | PM | Project bootstrapped; ForeverProbe addon + tooling added (commit 2, installed in beta). Reviewed two seed ChatGPT threads; registered in ADE; created `itsginfo/wow-forever` (commit `f6d7419`); wrote baseline, sources, addon-compatibility docs; built `tools/api_inventory.py`; ran first scan (12 addons, beta 1.60.1.69893); seeded `#1`–`#5`. |
 
 ---
 
