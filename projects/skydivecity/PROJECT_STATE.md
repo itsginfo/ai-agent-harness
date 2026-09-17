@@ -1,16 +1,18 @@
 # PROJECT STATE — Skydive City
 
-> **Last updated:** 2026-09-14 (end) by PM Agent (**Wayfinder map effectively complete — `#30` identical-first (ADR-0007) + `#37` Winterfest-as-tracer CLOSED; `#45` ADR-0006; `#35`; 11 of 12 resolved, only Rich-track `#32`/`#34` open. BM explainer built (James sends). `#23` maintenance CLEAN. `#46` shipped. `#47`/`#48`/`#49` filed. Next stage: `/to-spec` for Phase 0.** — see Session Log 2026-09-14 rows.)
+> **Last updated:** 2026-09-17 by PM Agent (**Phase 0 spec FILED — `#50`** via `/to-spec` off ADR-0003..0007 + `#27`; seams + scope calls confirmed by James. Next stage: `/to-tickets` on `#50`. BM explainer `#49` still unsent. `#21` close-as-superseded proposed, awaiting James. — see Session Log 2026-09-17 row.)
 
 ---
 
 ## ⚡ RESUME INSTRUCTION
 
-**Managed Services active; redesign wayfinder complete (11/12); nothing in flight.** Last session (2026-09-14) closed `#45`/`#30`/`#37` via ADR-0006 + ADR-0007, shipped `#46`, ran `#23` clean, and filed `#47`/`#48`/`#49` off the new ITSG↔BM alignment (ITSG designs/builds/hosts/maintains; BM = post-launch continuity).
+**Managed Services active; Phase 0 spec filed (`#50`); nothing in flight.** Session 2026-09-17 ran `/to-spec` for Phase 0 → [`#50`](https://github.com/itsginfo/skydivecity-com/issues/50) (`project-work`, `ready-for-agent`, on the board, cross-linked from `#27`/`#24`); source of record `project_management/redesign-phase0-spec.md`. Three test seams (rendered HTML · generator consistency in CI · WP-CLI queries) and six scope calls confirmed by James.
 
-**Next:** `/to-spec` for **Phase 0** of the Site Redesign, from ADR-0003/0004/0005/0006/0007 + `#27`. Inputs the spec must carry: theme scaffold (hybrid, block editor on) · Compass ACF Blocks 1:1 with `contracts.json` · `theme.json` generated from `design-system/tokens/` · Price entity + migration · Legacy-builder carry + implicit switch + retirement query · staging + rendered-HTML diff · **global chrome switches to Compass at activation for every page** (design constraint) · layout→component map (27 variants in use, run on prod). Gate: James has sent the BM explainer (`#49`); `#48` proposal for Rich is the parallel Rich-track item.
+**Next:** `/to-tickets` on `#50` — vertical slices, each ending at one seam. Suggested order is in the spec's Further Notes (prod inventory + map → contracts extension + generators → theme scaffold w/ Legacy carry + rendering rule + chrome + mode → port-status + diff tooling → staging rehearsal → Price + migration → Blocks tranche → M4 → M5 → activation → checkpoint). Gates: `#34` §7 still open (inventory/map/contracts are low-risk to start; theme scaffold + Block build should track signature) · `#49` explainer **still unsent** (its ask #1 consumes the inventory) · OQ 19 ACF Pro licence holder must be verified before the Block build.
 
-**Branch check first. THREE repos, all clean + pushed:** product `Skydive-City/skydivecity-theme` @ `d98215e` (main) · engagement `itsginfo/skydivecity-com` @ `6877747` (develop) · harness `main`. Edit the theme in `theme-repo/` (gitignored checkout), never under `files/`.
+**Pending James:** `#21` — close as superseded by `#37` (ADR-0007) + `#42` + `#34`, or keep and add to the board? Proposed close; not actioned.
+
+**Branch check first. THREE repos, all clean + pushed:** product `Skydive-City/skydivecity-theme` @ `d98215e` (main) · engagement `itsginfo/skydivecity-com` @ `3ff171c` (develop) · harness `main`. Edit the theme in `theme-repo/` (gitignored checkout), never under `files/`.
 
 ---
 
@@ -215,7 +217,7 @@ See [`wiki/README.md`](../../projects/skydivecity/wiki/README.md) for convention
 
 > When you complete one, update the GH issue first (status, comment if substantive), then return here.
 
-1. **`/to-spec` — Phase 0 spec** off the five ADRs + `#27` (wayfinder complete). Precondition: James sends the BM explainer ([Builder to Blocks](https://claude.ai/code/artifact/0c007961-877f-4f20-811f-61a43fa9b20b)) — `#49`.
+1. **`/to-tickets` on `#50` — Phase 0 vertical slices** (spec filed 2026-09-17; seams confirmed). Start with the read-only prod layout inventory + map (low-risk under the open SOW §7). Precondition for the Block build: OQ 19 ACF Pro licence holder verified. `#49` explainer still to send (James).
 2. **[`#48` — Rich track] Hosting + maintenance proposal** for Rich: hosting basis, maintenance delta vs `#23`, licences in SDC's name (OQ 19), BM retainer shrink, `#47` sequencing (recommend SDC-owned Flywheel account + ITSG collaborator). Gates `#47`. Pairs with `#34` §7 (via `#43`).
 3. **[`#44` — ready] Stale live content** — drop published rates (keep the $5 tent; RV → Firefly), facilities fleet copy, fold in the 3 orphaned USPA-2020 pages. 5-phase.
 4. **[Ready, unsent] Winterfest page-update email** (`926e688`) — flush the **Cloudflare** cache first (James has access).
@@ -258,6 +260,7 @@ See [`wiki/README.md`](../../projects/skydivecity/wiki/README.md) for convention
 
 | Date | Agent | Summary |
 |------|-------|---------|
+| 2026-09-17 | PM Agent | **Phase 0 spec FILED → `#50`** via `/to-spec` (ADR-0003..0007 + `#27` + `#24` + SOW draft §3–4). Seams: rendered HTML · generator CI · WP-CLI. Scope calls: bounded Blocks tranche · `block.json` generated / field groups hand-authored w/ CI parity · mode defaults (events immersive, pages conversion) · legacy-page notice not lock · M4/M5 in as lean sections · dataLayer fires from legacy render. Board + `#27`/`#24` cross-linked. Boot reconcile: engagement hash drift fixed; `#21` off-board → close proposed. Next: `/to-tickets` on `#50`. |
 | 2026-09-14 (close) | PM Agent | **Session closed per V-003.** Resume drained; lean resume points at `/to-spec` for Phase 0. Winterfest-is-LIVE standing fact moved to CLAUDE.md (project fact). All three repos clean + pushed. |
 | 2026-09-14 (end) | PM Agent | **ADR-0007 ACCEPTED — `#30` + `#37` closed; wayfinder map 11/12.** James confirmed port order (Winterfest → home → Tandem → AFF → Events → T2 → T3) and Winterfest re-shipped-not-redesigned as the tracer. ADR-0007 pushed to the theme repo + mirrored. Both issues Done on the board; `#27` map noted. Decision map artifact updated (v10). **The wayfinder stage is effectively complete** — remaining `#32`/`#34` are Rich-track commercial/copy items, not design decisions. Next: `/to-spec` for Phase 0. |
 | 2026-09-14 (later 3) | PM Agent | **`#23` weekly maintenance CLEAN (24 days overdue) · DNS + Rich facts recorded · ADR-0007 drafted.** 14 minor/patch applied + verified, DB backup triggered first (BackWPup job 2), smoke PASS on 7 pages + Burble, form test PASS (James). **Gravity Forms held** at 2.10.5 vs 3.1.1. Flywheel SSH gateway throttled ~15 min mid-run (auth OK, session closed pre-command; third occurrence) — recovered unaided. Facts: **DNS is SDC-owned at Cloudflare, James has access** (→ CLAUDE.md, `#47`); **Rich is in the loop** on hosting/maintenance and wants ITSG to bring specifics + an execution plan (`#48` reframed as a proposal). **ADR-0007 (theme cutover, identical-first) drafted as Proposed** in the theme repo; awaits James on port order + Winterfest role (`#37`). Also flagged: global chrome switches to Compass at activation for every page — a Phase 0 design constraint nobody had written down. |
