@@ -1,20 +1,43 @@
 # PROJECT STATE — WoW Forever
 
-> **Last updated:** 2026-09-17 by PM Agent
+> **Last updated:** 2026-09-18 by CTO Agent
 
 ---
 
 ## ⚡ RESUME INSTRUCTION
 
-**Project bootstrapped 2026-09-17 (beta day); nothing in flight.** Repo `itsginfo/wow-forever` is
-seeded with the confidence-tagged baseline, source library, and a first static API scan of 12
-installed addons against beta build 1.60.1.69893 (`analysis/2026-09-17/`).
+**2026-09-18 (CTO):** [`#6`](https://github.com/itsginfo/wow-forever/issues/6) resolved and
+closed: the beta client writes SavedVariables but does not read them back after a cold start.
+Client-wide (Blizzard's own account-wide saves reset too), broke at the 09-17 21:27 relaunch after a
+hang, still true on the new build, and corroborated the same day by an EU forum thread and
+Thunderz96/forever-addon-kit. Every addon starts from defaults per restart, so settings persistence
+cannot be tested until Blizzard fixes it. ForeverProbe now has a seed-file workaround
+(`tools/seed_probe_sv.sh`, run with the client closed) so runs accumulate.
 
-**Next:** [`#1`](https://github.com/itsginfo/wow-forever/issues/1) needs James in the beta client.
-**ForeverProbe is installed** in `_classic_beta_/Interface/AddOns`; on first login run `/fprobe env`
-and paste into #1, then `/fprobe` with friendly and enemy targets and one fight (feeds #4). Agent-side, [`#2`](https://github.com/itsginfo/wow-forever/issues/2)
-(re-verify baseline against Blizzard primary sources) and [`#3`](https://github.com/itsginfo/wow-forever/issues/3)
-(re-scan Retail builds) can run without the game.
+**Beta patched to 1.60.1.69913** at 16:01 on 09-18. The exported UI code is still from 69893;
+[`#5`](https://github.com/itsginfo/wow-forever/issues/5) is due.
+
+**TOC addendum:** `_Camelot` is Forever's own suffix (BetterBags, BigWigs packager, QuestieDB ship
+it); `_Mainline` still wins when both exist. `select(4, GetBuildInfo()) == 16001` is a valid runtime
+discriminator. Recorded in `docs/addon-compatibility.md` and on `#1`.
+
+**Ecosystem:** CurseForge lists Forever 1.60.1 as its own flavor and ports are appearing daily; the
+ChatGPT thread "WOW Forever Addon Repo" (09-18) is logged in `docs/sources.md`. `#3` scope note:
+re-scan from Forever/Camelot branches, and diff forever-addon-kit's `data/forever_api.json` against
+ours.
+
+Earlier context (09-17): `_Mainline` + 16001 verified (#1); health/power secret for all units out
+of combat; in combat stats go secret and aura reads throw; no Retail deprecation shims; Forever's
+16001 defeats `>= 120000` Midnight checks (Cell); `loadstring_untainted` nil so secure snippets fail
+(#4). Reports in `analysis/2026-09-17/probe-report-01..04.md`.
+
+**Next:** (a) James: run `tools/seed_probe_sv.sh` with the client closed, launch, confirm the probe
+says "restored from seed file"; optional: the `SVTBoth` test addon in the beta AddOns folder tells
+whether per-character saves survive a cold start (log out to character select, log in, read the
+green line). (b) `#5`: `ExportInterfaceFiles code` on 69913, re-run `tools/api_inventory.py`, diff
+against 69893 into `analysis/2026-09-18/`. (c) `#3` re-scan from Forever branches. (d) Cell path
+decision unchanged: patch `Cell.isMidnight` plus a `GetSpecialization` shim in `!Cell`, or wait
+upstream; secure group headers stay broken until Blizzard ships `loadstring_untainted`.
 
 **Branch check first.** Project repo: `main`. Harness: `main`. Forever beta lives at
 `/Applications/World of Warcraft/_classic_beta_/`; exported UI code is already there.
@@ -85,7 +108,7 @@ and paste into #1, then `/fprobe` with friendly and enemy targets and one fight 
 | **Name reservation opens** | 2026-10-27 | — | Two-part names, unique per region. James decides names. |
 | **Launch** | 2026-11-04 3:00 p.m. PT | — | Fresh characters; addon set must be decided by then. |
 | **First raid window** | 2026-12-09 | — | Barrow Deeps (10), Hyjal Summit (20), Onyxia. |
-| **Re-export after each beta build** | each build | [`#5`](https://github.com/itsginfo/wow-forever/issues/5) | Baseline is 1.60.1.69893. Check `.build.info` before assuming the export is current. |
+| **Re-export after each beta build** | each build | [`#5`](https://github.com/itsginfo/wow-forever/issues/5) | Client is 1.60.1.69913 (patched 2026-09-18); export still 69893. **Due now.** Check `.build.info` first. |
 
 ## In-Flight Tasks ⚡
 
@@ -95,7 +118,7 @@ and paste into #1, then `/fprobe` with friendly and enemy targets and one fight 
 
 ## Blocked Items
 
-- [`#4`](https://github.com/itsginfo/wow-forever/issues/4) Secret Value trace pass — blocked by [`#1`](https://github.com/itsginfo/wow-forever/issues/1) (need a loadable TOC first).
+- Settings-persistence testing of any addon — blocked by the beta SavedVariables bug ([`#6`](https://github.com/itsginfo/wow-forever/issues/6), client-side). Watch each build.
 
 ---
 
@@ -111,11 +134,9 @@ and paste into #1, then `/fprobe` with friendly and enemy targets and one fight 
 
 ## Next 3 Actions (Prioritized)
 
-1. **[`#1`](https://github.com/itsginfo/wow-forever/issues/1) Load TomTom or Clique in the beta** — James, in-game. Unlocks the TOC format, `WOW_PROJECT_ID`, and `GetBuildInfo()` for Forever. Everything addon-side keys off this.
-2. **[`#2`](https://github.com/itsginfo/wow-forever/issues/2) Re-verify the baseline** — agent. Fetch the Blizzard posts and the Sept 17 Q&A, correct tags, fill in `URL to confirm` sources.
-3. **[`#3`](https://github.com/itsginfo/wow-forever/issues/3) Re-scan Retail builds** — agent. Download current Retail Cell/ElvUI/WeakAuras/Details/DBM and run the scanner; the Classic Era scan understates how much port work already exists upstream.
-
----
+1. **[`#5`](https://github.com/itsginfo/wow-forever/issues/5) Re-export on 69913 and diff** — James runs `ExportInterfaceFiles code`; agent runs the inventory and diff into `analysis/2026-09-18/`.
+2. **[`#3`](https://github.com/itsginfo/wow-forever/issues/3) Re-scan from Forever/Camelot branches** — agent. BetterBags, Leatrix, AtlasLoot Forever, OmniCC GODMODE already ship Forever builds; mine them and forever-addon-kit for API findings.
+3. **[`#2`](https://github.com/itsginfo/wow-forever/issues/2) Re-verify the baseline** — agent. Fetch the Blizzard posts and the Sept 17 Q&A, correct tags, fill in `URL to confirm` sources.
 
 ## Decisions (Summary)
 
@@ -132,6 +153,8 @@ and paste into #1, then `/fprobe` with friendly and enemy targets and one fight 
 
 | Date | Agent | Summary |
 |------|-------|---------|
+| 2026-09-18 | CTO | Read James's restart screenshot: every addon `SV present=false`. Disk forensics: restore broke at the 09-17 21:27 relaunch, Blizzard account SVs reset too, four marker folders ignored, still broken on 69913. Found matching EU forum report and forever-addon-kit; closed #6 as a client bug. Added `tools/seed_probe_sv.sh` + `ForeverProbe_Seed.lua` workaround, installed and seeded. Logged ChatGPT "Addon Repo" thread; verified BetterBags `_Camelot.toc` claim against its PR; updated addon-compatibility (Camelot suffix, runtime detection, beta-bug section), sources, CLAUDE.md; comments on #1, #3. Beta now 69913; #5 due. |
+| 2026-09-17 | CTO | Installed ForeverProbe in beta (folder had been empty despite earlier note). James ran `/fprobe env` in-game: `_Mainline` TOC wins, Interface 16001, WOW_PROJECT_ID=1, secretIntrospection=true. Three samples reported; found health/power secret for all units incl. player. Fixed probe (`C_Secrets` not `C_SecretUtil`), generator (skip widget methods). Docs, CLAUDE.md, sources updated; #1 closed. Evening: installed Cell r279 + !Cell + CUF with a Mainline TOC; added Lua error capture to the probe; combat sample + 3 Cell errors diagnosed (see #4). |
 | 2026-09-17 | PM | Project bootstrapped; ForeverProbe addon + tooling added (commit 2, installed in beta). Reviewed two seed ChatGPT threads; registered in ADE; created `itsginfo/wow-forever` (commit `f6d7419`); wrote baseline, sources, addon-compatibility docs; built `tools/api_inventory.py`; ran first scan (12 addons, beta 1.60.1.69893); seeded `#1`–`#5`. |
 
 ---
