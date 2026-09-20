@@ -1,6 +1,6 @@
 # PROJECT STATE — WoW Forever
 
-> **Last updated:** 2026-09-18 by CTO Agent
+> **Last updated:** 2026-09-20 by CTO Agent
 
 ---
 
@@ -31,10 +31,10 @@ of combat; in combat stats go secret and aura reads throw; no Retail deprecation
 16001 defeats `>= 120000` Midnight checks (Cell); `loadstring_untainted` nil so secure snippets fail
 (#4). Reports in `analysis/2026-09-17/probe-report-01..04.md`.
 
-**Next:** (a) James: run `tools/seed_probe_sv.sh` with the client closed, launch, confirm the probe
-says "restored from seed file"; optional: the `SVTBoth` test addon in the beta AddOns folder tells
-whether per-character saves survive a cold start (log out to character select, log in, read the
-green line). (b) `#5`: `ExportInterfaceFiles code` on 69913, re-run `tools/api_inventory.py`, diff
+**2026-09-20:** seed workaround confirmed on a cold start (probe restored 2 runs from the seed
+file); `SVTBoth` shows per-character saves are broken the same way. Build still 69913.
+
+**Next:** (a) Before each launch, with the client closed, run `tools/seed_probe_sv.sh`. (b) `#5`: `ExportInterfaceFiles code` on 69913, re-run `tools/api_inventory.py`, diff
 against 69893 into `analysis/2026-09-18/`. (c) `#3` re-scan from Forever branches. (d) Cell path
 decision unchanged: patch `Cell.isMidnight` plus a `GetSpecialization` shim in `!Cell`, or wait
 upstream; secure group headers stay broken until Blizzard ships `loadstring_untainted`.
@@ -153,6 +153,7 @@ upstream; secure group headers stay broken until Blizzard ships `loadstring_unta
 
 | Date | Agent | Summary |
 |------|-------|---------|
+| 2026-09-20 | CTO | Screenshot confirms seed workaround (2 runs restored, meta present) and that `SavedVariablesPerCharacter` fails too (`SVTBoth`). Doc, #6, and this file updated; committed. |
 | 2026-09-18 | CTO | Read James's restart screenshot: every addon `SV present=false`. Disk forensics: restore broke at the 09-17 21:27 relaunch, Blizzard account SVs reset too, four marker folders ignored, still broken on 69913. Found matching EU forum report and forever-addon-kit; closed #6 as a client bug. Added `tools/seed_probe_sv.sh` + `ForeverProbe_Seed.lua` workaround, installed and seeded. Logged ChatGPT "Addon Repo" thread; verified BetterBags `_Camelot.toc` claim against its PR; updated addon-compatibility (Camelot suffix, runtime detection, beta-bug section), sources, CLAUDE.md; comments on #1, #3. Beta now 69913; #5 due. |
 | 2026-09-17 | CTO | Installed ForeverProbe in beta (folder had been empty despite earlier note). James ran `/fprobe env` in-game: `_Mainline` TOC wins, Interface 16001, WOW_PROJECT_ID=1, secretIntrospection=true. Three samples reported; found health/power secret for all units incl. player. Fixed probe (`C_Secrets` not `C_SecretUtil`), generator (skip widget methods). Docs, CLAUDE.md, sources updated; #1 closed. Evening: installed Cell r279 + !Cell + CUF with a Mainline TOC; added Lua error capture to the probe; combat sample + 3 Cell errors diagnosed (see #4). |
 | 2026-09-17 | PM | Project bootstrapped; ForeverProbe addon + tooling added (commit 2, installed in beta). Reviewed two seed ChatGPT threads; registered in ADE; created `itsginfo/wow-forever` (commit `f6d7419`); wrote baseline, sources, addon-compatibility docs; built `tools/api_inventory.py`; ran first scan (12 addons, beta 1.60.1.69893); seeded `#1`–`#5`. |
