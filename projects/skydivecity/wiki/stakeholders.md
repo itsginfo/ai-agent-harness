@@ -32,7 +32,8 @@
 |---|---|---|---|
 | **James La Barrie** | **CEO & Owner of BM** — **decision-maker for business-impacting changes** (SDLC / git-workflow adoption, process, contractual-workflow). | ✅ `james@beyondmarketing.xyz` | **Business-impacting decisions.** SDLC / workflow / anything that changes how BM operates. Laura Jane escalates larger calls to him. |
 | **Laura Jane Happick** | **Director of Web Maintenance** — BM's day-to-day website relationship owner (CMS, Cloudflare DNS, SSL, GA4/GTM, content publishing). Escalates larger decisions to James La Barrie. | ✅ `laurajane@beyondmarketing.xyz` | **Website / development / redesign-workflow execution** day-to-day. Default BM contact for *doing*; loop James La Barrie for *deciding*. |
-| **Marcella Smith** | **General Manager, SHRM-CP** — owns **Analytics** for the account (GA4/GTM); surfaced during the `#15` GA4 purchase-tracking incident. | ✅ `marcella@beyondmarketing.xyz` | **Analytics / tag-management / conversion-tracking** matters specifically. **Not** general website/dev. |
+| **Kevin Hamstra** | **Lead Developer** — built the `mywp` theme / ACF Flexible Content builder. **BM's named technical contact (2026-09-27, via James)** for the redesign build questions, the Flywheel hosting handover (`#47`) and the post-launch knowledge transfer (`#49`). | ✅ `kevin@beyondmarketing.xyz` | **Anything technical about the existing theme, the hosting handover mechanics, licence keys (OQ 19: ACF Pro / Gravity Forms holder), and the KT.** Loop La Barrie for decisions. |
+| **Marcella Smith** | **General Manager and Analytics** — owns **Analytics** for the account (GA4/GTM); surfaced during the `#15` incident. **BM's named contact for the GTM seam (2026-09-27, via James)** — the M4 event-naming doc + tags built off ITSG's dataLayer (`#35`). | ✅ `marcella@beyondmarketing.xyz` | **Analytics / tag-management / conversion-tracking / the M4 dataLayer→GTM seam.** **Not** general website/dev. |
 | *(generic)* | BM shared inbox / tag-publishing identity. | ✅ `info@amazethecustomer.com` | Fallback only; prefer a named recipient. Note the different domain vs the `@beyondmarketing.xyz` named contacts. |
 
 ---
@@ -57,12 +58,15 @@
 | **Website / dev / redesign-workflow execution** | Laura Jane Happick (BM) | Rich (+ Matt) | Phase 1 Plan §8.1 |
 | **Business-impacting decision (SDLC / workflow / process)** | James La Barrie (BM CEO) | Laura Jane, Rich | 2026-07-22 roster clarification |
 | **Analytics / GA4 / GTM / conversion tracking** | Marcella Smith (BM) | Rich | `#15` incident |
+| **Existing-theme technicals / hosting handover / licence keys / post-launch KT** | Kevin Hamstra (BM) | James La Barrie, Rich | 2026-09-27 named-contact note (James) |
+| **M4 dataLayer → GTM seam (event-naming doc, tag build)** | Marcella Smith (BM) | Kevin, Rich | `#35` decision + 2026-09-27 named-contact note |
 | **AFF / Omnyra academy** | Josh Caruso | Rich | `#16` |
 
 ---
 
 ## Sources
 
+- 2026-09-27 — James relayed BM's named technical contacts (Kevin Hamstra, Lead Developer; Marcella Smith, GM + Analytics) and the handover sequencing (educate Rich on specifics once confirmed + timing is right → then the recommended execution plan). Inbound record: `skydivecity-com/project_management/correspondence/2026-09-27-beyond-marketing-development-model-reply-inbound.md`.
 - `skydivecity-com/project_management/Phase 1 Project Plan.md` **§8.1** + stakeholder/RACI tables — **authoritative role record** (Laura Jane = BM Website/Marketing Manager; Matt Adamson = DZM; Tommy Prestinario's agency = legacy skydive.city).
 - `skydivecity-com/project_management/release-night-runbook.md` — contact table + redirect/Tommy notes.
 - `PROJECT_STATE.md` — Rich = Primary SPOC (2026-04-23); Cassie Young = content owner (Q8); Josh Caruso = Omnyra (`#16`).
