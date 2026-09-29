@@ -1,20 +1,16 @@
 # PROJECT STATE — Skydive City
 
-> **Last updated:** 2026-09-29 by PM Agent (`#60` CLOSED — Compass live on prod, not active; `#55` draft awaiting James's send; Phase 0 9/18. See RESUME + Session Log.)
+> **Last updated:** 2026-09-29 by PM Agent (session end — `#60` closed, `#55` PDF ready for James's send; Phase 0 9/18. See RESUME + Session Log.)
 
 ---
 
 ## ⚡ RESUME INSTRUCTION
 
-**Phase 0 in execution — 9 of 18 DONE; `#55` IN FLIGHT.** Dev runs `compass` 0.2.6 with the Compass chrome (5 review rounds applied; James's open items all closed).
+**Phase 0 in execution — 9 of 18 DONE; Compass 0.2.6 is on prod but NOT active (mywp live; activation = `#67` only).** `#60` closed 2026-09-29 (live run 36641314674 clean). `#55` at James's gate: send `project_management/instrumentation/m4-event-naming-v1.pdf` + cover note (To Marcella, CC Kevin, Rich looped); BM confirms → `#61`.
 
-**`#60` — ✅ CLOSED 2026-09-29.** Live run 36641314674 clean (fired by James, watched by PM): mywp 3 templates, compass 464 files / 37 dirs created on prod, mu-plugin 1, 0 deletions; smoke printed "Active theme is still mywp". **Compass 0.2.6 now sits on prod, not active** — activation is `#67` only.
+**Next:** `#64` Block infrastructure + first Component (CTO role) — start from the `#64` brief + Phase 0 spec; `#62` staging rehearsal is unblocked and feeds `#67`. **Dated:** 09-30 → `#23` weekly run + draft Rich's Burble-count request (Sept report Step 0); **10-01 only** → `#40` Flamingofest prod link run (re-upload + SHA first).
 
-**`#55` — DRAFT v1 landed (`2ebf27b`, pushed): `project_management/instrumentation/m4-event-naming.md` + `m4-cover-note-for-marcella.md` + README; agent summary on `#55`. **Attachment: `project_management/instrumentation/m4-event-naming-v1.pdf`** (Letter, 4 pp; `render-pdf.py` beside it for v2). Next: James reviews + sends (To Marcella, CC Kevin, Rich looped); BM confirms → `#61` implements the pushes.**
-
-**Then:** `#64` Block infrastructure + first Component · `#62` staging rehearsal (unblocked by `#60`; feeds `#67`). Dated: `#40` Flamingofest prod run **10-01 only** · Sept report Step 0 + `#23` weekly run **09-30**.
-
-**Branch check first. THREE repos:** product `Skydive-City/skydivecity-theme` main @ `6d9dca8` (pushed) · engagement `itsginfo/skydivecity-com` develop @ `2ebf27b` (pushed) · harness main. `compass/legacy/` is generated; `header.php`/`footer.php` hand-authored; run `lint-theme-css.mjs` after any chrome CSS edit.
+**Branch check first. THREE repos:** product `Skydive-City/skydivecity-theme` main @ `6d9dca8` · engagement `itsginfo/skydivecity-com` develop @ `HEAD` (pushed) · harness main. `compass/legacy/` is generated; `header.php`/`footer.php` hand-authored; run `lint-theme-css.mjs` after any chrome CSS edit. Agent cannot fire `gh workflow run` on prod (classifier) — James fires, agent watches.
 
 ---
 
@@ -146,6 +142,8 @@ See [`wiki/README.md`](../../projects/skydivecity/wiki/README.md) for convention
 
 > Active work tracked in [GH Project #1](https://github.com/users/itsginfo/projects/1). Below is narrative context the issue body doesn't capture.
 
+- **✅ `#60` Deploy pipeline — CLOSED 2026-09-29.** Compass syncs beside mywp on every run; smoke step reports the active theme. Rsync `--archive` will always itemize ~421 mtime-only touches on mywp after a fresh checkout — checksums match, no bytes change; not a regression.
+- **`#55` M4 naming doc — at James's send gate.** v1 PDF + cover note in `project_management/instrumentation/`; `render-pdf.py` (Python markdown → headless Chrome) replaces `md-to-pdf` for this doc after it clipped the catalogue table and hung on re-runs. BM reply → v2 (versioned, not edited in place) → `#61`.
 - **✅ `#45` Content model — DECIDED 2026-09-14, ADR-0006** (theme repo `docs/adr/0006-…`, mirrored in engagement repo). Block editor everywhere · one ACF Block per Compass component · no author visual controls · author-chosen mode · prose-only core blocks, spine locked · patterns in git · one Price entity · implicit legacy/blocks switch · client-owned ACF licence. Glossary: theme-repo `CONTEXT.md`.
 - **🆕 2026-09-14 ITSG↔BM alignment** — ITSG designs, builds, **hosts (Flywheel) and maintains**; BM learns the back end post-launch, no commits, no repo access. New tracker items: **`#47`** hosting transfer (site is under BM's Flywheel agency account; wayfinder grilling), **`#48`** hosting + maintenance commercial (Rich track; gates `#47`), **`#49`** BM back-end onboarding (post-launch). `#34` items 1–4 answered (09-27: **Kevin Hamstra** = Lead Dev / technical contact for `#47` + `#49`; **Marcella Smith** = GM + Analytics / GTM seam `#35`). BM's written confirmation + Rich's KT-after-redesign follow-up on file (`correspondence/2026-09-27-…-inbound.md`). **Agreement reply to La Barrie SENT by James (2026-09-27).**
 - **(was) `#45` Content-model mechanism — successor to BM's ACF block builder.** Filed 2026-09-10 from the BM session. Verified: their "builder" is in-house ACF Flexible Content (~70 partials in `parts/builder/`, `group_block_builder`), versioned in the theme repo. Settled already (ADR-0003/M3): the new content model succeeds it page by page. Open: mechanism (ACF flex on Compass / ACF Blocks / native blocks). Deliverable: mechanism + BM-facing explainer. Kevin = direct input.
@@ -262,6 +260,7 @@ See [`wiki/README.md`](../../projects/skydivecity/wiki/README.md) for convention
 
 | Date | Agent | Summary |
 |------|-------|---------|
+| 2026-09-29 (session end) | PM Agent | **`#60` closed; `#55` attachment rendered.** Compass 0.2.6 on prod, not active. `m4-event-naming-v1.pdf` + `render-pdf.py` committed (`47ebc06`, clipped md-to-pdf output dropped next commit). Phase 0 9/18. Next: `#64` (CTO) while James sends `#55`; 09-30 dated items. |
 | 2026-09-29 (later 14) | PM Agent | **`#60` closed.** James fired the live run (36641314674); PM watched: matched the dry run line for line, 0 deletions, smoke guard "Active theme is still mywp", prod spot-check confirms mywp active + `compass/style.css` 0.2.6 served. Phase 0 9/18. Classifier blocks the agent from firing `gh workflow run` on prod — James fires, agent watches (keep it that way). |
 | 2026-09-29 (context clear) | PM Agent | **Paused for /clear.** `#60` pair added, dry run clean, live run awaits James. `#55` DRAFT v1 committed + pushed by the forked agent; James to review + send. `#58` chrome closed after 5 review rounds + CI guard rails; `#69`/`#70` filed. |
 | 2026-09-29 (later 13) | PM Agent | **Chrome review round 5:** panel closed on the move into it (side effect of round 4). Hover bridge `::before` over the gap + ~150ms forgiving close. Verified label→gap→column. Lint caught my own duplicate rules on the first try. Theme 0.2.6, CI green. |
