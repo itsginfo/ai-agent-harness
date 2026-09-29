@@ -1,14 +1,14 @@
 # PROJECT STATE — Skydive City
 
-> **Last updated:** 2026-09-29 by PM Agent (`#51` DONE — prod inventory + map; `#53` in progress. Frontier `#52`/`#54`/`#55`. `#40` staged for 10-01. See Session Log 2026-09-29.)
+> **Last updated:** 2026-09-29 (later) by PM Agent (`#51` + `#52` DONE; `#53` in progress; `#57` unblocked. Frontier `#57`/`#54`/`#55`. `#40` staged for 10-01. See Session Log 2026-09-29 rows.)
 
 ---
 
 ## ⚡ RESUME INSTRUCTION
 
-**Managed Services active; Phase 0 IN EXECUTION — `#51`–`#68`.** ✅ `#51` DONE 09-29 (prod inventory: 86 posts / 25 variants / 12 tranche; map at theme-repo `design-system/components/layout-map.md`). `#53` diff tool in progress (subagent; theme-repo `tooling/html-diff/`). Frontier: `#52` generators + CI · `#54` M5 · `#55` M4 naming doc (BM). `#56` theme scaffold is unblocked technically but tracks SOW §7 (`#34`).
+**Managed Services active; Phase 0 IN EXECUTION — `#51`–`#68`.** ✅ `#51` DONE 09-29 (prod inventory: 86 posts / 25 variants / 12 tranche; map at theme-repo `design-system/components/layout-map.md`). ✅ `#52` DONE 09-29 (theme.json + block.json generators, 1:1 + field-group parity checks, `verify-generated.yml` — CI green on main, red proven on a throwaway branch). `#53` diff tool in progress (subagent; theme-repo `tooling/html-diff/`). **`#57` contracts extension now UNBLOCKED.** Frontier: `#57` · `#54` M5 · `#55` M4 naming doc (BM). `#56` theme scaffold is unblocked technically but tracks SOW §7 (`#34`).
 
-**Next:** finish `#53` (prod A/B self-test → zero body diff; commit + push theme-repo, which also carries the unpushed map commit `b4365ae`), then `#52` generators + CI → unblocks `#57` contracts extension (map names the Components: PersonProfile · PersonNav · Gallery · LinkTiles · FormEmbed · Faq · PricingTable · CtaBand · ButtonRow · CardGrid; extend Card). Dependency graph on `#50`.
+**Next:** land `#53` (prod A/B self-test → zero body diff; commit + push), then `#57` contracts extension — the map names the Components (PersonProfile · PersonNav · Gallery · LinkTiles · FormEmbed · Faq · PricingTable · CtaBand · ButtonRow · CardGrid; extend Card) and `build-blocks.mjs` already maps image / richtext / ref:* prop types. Dependency graph on `#50`.
 
 **Dated:** `#40` Flamingofest prod run **2026-10-01 only** (staged + dev-verified; re-upload + SHA first) · Sept ops report Step 0 **09-30** (draft Rich's Burble-count request) · `#23` weekly run **overdue**.
 
@@ -260,6 +260,7 @@ See [`wiki/README.md`](../../projects/skydivecity/wiki/README.md) for convention
 
 | Date | Agent | Summary |
 |------|-------|---------|
+| 2026-09-29 (later) | PM Agent | **`#52` DONE — generators + CI.** `build-theme-json.mjs` (tokens → theme.json, all author controls off, Compass scales as sole presets), `build-blocks.mjs` (contracts → one block.json per Component, 11 today), `check-generated.mjs` (1:1 both ways, attribute↔prop, ACF field-group parity, registered-without-group), `verify-generated.yml`. Proven: deterministic; CI green on main (36505932807); CI red on a throwaway branch with a hand-edited theme.json (36506006335); local negatives for stray Block / bad field group / orphan theme Block. Theme repo pushed @ `98f3c0d` (also carries the `#51` map). `#57` unblocked. |
 | 2026-09-29 | PM Agent | **`#51` DONE — Legacy-builder layout inventory on prod + layout-to-Component map.** Script `wp-layout-inventory-2026-09.php` (read-only; walks the flex field, resolves container sub-layouts + `bb` leaves, tracks `includes_block` embeds). Dev-first, then prod (SHA-verified, exit 0): **86 published posts, 25 variants, 12 on >2 posts, 6 reusable blocks all embedded.** Drift vs dev fully explained (2 seasonal promo pages published only on dev; `events-portal` prod-only; 2 ID divergences). Map in theme repo names the `#57` extension (10 new Components + Card content props). `#53` diff tool built by a forked agent in parallel — awaiting its prod self-test. |
 | 2026-09-27 (later) | PM Agent | **Phase 0 TICKETED — `/to-tickets` on `#50` → `#51`–`#68`** (18 slices, dependency-ordered, real blocked-by refs, human gates named, all on Project #1). James's calls: scaffold ticket kept whole; activation not gated on Blocks tranche / Price migration; pipeline dir + M4 naming doc split out. Also this session: `#40` Flamingofest link staged on dev (prod **10-01 only**); BM development-model email filed + `#49` explainer retired (contacts: **Kevin Hamstra** lead dev, **Marcella Smith** GM/analytics → [[stakeholders]]); OQ 19 resolved (ACF Pro + GF licensed to BM → `#47` gate, `#48` lines); La Barrie reply sent by James; Sept report Step 0 dated 09-30. |
 | 2026-09-27 (close) | PM Agent | **Session closed per V-003.** Resume drained; lean resume points at `/to-tickets` on `#50` after clearing the four dated Live Watch items. Live Watch re-dated (`#23` + `#49` overdue, `#40` needs URL, Sept report Step 0 due now). All three repos clean + pushed. No ADR (link-out is reversible, not a convention). |
