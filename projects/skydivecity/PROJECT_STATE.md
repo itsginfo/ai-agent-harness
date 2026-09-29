@@ -1,18 +1,18 @@
 # PROJECT STATE — Skydive City
 
-> **Last updated:** 2026-09-29 (later 5) by PM Agent (`#54` DONE — GSC baseline captured; Phase 0 6/18. Frontier `#58`/`#59`/`#60`/`#55` + Cassie IA session. `#40` 10-01 · Sept report + `#23` 09-30. See Session Log 2026-09-29 rows.)
+> **Last updated:** 2026-09-29 (later 6) by PM Agent (`#58` `#59` DONE — Phase 0 8/18; `#69` filed. Frontier `#60`/`#55`/`#64`/`#62`. `#40` 10-01 · Sept report + `#23` 09-30. See Session Log 2026-09-29 rows.)
 
 ---
 
 ## ⚡ RESUME INSTRUCTION
 
-**Phase 0 in execution — 6 of 18 DONE (`#51` `#52` `#53` `#54` `#56` `#57`).** Nothing in flight. `#54`'s Search Console baseline was pulled 09-29 through James's signed-in Chrome (5,409 clicks / 446K impressions last 3 mo; 465 indexed; CWV all good) — **re-capture the week of activation (`#67`)**. Dev runs the `compass` theme (Gutenberg Ramp off, TEC block mode on) as the staging stand-in.
+**Phase 0 in execution — 8 of 18 DONE (`#51` `#52` `#53` `#54` `#56` `#57` `#58` chrome `#59` port-status).** Nothing in flight. Dev runs `compass` with the Compass chrome (Ramp off, TEC block mode on, the 4 TEC-block events normalized). Gate with the chrome in: **0 body diffs / 353 URLs**.
 
-**Next — frontier now open:** `#58` Compass chrome + mode field (keep the `#header`/`#main`/`section-footer` landmarks) · `#59` port-status command (use `compass_content_has_blocks`) · `#60` pipeline second theme dir (live deploy = James watches) · `#55` M4 naming doc (BM). Also owed: schedule the IA content session with Cassie (`#54` draft + 9 questions ready). Then `#62` rehearsal once `#58`/`#59` land. Graph on `#50`.
+**Next — frontier:** `#60` pipeline second theme dir (live deploy = James watches) · `#55` M4 naming doc (BM: Marcella) · `#64` Block infrastructure + first Component (unblocked: `#57` + `#58` done) · `#62` staging rehearsal (unblocked: `#56` `#53` `#58` `#59` — needs `#60` before `#67`). `#69` robots/noindex cleanup is a new scoping ticket (needs-triage). **Awaiting James:** phone-width eyeball of the chrome on dev; keep or restore the BM footer credit.
 
-**Dated:** `#40` Flamingofest prod run **2026-10-01 only** (staged; re-upload + SHA first) · Sept ops report Step 0 **09-30** (draft Rich's Burble-count request) · `#23` weekly run **09-30** (James).
+**Dated:** `#40` Flamingofest prod run **2026-10-01 only** (staged; re-upload + SHA first) · Sept ops report Step 0 **09-30** · `#23` weekly run **09-30**.
 
-**Branch check first. THREE repos, all clean + pushed:** product `Skydive-City/skydivecity-theme` (main @ `be7d0cd`) · engagement `itsginfo/skydivecity-com` (develop @ `d45a662`) · harness `main`. Edit the theme in `theme-repo/` (gitignored checkout), never under `files/`; `compass/legacy/` is generated — edit `mywp` and re-run `tooling/carry-legacy.mjs`. Flywheel `/tmp` uploads do not survive hours ([[flywheel]]).
+**Branch check first. THREE repos, all clean + pushed:** product `Skydive-City/skydivecity-theme` (main) · engagement `itsginfo/skydivecity-com` (develop) · harness `main`. `compass/legacy/` is generated (`tooling/carry-legacy.mjs`); `header.php`/`footer.php` are hand-authored. Diff-tool baselines taken before 09-29's quote-rule fix are unusable — re-capture, never `renormalize`.
 
 ---
 
@@ -217,7 +217,7 @@ See [`wiki/README.md`](../../projects/skydivecity/wiki/README.md) for convention
 
 > When you complete one, update the GH issue first (status, comment if substantive), then return here.
 
-1. **Phase 0 frontier:** `#58` chrome + mode · `#59` port-status · `#60` pipeline dir · `#55` M4 naming doc (BM) · Cassie IA session (from `#54`). Done: `#51` `#52` `#53` `#54` `#56` `#57`. Graph on `#50`.
+1. **Phase 0 frontier:** `#60` pipeline dir · `#55` M4 naming doc (BM) · `#64` Block infra + first Component · `#62` rehearsal · `#69` robots/noindex (triage) · Cassie IA session. Done: `#51` `#52` `#53` `#54` `#56` `#57` `#58` `#59`. Graph on `#50`.
 2. **[`#48` — Rich track] Hosting + maintenance proposal** for Rich: hosting basis, maintenance delta vs `#23`, licences in SDC's name (OQ 19), BM retainer shrink, `#47` sequencing (recommend SDC-owned Flywheel account + ITSG collaborator). Gates `#47`. Pairs with `#34` §7 (via `#43`). **James 09-27: once confirmed + timing right → educate Rich on the specifics, THEN the execution plan** (with Kevin as BM's handover contact).
 3. **[`#44` — ready] Stale live content** — drop published rates (keep the $5 tent; RV → Firefly), facilities fleet copy, fold in the 3 orphaned USPA-2020 pages. 5-phase.
 4. **[Ready, unsent] Winterfest page-update email** (`926e688`) — flush the **Cloudflare** cache first (James has access).
@@ -260,6 +260,7 @@ See [`wiki/README.md`](../../projects/skydivecity/wiki/README.md) for convention
 
 | Date | Agent | Summary |
 |------|-------|---------|
+| 2026-09-29 (later 6) | PM Agent | **`#58` chrome + mode DONE · `#59` port-status DONE (forked agent) · `#69` robots/noindex cleanup FILED (James: track it).** Chrome: NavGlass bar overlaying like mywp's, full-depth drawer, CTAs from the same ACF options, four-column footer, sticky CTA; mode field (ACF, sidebar) with defaults by type. **Gate: mywp A/A′ 353 identical; mywp vs compass 0 body / 350 chrome (intended).** Root causes chased: WP's once-per-request menu ids (walker now applies the filter, drawer full depth); WP image-loading hints (normalized, accepted); **TEC block mode changes 4 old events with TEC block markup → `wp-events-strip-tec-blocks-2026-09-29.php`, prod at activation**; the diff tool's quote rule had been swallowing content (bounded; old baselines unusable). Port-status: 0 blocks / 285 legacy on dev; TEC hides past events from `get_posts` (→ `#65`). Awaiting James: phone-width review; BM footer credit. |
 | 2026-09-29 (later 5) | PM Agent | **`#54` DONE — Search Console baseline captured.** James asked whether I could pull it; done through his signed-in Chrome with his per-download approval (4 exports) + 3 screenshots. 3 mo: 5,409 clicks / 446K impressions / CTR 1.2% / pos 8.7; 16 mo: 28.5K / 2.61M; 465 indexed / 1,470 not (robots 421 · noindex 306 · 404 228); sitemap 385 discovered; CWV 108 good / 0 poor both devices. Reconciled: 171 GSC-only URLs (blog pagination) added to the inventory, 92 sitemap URLs not indexed flagged, top-10 landing pages flagged in the checklist. Re-capture at activation week. |
 | 2026-09-29 (later 4) | PM Agent | **`#56` DONE — Compass theme scaffold; `#54` M5 baseline at its human gate.** James cleared `#56` ahead of SOW §7. Built: `compass/` beside `mywp`; `legacy/` GENERATED from `mywp` by `tooling/carry-legacy.mjs` (8 recorded transforms; CI re-runs + diffs); authored-blocks rendering rule (`tribe/*` + `core/freeform` don't count — 4 old events); block editor everywhere over Ramp; legacy notice; `config/theme.json` injected for editor/REST/Blocks pages only (**root theme.json changes core's front-end output — found the hard way**); mu-plugin 2.1. **Rehearsal on dev: mywp A/A′ 353 identical; mywp vs compass 0 body / 0 chrome**, heads = compass-css link only; TEC block mode invisible; editor QA screenshots. Diff tool hardened (header cache-bust, entity order, 5 rules). `#54` by a forked agent: 386-URL inventory, 281-row preservation checklist, empty redirect map by rule, GSC procedure, IA draft (19 orphans) — waits on James's Search Console export. Spec annotated with both `#56` refinements. |
 | 2026-09-29 (close) | PM Agent | **Session closed per V-003.** Resume drained; lean resume points at `#54`/`#55` (frontier) with `#56` as the SOW-gated build start. Live Watch unchanged (`#40` 10-01 · Sept report 09-30 · `#23` overdue). No ADR: the generated-editor-files convention (block.json generated / field groups hand-authored / CI parity) is already a recorded scope call in spec `#50` under ADR-0006 — fewer than 3-of-3. All three repos clean + pushed. |
