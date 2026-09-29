@@ -1,18 +1,18 @@
 # PROJECT STATE — Skydive City
 
-> **Last updated:** 2026-09-29 by PM Agent (context clear — `#60` at live-run gate, `#55` draft awaiting James's send; Phase 0 8/18. See RESUME + Session Log.)
+> **Last updated:** 2026-09-29 by PM Agent (`#60` CLOSED — Compass live on prod, not active; `#55` draft awaiting James's send; Phase 0 9/18. See RESUME + Session Log.)
 
 ---
 
 ## ⚡ RESUME INSTRUCTION
 
-**Phase 0 in execution — 8 of 18 DONE; `#60` and `#55` IN FLIGHT (context cleared mid-session 2026-09-29).** Dev runs `compass` 0.2.6 with the Compass chrome (5 review rounds applied; James's open items all closed).
+**Phase 0 in execution — 9 of 18 DONE; `#55` IN FLIGHT.** Dev runs `compass` 0.2.6 with the Compass chrome (5 review rounds applied; James's open items all closed).
 
-**`#60` — at its human gate.** Pair added + pushed (`6d9dca8`); dry run 36639903263 clean: mywp 3 generated templates (gold token), compass 464 files / 37 dirs / 0 deletions, mu-plugin 1. **Next: James watches the live run** — `gh workflow run deploy-theme.yml --repo Skydive-City/skydivecity-theme --ref main -f dry_run=false`, confirm smoke says "Active theme is still mywp", spot-check prod still loads `themes/mywp/style.css`, close `#60`.
+**`#60` — ✅ CLOSED 2026-09-29.** Live run 36641314674 clean (fired by James, watched by PM): mywp 3 templates, compass 464 files / 37 dirs created on prod, mu-plugin 1, 0 deletions; smoke printed "Active theme is still mywp". **Compass 0.2.6 now sits on prod, not active** — activation is `#67` only.
 
 **`#55` — DRAFT v1 landed (`2ebf27b`, pushed): `project_management/instrumentation/m4-event-naming.md` + `m4-cover-note-for-marcella.md` + README; agent summary on `#55`. Next: James reviews + sends (To Marcella, CC Kevin, Rich looped); BM confirms → `#61` implements the pushes.**
 
-**Then:** `#64` Block infrastructure + first Component · `#62` staging rehearsal (needs `#60` live first for `#67`). Dated: `#40` Flamingofest prod run **10-01 only** · Sept report Step 0 + `#23` weekly run **09-30**.
+**Then:** `#64` Block infrastructure + first Component · `#62` staging rehearsal (unblocked by `#60`; feeds `#67`). Dated: `#40` Flamingofest prod run **10-01 only** · Sept report Step 0 + `#23` weekly run **09-30**.
 
 **Branch check first. THREE repos:** product `Skydive-City/skydivecity-theme` main @ `6d9dca8` (pushed) · engagement `itsginfo/skydivecity-com` develop @ `2ebf27b` (pushed) · harness main. `compass/legacy/` is generated; `header.php`/`footer.php` hand-authored; run `lint-theme-css.mjs` after any chrome CSS edit.
 
@@ -219,7 +219,7 @@ See [`wiki/README.md`](../../projects/skydivecity/wiki/README.md) for convention
 
 > When you complete one, update the GH issue first (status, comment if substantive), then return here.
 
-1. **Phase 0 frontier:** `#60` pipeline dir · `#55` M4 naming doc (BM) · `#64` Block infra + first Component · `#62` rehearsal · `#69` robots/noindex (triage) · Cassie IA session. Done: `#51` `#52` `#53` `#54` `#56` `#57` `#58` `#59`. Graph on `#50`.
+1. **Phase 0 frontier:** `#55` M4 naming doc (BM) · `#64` Block infra + first Component · `#62` rehearsal · `#69` robots/noindex (triage) · Cassie IA session. Done: `#51` `#52` `#53` `#54` `#56` `#57` `#58` `#59` `#60`. Graph on `#50`.
 2. **[`#48` — Rich track] Hosting + maintenance proposal** for Rich: hosting basis, maintenance delta vs `#23`, licences in SDC's name (OQ 19), BM retainer shrink, `#47` sequencing (recommend SDC-owned Flywheel account + ITSG collaborator). Gates `#47`. Pairs with `#34` §7 (via `#43`). **James 09-27: once confirmed + timing right → educate Rich on the specifics, THEN the execution plan** (with Kevin as BM's handover contact).
 3. **[`#44` — ready] Stale live content** — drop published rates (keep the $5 tent; RV → Firefly), facilities fleet copy, fold in the 3 orphaned USPA-2020 pages. 5-phase.
 4. **[Ready, unsent] Winterfest page-update email** (`926e688`) — flush the **Cloudflare** cache first (James has access).
@@ -262,6 +262,7 @@ See [`wiki/README.md`](../../projects/skydivecity/wiki/README.md) for convention
 
 | Date | Agent | Summary |
 |------|-------|---------|
+| 2026-09-29 (later 14) | PM Agent | **`#60` closed.** James fired the live run (36641314674); PM watched: matched the dry run line for line, 0 deletions, smoke guard "Active theme is still mywp", prod spot-check confirms mywp active + `compass/style.css` 0.2.6 served. Phase 0 9/18. Classifier blocks the agent from firing `gh workflow run` on prod — James fires, agent watches (keep it that way). |
 | 2026-09-29 (context clear) | PM Agent | **Paused for /clear.** `#60` pair added, dry run clean, live run awaits James. `#55` DRAFT v1 committed + pushed by the forked agent; James to review + send. `#58` chrome closed after 5 review rounds + CI guard rails; `#69`/`#70` filed. |
 | 2026-09-29 (later 13) | PM Agent | **Chrome review round 5:** panel closed on the move into it (side effect of round 4). Hover bridge `::before` over the gap + ~150ms forgiving close. Verified label→gap→column. Lint caught my own duplicate rules on the first try. Theme 0.2.6, CI green. |
 | 2026-09-29 (later 12) | PM Agent | **Chrome review round 4:** mega panel opened from its own invisible area (child `visibility: visible` inside a hidden parent still takes the mouse). Inner lists inherit; hidden panel `pointer-events: none`. Verified by element-under-cursor. Theme 0.2.5, CI green. |
