@@ -1,14 +1,14 @@
 # PROJECT STATE — Skydive City
 
-> **Last updated:** 2026-09-29 (later 4) by PM Agent (`#56` scaffold DONE with identical-first proven on dev; `#54` at human gate; frontier `#58`/`#59`/`#60`/`#55`. `#40` 10-01 · Sept report + `#23` 09-30. See Session Log 2026-09-29 rows.)
+> **Last updated:** 2026-09-29 (later 5) by PM Agent (`#54` DONE — GSC baseline captured; Phase 0 6/18. Frontier `#58`/`#59`/`#60`/`#55` + Cassie IA session. `#40` 10-01 · Sept report + `#23` 09-30. See Session Log 2026-09-29 rows.)
 
 ---
 
 ## ⚡ RESUME INSTRUCTION
 
-**Phase 0 in execution — 5 of 18 DONE (`#51` `#52` `#53` `#57` + `#56` scaffold 09-29); `#54` M5 at its human gate (Search Console export by James).** Nothing in flight. Dev runs the `compass` theme (Gutenberg Ramp off, TEC block mode on) as the staging stand-in.
+**Phase 0 in execution — 6 of 18 DONE (`#51` `#52` `#53` `#54` `#56` `#57`).** Nothing in flight. `#54`'s Search Console baseline was pulled 09-29 through James's signed-in Chrome (5,409 clicks / 446K impressions last 3 mo; 465 indexed; CWV all good) — **re-capture the week of activation (`#67`)**. Dev runs the `compass` theme (Gutenberg Ramp off, TEC block mode on) as the staging stand-in.
 
-**Next — frontier now open:** `#58` Compass chrome + mode field (must keep the `#header`/`#main`/`section-footer` landmarks) · `#59` port-status command (use `compass_content_has_blocks`) · `#60` pipeline second theme dir (live deploy = James watches) · `#55` M4 naming doc (BM). Then `#62` rehearsal once `#58`/`#59` land. Graph on `#50`.
+**Next — frontier now open:** `#58` Compass chrome + mode field (keep the `#header`/`#main`/`section-footer` landmarks) · `#59` port-status command (use `compass_content_has_blocks`) · `#60` pipeline second theme dir (live deploy = James watches) · `#55` M4 naming doc (BM). Also owed: schedule the IA content session with Cassie (`#54` draft + 9 questions ready). Then `#62` rehearsal once `#58`/`#59` land. Graph on `#50`.
 
 **Dated:** `#40` Flamingofest prod run **2026-10-01 only** (staged; re-upload + SHA first) · Sept ops report Step 0 **09-30** (draft Rich's Burble-count request) · `#23` weekly run **09-30** (James).
 
@@ -217,7 +217,7 @@ See [`wiki/README.md`](../../projects/skydivecity/wiki/README.md) for convention
 
 > When you complete one, update the GH issue first (status, comment if substantive), then return here.
 
-1. **Phase 0 frontier:** `#58` chrome + mode · `#59` port-status · `#60` pipeline dir · `#55` M4 naming doc (BM) · `#54` waits on James's Search Console export. Done: `#51` `#52` `#53` `#56` `#57`. Graph on `#50`.
+1. **Phase 0 frontier:** `#58` chrome + mode · `#59` port-status · `#60` pipeline dir · `#55` M4 naming doc (BM) · Cassie IA session (from `#54`). Done: `#51` `#52` `#53` `#54` `#56` `#57`. Graph on `#50`.
 2. **[`#48` — Rich track] Hosting + maintenance proposal** for Rich: hosting basis, maintenance delta vs `#23`, licences in SDC's name (OQ 19), BM retainer shrink, `#47` sequencing (recommend SDC-owned Flywheel account + ITSG collaborator). Gates `#47`. Pairs with `#34` §7 (via `#43`). **James 09-27: once confirmed + timing right → educate Rich on the specifics, THEN the execution plan** (with Kevin as BM's handover contact).
 3. **[`#44` — ready] Stale live content** — drop published rates (keep the $5 tent; RV → Firefly), facilities fleet copy, fold in the 3 orphaned USPA-2020 pages. 5-phase.
 4. **[Ready, unsent] Winterfest page-update email** (`926e688`) — flush the **Cloudflare** cache first (James has access).
@@ -260,6 +260,7 @@ See [`wiki/README.md`](../../projects/skydivecity/wiki/README.md) for convention
 
 | Date | Agent | Summary |
 |------|-------|---------|
+| 2026-09-29 (later 5) | PM Agent | **`#54` DONE — Search Console baseline captured.** James asked whether I could pull it; done through his signed-in Chrome with his per-download approval (4 exports) + 3 screenshots. 3 mo: 5,409 clicks / 446K impressions / CTR 1.2% / pos 8.7; 16 mo: 28.5K / 2.61M; 465 indexed / 1,470 not (robots 421 · noindex 306 · 404 228); sitemap 385 discovered; CWV 108 good / 0 poor both devices. Reconciled: 171 GSC-only URLs (blog pagination) added to the inventory, 92 sitemap URLs not indexed flagged, top-10 landing pages flagged in the checklist. Re-capture at activation week. |
 | 2026-09-29 (later 4) | PM Agent | **`#56` DONE — Compass theme scaffold; `#54` M5 baseline at its human gate.** James cleared `#56` ahead of SOW §7. Built: `compass/` beside `mywp`; `legacy/` GENERATED from `mywp` by `tooling/carry-legacy.mjs` (8 recorded transforms; CI re-runs + diffs); authored-blocks rendering rule (`tribe/*` + `core/freeform` don't count — 4 old events); block editor everywhere over Ramp; legacy notice; `config/theme.json` injected for editor/REST/Blocks pages only (**root theme.json changes core's front-end output — found the hard way**); mu-plugin 2.1. **Rehearsal on dev: mywp A/A′ 353 identical; mywp vs compass 0 body / 0 chrome**, heads = compass-css link only; TEC block mode invisible; editor QA screenshots. Diff tool hardened (header cache-bust, entity order, 5 rules). `#54` by a forked agent: 386-URL inventory, 281-row preservation checklist, empty redirect map by rule, GSC procedure, IA draft (19 orphans) — waits on James's Search Console export. Spec annotated with both `#56` refinements. |
 | 2026-09-29 (close) | PM Agent | **Session closed per V-003.** Resume drained; lean resume points at `#54`/`#55` (frontier) with `#56` as the SOW-gated build start. Live Watch unchanged (`#40` 10-01 · Sept report 09-30 · `#23` overdue). No ADR: the generated-editor-files convention (block.json generated / field groups hand-authored / CI parity) is already a recorded scope call in spec `#50` under ADR-0006 — fewer than 3-of-3. All three repos clean + pushed. |
 | 2026-09-29 (later 3) | PM Agent | **`#53` DONE — rendered-HTML diff tool** (built by a forked agent in parallel with `#51`/`#52`/`#57`). Zero-dep Node; snapshot / compare / renormalize; sitemap-driven (386 URLs); chrome + head reported separately, never against the gate. **Prod A/B: 386 identical, 0/0/0/0** after 102 → 0 body diffs of normalizer work, each rule tied to a reproduced diff (incl. the Legacy builder's random staff circles + quote). Dev-vs-prod: 98 body / 240 chrome / 48 dev-404, all real drift (stale dev menu, prod-only events/categories). Landmark dependency noted on `#56`. Theme repo pushed. Four Phase 0 tickets closed today: `#51` `#52` `#53` `#57`. |
