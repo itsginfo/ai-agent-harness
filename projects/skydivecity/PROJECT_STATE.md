@@ -1,14 +1,14 @@
 # PROJECT STATE — Skydive City
 
-> **Last updated:** 2026-09-27 (later) by PM Agent (**Phase 0 ticketed `#51`–`#68`**; frontier `#51`/`#52`/`#53`/`#54`/`#55`. `#40` staged for 10-01. BM contacts + OQ 19 resolved. See Session Log 2026-09-27 rows.)
+> **Last updated:** 2026-09-29 by PM Agent (`#51` DONE — prod inventory + map; `#53` in progress. Frontier `#52`/`#54`/`#55`. `#40` staged for 10-01. See Session Log 2026-09-29.)
 
 ---
 
 ## ⚡ RESUME INSTRUCTION
 
-**Managed Services active; Phase 0 TICKETED — `#51`–`#68` (18 vertical slices off spec `#50`), all on the board, `ready-for-agent`.** Frontier (no blockers): `#51` prod layout inventory + map · `#52` generators + CI · `#53` rendered-HTML diff tool · `#54` M5 inventory/baseline · `#55` M4 naming doc (BM confirms). `#56` theme scaffold is unblocked technically but tracks SOW §7 (`#34`).
+**Managed Services active; Phase 0 IN EXECUTION — `#51`–`#68`.** ✅ `#51` DONE 09-29 (prod inventory: 86 posts / 25 variants / 12 tranche; map at theme-repo `design-system/components/layout-map.md`). `#53` diff tool in progress (subagent; theme-repo `tooling/html-diff/`). Frontier: `#52` generators + CI · `#54` M5 · `#55` M4 naming doc (BM). `#56` theme scaffold is unblocked technically but tracks SOW §7 (`#34`).
 
-**Next:** work the frontier — start `#51` (read-only, dev-first, 5-phase prod read with James's gate) and `#53` (self-tests against prod, no write). Both are low-risk under the open SOW. Dependency graph is on `#50`'s 2026-09-27 comment.
+**Next:** finish `#53` (prod A/B self-test → zero body diff; commit + push theme-repo, which also carries the unpushed map commit `b4365ae`), then `#52` generators + CI → unblocks `#57` contracts extension (map names the Components: PersonProfile · PersonNav · Gallery · LinkTiles · FormEmbed · Faq · PricingTable · CtaBand · ButtonRow · CardGrid; extend Card). Dependency graph on `#50`.
 
 **Dated:** `#40` Flamingofest prod run **2026-10-01 only** (staged + dev-verified; re-upload + SHA first) · Sept ops report Step 0 **09-30** (draft Rich's Burble-count request) · `#23` weekly run **overdue**.
 
@@ -260,6 +260,7 @@ See [`wiki/README.md`](../../projects/skydivecity/wiki/README.md) for convention
 
 | Date | Agent | Summary |
 |------|-------|---------|
+| 2026-09-29 | PM Agent | **`#51` DONE — Legacy-builder layout inventory on prod + layout-to-Component map.** Script `wp-layout-inventory-2026-09.php` (read-only; walks the flex field, resolves container sub-layouts + `bb` leaves, tracks `includes_block` embeds). Dev-first, then prod (SHA-verified, exit 0): **86 published posts, 25 variants, 12 on >2 posts, 6 reusable blocks all embedded.** Drift vs dev fully explained (2 seasonal promo pages published only on dev; `events-portal` prod-only; 2 ID divergences). Map in theme repo names the `#57` extension (10 new Components + Card content props). `#53` diff tool built by a forked agent in parallel — awaiting its prod self-test. |
 | 2026-09-27 (later) | PM Agent | **Phase 0 TICKETED — `/to-tickets` on `#50` → `#51`–`#68`** (18 slices, dependency-ordered, real blocked-by refs, human gates named, all on Project #1). James's calls: scaffold ticket kept whole; activation not gated on Blocks tranche / Price migration; pipeline dir + M4 naming doc split out. Also this session: `#40` Flamingofest link staged on dev (prod **10-01 only**); BM development-model email filed + `#49` explainer retired (contacts: **Kevin Hamstra** lead dev, **Marcella Smith** GM/analytics → [[stakeholders]]); OQ 19 resolved (ACF Pro + GF licensed to BM → `#47` gate, `#48` lines); La Barrie reply sent by James; Sept report Step 0 dated 09-30. |
 | 2026-09-27 (close) | PM Agent | **Session closed per V-003.** Resume drained; lean resume points at `/to-tickets` on `#50` after clearing the four dated Live Watch items. Live Watch re-dated (`#23` + `#49` overdue, `#40` needs URL, Sept report Step 0 due now). All three repos clean + pushed. No ADR (link-out is reversible, not a convention). |
 | 2026-09-27 (early) | PM Agent | **`#39` Live Manifest SHIPPED to prod — Option B link-out (James: ship now, under Experienced Skydivers, Routine Request).** Theme template via Actions (dry 36277031623 → live 36291912088, 1 file, smoke 4×200). Content via 5-phase: `wp-live-manifest-page-2026-09-26.php` dev-first (5911/5912) → prod **page 5915 + Main Menu item 5916** under Go Skydiving → Experienced Skydivers; cache-busted live verify clean. **Hiccup:** first live attempt silently did nothing — the `/tmp` upload from 5 h earlier had vanished and stderr was suppressed; re-uploaded + SHA re-verified + executed. Wiki'd in [[flywheel]]. `#39` relabelled `routine-request`; inline embed still waits on Burble cookie (draft the ask). Engagement `develop` + theme `main` pushed. |
