@@ -10,7 +10,7 @@
 
 **`#60` — ✅ CLOSED 2026-09-29.** Live run 36641314674 clean (fired by James, watched by PM): mywp 3 templates, compass 464 files / 37 dirs created on prod, mu-plugin 1, 0 deletions; smoke printed "Active theme is still mywp". **Compass 0.2.6 now sits on prod, not active** — activation is `#67` only.
 
-**`#55` — DRAFT v1 landed (`2ebf27b`, pushed): `project_management/instrumentation/m4-event-naming.md` + `m4-cover-note-for-marcella.md` + README; agent summary on `#55`. Next: James reviews + sends (To Marcella, CC Kevin, Rich looped); BM confirms → `#61` implements the pushes.**
+**`#55` — DRAFT v1 landed (`2ebf27b`, pushed): `project_management/instrumentation/m4-event-naming.md` + `m4-cover-note-for-marcella.md` + README; agent summary on `#55`. **Attachment: `project_management/instrumentation/m4-event-naming-v1.pdf`** (Letter, 4 pp; `render-pdf.py` beside it for v2). Next: James reviews + sends (To Marcella, CC Kevin, Rich looped); BM confirms → `#61` implements the pushes.**
 
 **Then:** `#64` Block infrastructure + first Component · `#62` staging rehearsal (unblocked by `#60`; feeds `#67`). Dated: `#40` Flamingofest prod run **10-01 only** · Sept report Step 0 + `#23` weekly run **09-30**.
 
