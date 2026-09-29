@@ -1,18 +1,18 @@
 # PROJECT STATE — Skydive City
 
-> **Last updated:** 2026-09-29 (later 3) by PM Agent (`#51` `#52` `#53` `#57` DONE. Frontier `#54`/`#55`; `#56` is the SOW-gated build start. `#40` staged for 10-01. See Session Log 2026-09-29 rows.)
+> **Last updated:** 2026-09-29 by PM Agent (session closed — Phase 0 4/18 done: `#51` `#52` `#53` `#57`; frontier `#54`/`#55`; `#56` SOW-gated. `#40` staged for 10-01. See Session Log 2026-09-29 rows.)
 
 ---
 
 ## ⚡ RESUME INSTRUCTION
 
-**Managed Services active; Phase 0 IN EXECUTION — `#51`–`#68`.** ✅ `#51` DONE 09-29 (prod inventory: 86 posts / 25 variants / 12 tranche; map at theme-repo `design-system/components/layout-map.md`). ✅ `#52` DONE 09-29 (theme.json + block.json generators, 1:1 + field-group parity checks, `verify-generated.yml` — CI green on main, red proven on a throwaway branch). ✅ `#57` DONE 09-29 (contracts 1.1.0: prop types image/richtext/ref:*, Card content props, 17 new Components — 28 ↔ 28 Blocks, CI green). ✅ `#53` DONE 09-29 (diff tool `tooling/html-diff/`; prod A/B = 386 identical, 0 body diffs; dev-vs-prod drift classified). Frontier: `#54` M5 · `#55` M4 naming doc (BM) · `#56` theme scaffold (SOW §7-tracked; everything downstream now waits on it). `#56` theme scaffold is unblocked technically but tracks SOW §7 (`#34`).
+**Managed Services active; Phase 0 in execution — 4 of 18 slices DONE (`#51` inventory+map · `#52` generators+CI · `#53` diff tool · `#57` contracts 1.1.0, 28 Components ↔ 28 Blocks).** Nothing in flight.
 
-**Next:** `#54` / `#55` (no blockers, low-risk) while James decides when `#56` (theme scaffold — the build gate under open SOW §7) starts. `#56` must keep the `#header` / `#main` / `section-footer` landmarks the diff tool splits on (noted on `#56`). Dependency graph on `#50`.
+**Next:** `#54` (M5 URL inventory + Search Console baseline) and `#55` (M4 event-naming doc → Marcella at BM) have no blockers and are low-risk under the open SOW. **`#56` theme scaffold is the build start and tracks SOW §7 (`#34`) — ask James before starting it;** everything else in Phase 0 waits on it. `#56` must keep the `#header` / `#main` / `section-footer` landmarks the diff tool splits on. Graph on `#50`.
 
-**Dated:** `#40` Flamingofest prod run **2026-10-01 only** (staged + dev-verified; re-upload + SHA first) · Sept ops report Step 0 **09-30** (draft Rich's Burble-count request) · `#23` weekly run **overdue**.
+**Dated:** `#40` Flamingofest prod run **2026-10-01 only** (staged, dev-verified; re-upload + SHA first) · Sept ops report Step 0 **09-30** (draft Rich's Burble-count request) · `#23` weekly run **overdue** (last 09-14).
 
-**Branch check first. THREE repos, all clean + pushed:** product `Skydive-City/skydivecity-theme` (main) · engagement `itsginfo/skydivecity-com` (develop) · harness `main`. Edit the theme in `theme-repo/` (gitignored checkout), never under `files/`. Flywheel `/tmp` uploads do not survive hours — re-upload right before any prod write ([[flywheel]]).
+**Branch check first. THREE repos, all clean + pushed:** product `Skydive-City/skydivecity-theme` (main @ `530065e`) · engagement `itsginfo/skydivecity-com` (develop @ `d0b63ed`) · harness `main`. Edit the theme in `theme-repo/` (gitignored checkout), never under `files/`. Flywheel `/tmp` uploads do not survive hours — re-upload right before any prod write ([[flywheel]]).
 
 ---
 
@@ -217,7 +217,7 @@ See [`wiki/README.md`](../../projects/skydivecity/wiki/README.md) for convention
 
 > When you complete one, update the GH issue first (status, comment if substantive), then return here.
 
-1. **Work the Phase 0 frontier** — `#51` prod layout inventory + map (5-phase read) · `#53` diff tool · `#52` generators + CI · `#54` M5 · `#55` M4 naming doc (BM). `#56` scaffold tracks SOW §7. Graph on `#50`.
+1. **Phase 0 frontier:** `#54` M5 inventory/baseline (needs Search Console access) · `#55` M4 naming doc (BM: Marcella, CC Kevin) · **`#56` scaffold = SOW-gated build start (James's call).** Done: `#51` `#52` `#53` `#57`. Graph on `#50`.
 2. **[`#48` — Rich track] Hosting + maintenance proposal** for Rich: hosting basis, maintenance delta vs `#23`, licences in SDC's name (OQ 19), BM retainer shrink, `#47` sequencing (recommend SDC-owned Flywheel account + ITSG collaborator). Gates `#47`. Pairs with `#34` §7 (via `#43`). **James 09-27: once confirmed + timing right → educate Rich on the specifics, THEN the execution plan** (with Kevin as BM's handover contact).
 3. **[`#44` — ready] Stale live content** — drop published rates (keep the $5 tent; RV → Firefly), facilities fleet copy, fold in the 3 orphaned USPA-2020 pages. 5-phase.
 4. **[Ready, unsent] Winterfest page-update email** (`926e688`) — flush the **Cloudflare** cache first (James has access).
@@ -260,6 +260,7 @@ See [`wiki/README.md`](../../projects/skydivecity/wiki/README.md) for convention
 
 | Date | Agent | Summary |
 |------|-------|---------|
+| 2026-09-29 (close) | PM Agent | **Session closed per V-003.** Resume drained; lean resume points at `#54`/`#55` (frontier) with `#56` as the SOW-gated build start. Live Watch unchanged (`#40` 10-01 · Sept report 09-30 · `#23` overdue). No ADR: the generated-editor-files convention (block.json generated / field groups hand-authored / CI parity) is already a recorded scope call in spec `#50` under ADR-0006 — fewer than 3-of-3. All three repos clean + pushed. |
 | 2026-09-29 (later 3) | PM Agent | **`#53` DONE — rendered-HTML diff tool** (built by a forked agent in parallel with `#51`/`#52`/`#57`). Zero-dep Node; snapshot / compare / renormalize; sitemap-driven (386 URLs); chrome + head reported separately, never against the gate. **Prod A/B: 386 identical, 0/0/0/0** after 102 → 0 body diffs of normalizer work, each rule tied to a reproduced diff (incl. the Legacy builder's random staff circles + quote). Dev-vs-prod: 98 body / 240 chrome / 48 dev-404, all real drift (stale dev menu, prod-only events/categories). Landmark dependency noted on `#56`. Theme repo pushed. Four Phase 0 tickets closed today: `#51` `#52` `#53` `#57`. |
 | 2026-09-29 (later 2) | PM Agent | **`#57` DONE — contracts 1.1.0.** `propTypes` (image · richtext · ref:Price/Person/Event); Card gains content props; 10 map Components + 7 Winterfest-port Components (EventHero, SectionHead, StatBand, EventTiers, PersonRoster, FeatureList, FactList), each bound to existing tokens with a `source` line. 28 ↔ 28 generated Blocks; both verify workflows green (36507055169 / 36507055207). Map exists-yet column updated. Unblocks the `#57` edge on `#63`/`#64`; the rest waits on `#56`. |
 | 2026-09-29 (later) | PM Agent | **`#52` DONE — generators + CI.** `build-theme-json.mjs` (tokens → theme.json, all author controls off, Compass scales as sole presets), `build-blocks.mjs` (contracts → one block.json per Component, 11 today), `check-generated.mjs` (1:1 both ways, attribute↔prop, ACF field-group parity, registered-without-group), `verify-generated.yml`. Proven: deterministic; CI green on main (36505932807); CI red on a throwaway branch with a hand-edited theme.json (36506006335); local negatives for stray Block / bad field group / orphan theme Block. Theme repo pushed @ `98f3c0d` (also carries the `#51` map). `#57` unblocked. |
