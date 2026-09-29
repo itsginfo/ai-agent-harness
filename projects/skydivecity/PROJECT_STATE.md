@@ -1,6 +1,6 @@
 # PROJECT STATE — Skydive City
 
-> **Last updated:** 2026-09-29 by PM Agent (context clear — `#60` at live-run gate, `#55` agent in flight; Phase 0 8/18. See RESUME + Session Log.)
+> **Last updated:** 2026-09-29 by PM Agent (context clear — `#60` at live-run gate, `#55` draft awaiting James's send; Phase 0 8/18. See RESUME + Session Log.)
 
 ---
 
@@ -10,11 +10,11 @@
 
 **`#60` — at its human gate.** Pair added + pushed (`6d9dca8`); dry run 36639903263 clean: mywp 3 generated templates (gold token), compass 464 files / 37 dirs / 0 deletions, mu-plugin 1. **Next: James watches the live run** — `gh workflow run deploy-theme.yml --repo Skydive-City/skydivecity-theme --ref main -f dry_run=false`, confirm smoke says "Active theme is still mywp", spot-check prod still loads `themes/mywp/style.css`, close `#60`.
 
-**`#55` — a forked agent was drafting `project_management/instrumentation/m4-event-naming.md` (+ cover note for Marcella) in the engagement repo when context was cleared.** On resume: check `git -C /Users/jamesmeirowsky/Projects/SkydiveCity.com log develop --oneline -3` for a `#55:` commit (local, unpushed) and `gh issue view 55 --comments`. If present → review, push, James sends. If absent → the agent didn't finish; redo the draft from the ticket + #35/#28/#15 + wiki `tracking-stack.md`.
+**`#55` — DRAFT v1 landed (`2ebf27b`, pushed): `project_management/instrumentation/m4-event-naming.md` + `m4-cover-note-for-marcella.md` + README; agent summary on `#55`. Next: James reviews + sends (To Marcella, CC Kevin, Rich looped); BM confirms → `#61` implements the pushes.**
 
 **Then:** `#64` Block infrastructure + first Component · `#62` staging rehearsal (needs `#60` live first for `#67`). Dated: `#40` Flamingofest prod run **10-01 only** · Sept report Step 0 + `#23` weekly run **09-30**.
 
-**Branch check first. THREE repos:** product `Skydive-City/skydivecity-theme` main @ `6d9dca8` (pushed) · engagement `itsginfo/skydivecity-com` develop (may carry the agent's unpushed `#55` commit) · harness main. `compass/legacy/` is generated; `header.php`/`footer.php` hand-authored; run `lint-theme-css.mjs` after any chrome CSS edit.
+**Branch check first. THREE repos:** product `Skydive-City/skydivecity-theme` main @ `6d9dca8` (pushed) · engagement `itsginfo/skydivecity-com` develop @ `2ebf27b` (pushed) · harness main. `compass/legacy/` is generated; `header.php`/`footer.php` hand-authored; run `lint-theme-css.mjs` after any chrome CSS edit.
 
 ---
 
@@ -262,7 +262,7 @@ See [`wiki/README.md`](../../projects/skydivecity/wiki/README.md) for convention
 
 | Date | Agent | Summary |
 |------|-------|---------|
-| 2026-09-29 (context clear) | PM Agent | **Paused for /clear.** `#60` pair added, dry run clean, live run awaits James. `#55` forked agent in flight (engagement repo, local commit expected; verify on resume). `#58` chrome closed after 5 review rounds + CI guard rails; `#69`/`#70` filed. |
+| 2026-09-29 (context clear) | PM Agent | **Paused for /clear.** `#60` pair added, dry run clean, live run awaits James. `#55` DRAFT v1 committed + pushed by the forked agent; James to review + send. `#58` chrome closed after 5 review rounds + CI guard rails; `#69`/`#70` filed. |
 | 2026-09-29 (later 13) | PM Agent | **Chrome review round 5:** panel closed on the move into it (side effect of round 4). Hover bridge `::before` over the gap + ~150ms forgiving close. Verified label→gap→column. Lint caught my own duplicate rules on the first try. Theme 0.2.6, CI green. |
 | 2026-09-29 (later 12) | PM Agent | **Chrome review round 4:** mega panel opened from its own invisible area (child `visibility: visible` inside a hidden parent still takes the mouse). Inner lists inherit; hidden panel `pointer-events: none`. Verified by element-under-cursor. Theme 0.2.5, CI green. |
 | 2026-09-29 (later 11) | PM Agent | **Guard rails after the chrome review + `#70` filed** (nav/Compass design session after IA outcome, before close — James). New CI lint `lint-theme-css.mjs`: text may bind only foreground tokens; per-stylesheet contrast pairs checked in both modes; no duplicate rules per scope. Token checker gained CTA fill pairs → found light-mode Book Now at 4.40:1 → `gold-deepest` darkened one step, everything rebuilt. Assets mtime-versioned. Memory: [[feedback_css_edits_anchor_on_unique_markers]]. |
