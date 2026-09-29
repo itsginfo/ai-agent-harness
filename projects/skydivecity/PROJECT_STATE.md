@@ -1,18 +1,20 @@
 # PROJECT STATE — Skydive City
 
-> **Last updated:** 2026-09-29 (later 6) by PM Agent (`#58` `#59` DONE — Phase 0 8/18; `#69` filed. Frontier `#60`/`#55`/`#64`/`#62`. `#40` 10-01 · Sept report + `#23` 09-30. See Session Log 2026-09-29 rows.)
+> **Last updated:** 2026-09-29 by PM Agent (context clear — `#60` at live-run gate, `#55` agent in flight; Phase 0 8/18. See RESUME + Session Log.)
 
 ---
 
 ## ⚡ RESUME INSTRUCTION
 
-**Phase 0 in execution — 8 of 18 DONE (`#51` `#52` `#53` `#54` `#56` `#57` `#58` chrome `#59` port-status).** Nothing in flight. Dev runs `compass` with the Compass chrome (Ramp off, TEC block mode on, the 4 TEC-block events normalized). Gate with the chrome in: **0 body diffs / 353 URLs**.
+**Phase 0 in execution — 8 of 18 DONE; `#60` and `#55` IN FLIGHT (context cleared mid-session 2026-09-29).** Dev runs `compass` 0.2.6 with the Compass chrome (5 review rounds applied; James's open items all closed).
 
-**Next — frontier:** `#60` pipeline second theme dir (live deploy = James watches) · `#55` M4 naming doc (BM: Marcella) · `#64` Block infrastructure + first Component (unblocked: `#57` + `#58` done) · `#62` staging rehearsal (unblocked: `#56` `#53` `#58` `#59` — needs `#60` before `#67`). `#69` robots/noindex cleanup + `#70` nav/Compass design session (after the Cassie IA session) are new scoping tickets (needs-triage). James's chrome review 09-29: BM footer credit **stays out**; priority-plus breakpoints + mega panel (tier 3) landed. Image-tile dropdowns → **Phase 2** (decided 09-29). Contrast bug in dark mode fixed (all chrome text on `content.*`).
+**`#60` — at its human gate.** Pair added + pushed (`6d9dca8`); dry run 36639903263 clean: mywp 3 generated templates (gold token), compass 464 files / 37 dirs / 0 deletions, mu-plugin 1. **Next: James watches the live run** — `gh workflow run deploy-theme.yml --repo Skydive-City/skydivecity-theme --ref main -f dry_run=false`, confirm smoke says "Active theme is still mywp", spot-check prod still loads `themes/mywp/style.css`, close `#60`.
 
-**Dated:** `#40` Flamingofest prod run **2026-10-01 only** (staged; re-upload + SHA first) · Sept ops report Step 0 **09-30** · `#23` weekly run **09-30**.
+**`#55` — a forked agent was drafting `project_management/instrumentation/m4-event-naming.md` (+ cover note for Marcella) in the engagement repo when context was cleared.** On resume: check `git -C /Users/jamesmeirowsky/Projects/SkydiveCity.com log develop --oneline -3` for a `#55:` commit (local, unpushed) and `gh issue view 55 --comments`. If present → review, push, James sends. If absent → the agent didn't finish; redo the draft from the ticket + #35/#28/#15 + wiki `tracking-stack.md`.
 
-**Branch check first. THREE repos, all clean + pushed:** product `Skydive-City/skydivecity-theme` (main) · engagement `itsginfo/skydivecity-com` (develop) · harness `main`. `compass/legacy/` is generated (`tooling/carry-legacy.mjs`); `header.php`/`footer.php` are hand-authored. Diff-tool baselines taken before 09-29's quote-rule fix are unusable — re-capture, never `renormalize`.
+**Then:** `#64` Block infrastructure + first Component · `#62` staging rehearsal (needs `#60` live first for `#67`). Dated: `#40` Flamingofest prod run **10-01 only** · Sept report Step 0 + `#23` weekly run **09-30**.
+
+**Branch check first. THREE repos:** product `Skydive-City/skydivecity-theme` main @ `6d9dca8` (pushed) · engagement `itsginfo/skydivecity-com` develop (may carry the agent's unpushed `#55` commit) · harness main. `compass/legacy/` is generated; `header.php`/`footer.php` hand-authored; run `lint-theme-css.mjs` after any chrome CSS edit.
 
 ---
 
@@ -260,6 +262,7 @@ See [`wiki/README.md`](../../projects/skydivecity/wiki/README.md) for convention
 
 | Date | Agent | Summary |
 |------|-------|---------|
+| 2026-09-29 (context clear) | PM Agent | **Paused for /clear.** `#60` pair added, dry run clean, live run awaits James. `#55` forked agent in flight (engagement repo, local commit expected; verify on resume). `#58` chrome closed after 5 review rounds + CI guard rails; `#69`/`#70` filed. |
 | 2026-09-29 (later 13) | PM Agent | **Chrome review round 5:** panel closed on the move into it (side effect of round 4). Hover bridge `::before` over the gap + ~150ms forgiving close. Verified label→gap→column. Lint caught my own duplicate rules on the first try. Theme 0.2.6, CI green. |
 | 2026-09-29 (later 12) | PM Agent | **Chrome review round 4:** mega panel opened from its own invisible area (child `visibility: visible` inside a hidden parent still takes the mouse). Inner lists inherit; hidden panel `pointer-events: none`. Verified by element-under-cursor. Theme 0.2.5, CI green. |
 | 2026-09-29 (later 11) | PM Agent | **Guard rails after the chrome review + `#70` filed** (nav/Compass design session after IA outcome, before close — James). New CI lint `lint-theme-css.mjs`: text may bind only foreground tokens; per-stylesheet contrast pairs checked in both modes; no duplicate rules per scope. Token checker gained CTA fill pairs → found light-mode Book Now at 4.40:1 → `gold-deepest` darkened one step, everything rebuilt. Assets mtime-versioned. Memory: [[feedback_css_edits_anchor_on_unique_markers]]. |

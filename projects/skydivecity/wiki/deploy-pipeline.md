@@ -29,8 +29,8 @@ edit  →  commit to Skydive-City/skydivecity-theme (main)
 ```
 
 - **Manual dispatch, dry-run by default.** WordPress deploys are not trivially reversible.
-- **Scoped to `wp-content/themes/mywp/` and `wp-content/mu-plugins/`** — the specific directories,
-  never their parents. See [[flywheel]] for why that distinction is load-bearing.
+- **Scoped to `wp-content/themes/mywp/`, `wp-content/themes/compass/` (since #60, 2026-09-29) and `wp-content/mu-plugins/`** — the specific directories,
+  never their parents. See [[flywheel]] for why that distinction is load-bearing. Syncing the Compass directory does **not** activate it: activation is `wp theme activate compass` under change control (#67), rollback `wp theme activate mywp`. The smoke step reports which theme's stylesheet the homepage loads so a deploy can never silently change the active theme.
 - **Retries connection drops** (rsync exit 12 / ssh 255) up to 3×; a real rsync error fails immediately.
 - **Smoke-tests 4 URLs** afterwards and fails the run on a non-200 or a PHP error.
 
@@ -101,7 +101,7 @@ warning and no conflict. This is stated in the client repo's `CONTRIBUTING.md`, 
 - **Deploy-key lifecycle is unowned.** The key sits in the client's repo secrets and in James's
   `~/.ssh`. It should be rotated or revoked when the engagement changes; nobody currently owns that.
 - **Rich can trigger a deploy.** He is an org owner. Unlikely, but the button is not ITSG-only.
-- **The redesign's new theme** will need its own entry in the workflow's `PAIRS` list when it lands.
+- ~~The redesign's new theme will need its own entry in the workflow's `PAIRS` list~~ — done 2026-09-29 (#60).
 
 ---
 
