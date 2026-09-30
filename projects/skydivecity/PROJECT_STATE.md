@@ -6,7 +6,7 @@
 
 ## ⚡ RESUME INSTRUCTION
 
-**Phase 0 in execution — 9 of 18 DONE; Compass 0.2.6 is on prod but NOT active (mywp live; activation = `#67` only).** `#60` closed 2026-09-29 (live run 36641314674 clean). `#55` at James's gate: send `project_management/instrumentation/m4-event-naming-v1.pdf` + cover note (To Marcella, CC Kevin, Rich looped); BM confirms → `#61`.
+**Phase 0 in execution — 9 of 18 DONE; Compass 0.2.6 is on prod but NOT active (mywp live; activation = `#67` only).** `#60` closed 2026-09-29 (live run 36641314674 clean). `#55` at James's gate (Tandem parity rows added 09-30 at his ask): send `project_management/instrumentation/m4-event-naming-v1.pdf` + cover note (To Marcella, CC Kevin, Rich looped); BM confirms → `#61`.
 
 **Next:** `#64` Block infrastructure + first Component (CTO role) — start from the `#64` brief + Phase 0 spec; `#62` staging rehearsal is unblocked and feeds `#67`. **Dated:** 09-30 items DONE (`#23` run CLEAN; Rich count-request drafted, James sends); **10-01 only** → `#40` Flamingofest prod link run (re-upload + SHA first).
 
@@ -109,7 +109,7 @@ See [`wiki/README.md`](../../projects/skydivecity/wiki/README.md) for convention
 | Item | Watch by | Tracker | Notes |
 |------|----------|---------|------|
 | **Burble registration link — Flamingofest 2027** | **2026-10-01** (registration opens) | [`#40`](https://github.com/itsginfo/skydivecity-com/issues/40) | Same shape as the Flockfest row, one month later — **note the different date**; `ticket_website` empty on **5867**. **URL IN HAND (09-27, James): `index/53/1541`, verified = Flamingofest 2027 calendar. Script staged + applied on dev; ⛔ James: prod run on/after 10-01 ONLY** — re-upload + SHA right before executing. Its $99 early-bird runs Oct 1 → Oct 31, so the link needs to be live on day one or the early-bird window is dead on arrival. |
-| **`#23` next weekly window** | **~2026-10-07/08** | [`#23`](https://github.com/itsginfo/skydivecity-com/issues/23) | 09-30 run CLEAN (11 patches, smoke PASS, form PASS; log `maintenance-logs/2026-09-30-run.md`). Standing hold: Gravity Forms 2→3 (now 3.1.2, held ×3 — needs its own dev-first session). Agent prod-SSH is classifier-gated in auto mode: agent writes the script, James runs it with `!`. |
+| **`#23` next weekly window** | **~2026-10-07/08** | [`#23`](https://github.com/itsginfo/skydivecity-com/issues/23) | 09-30 run CLEAN (11 patches, smoke PASS, form PASS; log `maintenance-logs/2026-09-30-run.md`). Standing hold: Gravity Forms 2→3 (now 3.1.2, held ×3) → ticketed as **`#71`** (dev-first upgrade + form re-test). Agent prod-SSH is classifier-gated in auto mode: agent writes the script, James runs it with `!`. |
 | **September Digital Ops Report** | deliver by ~**2026-10-05** (SOW §4.1, ≤5 biz days after month-end) | `reports/digital-ops-monthly/README.md` | Recurring. **Step 0 DONE 2026-09-30 — draft at `correspondence/2026-09-30-burble-september-count-request-rich.md`, James to send** (To Rich, CC Matt); the count is the long pole. Two baselines to trend: **~73% online capture** (Aug) vs 72% (Jul), and **6.1% open-to-purchase** (Aug) vs 6.8% (Jul). Watch whether August's add-ons dip repeats — if it does, it becomes a trend worth examining rather than an observation. ⚠️ Bare `~` breaks the PDF render; write "about". |
 
 > *Retired 2026-09-27:* "Send the BM explainer" row — ✅ **NOT NEEDED.** BM (La Barrie, relayed by James) confirmed in writing that ITSG builds/hosts/maintains and BM learns the back end post-launch; Rich: KT after the redesign. The explainer becomes the `#49` KT outline, not a review request. BM named contacts: **Kevin Hamstra** (Lead Dev) · **Marcella Smith** (GM + Analytics) → [[stakeholders]]. `#34` item 4 closed.
@@ -223,7 +223,7 @@ See [`wiki/README.md`](../../projects/skydivecity/wiki/README.md) for convention
 4. **[Ready, unsent] Winterfest page-update email** (`926e688`) — flush the **Cloudflare** cache first (James has access).
 5. **[Dated — all raised to James 09-26, unanswered]** `#40` Flamingofest Burble link **EXECUTE ON PROD 2026-10-01** (staged, dev-verified; gated by James) · **September ops report ~2026-10-05** (Step 0: draft Rich's Burble-count request **09-30**) · `#23` weekly run **overdue** — on Live Watch. (`#49` explainer row retired 09-27.)
 6. **[`#42` — blocked on Cassie]** event schedule + 4–5 worst-case LO photos (artifact `20251e9a`).
-7. **[Parked / unowned]** Gravity Forms 2→3 (now 3.1.1; dev-first upgrade + form re-test) · `sc-clean-excerpts.php` (OQ 14) · `#39` Burble `SameSite=None; Secure` ask undrafted (page itself LIVE as link-out 09-27) · deploy-key/Owner lifecycle (OQ 15) · Matt not an org owner (OQ 17) · ~~ACF/GF licence holder~~ (OQ 19 resolved: BM's → `#48` line items)
+7. **[Parked / unowned]** ~~Gravity Forms 2→3~~ → `#71` (ticketed 09-30, ready-for-agent) · `sc-clean-excerpts.php` (OQ 14) · `#39` Burble `SameSite=None; Secure` ask undrafted (page itself LIVE as link-out 09-27) · deploy-key/Owner lifecycle (OQ 15) · Matt not an org owner (OQ 17) · ~~ACF/GF licence holder~~ (OQ 19 resolved: BM's → `#48` line items)
 
 ---
 
