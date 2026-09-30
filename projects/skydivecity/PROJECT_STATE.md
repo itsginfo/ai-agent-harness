@@ -1,16 +1,16 @@
 # PROJECT STATE — Skydive City
 
-> **Last updated:** 2026-09-29 by PM Agent (session end — `#60` closed, `#55` PDF ready for James's send; Phase 0 9/18. See RESUME + Session Log.)
+> **Last updated:** 2026-09-30 by CTO Agent (`#64` closed — Blocks infrastructure + SectionHead; `#23` CLEAN; `#55` sent; Phase 0 10/18. See RESUME + Session Log.)
 
 ---
 
 ## ⚡ RESUME INSTRUCTION
 
-**Phase 0 in execution — 9 of 18 DONE; Compass 0.2.6 is on prod but NOT active (mywp live; activation = `#67` only).** `#60` closed 2026-09-29 (live run 36641314674 clean). `#55` **SENT 2026-09-30** (To Marcella, CC Kevin, Rich looped) — waiting on BM confirm/edits → v2 → `#61`.
+**Phase 0 in execution — 10 of 18 DONE; Compass 0.3.0 on dev (0.2.6 on prod, NOT active; mywp live; activation = `#67` only).** `#60` closed 2026-09-29 (live run 36641314674 clean). `#55` **SENT 2026-09-30** (To Marcella, CC Kevin, Rich looped) — waiting on BM confirm/edits → v2 → `#61`.
 
-**Next:** `#64` Block infrastructure + first Component (CTO role) — start from the `#64` brief + Phase 0 spec; `#62` staging rehearsal is unblocked and feeds `#67`. **Dated:** 09-30 items DONE (`#23` CLEAN; Rich count-request SENT); **10-01 only** → `#40` Flamingofest prod link run (re-upload + SHA first).
+**Next:** `#66` remaining Blocks tranche (12 Phase 0 Components per the layout map; follow the README "Blocks (#64)" recipe) or `#63` Price entity + pricing Block; `#62` staging rehearsal is unblocked and feeds `#67`. Dev editor login for checks: gitignored `.env.dev` (user `compass-qa`). **Dated:** 09-30 items DONE (`#23` CLEAN; Rich count-request SENT); **10-01 only** → `#40` Flamingofest prod link run (re-upload + SHA first).
 
-**Branch check first. THREE repos:** product `Skydive-City/skydivecity-theme` main @ `6d9dca8` · engagement `itsginfo/skydivecity-com` develop @ `HEAD` (pushed) · harness main. `compass/legacy/` is generated; `header.php`/`footer.php` hand-authored; run `lint-theme-css.mjs` after any chrome CSS edit. Agent cannot fire `gh workflow run` on prod (classifier) — James fires, agent watches.
+**Branch check first. THREE repos:** product `Skydive-City/skydivecity-theme` main @ `c1635ca` · engagement `itsginfo/skydivecity-com` develop @ `HEAD` (pushed) · harness main. `compass/legacy/` is generated; `header.php`/`footer.php` hand-authored; run `lint-theme-css.mjs` after any chrome CSS edit. Agent cannot fire `gh workflow run` on prod (classifier) — James fires, agent watches.
 
 ---
 
@@ -217,7 +217,7 @@ See [`wiki/README.md`](../../projects/skydivecity/wiki/README.md) for convention
 
 > When you complete one, update the GH issue first (status, comment if substantive), then return here.
 
-1. **Phase 0 frontier:** `#55` M4 naming doc (BM) · `#64` Block infra + first Component · `#62` rehearsal · `#69` robots/noindex (triage) · Cassie IA session. Done: `#51` `#52` `#53` `#54` `#56` `#57` `#58` `#59` `#60`. Graph on `#50`.
+1. **Phase 0 frontier:** `#66` Blocks tranche · `#63` Price · `#62` rehearsal · `#61` dataLayer (after BM confirms `#55`) · `#69` robots/noindex (triage) · Cassie IA session. Done: `#51` `#52` `#53` `#54` `#56` `#57` `#58` `#59` `#60` `#64`. Graph on `#50`.
 2. **[`#48` — Rich track] Hosting + maintenance proposal** for Rich: hosting basis, maintenance delta vs `#23`, licences in SDC's name (OQ 19), BM retainer shrink, `#47` sequencing (recommend SDC-owned Flywheel account + ITSG collaborator). Gates `#47`. Pairs with `#34` §7 (via `#43`). **James 09-27: once confirmed + timing right → educate Rich on the specifics, THEN the execution plan** (with Kevin as BM's handover contact).
 3. **[`#44` — ready] Stale live content** — drop published rates (keep the $5 tent; RV → Firefly), facilities fleet copy, fold in the 3 orphaned USPA-2020 pages. 5-phase.
 4. **[Ready, unsent] Winterfest page-update email** (`926e688`) — flush the **Cloudflare** cache first (James has access).
@@ -260,6 +260,7 @@ See [`wiki/README.md`](../../projects/skydivecity/wiki/README.md) for convention
 
 | Date | Agent | Summary |
 |------|-------|---------|
+| 2026-09-30 (later) | CTO Agent | **`#64` closed** — Blocks infrastructure + SectionHead end-to-end (theme `2435340`, `c1635ca`; 0.3.0). Editor allow-list, patterns, spine lock, live canvas mode; live = preview markup verified in the browser. Lesson: component tokens resolve at `:root`, so editor `data-mode` must sit on the canvas root. Also: `#71` filed, `#55` sent (Tandem parity), Rich's Sept count in (420 net). |
 | 2026-09-30 | CTO Agent | **`#23` weekly run CLEAN** (11 patches, GF 2→3 held ×3, smoke PASS, form PASS; `8a0d16e`). Auto-mode classifier denies agent prod SSH → scripts-for-James pattern. `#55` walked through with James (still at his gate; Tandem page-view row offered). |
 | 2026-09-29 (session end) | PM Agent | **`#60` closed; `#55` attachment rendered.** Compass 0.2.6 on prod, not active. `m4-event-naming-v1.pdf` + `render-pdf.py` committed (`47ebc06`, clipped md-to-pdf output dropped next commit). Phase 0 9/18. Next: `#64` (CTO) while James sends `#55`; 09-30 dated items. |
 | 2026-09-29 (later 14) | PM Agent | **`#60` closed.** James fired the live run (36641314674); PM watched: matched the dry run line for line, 0 deletions, smoke guard "Active theme is still mywp", prod spot-check confirms mywp active + `compass/style.css` 0.2.6 served. Phase 0 9/18. Classifier blocks the agent from firing `gh workflow run` on prod — James fires, agent watches (keep it that way). |
