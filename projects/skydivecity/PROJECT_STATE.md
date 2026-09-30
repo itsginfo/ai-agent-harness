@@ -8,7 +8,7 @@
 
 **Phase 0 in execution — 10 of 18 DONE; Compass 0.3.0 on dev (0.2.6 on prod, NOT active; mywp live; activation = `#67` only).** `#60` closed 2026-09-29 (live run 36641314674 clean). `#55` **SENT 2026-09-30** (To Marcella, CC Kevin, Rich looped) — waiting on BM confirm/edits → v2 → `#61`.
 
-**Next:** `#66` remaining Blocks tranche (12 Phase 0 Components per the layout map; follow the README "Blocks (#64)" recipe) or `#63` Price entity + pricing Block; `#62` staging rehearsal is unblocked and feeds `#67`. Dev editor login for checks: gitignored `.env.dev` (user `compass-qa`). **Dated:** 09-30 items DONE (`#23` CLEAN; Rich count-request SENT); **10-01 only** → `#40` Flamingofest prod link run (re-upload + SHA first).
+**⚠️ `#72` (new, blocks `#67`):** new Legacy Content Blocks WYSIWYG rows don't initialise in the block editor (white-on-white, meta saved wrong) — fix + verify on dev before activation. **Next:** `#66` remaining Blocks tranche (12 Phase 0 Components per the layout map; follow the README "Blocks (#64)" recipe) or `#63` Price entity + pricing Block; `#62` staging rehearsal is unblocked and feeds `#67`. Dev editor login for checks: gitignored `.env.dev` (user `compass-qa`). **Dated:** 09-30 items DONE (`#23` CLEAN; Rich count-request SENT); **10-01 only** → `#40` Flamingofest prod link run (re-upload + SHA first).
 
 **Branch check first. THREE repos:** product `Skydive-City/skydivecity-theme` main @ `c1635ca` · engagement `itsginfo/skydivecity-com` develop @ `HEAD` (pushed) · harness main. `compass/legacy/` is generated; `header.php`/`footer.php` hand-authored; run `lint-theme-css.mjs` after any chrome CSS edit. Agent cannot fire `gh workflow run` on prod (classifier) — James fires, agent watches.
 
