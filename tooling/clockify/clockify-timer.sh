@@ -46,7 +46,7 @@ hk() { printf '%s' "$HOOK" | jq -r "$1 // empty"; }
 SESSION="$(hk .session_id)"; CWD="$(hk .cwd)"; [ -n "$CWD" ] || CWD="$PWD"
 
 project_name_for() { # longest mapped prefix that contains the cwd
-  jq -r --arg cwd "$1" 'to_entries | map(select(($cwd + "/") | startswith(.key + "/"))) | sort_by(.key | length) | last | .value // empty' "$MAP"
+  jq -r --arg cwd "$1" 'to_entries | map(. as $e | select(($cwd + "/") | startswith($e.key + "/"))) | sort_by(.key | length) | last | .value // empty' "$MAP"
 }
 
 cache_get() { [ -f "$CACHE" ] && jq -r "$1 // empty" "$CACHE" || true; }
