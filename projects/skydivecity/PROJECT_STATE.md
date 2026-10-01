@@ -1,6 +1,6 @@
 # PROJECT STATE — Skydive City
 
-> **Last updated:** 2026-09-30 by CTO Agent (session end — `#64` closed + editor divider; `#72` filed (blocks `#67`); `#23` CLEAN; `#55` sent; Sept count in. Phase 0 10/18. See RESUME + Session Log.)
+> **Last updated:** 2026-09-30 by CTO Agent (evening session end — Clockify session timer set up harness-wide; `#72` untouched, next. Phase 0 10/18. See RESUME + Session Log.)
 
 ---
 
@@ -8,7 +8,7 @@
 
 **Phase 0 in execution — 10 of 18 DONE; Compass 0.3.0 on dev, 0.2.6 on prod NOT active (mywp live; activation = `#67`).** `#64` closed 2026-09-30 (Blocks infrastructure + SectionHead; theme `be5b940`). `#55` SENT to BM 09-30 — waiting on Marcella's confirm/edits → v2 → `#61`. Sept report: Rich's count in (426/6/**420 net**) → full §4 reconciliation, deliver by ~10-05.
 
-**Next:** **`#72` first** (new Legacy Content Blocks WYSIWYG rows don't initialise in the block editor — white-on-white, meta saved wrong; **blocks `#67`**; repro + suspects on the ticket) → then `#66` Blocks tranche (README "Blocks (#64)" recipe) or `#63` Price. **Dated: `#40` Flamingofest prod link — 10-01 ONLY** (script-for-James shape; re-upload + SHA first).
+**Next (unchanged):** **`#72` first** (new Legacy Content Blocks WYSIWYG rows don't initialise in the block editor — white-on-white, meta saved wrong; **blocks `#67`**; repro + suspects on the ticket) → then `#66` Blocks tranche (README "Blocks (#64)" recipe) or `#63` Price. **Dated: `#40` Flamingofest prod link — 10-01 ONLY** (script-for-James shape; re-upload + SHA first).
 
 **Branch check first. THREE repos:** product `Skydive-City/skydivecity-theme` main @ `be5b940` · engagement `itsginfo/skydivecity-com` develop @ `4ba3391` · harness main. `compass/legacy/` is generated; `header.php`/`footer.php` hand-authored; run `lint-theme-css.mjs` after any chrome/Block CSS edit; rebuild = tokens → theme-json → blocks → carry (+ the 3 landing templates when tokens change). Agent prod SSH / deploy triggers are classifier-gated: agent writes the script, James runs it with `!`. Dev editor login: gitignored `.env.dev`.
 
@@ -263,6 +263,7 @@ See [`wiki/README.md`](../../projects/skydivecity/wiki/README.md) for convention
 
 | Date | Agent | Summary |
 |------|-------|---------|
+| 2026-09-30 (evening) | CTO Agent | **Clockify session timer** (James's ask): harness `tooling/clockify/` + user-level SessionStart/SessionEnd hooks; one entry per session on project "skydivecity.com" by cwd; verified live round-trip (`ab818cd`). `#72` not started. Found: user-level auto-mode environment block was generated for another repo — part of why the classifier denies prod reads; regenerate offer open. |
 | 2026-09-30 (session end) | CTO Agent | **Editor divider + `#72`.** James's `#64` review on dev: Legacy builder divider (state-aware, brackets only the carried panels; `be5b940`); his wording applied verbatim; found new-row WYSIWYG init defect → `#72` filed, blocks `#67`. Phase 0 10/18. Next: `#72` → `#66`; `#40` prod link 10-01. |
 | 2026-09-30 (later) | CTO Agent | **`#64` closed** — Blocks infrastructure + SectionHead end-to-end (theme `2435340`, `c1635ca`; 0.3.0). Editor allow-list, patterns, spine lock, live canvas mode; live = preview markup verified in the browser. Lesson: component tokens resolve at `:root`, so editor `data-mode` must sit on the canvas root. Also: `#71` filed, `#55` sent (Tandem parity), Rich's Sept count in (420 net). |
 | 2026-09-30 | CTO Agent | **`#23` weekly run CLEAN** (11 patches, GF 2→3 held ×3, smoke PASS, form PASS; `8a0d16e`). Auto-mode classifier denies agent prod SSH → scripts-for-James pattern. `#55` walked through with James (still at his gate; Tandem page-view row offered). |
