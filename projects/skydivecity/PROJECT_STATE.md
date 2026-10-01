@@ -1,16 +1,16 @@
 # PROJECT STATE — Skydive City
 
-> **Last updated:** 2026-10-01 by CTO Agent (session end — Sept report sent, `#40`/`#72`/`#73`/`#74` closed, prod wrappers + ask gate live (ADR-0010), Clockify per-ticket. Phase 0 10/18. See RESUME + Session Log.)
+> **Last updated:** 2026-10-01 (later) by CTO Agent (`#66` Blocks tranche built — 26 of 28 Components have a Block, theme `75f3134` local/unpushed; ticket-everything policy + board backfill. Phase 0 10/18 closed, `#66` in progress. See RESUME + Session Log.)
 
 ---
 
 ## ⚡ RESUME INSTRUCTION
 
-**Phase 0 in execution — 10 of 18 DONE; Compass 0.3.0 on dev, 0.2.6 on prod NOT active (mywp live; activation = `#67`, now unblocked).** Sept report SENT 10-01 (`#73`). `#55` waiting on BM (Marcella) → v2 → `#61`. All three boogie links live (`#40` closed).
+**Phase 0 in execution — 10 of 18 DONE, `#66` IN PROGRESS (26 of 28 Blocks built); Compass 0.4.0 on dev, 0.2.6 on prod NOT active (mywp live; activation = `#67`, unblocked).** `#55` waiting on BM (Marcella) → v2 → `#61`. Every activity now has a ticket on the board (CLAUDE.md → Issue tracker).
 
-**Next:** `#66` remaining Blocks tranche (12 Phase 0 Components; README "Blocks (#64)" recipe; editor-guide note: a new Text Block takes a few seconds — wait for the toolbar) or `#63` Price entity. Start its Clockify entry first: `tooling/clockify/clockify-timer.sh task 66 Blocks tranche`.
+**Next:** (1) **James reviews `#66` on dev** — `/compass-66-winterfest/` (Immersive) + `/compass-66-all-blocks/` (Conversion) + `docs/editor-guide/` — and says push or change; theme `75f3134` is **local, not pushed**. (2) **`#63` Price entity**, then the last two Blocks (PricingTable, EventTiers) close `#66`. New from `#66`: `#76` Person fields · `#77` Conversion `accent.on` contrast (bug) · `#78` Legacy header above Blocks content (Phase 1). Clockify: `tooling/clockify/clockify-timer.sh task 63 Price entity`.
 
-**Branch check first. THREE repos:** product `Skydive-City/skydivecity-theme` main @ `465f2e3` · engagement `itsginfo/skydivecity-com` develop @ `6ab55a1` · harness main. `compass/legacy/` is generated; `header.php`/`footer.php` hand-authored; rebuild = tokens → theme-json → blocks → carry (+3 landing templates when tokens change); `lint-theme-css.mjs` after any chrome/Block CSS edit. **Prod: reads via `tooling/prod/prod-read.sh` (no prompt), writes via `prod-write.sh` after James's chat go (terminal prompt is the gate) — ADR-0010; never hand-roll ssh or ask James to paste.** Dev editor login: gitignored `.env.dev`.
+**Branch check first. THREE repos:** product `Skydive-City/skydivecity-theme` main @ `75f3134` (**1 ahead of origin**) · engagement `itsginfo/skydivecity-com` develop @ `c1028cd` (1 ahead) · harness main (ahead). `compass/legacy/` is generated; `header.php`/`footer.php` hand-authored; rebuild = tokens → theme-json → blocks → editor-guide → carry (+3 landing templates when tokens change); Blocks rules (px not rem, `.cx-richtext`, `compass_text()`) in the theme README "Blocks tranche (#66)"; dev WP-CLI = phar at `/tmp/wp-cli.phar` in the container ([[flywheel]]); `lint-theme-css.mjs` after any chrome/Block CSS edit. **Prod: reads via `tooling/prod/prod-read.sh` (no prompt), writes via `prod-write.sh` after James's chat go (terminal prompt is the gate) — ADR-0010; never hand-roll ssh or ask James to paste.** Dev editor login: gitignored `.env.dev`.
 
 ---
 
@@ -142,6 +142,7 @@ See [`wiki/README.md`](../../projects/skydivecity/wiki/README.md) for convention
 
 > Active work tracked in [GH Project #1](https://github.com/users/itsginfo/projects/1). Below is narrative context the issue body doesn't capture.
 
+- **`#66` Blocks tranche — BUILT 10-01, in review (theme `75f3134`, local).** 25 Blocks + shared render parts + contracts 1.2.0 + editor guide (general page + 26 generated Block pages, CI drift check) + 4 CTA patterns. Preview = live measured on dev (markup + 17 computed properties × 418 elements, both modes; 390/800px no overflow). Open on the ticket: PricingTable + EventTiers need Price (`#63`). Decisions for James to confirm are listed in the `#66` comment (NavGlass/Input hidden from the inserter, ladder tier names not tinted, roster names as neutral tags, chip label token).
 - **✅ `#74` dead links — LIVE 10-01**, the first prod write run end-to-end by the agent under the ask gate (ADR-0010). Pattern proven: `prod-read.sh` dry run → `prod-write.sh upload` (prompt) → `run-script` (prompt) → curl + wrapper spot-check.
 - **✅ `#73` Sept report — SENT 10-01.** Pulled with zero manual exports: GA4 + GSC read through James's signed-in Chrome, 404 log through `prod-read.sh`. October's Live Watch row carries the Flockfest-inflation caveat.
 - **✅ `#72` — CLOSED 10-01, not a defect** (nested-flex meta was correct; TinyMCE initialises via the real UI; ~5 s pre-render window → CSS guard `465f2e3`). `#67` unblocked.
@@ -222,7 +223,7 @@ See [`wiki/README.md`](../../projects/skydivecity/wiki/README.md) for convention
 
 > When you complete one, update the GH issue first (status, comment if substantive), then return here.
 
-1. **Phase 0 frontier:** `#66` Blocks tranche (start here) · `#63` Price · `#62` rehearsal · `#61` dataLayer (after BM confirms `#55`) · `#69` robots/noindex (triage) · Cassie IA session. Done: `#51` `#52` `#53` `#54` `#56` `#57` `#58` `#59` `#60` `#64`. Graph on `#50`.
+1. **Phase 0 frontier:** `#66` review + push (James) · `#63` Price (next build; closes `#66` with the last two Blocks) · `#62` rehearsal · `#61` dataLayer (after BM confirms `#55`) · `#69` robots/noindex (triage) · Cassie IA session. Done: `#51` `#52` `#53` `#54` `#56` `#57` `#58` `#59` `#60` `#64`. Graph on `#50`.
 2. **[`#48` — Rich track] Hosting + maintenance proposal** for Rich: hosting basis, maintenance delta vs `#23`, licences in SDC's name (OQ 19), BM retainer shrink, `#47` sequencing (recommend SDC-owned Flywheel account + ITSG collaborator). Gates `#47`. Pairs with `#34` §7 (via `#43`). **James 09-27: once confirmed + timing right → educate Rich on the specifics, THEN the execution plan** (with Kevin as BM's handover contact).
 3. **[`#44` — ready; told Rich "October" in the Sept report] Stale live content** — drop published rates (keep the $5 tent; RV → Firefly), facilities fleet copy, fold in the 3 orphaned USPA-2020 pages. 5-phase.
 4. **[Ready, unsent] Winterfest page-update email** (`926e688`) — flush the **Cloudflare** cache first (James has access).
@@ -265,7 +266,8 @@ See [`wiki/README.md`](../../projects/skydivecity/wiki/README.md) for convention
 
 | Date | Agent | Summary |
 |------|-------|---------|
-| 2026-10-01 (later) | CTO Agent | **Ticket-everything policy (James)** → engagement `CLAUDE.md` *Issue tracker*: every activity has a ticket, every ticket is on the board (`gh issue create --project`). Board backfilled (22 off-board issues; `#23` now *In Progress* / *recurring* as the standing weekly-maintenance ticket; `#71` added). October report ticketed ahead as `#75`. Session-start hook off Monday. Tracked as `ai-agent-harness#11`. `#66` not started. |
+| 2026-10-01 (evening) | CTO Agent | **`#66` Blocks tranche built**: 26/28 Components have a Block (theme `75f3134`, not pushed) · editor guide + CI drift check · preview = live verified by measurement on dev · contracts 1.2.0, `accent.strong-on` token · tickets `#76` `#77` `#78` filed · two Blocks wait on `#63`. |
+| 2026-10-01 (later) | CTO Agent | **Ticket-everything policy (James)** → engagement `CLAUDE.md` *Issue tracker*: every activity has a ticket, every ticket is on the board (`gh issue create --project`). Board backfilled (22 off-board issues; `#23` now *In Progress* / *recurring* as the standing weekly-maintenance ticket; `#71` added). October report ticketed ahead as `#75`. Session-start hook off Monday. Tracked as `ai-agent-harness#11`. |
 | 2026-10-01 | CTO Agent | **`#40` Flamingofest link LIVE on its open date** (James ran Phase 3; classifier) · prod access redesigned: `tooling/prod/prod-read.sh` (hook-approved) + `prod-write.sh` (ask-gated), proven end-to-end · Clockify per-ticket timers · `#72` closed (timing artefact, guard) · **Sept report SENT** (`#73`; 374 txns/$131,948, 73% capture ×3, GSC 385→465; one real 404 finding → `#74` **fixed on prod the same day via `prod-write.sh`**, the gate's first real use) · `#40` closed · ADR-0010 written. |
 | 2026-09-30 (evening) | CTO Agent | **Clockify session timer** (James's ask): harness `tooling/clockify/` + user-level SessionStart/SessionEnd hooks; one entry per session on project "skydivecity.com" by cwd; verified live round-trip (`ab818cd`). `#72` not started. Found: user-level auto-mode environment block was generated for another repo — part of why the classifier denies prod reads; regenerate offer open. |
 | 2026-09-30 (session end) | CTO Agent | **Editor divider + `#72`.** James's `#64` review on dev: Legacy builder divider (state-aware, brackets only the carried panels; `be5b940`); his wording applied verbatim; found new-row WYSIWYG init defect → `#72` filed, blocks `#67`. Phase 0 10/18. Next: `#72` → `#66`; `#40` prod link 10-01. |
