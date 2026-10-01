@@ -43,8 +43,10 @@ api() { # api METHOD PATH [JSON-BODY]
 }
 now() { date -u +%FT%TZ; }
 
-# Hook input (stdin JSON) — only when stdin is not a terminal.
-HOOK='{}'; if [ ! -t 0 ]; then HOOK="$(cat)"; [ -n "$HOOK" ] || HOOK='{}'; fi
+# Hook input (stdin JSON) — read ONLY for the hook entry points (start/stop); task/idle/status/setup are called
+# from the agent or a shell where stdin may be an open pipe with no data, and `cat` would block forever.
+HOOK='{}'
+case "$cmd" in start|stop) if [ ! -t 0 ]; then HOOK="$(cat)"; [ -n "$HOOK" ] || HOOK='{}'; fi ;; esac
 hk() { printf '%s' "$HOOK" | jq -r "$1 // empty"; }
 SESSION="$(hk .session_id)"; CWD="$(hk .cwd)"; [ -n "$CWD" ] || CWD="$PWD"
 
