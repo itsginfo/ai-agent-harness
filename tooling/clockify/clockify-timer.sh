@@ -5,6 +5,9 @@
 #   clockify-timer.sh stop    (SessionEnd hook;   reads: session_id, cwd, reason)
 #   clockify-timer.sh setup   resolve workspace / user / project ids from the API and cache them
 #   clockify-timer.sh status  show the running entry, if any
+#   clockify-timer.sh task <#NN> [title…]   per-ticket entry: stop whatever runs, start "Claude Code — <dir> · #NN title"
+#   clockify-timer.sh idle                  back to the plain session entry (no ticket)
+#   (task/idle are driven by the agent at ticket pick-up / close; the hooks remain the safety net)
 #
 # Config (never in a repo):  ~/.config/clockify/env    CLOCKIFY_API_KEY=…   (+ optional CLOCKIFY_MAX_HOURS, default 10)
 # Cache  (written by setup): ~/.config/clockify/cache.json
@@ -22,7 +25,7 @@ STATE_DIR="$HOME/.local/state/clockify"; LOG="$STATE_DIR/timer.log"
 MAP="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/projects.json"
 mkdir -p "$STATE_DIR"
 log() { printf '%s %s\n' "$(date -u +%FT%TZ)" "$*" >> "$LOG"; }
-cmd="${1:-status}"
+cmd="${1:-status}"; [ $# -gt 0 ] && shift
 
 [ -f "$ENV_FILE" ] || { log "$cmd: no $ENV_FILE — timer disabled"; exit 0; }
 # shellcheck disable=SC1090
@@ -115,6 +118,45 @@ do_stop() {
   [ -n "$SESSION" ] && rm -f "$STATE_DIR/$SESSION"
 }
 
+# Switch the running entry: stop what is running (if it is ours or a runaway) and start a new entry with $1 as the
+# description, on the project mapped to $CWD. Used by `task` (ticket pick-up) and `idle` (back to the session entry).
+do_switch() {
+  local desc="$1"
+  local name; name="$(project_name_for "$CWD")"
+  [ -n "$name" ] || { echo "no Clockify project mapped for $CWD — nothing started"; log "switch: no project for $CWD"; exit 0; }
+  local ws pid; ws="$(cache_get .workspace)"; pid="$(cache_get ".projects[\"$name\"]")"
+  [ -n "$pid" ] || { echo "project '$name' not cached — run setup"; exit 0; }
+  local run; run="$(running_entry)"
+  if [ -n "$run" ]; then
+    local rid rdesc; rid="$(printf '%s' "$run" | jq -r .id)"; rdesc="$(printf '%s' "$run" | jq -r '.description // empty')"
+    if [ "$rdesc" = "$desc" ]; then echo "already running: $desc"; exit 0; fi
+    if [ "${rdesc#Claude Code — }" != "$rdesc" ] || [ "$(age_hours "$(printf '%s' "$run" | jq -r '.timeInterval.start')" | cut -d. -f1)" -ge "$MAX_HOURS" ]; then
+      stop_running; log "switch: stopped $rid ($rdesc)"
+    else
+      echo "a non-Claude entry is running ($rdesc) — left alone, nothing started"; log "switch: foreign entry $rid running — no switch"; exit 0
+    fi
+  fi
+  local body; body="$(jq -n --arg s "$(now)" --arg p "$pid" --arg d "$desc" '{start:$s, projectId:$p, description:$d, billable:true}')"
+  local new nid; new="$(api POST "/workspaces/$ws/time-entries" "$body")"; nid="$(printf '%s' "$new" | jq -r '.id // empty')"
+  if [ -n "$nid" ]; then
+    [ -n "$SESSION" ] && printf '%s' "$nid" > "$STATE_DIR/$SESSION"
+    printf '%s' "$nid" > "$STATE_DIR/last-switch"
+    log "switch: started $nid ($desc)"; echo "running: $desc"
+  else
+    log "switch: FAILED to start ($desc): $(printf '%s' "$new" | head -c 200)"; echo "failed to start entry"
+  fi
+}
+
+do_task() {
+  local ticket="${1:-}"; shift || true
+  [ -n "$ticket" ] || { echo "usage: clockify-timer.sh task <#NN> [title…]"; exit 0; }
+  case "$ticket" in \#*) ;; *) ticket="#$ticket" ;; esac
+  local title="$*"
+  do_switch "Claude Code — $(basename "$CWD") · $ticket${title:+ $title}"
+}
+
+do_idle() { do_switch "Claude Code — $(basename "$CWD")"; }
+
 do_status() {
   local run; run="$(running_entry)"
   if [ -n "$run" ]; then printf '%s' "$run" | jq -r '"running: \(.description // "-") since \(.timeInterval.start) (project \(.projectId // "-")) id \(.id)"'; else echo "nothing running"; fi
@@ -125,6 +167,8 @@ case "$cmd" in
   stop)   do_stop ;;
   setup)  do_setup ;;
   status) do_status ;;
+  task)   do_task "$@" ;;
+  idle)   do_idle ;;
   *) echo "usage: $0 start|stop|setup|status"; ;;
 esac
 exit 0

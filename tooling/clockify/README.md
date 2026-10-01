@@ -17,6 +17,20 @@ One Clockify time entry per Claude Code session, on the project mapped to the wo
 - **SessionEnd** → stop the entry this session started (matched by id; fallback: any running entry whose description starts with `Claude Code — `). Reason `clear` is ignored so a `/clear` does not split the entry.
 - Nothing is written to Clockify from the remote sandbox; this is local-machine only.
 
+## Per-ticket entries (James, 2026-10-01)
+
+One running entry at a time (Clockify rule), switched by the **agent** as work moves:
+
+```bash
+tooling/clockify/clockify-timer.sh task 66 Blocks tranche    # → "Claude Code — SkydiveCity.com · #66 Blocks tranche"
+tooling/clockify/clockify-timer.sh idle                      # → back to "Claude Code — SkydiveCity.com" (no ticket)
+```
+
+- **Pick up a ticket** (first real action on it, after the SESSION START block) → `task <#NN> <short title>`.
+- **Close or park it** / move to the next → `task` the next one, or `idle` when the work has no ticket (boot, status comms, conversation).
+- `task` stops whatever Claude entry is running first; a non-Claude entry (James's own timer) is left alone and nothing starts.
+- The SessionStart/SessionEnd hooks remain the safety net: a session that forgets to switch still lands its time on the plain session entry, just without the per-ticket split.
+
 ## First run
 
 ```bash
