@@ -102,6 +102,9 @@ warning and no conflict. This is stated in the client repo's `CONTRIBUTING.md`, 
   `~/.ssh`. It should be rotated or revoked when the engagement changes; nobody currently owns that.
 - **Rich can trigger a deploy.** He is an org owner. Unlikely, but the button is not ITSG-only.
 - ~~The redesign's new theme will need its own entry in the workflow's `PAIRS` list~~ — done 2026-09-29 (#60).
+- **A dry run after a fresh checkout itemizes ~421 files on `mywp` that have not changed.** Rsync's
+  `--archive` reports mtime-only differences; with `--checksum` their contents match and nothing is
+  transferred. Not a regression (seen on #60, 2026-09-29).
 
 ---
 
