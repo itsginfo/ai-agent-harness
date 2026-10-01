@@ -1,0 +1,55 @@
+{
+  "_comment": "Merged into ~/.claude/settings.json by apply-user-settings.sh (James runs it; the agent is not allowed to edit permission settings itself). Adds the PreToolUse permit hook and replaces the auto-mode classifier's environment/allow/soft_deny with this engagement's facts. Everything else in settings.json is preserved.",
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/jamesmeirowsky/Projects/agent-driven-enterprise/tooling/permissions/permit-wrappers.sh",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  },
+  "autoMode": {
+    "environment": [
+      "### Org-wide",
+      "**Organization**: IT Strategy Group (ITSG), a small consultancy; James Meirowsky is the managing partner and the only operator of this machine",
+      "**Cloud provider(s)**: None configured — client sites run on managed WordPress hosting (Flywheel), not on ITSG cloud accounts",
+      "**Repository visibility**: assume private unless the remote host and repo name indicate otherwise; itsginfo/* and Skydive-City/* on github.com are private client/engagement repos",
+      "**Internal sharing / snippet hosting**: None configured — treat public paste/gist services as outside the trust boundary",
+      "**Secrets management**: gitignored env files only (.env.deploy, .env.dev, ~/.config/clockify/env); never commit or print their values",
+      "**Default / protected branches**: itsginfo/skydivecity-com: develop (working branch) and main; Skydive-City/skydivecity-theme: main; itsginfo/ai-agent-harness: main. Commits and pushes to these working branches are routine and authorized",
+      "**CI/CD deploy targets**: GitHub Actions in Skydive-City/skydivecity-theme — deploy-theme.yml is a manual dispatch that rsyncs the theme to production; dry_run=true is read-only, dry_run=false is a production deploy (gated by an ask rule)",
+      "**Network posture**: ordinary developer machine with open internet",
+      "**Host containment**: None configured — Claude Code runs on James's laptop",
+      "**Source control**: github.com — orgs itsginfo (ITSG) and Skydive-City (client-owned product repo); local checkouts under /Users/jamesmeirowsky/Projects/",
+      "**Trusted internal domains**: www.skydivecity.com (client production site; read-only HTTP checks are routine), localhost:8080 (local Docker dev WordPress), ssh.getflywheel.com (production host SSH gateway)",
+      "**Trusted cloud buckets**: None configured",
+      "**Key internal services**: Flywheel managed WordPress (production for skydivecity.com; SSH user team+beyondmarketing+skydive-city, key ~/.ssh/id_ed25519_flywheel); local Docker stack (containers skydivecity_wordpress, skydivecity_db); GitHub Issues + Project #1 (tracker); Clockify (time tracking)",
+      "**Internal package registry**: None configured",
+      "**Sensitive data locations & audiences**: client booking volumes and revenue (Burble figures) are Client Confidential under the SOW — never post them outside the repos; the credential files listed under Secrets management",
+      "**Data retention / declassification**: None configured",
+      "**Sensitive remote targets**: production WordPress behind ssh.getflywheel.com (database writes, plugin updates, theme deploys). READ-ONLY inspection there through the prod-read.sh wrapper is routine and expected; WRITES are gated as described in the allow and soft-deny rules",
+      "**Protected deployment namespaces / environments**: production skydivecity.com — writes only through the sanctioned wrapper or workflow dispatch described in the rules",
+      "**Protected IaC scopes**: None configured",
+      "### User-specific",
+      "**Primary use of Claude Code**: software development and managed-services operations for client WordPress sites under the ITSG AI Agent Harness at /Users/jamesmeirowsky/Projects/agent-driven-enterprise; the SkydiveCity engagement lives at /Users/jamesmeirowsky/Projects/SkydiveCity.com with the theme repo checked out inside it at theme-repo/",
+      "**Trusted repos**: /Users/jamesmeirowsky/Projects/SkydiveCity.com (itsginfo/skydivecity-com), /Users/jamesmeirowsky/Projects/SkydiveCity.com/theme-repo (Skydive-City/skydivecity-theme), /Users/jamesmeirowsky/Projects/agent-driven-enterprise (itsginfo/ai-agent-harness), /Users/jamesmeirowsky/Projects/uspa_chrome_extension (local-only)",
+      "**Org-specific CLIs**: /Users/jamesmeirowsky/Projects/SkydiveCity.com/tooling/prod/prod-read.sh (read-only production inspection over SSH; enforces a read-only verb allow-list), /Users/jamesmeirowsky/Projects/SkydiveCity.com/tooling/prod/prod-write.sh (production writes; carries a Claude Code ask rule so the user approves each call in the terminal), docker exec skydivecity_wordpress php /tmp/wp-cli.phar (local dev WP-CLI)"
+    ],
+    "allow": [
+      "$defaults",
+      "Read-only inspection of the production WordPress site over SSH is allowed when it goes through /Users/jamesmeirowsky/Projects/SkydiveCity.com/tooling/prod/prod-read.sh; read-only HTTP checks of https://www.skydivecity.com (curl GET, grep over the response) are always allowed",
+      "Reading GitHub Actions run logs (gh run view, gh run list) and committing and pushing to the trusted repos' working branches is allowed",
+      "The local Docker dev stack (localhost:8080, docker exec skydivecity_wordpress …) is a development environment: reads and writes there are allowed"
+    ],
+    "soft_deny": [
+      "$defaults",
+      "Writes to production skydivecity.com — anything over ssh or scp to ssh.getflywheel.com that is not prod-read.sh, and gh workflow run deploy-theme.yml with dry_run=false — go only through /Users/jamesmeirowsky/Projects/SkydiveCity.com/tooling/prod/prod-write.sh or the workflow dispatch, each of which prompts the user through an ask rule; block any other production write unless the user explicitly named that exact action in the conversation"
+    ]
+  }
+}

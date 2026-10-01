@@ -6,6 +6,10 @@ Established 2026-05-11 during the 3 new 2027 events addition ([`skydivecity-com#
 
 ---
 
+## How the SSH steps are executed (2026-10-01)
+
+Two wrappers in the engagement repo replace hand-rolled `ssh`/`scp`: **`tooling/prod/prod-read.sh`** (Phases 1, 2-verify, 4: read-only verb allow-list, `eval-file` forced to `DRY_RUN=1`; approved deterministically by the harness PreToolUse hook `tooling/permissions/permit-wrappers.sh`) and **`tooling/prod/prod-write.sh`** (Phase 2 upload + SHA, Phase 3 `run-script`/`wp`, `backup-db`; every call hits a Claude Code `ask` rule, so James approves it in the terminal — that prompt IS the Phase 2/3 gate, with the chat go/no-go before it). Why: the auto-mode classifier cannot distinguish a read from a write inside an ssh string and was denying both; the wrappers make the distinction structural.
+
 ## The five phases
 
 ### Phase 1 — Read-only prod inventory
