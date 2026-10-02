@@ -1,16 +1,16 @@
 # PROJECT STATE — Skydive City
 
-> **Last updated:** 2026-10-02 (later) by CTO Agent (`#65` Price migration BUILT — dev applied, production dry run only; awaiting James's review + push. Production write split to `#84`. Phase 0 12/18. ⚠️ Mac disk was full during the session — Docker crashed and was restarted.)
+> **Last updated:** 2026-10-02 (close of `#65`) by CTO Agent (`#65` Price migration CLOSED — dev applied, production dry run only; production write is `#84`. Phase 0 13/18; nothing in flight. All three repos pushed.)
 
 ---
 
 ## ⚡ RESUME INSTRUCTION
 
-**Phase 0 in execution — 12 of 18 done; `#65` Price migration BUILT, awaiting James's review + push (then it closes → 13 of 18).** James approved the rules 10-02: Price gains qualifier / conditions / show-card-price (theme `7d8f629`, local); discount rows, "Free" and orphans get no Price; regular lift ticket stays in the Tier table; **production write moved to `#84`** (at the first port that uses Prices). Dev applied: 59 sources → 28 Prices. **Production: dry run only, nothing written** — 57 sources → 26 Prices, 31 dropped, 0 unaccounted (log committed). Record: engagement `migration/price-migration-2026-10.md`. Compass is on dev only — prod runs `mywp` (`#67`).
+**Phase 0 in execution — 13 of 18 done, nothing in flight.** `#65` Price migration closed 2026-10-02: Price gained qualifier / conditions / show-card-price (theme `7d8f629`, CI green); migration applied on dev (28 Prices); **production was only dry-run — nothing written there** (57 sources → 26 Prices, 31 dropped, 0 unaccounted; log committed). The production write is `#84`, to run at the first port that uses Prices. Record: engagement `migration/price-migration-2026-10.md`. Compass is on dev only — prod runs `mywp` (`#67`).
 
-**Next:** (1) James reviews `#65` — production mapping log + the three Price fields on dev (wp-admin → Prices; `/compass-block-gallery/` section 09) → push theme + engagement → close `#65`. (2) `#62` staging rehearsal; `#61` waits on BM (`#55`). (3) Dated on Live Watch: `#23` ~10-07/08 · `#82` Nov 1 · `#75` ~11-05. **⚠️ Machine: the Mac's disk hit 100% on 10-02 (Docker engine crashed mid-session; restarted, dev DB verified intact). ~12 GB free afterwards — free space before any long dev run.**
+**Next:** `#62` staging rehearsal (identical-first activation with the rendered-HTML diff) is the next unblocked Phase 0 build; `#61` waits on BM (`#55`); then `#67` activation and `#68` acceptance. Dated on Live Watch: `#23` ~10-07/08 · `#82` Nov 1 · `#75` ~11-05. **⚠️ Machine: the Mac's disk hit 100% on 10-02 (Docker engine crashed; restarted, dev DB intact; ~12 GB free after). Free space before any long dev run — `#62` snapshots every URL twice.**
 
-**Branch check first.** Theme `Skydive-City/skydivecity-theme` main: origin = `0d38a4d`; local `7d8f629` not pushed. Engagement `develop`: origin = `d2f3a71`; local `#65` commits not pushed. Harness `main`: origin = `00a8103`; local checkpoints not pushed. Push only on James's word. Theme working rules: engagement `CLAUDE.md` → Project-specific overrides.
+**Branch check first.** All pushed 10-02: theme `Skydive-City/skydivecity-theme` main @ `7d8f629` (CI green) · engagement `develop` @ `85d5c60` · harness `main` (this close-out commit is local). Push only on James's word. Theme working rules: engagement `CLAUDE.md` → Project-specific overrides.
 
 ---
 
@@ -143,7 +143,7 @@ See [`wiki/README.md`](../../projects/skydivecity/wiki/README.md) for convention
 
 > Active work tracked in [GH Project #1](https://github.com/users/itsginfo/projects/1). Below is narrative context the issue body doesn't capture.
 
-- **`#65` Price migration — BUILT 10-02, awaiting James's review + push.** `migration/wp-price-migration-2026-10.php` (dry run by default; re-runnable sync keyed by `price_source`) · record `migration/price-migration-2026-10.md` · production dry-run log committed; dev logs local. Dev now has 28 migrated Prices + 14 fixture Prices (fixtures have no `price_source`). The dry-run copy of the script sits in production's `/tmp/` (SHA `baf78377…`); re-upload before any write (`#84`).
+- **`#84` Price migration — production write (not started; waits for the first port that uses Prices).** Script `migration/wp-price-migration-2026-10.php` is a re-runnable sync keyed by `price_source`; its dry run is the drift report. A dry-run copy sits in production's `/tmp/` (SHA `baf78377…`) — re-upload and re-verify before any write. Dev has 28 migrated Prices + 14 fixture Prices (fixtures carry no `price_source`).
 - **Redesign follow-ups filed 10-01 (none started):** `#76` Person fields · `#77` Conversion `accent.on` contrast (bug) · `#78` Legacy header above Blocks content (before Winterfest ports) · `#79` FFP page gaps · `#80` page transition · `#81` `/compass/` rendered from real Blocks (then the Block gallery is a dev fixture only) · `#82` Winterfest "On now" highlight (dated) · `#83` matrix columns + counter colour bands not on the tier table. PricingTable + BookingTiles have no approved page design — re-check when the prices pages are designed (`theme-repo/tooling/fidelity/README.md`).
 - **`#55` M4 naming doc — SENT 2026-09-30 (Tandem parity rows).** Waiting on BM → v2 → `#61`.
 - **`#71` Gravity Forms 2→3** — ticketed (dev-first; ACF bridge + honeypot compat; GF 3 may migrate tables → check rollback). Weekly run keeps holding `gravityforms`.
@@ -212,7 +212,7 @@ See [`wiki/README.md`](../../projects/skydivecity/wiki/README.md) for convention
 
 > When you complete one, update the GH issue first (status, comment if substantive), then return here.
 
-1. **Phase 0 frontier:** `#65` Price migration · `#62` rehearsal · `#61` dataLayer (after BM confirms `#55`) · `#69` robots/noindex (triage) · Cassie IA session. Done (12): `#51` `#52` `#53` `#54` `#56` `#57` `#58` `#59` `#60` `#63` `#64` `#66`. Graph on `#50`.
+1. **Phase 0 frontier:** `#62` rehearsal · `#61` dataLayer (after BM confirms `#55`) · `#67` activation · `#68` acceptance · `#69` robots/noindex (triage) · Cassie IA session. Done (13): `#51` `#52` `#53` `#54` `#56` `#57` `#58` `#59` `#60` `#63` `#64` `#65` `#66`. Graph on `#50`.
 2. **[`#48` — Rich track] Hosting + maintenance proposal** for Rich: hosting basis, maintenance delta vs `#23`, licences in SDC's name (OQ 19), BM retainer shrink, `#47` sequencing (recommend SDC-owned Flywheel account + ITSG collaborator). Gates `#47`. Pairs with `#34` §7 (via `#43`). **James 09-27: once confirmed + timing right → educate Rich on the specifics, THEN the execution plan** (with Kevin as BM's handover contact).
 3. **[`#44` — ready; told Rich "October" in the Sept report] Stale live content** — drop published rates (keep the $5 tent; RV → Firefly), facilities fleet copy, fold in the 3 orphaned USPA-2020 pages. 5-phase.
 4. **[Ready, unsent] Winterfest page-update email** (`926e688`) — flush the **Cloudflare** cache first (James has access).
@@ -255,6 +255,7 @@ See [`wiki/README.md`](../../projects/skydivecity/wiki/README.md) for convention
 
 | Date | Agent | Summary |
 |------|-------|---------|
+| 2026-10-02 (close of `#65`) | CTO Agent | James reviewed → all three repos pushed (theme `7d8f629` CI green, engagement `85d5c60`) → **`#65` CLOSED** (Phase 0 13/18). Production write is `#84`. |
 | 2026-10-02 (later) | CTO Agent | **`#65` built**: James approved the rules → three Price fields (theme `7d8f629`) · migration applied on dev (28 Prices; sources checksum-identical; 355/356 pages identical, the 1 = a countdown) · **production dry run only** (57 → 26 Prices / 31 dropped / 0 unaccounted) · production write split to `#84` · disk-full incident: Docker crashed, restarted, dev DB intact. Engagement + theme commits local. |
 | 2026-10-02 | CTO Agent | All three repos pushed · **`#65` started**: read-only inventory + dry-run mapping on dev (59 sources → 29 Prices / 30 dropped / 0 unaccounted), proposal with four decisions for James; found prod prices ≠ dev and all 24 booking links unreferenced · `#82`/`#83` labelled. Engagement `25bd4ce`. |
 | 2026-10-01 (session end) | CTO Agent | Close: compass README + engagement `CLAUDE.md` gain the theme working rules (carry runs last; theme `0d38a4d`, engagement `d2f3a71`, both local) · In-Flight cleared of 13 completed rows (one fact moved to [[deploy-pipeline]]) · resume rewritten lean. No new ADR (tier-table-is-not-a-Price fails the hard-to-reverse test; recorded in theme `CONTEXT.md`). |
