@@ -1,16 +1,16 @@
 # PROJECT STATE — Skydive City
 
-> **Last updated:** 2026-10-02 by CTO Agent (`#65` Price migration IN PROGRESS — inventory + dry-run mapping on dev, nothing written; waiting on James's four mapping decisions. Phase 0 12/18.)
+> **Last updated:** 2026-10-02 (later) by CTO Agent (`#65` Price migration BUILT — dev applied, production dry run only; awaiting James's review + push. Production write split to `#84`. Phase 0 12/18. ⚠️ Mac disk was full during the session — Docker crashed and was restarted.)
 
 ---
 
 ## ⚡ RESUME INSTRUCTION
 
-**Phase 0 in execution — 12 of 18 done; `#65` Price migration IN PROGRESS, stopped at James's decisions.** Dev inventory: 59 sources (35 pricing-table rows — the unit is a row, not a table — and 24 booking links, all unreferenced) → dry run maps 29 to a Price, drops 30 with a reason, 0 unaccounted. **Nothing written anywhere; the script refuses `DRY_RUN=0` until the rules are approved.** Production's prices differ from dev's (tandem $249/$259 live vs $225/$235 on dev), so the real mapping comes from a production inventory. Compass is on dev only — prod runs `mywp` (`#67`).
+**Phase 0 in execution — 12 of 18 done; `#65` Price migration BUILT, awaiting James's review + push (then it closes → 13 of 18).** James approved the rules 10-02: Price gains qualifier / conditions / show-card-price (theme `7d8f629`, local); discount rows, "Free" and orphans get no Price; regular lift ticket stays in the Tier table; **production write moved to `#84`** (at the first port that uses Prices). Dev applied: 59 sources → 28 Prices. **Production: dry run only, nothing written** — 57 sources → 26 Prices, 31 dropped, 0 unaccounted (log committed). Record: engagement `migration/price-migration-2026-10.md`. Compass is on dev only — prod runs `mywp` (`#67`).
 
-**Next:** James decides the four points in `migration/price-migration-proposal-2026-10.md` (engagement repo `25bd4ce`+): (1) three new Price fields — qualifier, conditions, show-card-price; (2) what gets no Price; (3) regular lift ticket → Tier table; (4) when production is written. Then: add the fields in the theme, enable the write path, run on dev, production inventory via `prod-write.sh upload` + `prod-read.sh wp eval-file` (needs James's go). After `#65`: `#62` rehearsal; `#61` waits on BM (`#55`). Dated items on Live Watch (`#23` ~10-07/08 · `#82` Nov 1 · `#75` ~11-05).
+**Next:** (1) James reviews `#65` — production mapping log + the three Price fields on dev (wp-admin → Prices; `/compass-block-gallery/` section 09) → push theme + engagement → close `#65`. (2) `#62` staging rehearsal; `#61` waits on BM (`#55`). (3) Dated on Live Watch: `#23` ~10-07/08 · `#82` Nov 1 · `#75` ~11-05. **⚠️ Machine: the Mac's disk hit 100% on 10-02 (Docker engine crashed mid-session; restarted, dev DB verified intact). ~12 GB free afterwards — free space before any long dev run.**
 
-**Branch check first.** Theme `Skydive-City/skydivecity-theme` main @ `0d38a4d` (pushed). Engagement `develop`: origin = `d2f3a71`; local `#65` checkpoints not pushed. Harness `main`: origin = `00a8103`; this checkpoint local. Push only on James's word. Theme working rules: engagement `CLAUDE.md` → Project-specific overrides.
+**Branch check first.** Theme `Skydive-City/skydivecity-theme` main: origin = `0d38a4d`; local `7d8f629` not pushed. Engagement `develop`: origin = `d2f3a71`; local `#65` commits not pushed. Harness `main`: origin = `00a8103`; local checkpoints not pushed. Push only on James's word. Theme working rules: engagement `CLAUDE.md` → Project-specific overrides.
 
 ---
 
@@ -143,7 +143,7 @@ See [`wiki/README.md`](../../projects/skydivecity/wiki/README.md) for convention
 
 > Active work tracked in [GH Project #1](https://github.com/users/itsginfo/projects/1). Below is narrative context the issue body doesn't capture.
 
-- **`#65` Price migration — IN PROGRESS 10-02, waiting on James.** Scripts `migration/wp-price-inventory-2026-10.php` (read-only) + `wp-price-migration-2026-10.php` (dry run; write path guarded) + proposal `price-migration-proposal-2026-10.md`. Dev logs are local (gitignored). Dev's 12 `price` posts are the `#63` fixtures, not migration output.
+- **`#65` Price migration — BUILT 10-02, awaiting James's review + push.** `migration/wp-price-migration-2026-10.php` (dry run by default; re-runnable sync keyed by `price_source`) · record `migration/price-migration-2026-10.md` · production dry-run log committed; dev logs local. Dev now has 28 migrated Prices + 14 fixture Prices (fixtures have no `price_source`). The dry-run copy of the script sits in production's `/tmp/` (SHA `baf78377…`); re-upload before any write (`#84`).
 - **Redesign follow-ups filed 10-01 (none started):** `#76` Person fields · `#77` Conversion `accent.on` contrast (bug) · `#78` Legacy header above Blocks content (before Winterfest ports) · `#79` FFP page gaps · `#80` page transition · `#81` `/compass/` rendered from real Blocks (then the Block gallery is a dev fixture only) · `#82` Winterfest "On now" highlight (dated) · `#83` matrix columns + counter colour bands not on the tier table. PricingTable + BookingTiles have no approved page design — re-check when the prices pages are designed (`theme-repo/tooling/fidelity/README.md`).
 - **`#55` M4 naming doc — SENT 2026-09-30 (Tandem parity rows).** Waiting on BM → v2 → `#61`.
 - **`#71` Gravity Forms 2→3** — ticketed (dev-first; ACF bridge + honeypot compat; GF 3 may migrate tables → check rollback). Weekly run keeps holding `gravityforms`.
@@ -255,6 +255,7 @@ See [`wiki/README.md`](../../projects/skydivecity/wiki/README.md) for convention
 
 | Date | Agent | Summary |
 |------|-------|---------|
+| 2026-10-02 (later) | CTO Agent | **`#65` built**: James approved the rules → three Price fields (theme `7d8f629`) · migration applied on dev (28 Prices; sources checksum-identical; 355/356 pages identical, the 1 = a countdown) · **production dry run only** (57 → 26 Prices / 31 dropped / 0 unaccounted) · production write split to `#84` · disk-full incident: Docker crashed, restarted, dev DB intact. Engagement + theme commits local. |
 | 2026-10-02 | CTO Agent | All three repos pushed · **`#65` started**: read-only inventory + dry-run mapping on dev (59 sources → 29 Prices / 30 dropped / 0 unaccounted), proposal with four decisions for James; found prod prices ≠ dev and all 24 booking links unreferenced · `#82`/`#83` labelled. Engagement `25bd4ce`. |
 | 2026-10-01 (session end) | CTO Agent | Close: compass README + engagement `CLAUDE.md` gain the theme working rules (carry runs last; theme `0d38a4d`, engagement `d2f3a71`, both local) · In-Flight cleared of 13 completed rows (one fact moved to [[deploy-pipeline]]) · resume rewritten lean. No new ADR (tier-table-is-not-a-Price fails the hard-to-reverse test; recorded in theme `CONTEXT.md`). |
 | 2026-10-01 (session 5, close) | CTO Agent | James reviewed `#63` on dev → theme pushed (`b1586c7`; CI failed on build order → `3b1aeea`, green) → **`#63` + `#66` CLOSED** (Phase 0 12/18) · `#83` filed (matrix + counter bands not on the tier table). |
