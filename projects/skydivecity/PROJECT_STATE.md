@@ -1,16 +1,16 @@
 # PROJECT STATE — Skydive City
 
-> **Last updated:** 2026-10-01 (session end) by CTO Agent (`#63` Price + `#66` Blocks tranche CLOSED; Phase 0 12/18; nothing in flight. See RESUME + Session Log.)
+> **Last updated:** 2026-10-02 by CTO Agent (`#65` Price migration IN PROGRESS — inventory + dry-run mapping on dev, nothing written; waiting on James's four mapping decisions. Phase 0 12/18.)
 
 ---
 
 ## ⚡ RESUME INSTRUCTION
 
-**Phase 0 in execution — 12 of 18 done, nothing in flight.** `#63` (Price + shared tier table) and `#66` (Blocks: 30 Components ↔ 30 Blocks) closed 2026-10-01 after James's review on dev; theme pushed `3b1aeea`, CI green. Compass is on dev only — prod still runs `mywp` (activation = `#67`).
+**Phase 0 in execution — 12 of 18 done; `#65` Price migration IN PROGRESS, stopped at James's decisions.** Dev inventory: 59 sources (35 pricing-table rows — the unit is a row, not a table — and 24 booking links, all unreferenced) → dry run maps 29 to a Price, drops 30 with a reason, 0 unaccounted. **Nothing written anywhere; the script refuses `DRY_RUN=0` until the rules are approved.** Production's prices differ from dev's (tandem $249/$259 live vs $225/$235 on dev), so the real mapping comes from a production inventory. Compass is on dev only — prod runs `mywp` (`#67`).
 
-**Next:** **`#65` Price migration** — start from the findings comment on the ticket (legacy rows carry description + disclaimer vs one note; text prices like "$50+"; tracked booking links). Then `#62` rehearsal; `#61` waits on BM (`#55`). Dated items are on Live Watch (`#23` ~10-07/08 · `#82` Nov 1 · `#75` ~11-05).
+**Next:** James decides the four points in `migration/price-migration-proposal-2026-10.md` (engagement repo `25bd4ce`+): (1) three new Price fields — qualifier, conditions, show-card-price; (2) what gets no Price; (3) regular lift ticket → Tier table; (4) when production is written. Then: add the fields in the theme, enable the write path, run on dev, production inventory via `prod-write.sh upload` + `prod-read.sh wp eval-file` (needs James's go). After `#65`: `#62` rehearsal; `#61` waits on BM (`#55`). Dated items on Live Watch (`#23` ~10-07/08 · `#82` Nov 1 · `#75` ~11-05).
 
-**Branch check first.** Theme `Skydive-City/skydivecity-theme` main: origin = `3b1aeea`; **1 local docs commit not pushed** (`0d38a4d`, README). Engagement `develop`: origin = `04680fb`; **1 local commit not pushed** (`d2f3a71`, CLAUDE.md theme working rules). Harness `main`: local checkpoints ahead of origin `1df7e14`, not pushed. Push only on James's word. Theme working rules: engagement `CLAUDE.md` → Project-specific overrides.
+**Branch check first.** Theme `Skydive-City/skydivecity-theme` main @ `0d38a4d` (pushed). Engagement `develop`: origin = `d2f3a71`; local `#65` checkpoints not pushed. Harness `main`: origin = `00a8103`; this checkpoint local. Push only on James's word. Theme working rules: engagement `CLAUDE.md` → Project-specific overrides.
 
 ---
 
@@ -143,6 +143,7 @@ See [`wiki/README.md`](../../projects/skydivecity/wiki/README.md) for convention
 
 > Active work tracked in [GH Project #1](https://github.com/users/itsginfo/projects/1). Below is narrative context the issue body doesn't capture.
 
+- **`#65` Price migration — IN PROGRESS 10-02, waiting on James.** Scripts `migration/wp-price-inventory-2026-10.php` (read-only) + `wp-price-migration-2026-10.php` (dry run; write path guarded) + proposal `price-migration-proposal-2026-10.md`. Dev logs are local (gitignored). Dev's 12 `price` posts are the `#63` fixtures, not migration output.
 - **Redesign follow-ups filed 10-01 (none started):** `#76` Person fields · `#77` Conversion `accent.on` contrast (bug) · `#78` Legacy header above Blocks content (before Winterfest ports) · `#79` FFP page gaps · `#80` page transition · `#81` `/compass/` rendered from real Blocks (then the Block gallery is a dev fixture only) · `#82` Winterfest "On now" highlight (dated) · `#83` matrix columns + counter colour bands not on the tier table. PricingTable + BookingTiles have no approved page design — re-check when the prices pages are designed (`theme-repo/tooling/fidelity/README.md`).
 - **`#55` M4 naming doc — SENT 2026-09-30 (Tandem parity rows).** Waiting on BM → v2 → `#61`.
 - **`#71` Gravity Forms 2→3** — ticketed (dev-first; ACF bridge + honeypot compat; GF 3 may migrate tables → check rollback). Weekly run keeps holding `gravityforms`.
@@ -254,6 +255,7 @@ See [`wiki/README.md`](../../projects/skydivecity/wiki/README.md) for convention
 
 | Date | Agent | Summary |
 |------|-------|---------|
+| 2026-10-02 | CTO Agent | All three repos pushed · **`#65` started**: read-only inventory + dry-run mapping on dev (59 sources → 29 Prices / 30 dropped / 0 unaccounted), proposal with four decisions for James; found prod prices ≠ dev and all 24 booking links unreferenced · `#82`/`#83` labelled. Engagement `25bd4ce`. |
 | 2026-10-01 (session end) | CTO Agent | Close: compass README + engagement `CLAUDE.md` gain the theme working rules (carry runs last; theme `0d38a4d`, engagement `d2f3a71`, both local) · In-Flight cleared of 13 completed rows (one fact moved to [[deploy-pipeline]]) · resume rewritten lean. No new ADR (tier-table-is-not-a-Price fails the hard-to-reverse test; recorded in theme `CONTEXT.md`). |
 | 2026-10-01 (session 5, close) | CTO Agent | James reviewed `#63` on dev → theme pushed (`b1586c7`; CI failed on build order → `3b1aeea`, green) → **`#63` + `#66` CLOSED** (Phase 0 12/18) · `#83` filed (matrix + counter bands not on the tier table). |
 | 2026-10-01 (session 5) | CTO Agent | All three repos pushed (theme `daa4138`, CI green) · **`#63` built**: Price record + shared Tier table + EventTiers / PricingTable / BookingTiles → 30 ↔ 30 Blocks (theme `b1586c7`, local) · fidelity + editor = live + propagation measured on dev · `#81` (`/compass/` from real Blocks) and `#82` (Winterfest "On now" hand-set, due Nov 1) filed · migration findings on `#65`. |
