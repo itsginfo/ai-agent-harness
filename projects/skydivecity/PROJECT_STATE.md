@@ -1,16 +1,16 @@
 # PROJECT STATE — Skydive City
 
-> **Last updated:** 2026-10-02 (close of `#65`) by CTO Agent (`#65` Price migration CLOSED — dev applied, production dry run only; production write is `#84`. Phase 0 13/18; nothing in flight. All three repos pushed.)
+> **Last updated:** 2026-10-02 (session end) by CTO Agent (`#65` Price migration CLOSED; production write is `#84`. Phase 0 13/18; nothing in flight. Next: `#62` staging rehearsal — prep notes on the ticket.)
 
 ---
 
 ## ⚡ RESUME INSTRUCTION
 
-**Phase 0 in execution — 13 of 18 done, nothing in flight.** `#65` Price migration closed 2026-10-02: Price gained qualifier / conditions / show-card-price (theme `7d8f629`, CI green); migration applied on dev (28 Prices); **production was only dry-run — nothing written there** (57 sources → 26 Prices, 31 dropped, 0 unaccounted; log committed). The production write is `#84`, to run at the first port that uses Prices. Record: engagement `migration/price-migration-2026-10.md`. Compass is on dev only — prod runs `mywp` (`#67`).
+**Phase 0 in execution — 13 of 18 done, nothing in flight.** `#65` Price migration closed 2026-10-02: applied on dev; **production was dry-run only, nothing written there** — the production write is `#84`, at the first port that uses Prices. Compass is on dev only; production runs `mywp` (activation = `#67`).
 
-**Next:** `#62` staging rehearsal (identical-first activation with the rendered-HTML diff) is the next unblocked Phase 0 build; `#61` waits on BM (`#55`); then `#67` activation and `#68` acceptance. Dated on Live Watch: `#23` ~10-07/08 · `#82` Nov 1 · `#75` ~11-05. **⚠️ Machine: the Mac's disk hit 100% on 10-02 (Docker engine crashed; restarted, dev DB intact; ~12 GB free after). Free space before any long dev run — `#62` snapshots every URL twice.**
+**Next:** **`#62` staging rehearsal** — read the prep notes on the ticket first. It needs (1) a fresh production database + uploads snapshot (the export goes through `prod-write.sh` with James's go), (2) disk space on the Mac — it hit 100% on 10-02 and Docker's engine crashed; ~12 GB free afterwards, (3) James's OK that the dev database is replaced. No page needs porting first. `#61` waits on BM (`#55`). Dated items: Live Watch.
 
-**Branch check first.** All pushed 10-02: theme `Skydive-City/skydivecity-theme` main @ `7d8f629` (CI green) · engagement `develop` @ `85d5c60` · harness `main` (this close-out commit is local). Push only on James's word. Theme working rules: engagement `CLAUDE.md` → Project-specific overrides.
+**Branch check first.** Theme `Skydive-City/skydivecity-theme` main @ `7d8f629` and engagement `develop` @ `85d5c60` are pushed. Harness `main`: origin = `43eaf8b`; later checkpoints are local. Push only on James's word.
 
 ---
 
@@ -255,6 +255,7 @@ See [`wiki/README.md`](../../projects/skydivecity/wiki/README.md) for convention
 
 | Date | Agent | Summary |
 |------|-------|---------|
+| 2026-10-02 (session end) | CTO Agent | Close: `#62` prep notes posted (needs a fresh production snapshot, disk space, and the dev DB replaced; no page ports needed — dev has 3 Blocks test pages only) · resume rewritten lean. No new ADR: the three Price fields and the deferred production write are recorded in theme `CONTEXT.md`, the spec amendment and `migration/price-migration-2026-10.md`. |
 | 2026-10-02 (close of `#65`) | CTO Agent | James reviewed → all three repos pushed (theme `7d8f629` CI green, engagement `85d5c60`) → **`#65` CLOSED** (Phase 0 13/18). Production write is `#84`. |
 | 2026-10-02 (later) | CTO Agent | **`#65` built**: James approved the rules → three Price fields (theme `7d8f629`) · migration applied on dev (28 Prices; sources checksum-identical; 355/356 pages identical, the 1 = a countdown) · **production dry run only** (57 → 26 Prices / 31 dropped / 0 unaccounted) · production write split to `#84` · disk-full incident: Docker crashed, restarted, dev DB intact. Engagement + theme commits local. |
 | 2026-10-02 | CTO Agent | All three repos pushed · **`#65` started**: read-only inventory + dry-run mapping on dev (59 sources → 29 Prices / 30 dropped / 0 unaccounted), proposal with four decisions for James; found prod prices ≠ dev and all 24 booking links unreferenced · `#82`/`#83` labelled. Engagement `25bd4ce`. |
