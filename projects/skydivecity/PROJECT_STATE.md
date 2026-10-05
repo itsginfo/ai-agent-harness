@@ -12,7 +12,7 @@
 
 **Next:** `#67` production activation under change control — needs James's go on a date; the sequence is rehearsed. Before any Block ticket (`#78`/`#79`/`#81`/`#83`): reseed dev fixtures (see above). `#61` waits on BM (`#55`). `#86` (diff-tool cross-host gaps) parked until the staging host is settled (`#47`). Dated items: Live Watch.
 
-**Branch check first.** Theme main @ `7d8f629` pushed. Engagement `develop` @ `1a1cf8b` — **3 commits local** (`334e419` #85, `fd95f3c` + `1a1cf8b` #62). Harness `main`: origin = `43eaf8b`; later checkpoints are local. Push only on James's word.
+**Branch check first.** All three repos pushed 2026-10-05: theme main @ `7d8f629`, engagement `develop` @ `1a1cf8b`, harness `main` @ `952e964`. Push only on James's word.
 
 ---
 
