@@ -10,7 +10,7 @@
 
 **Dev is now production + strip** (`mywp`, TEC block mode off, Ramp on). The 3 Blocks test pages and 42 Prices are gone — reseed from `theme-repo/tooling/dev-fixtures/` + `migration/wp-price-migration-2026-10.php` before any Block work. Snapshots in `migration/snapshots/` (gitignored). Compass is on dev only; production runs `mywp` (activation = `#67`).
 
-**Next:** `#67` production activation under change control — needs James's go on a date; the sequence is rehearsed. Before any Block ticket (`#78`/`#79`/`#81`/`#83`): reseed dev fixtures (see above). `#61` waits on BM (`#55`). `#86` (diff-tool cross-host gaps) parked until the staging host is settled (`#47`). Dated items: Live Watch.
+**Next:** `#67` production activation — **still blocked by `#61`** (BM confirming `#55`; James nudging Marcella 10-05). Prod holds Compass 0.2.6 vs rehearsed 0.4.0 → Step 0 on `#67` is a theme deploy before the pre-activation diff. Needs a date with Rich outside a `#23` window. Before any Block ticket (`#78`/`#79`/`#81`/`#83`): reseed dev fixtures (see above). `#61` waits on BM (`#55`). `#86` (diff-tool cross-host gaps) parked until the staging host is settled (`#47`). Dated items: Live Watch.
 
 **Branch check first.** All three repos pushed 2026-10-05: theme main @ `7d8f629`, engagement `develop` @ `1a1cf8b`, harness `main` @ `952e964`. Push only on James's word.
 
