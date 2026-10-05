@@ -163,6 +163,10 @@ Identify in advance: "If I have to stop mid-session, what's the cleanest handoff
 
 If the work crosses agent boundaries (e.g., CTO implementing AND PM needing to update a client), note it now. Either sequence them explicitly or flag it as a handoff point so you don't get pulled across roles mid-task.
 
+**D. Is the clock running?** (projects with Clockify mapped — see `tooling/clockify/projects.json`)
+
+Run `tooling/clockify/clockify-timer.sh status`. The SessionStart hook is event-driven: a terminal left open and resumed days later gets no event and no timer (caught 2026-10-05 — ~2 h untimed). If it prints `nothing running`, start the entry yourself: `clockify-timer.sh task <#NN> <title>` for the first ticket you pick up (or `idle` for the plain session entry). Every ticket pick-up switches the entry with `task`; this is the agent's job, the hook is only the safety net.
+
 ---
 
 ### Step 7 — Declare your session start
