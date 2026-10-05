@@ -1,16 +1,18 @@
 # PROJECT STATE — Skydive City
 
-> **Last updated:** 2026-10-02 (session end) by CTO Agent (`#65` Price migration CLOSED; production write is `#84`. Phase 0 13/18; nothing in flight. Next: `#62` staging rehearsal — prep notes on the ticket.)
+> **Last updated:** 2026-10-05 by CTO Agent (`#85` Collegiate Burble link SHIPPED + closed · `#62` staging rehearsal RUN — gate 382/386, one decision open for James. Phase 0 13/18.)
 
 ---
 
 ## ⚡ RESUME INSTRUCTION
 
-**Phase 0 in execution — 13 of 18 done, nothing in flight.** `#65` Price migration closed 2026-10-02: applied on dev; **production was dry-run only, nothing written there** — the production write is `#84`, at the first port that uses Prices. Compass is on dev only; production runs `mywp` (activation = `#67`).
+**Phase 0 in execution — 13 of 18 done; `#62` rehearsed, awaiting James's call.** Rehearsal 2026-10-05 on the same-morning production snapshot: gate `mywp`→`compass` **382/386 bodies identical**, chrome differs everywhere but the 3 landing templates, port-status 0 Blocks, full rollback clean (382 identical / 0 chrome / 0 head). **The 4 body diffs are the strip prerequisite's `wpautop` `<p>` wrapper on four 2020–21 events** — James decides on `#62`: accept as the listed exception on `#67` (recommended) or refine the strip. Log: `migration/staging-rehearsal-2026-10-05.md` (`fd95f3c`).
 
-**Next:** **`#62` staging rehearsal** — read the prep notes on the ticket first. It needs (1) a fresh production database + uploads snapshot (the export goes through `prod-write.sh` with James's go), (2) disk space on the Mac — it hit 100% on 10-02 and Docker's engine crashed; ~12 GB free afterwards, (3) James's OK that the dev database is replaced. No page needs porting first. `#61` waits on BM (`#55`). Dated items: Live Watch.
+**Dev is now production + strip** (`mywp`, TEC block mode off, Ramp on). The 3 Blocks test pages and 42 Prices are gone — reseed from `theme-repo/tooling/dev-fixtures/` + `migration/wp-price-migration-2026-10.php` before any Block work. Snapshots in `migration/snapshots/` (gitignored). Compass is on dev only; production runs `mywp` (activation = `#67`).
 
-**Branch check first.** Theme `Skydive-City/skydivecity-theme` main @ `7d8f629` and engagement `develop` @ `85d5c60` are pushed. Harness `main`: origin = `43eaf8b`; later checkpoints are local. Push only on James's word.
+**Next:** James's `#62` decision → close `#62` → `#67` activation plan (sequence rehearsed in the log). `#61` waits on BM (`#55`). Dated items: Live Watch.
+
+**Branch check first.** Theme main @ `7d8f629` pushed. Engagement `develop` @ `fd95f3c` — **2 commits local** (`334e419` #85, `fd95f3c` #62). Harness `main`: origin = `43eaf8b`; later checkpoints are local. Push only on James's word.
 
 ---
 
@@ -212,7 +214,7 @@ See [`wiki/README.md`](../../projects/skydivecity/wiki/README.md) for convention
 
 > When you complete one, update the GH issue first (status, comment if substantive), then return here.
 
-1. **Phase 0 frontier:** `#62` rehearsal · `#61` dataLayer (after BM confirms `#55`) · `#67` activation · `#68` acceptance · `#69` robots/noindex (triage) · Cassie IA session. Done (13): `#51` `#52` `#53` `#54` `#56` `#57` `#58` `#59` `#60` `#63` `#64` `#65` `#66`. Graph on `#50`.
+1. **Phase 0 frontier:** `#62` rehearsed 10-05 — **James's decision on the 4 strip-diff events** (accept on `#67` vs refine the strip), then close · `#61` dataLayer (after BM confirms `#55`) · `#67` activation (sequence + rollback rehearsed; carry: BackWPup files archive is not a faithful plugin mirror, the strip is one-way) · `#68` acceptance · `#69` robots/noindex (triage) · Cassie IA session. Done (13): `#51` `#52` `#53` `#54` `#56` `#57` `#58` `#59` `#60` `#63` `#64` `#65` `#66`. Graph on `#50`.
 2. **[`#48` — Rich track] Hosting + maintenance proposal** for Rich: hosting basis, maintenance delta vs `#23`, licences in SDC's name (OQ 19), BM retainer shrink, `#47` sequencing (recommend SDC-owned Flywheel account + ITSG collaborator). Gates `#47`. Pairs with `#34` §7 (via `#43`). **James 09-27: once confirmed + timing right → educate Rich on the specifics, THEN the execution plan** (with Kevin as BM's handover contact).
 3. **[`#44` — ready; told Rich "October" in the Sept report] Stale live content** — drop published rates (keep the $5 tent; RV → Firefly), facilities fleet copy, fold in the 3 orphaned USPA-2020 pages. 5-phase.
 4. **[Ready, unsent] Winterfest page-update email** (`926e688`) — flush the **Cloudflare** cache first (James has access).
@@ -255,6 +257,7 @@ See [`wiki/README.md`](../../projects/skydivecity/wiki/README.md) for convention
 
 | Date | Agent | Summary |
 |------|-------|---------|
+| 2026-10-05 | CTO Agent | **`#85` Collegiate Burble link SHIPPED to prod + closed** (5-phase; `334e419`) · **`#62` staging rehearsal RUN** on the same-morning prod snapshot (DB via `backup-db` + daily files archive, SHA-verified; new `prod-read.sh download` verb, James's go + local allow rule): gate 382/386 bodies identical, chrome = Compass everywhere but the 3 landing templates, port-status 0 Blocks, full rollback 382/0/0 · **4 body diffs = strip prerequisite's `wpautop` `<p>` wrapper on four 2020–21 events → decision for James** · findings: BackWPup files archive not a faithful plugin mirror (4 plugins reinstalled at prod versions); prod-vs-staging 136 diffs all environment (gcal host-length, Cloudflare, debug minification) · log `migration/staging-rehearsal-2026-10-05.md` (`fd95f3c`, local) · ⚠️ Clockify SessionStart hook did not fire — first ~2 h untimed; `#62` entry started 15:24Z. |
 | 2026-10-02 (session end) | CTO Agent | Close: `#62` prep notes posted (needs a fresh production snapshot, disk space, and the dev DB replaced; no page ports needed — dev has 3 Blocks test pages only) · resume rewritten lean. No new ADR: the three Price fields and the deferred production write are recorded in theme `CONTEXT.md`, the spec amendment and `migration/price-migration-2026-10.md`. |
 | 2026-10-02 (close of `#65`) | CTO Agent | James reviewed → all three repos pushed (theme `7d8f629` CI green, engagement `85d5c60`) → **`#65` CLOSED** (Phase 0 13/18). Production write is `#84`. |
 | 2026-10-02 (later) | CTO Agent | **`#65` built**: James approved the rules → three Price fields (theme `7d8f629`) · migration applied on dev (28 Prices; sources checksum-identical; 355/356 pages identical, the 1 = a countdown) · **production dry run only** (57 → 26 Prices / 31 dropped / 0 unaccounted) · production write split to `#84` · disk-full incident: Docker crashed, restarted, dev DB intact. Engagement + theme commits local. |
