@@ -1,18 +1,18 @@
 # PROJECT STATE — Skydive City
 
-> **Last updated:** 2026-10-05 (later) by CTO Agent (`#85` SHIPPED + closed · **`#62` CLOSED** — rehearsal 382/386, James accepted the 4 strip events as the `#67` exception · `#86` filed · harness `#12` filed. Phase 0 **14/18**.)
+> **Last updated:** 2026-10-05 (session end) by CTO Agent (`#85` shipped · `#62` CLOSED, Phase 0 **14/18** · `#67` has its sequence + exception, blocked only by `#61`/BM.)
 
 ---
 
 ## ⚡ RESUME INSTRUCTION
 
-**Phase 0 in execution — 14 of 18 done, nothing in flight.** `#62` staging rehearsal CLOSED 2026-10-05: gate `mywp`→`compass` 382/386 bodies identical on the same-morning production snapshot, port-status 0 Blocks, full rollback clean. **James accepted the 4 strip-normalized 2020 events as the listed `#67` exception** (activation-day target 382 + 4 / 0 / 0; sequence + rollback on `#67`). Log: `migration/staging-rehearsal-2026-10-05.md` (`1a1cf8b`).
+**Phase 0 — 14 of 18 done, nothing in flight; `#67` activation is rehearsed and waiting on BM.** `#62` closed 2026-10-05 (gate 382/386; the 4 = strip `wpautop` exception, accepted by James and recorded on `#67` with the 0–9 sequence; log `migration/staging-rehearsal-2026-10-05.md`).
 
-**Dev is now production + strip** (`mywp`, TEC block mode off, Ramp on). The 3 Blocks test pages and 42 Prices are gone — reseed from `theme-repo/tooling/dev-fixtures/` + `migration/wp-price-migration-2026-10.php` before any Block work. Snapshots in `migration/snapshots/` (gitignored). Compass is on dev only; production runs `mywp` (activation = `#67`).
+**Next:** `#67` — blocked by **`#61`**, which waits on BM confirming the naming doc (`#55`, James nudged Marcella 10-05). On reply: `#55` → `#61` → date with Rich outside a `#23` window → `#67` Step 0 is a theme deploy (prod has Compass 0.2.6, rehearsed 0.4.0). Any Block ticket first **reseeds dev fixtures** (dev is now production + strip on `mywp`; 3 Blocks pages + 42 Prices gone — `theme-repo/tooling/dev-fixtures/` + `migration/wp-price-migration-2026-10.php`).
 
-**Next:** `#67` production activation — **still blocked by `#61`** (BM confirming `#55`; James nudging Marcella 10-05). Prod holds Compass 0.2.6 vs rehearsed 0.4.0 → Step 0 on `#67` is a theme deploy before the pre-activation diff. Needs a date with Rich outside a `#23` window. Before any Block ticket (`#78`/`#79`/`#81`/`#83`): reseed dev fixtures (see above). `#61` waits on BM (`#55`). `#86` (diff-tool cross-host gaps) parked until the staging host is settled (`#47`). Dated items: Live Watch.
+**Boot:** run `clockify-timer.sh status` (SESSION_START 6-D) — the hook misses resumed sessions.
 
-**Branch check first.** All three repos pushed 2026-10-05: theme main @ `7d8f629`, engagement `develop` @ `1a1cf8b`, harness `main` @ `952e964`. Push only on James's word.
+**Branch check first.** All pushed 2026-10-05: theme main `7d8f629`, engagement `develop` `1a1cf8b`, harness `main` `e973bd8`+. Push only on James's word.
 
 ---
 
@@ -206,6 +206,7 @@ See [`wiki/README.md`](../../projects/skydivecity/wiki/README.md) for convention
 | 16 | ~~Which route did BM take for styling changes?~~ | ✅ Moot (2026-09-14 alignment): BM does content only post-launch; no repo access; ITSG owns styling. |
 | 18 | ~~Which mechanism for the new content model~~ → ✅ **ADR-0006**: ACF Blocks on the block editor, one per Compass component. Was: **Which mechanism for the new content model** — ACF Flexible Content re-authored on Compass, ACF Blocks, or native Gutenberg blocks? BM's "does the design system replace our builder" question. | ⏳ `#45`, with Kevin as input. |
 | 19 | ~~Who holds the ACF Pro and Gravity Forms licences?~~ | ✅ **RESOLVED 2026-09-27 — both licensed to Beyond Marketing** (Kevin Hamstra via James). Not a Block-build gate; a **`#47` transfer gate**: SDC-named ACF Pro + Gravity Forms subscriptions (ADR-0006 Q9: SDC owns, ITSG administers) before BM's keys leave → cost lines on `#48`. Manifest + Phase 0 spec corrected. |
+| 20 | **Does `#61` (M4 dataLayer) really gate `#67` activation, or only the ports?** Identical-first activation changes no body and leaves today's Tandem/Burble tracking untouched; `#61` adds *new* AFF/Events instrumentation. If BM stays silent on `#55`, re-sequencing (activate first, `#61` after) is a `#50` spec change — James's call. Raised 2026-10-05. | ⏳ James; moot if BM replies promptly. |
 | 17 | **Will Matt be added as a second org owner?** Today the only owners are Rich and `itsginfo`, so the client's sole backup owner is their vendor. | ⏳ Raised, not actioned. |
 
 ---
@@ -257,6 +258,7 @@ See [`wiki/README.md`](../../projects/skydivecity/wiki/README.md) for convention
 
 | Date | Agent | Summary |
 |------|-------|---------|
+| 2026-10-05 (session end) | CTO Agent | Close: `#67` gains Step 0 (deploy Compass 0.4.0; prod holds 0.2.6) + blocker status; resume rewritten lean; Live Watch unchanged (all three rows still dated ahead). No new ADR — the strip exception is a ticket-level verdict, the diff-tool gaps are `#86`, the Clockify rule is a protocol step. |
 | 2026-10-05 (later) | CTO Agent | James's decisions: (1) four strip events **accepted** as the `#67` exception → `#62` CLOSED (Phase 0 14/18), target + sequence on `#67`; (2) diff-tool cross-host gaps → **`#86`** (parked on the staging-host question, `#47`); (3) BackWPup files-archive finding → [[flywheel]] + DR note on `#23`; Clockify → SESSION_START Step 6-D (`status`/`task` at boot) + harness **`#12`** (UserPromptSubmit self-heal). Engagement `1a1cf8b` local. |
 | 2026-10-05 | CTO Agent | **`#85` Collegiate Burble link SHIPPED to prod + closed** (5-phase; `334e419`) · **`#62` staging rehearsal RUN** on the same-morning prod snapshot (DB via `backup-db` + daily files archive, SHA-verified; new `prod-read.sh download` verb, James's go + local allow rule): gate 382/386 bodies identical, chrome = Compass everywhere but the 3 landing templates, port-status 0 Blocks, full rollback 382/0/0 · **4 body diffs = strip prerequisite's `wpautop` `<p>` wrapper on four 2020–21 events → decision for James** · findings: BackWPup files archive not a faithful plugin mirror (4 plugins reinstalled at prod versions); prod-vs-staging 136 diffs all environment (gcal host-length, Cloudflare, debug minification) · log `migration/staging-rehearsal-2026-10-05.md` (`fd95f3c`, local) · ⚠️ Clockify SessionStart hook did not fire — first ~2 h untimed; `#62` entry started 15:24Z. |
 | 2026-10-02 (session end) | CTO Agent | Close: `#62` prep notes posted (needs a fresh production snapshot, disk space, and the dev DB replaced; no page ports needed — dev has 3 Blocks test pages only) · resume rewritten lean. No new ADR: the three Price fields and the deferred production write are recorded in theme `CONTEXT.md`, the spec amendment and `migration/price-migration-2026-10.md`. |
