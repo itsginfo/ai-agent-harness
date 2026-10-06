@@ -1,20 +1,20 @@
 # PROJECT STATE — Skydive City
 
-> **Last updated:** 2026-10-06 by CTO Agent (`#78` CLOSED — accepted by James, all repos pushed · Phase 0 **14/18** · `#67` rehearsed, blocked only by `#61`/BM.)
+> **Last updated:** 2026-10-06 (session end) by CTO Agent (`#78` CLOSED + pushed, CI green · next lane = Block tickets `#79` → `#83` → `#77` · Phase 0 **14/18** · `#67` blocked only by `#61`/BM.)
 
 ---
 
 ## ⚡ RESUME INSTRUCTION
 
-**Phase 0 — 14 of 18 done; `#67` activation rehearsed and waiting on BM; while BM is silent, Block follow-ups are moving.** 2026-10-06: **`#78` CLOSED** — accepted by James ("looks good"); Blocks posts render through `templates/blocks.php` (theme `a630e4a`, pushed); reaches prod with the `#67` Step 0 theme deploy. James 10-06: no BM reply yet on `#55`; proceed and he will relay Marcella's answer.
+**Phase 0 — 14 of 18 done; `#67` activation rehearsed and waiting on BM (`#55` → `#61`); Block follow-ups are the active lane.** `#78` closed 2026-10-06 (Blocks posts render through `templates/blocks.php`; theme `a630e4a`, CI green). James relays Marcella's answer when it arrives → then `#55` → `#61` → `#67`.
 
-**Next:** `#67` — blocked by **`#61`**, which waits on BM confirming the naming doc (`#55`, James nudged Marcella 10-05). On reply: `#55` → `#61` → date with Rich outside a `#23` window → `#67` Step 0 is a theme deploy (prod has Compass 0.2.6, rehearsed 0.4.0). Any Block ticket first **reseeds dev fixtures** (dev is now production + strip on `mywp`; 3 Blocks pages + 42 Prices gone — `theme-repo/tooling/dev-fixtures/` + `migration/wp-price-migration-2026-10.php`).
+**Next (James, 2026-10-06): Block tickets in this order — `#79` FFP page gaps (the counter's tier-and-price panel + sections with no Block yet) → `#83` tier table: FfpMatrix columns + counter colour bands → `#77` Conversion `accent.on` contrast bug (footer social hover, 2.23:1).** Read `theme-repo/wp-content/themes/compass/README.md` first (Blocks pipeline + fidelity rule); check each port with `tooling/fidelity/compare.js` (`ffp` set) against `/frequent-flyer-program/`.
 
-**Boot:** run `clockify-timer.sh status` (SESSION_START 6-D) — the hook misses resumed sessions.
+**Dev is ready:** Compass 0.4.0 active on the 2026-10-05 production snapshot; fixtures reseeded — `/compass-66-winterfest/` (5959, Immersive), `/compass-block-gallery/` (5960), Blocks test event (5961); 14 Prices + tier table. WP-CLI phar at `/tmp/wp-cli.phar` in the container (re-fetch if the container was recreated). Docker was down at boot today — `open -a Docker` first.
 
-**Unblocked candidates while BM is silent (priority order):** ~~`#78`~~ done · `#44` stale live content (told Rich "October") · `#48` hosting + maintenance proposal for Rich · next Block tickets `#79` / `#83` / `#77`. Dev fixtures are **reseeded** (pages 5959 / 5960, Blocks test event 5961; `tooling/dev-fixtures/README.md`). OQ 20 (re-sequence `#67` ahead of `#61`?) is James's call.
+**Boot:** `clockify-timer.sh status` (the hook missed today's resume again — harness `#12`).
 
-**Branch check first.** All pushed 2026-10-06: theme `main` `a630e4a`, engagement `develop` `f8f458b`, harness `main` `cd91d89`+. Push only on James's word.
+**Branch check first.** All pushed 2026-10-06: theme `main` `a630e4a`, engagement `develop` `f8f458b`, harness `main` `397da08`+. Push only on James's word.
 
 ---
 
@@ -260,6 +260,7 @@ See [`wiki/README.md`](../../projects/skydivecity/wiki/README.md) for convention
 
 | Date | Agent | Summary |
 |------|-------|---------|
+| 2026-10-06 (session end) | CTO Agent | Close: `#78` accepted by James → CLOSED; theme `a630e4a` / engagement `f8f458b` / harness pushed, theme CI green (both verify workflows). Resume rewritten lean with James's next lane: Block tickets `#79` → `#83` → `#77`. Live Watch unchanged (all rows dated ahead). No new ADR — `#78` is a dated clarification on ADR-0007. |
 | 2026-10-06 | CTO Agent | **`#78` built + dev-verified → accepted by James, CLOSED; theme/engagement/harness pushed.** Blocks posts render through a Compass-owned `templates/blocks.php` (`template_include` @100, after TEC @50); Legacy templates never print `mywp_wrapheader()` above Blocks and the event template's double render is gone (Blocks page 2→1 `<h1>`, Blocks event 3→1). Gate: html-diff over 386 prod URLs, rule off vs on, 385 identical + 1 relative timestamp; fidelity vs approved Winterfest 59/65 (accepted exceptions only); `/code-review` low: none. ADR-0007 clarification (theme + mirror). Dev fixtures reseeded on the prod snapshot, now slug-resolved ids (pages 5959/5960, event 5961). Theme `a630e4a` · engagement `f8f458b`, both local. |
 | 2026-10-05 (evening, boot-only) | CTO Agent | Boot + reconcile only; no task given, no tracker/code change. All 34 open issues on the board, statuses consistent, no activity since the morning session-end. Resume gains the unblocked-candidates line (`#78` · `#44` · `#48`) for the next pickup. |
 | 2026-10-05 (session end) | CTO Agent | Close: `#67` gains Step 0 (deploy Compass 0.4.0; prod holds 0.2.6) + blocker status; resume rewritten lean; Live Watch unchanged (all three rows still dated ahead). No new ADR — the strip exception is a ticket-level verdict, the diff-tool gaps are `#86`, the Clockify rule is a protocol step. |
