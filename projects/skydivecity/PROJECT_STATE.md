@@ -1,6 +1,6 @@
 # PROJECT STATE — Skydive City
 
-> **Last updated:** 2026-10-06 (checkpoint) by CTO Agent (`#87` CLOSED + pushed · `#44` at the Phase-1 gate (dev done) · `#48` proposal drafted → ready-for-human.)
+> **Last updated:** 2026-10-06 (checkpoint) by CTO Agent (`#44` LIVE + closed · `#48` proposal sized + licences verified → James sets §6 · Phase 0 **14/18**.)
 
 ---
 
@@ -8,7 +8,7 @@
 
 **Phase 0 — 14 of 18 done; `#67` activation rehearsed and waiting on BM (`#55` → `#61`); Block follow-ups are the active lane.** `#78` closed 2026-10-06 (Blocks posts render through `templates/blocks.php`; theme `a630e4a`, CI green). James relays Marcella's answer when it arrives → then `#55` → `#61` → `#67`.
 
-**Block lane + `#87` CLOSED and pushed 2026-10-06** (theme `9cb45e6`). **`#44` waiting at the Phase-1 gate:** fix script `migration/wp-stale-content-fix-2026-10.php` (9 edits, 5 fields; CRLF-aware; asserts each old string once) applied + verified on dev; prod read matches the snapshot. James to approve wording + orphan handling (recommend unpublish only) → `backup-db` → upload → prod dry run → write → verify → purge Cloudflare. **`#48`:** draft `project_management/hosting-maintenance-proposal.md` (engagement `1b22e22`) → James sets §6 price, then shares with Rich; SOW term ends 2026-10-31.
+**`#44` LIVE + closed 2026-10-06** (5-phase; engagement commit local, not pushed). **`#48`:** draft `project_management/hosting-maintenance-proposal.md` — Starter sized from GA4 (15–16k sessions/mo; overage $1/1k), licences verified on prod (ACF Pro BM lifetime Developer → buy Personal; GF BM key to 2027-01-20 → buy Basic; **Bloom live** fly-in → Mailchimp: keep or replace + whose Mailchimp list; **10Web** $35/mo Premium connected but unused → remove). Next: James sets §6 price → share with Rich (SOW term ends 2026-10-31).
 
 **Dev is ready:** Compass 0.4.0 active on the 2026-10-05 production snapshot; fixtures reseeded — `/compass-66-winterfest/` (5959, Immersive), `/compass-block-gallery/` (5960), Blocks test event (5961); 14 Prices + tier table. WP-CLI phar at `/tmp/wp-cli.phar` in the container (re-fetch if the container was recreated). Docker was down at boot today — `open -a Docker` first.
 
@@ -219,7 +219,7 @@ See [`wiki/README.md`](../../projects/skydivecity/wiki/README.md) for convention
 
 1. **Phase 0 frontier:** `#67` activation (sequence + rollback rehearsed on `#62`; 4-URL exception recorded; needs James's date) · `#61` dataLayer (after BM confirms `#55`) · `#68` acceptance · `#69` robots/noindex (triage) · Cassie IA session. Done (14): `#51` `#52` `#53` `#54` `#56` `#57` `#58` `#59` `#60` `#62` `#63` `#64` `#65` `#66`. Graph on `#50`.
 2. **[`#48` — Rich track] Hosting + maintenance proposal** for Rich: hosting basis, maintenance delta vs `#23`, licences in SDC's name (OQ 19), BM retainer shrink, `#47` sequencing (recommend SDC-owned Flywheel account + ITSG collaborator). Gates `#47`. Pairs with `#34` §7 (via `#43`). **James 09-27: once confirmed + timing right → educate Rich on the specifics, THEN the execution plan** (with Kevin as BM's handover contact).
-3. **[`#44` — ready; told Rich "October" in the Sept report] Stale live content** — drop published rates (keep the $5 tent; RV → Firefly), facilities fleet copy, fold in the 3 orphaned USPA-2020 pages. 5-phase.
+3. ~~`#44` stale live content~~ ✅ LIVE 2026-10-06 (mention in the October ops report — Rich was told "October").
 4. **[Ready, unsent] Winterfest page-update email** (`926e688`) — flush the **Cloudflare** cache first (James has access).
 5. **[Dated]** `#23` next weekly window **~2026-10-07/08** · **`#82` Winterfest "On now" highlight → $165 tier on 2026-11-01** (hand-set on the live page) · **October ops report by ~2026-11-05** (Step 0: Burble-count request to Rich ~10-30) — on Live Watch. *(Cleared 10-01: `#40` Flamingofest link live + closed · Sept report sent, `#73` closed · `#23` 09-30 run clean.)*
 6. **[`#42` — blocked on Cassie]** event schedule + 4–5 worst-case LO photos (artifact `20251e9a`).
@@ -260,6 +260,7 @@ See [`wiki/README.md`](../../projects/skydivecity/wiki/README.md) for convention
 
 | Date | Agent | Summary |
 |------|-------|---------|
+| 2026-10-06 (evening, late) | CTO Agent | **`#44` LIVE + closed** (5-phase; James's wording; 3 orphans unpublished; no CF purge needed). **`#48`** updated: Flywheel Starter sized from GA4 + overage math; licence status verified on prod (Bloom live, 10Web unused). |
 | 2026-10-06 (evening, later) | CTO Agent | `#87` accepted → pushed + closed. **`#44`**: dev-first fix built and applied on dev (fleet, tent $5, RV slot framing, hotel rates out, 3 orphans unpublished); prod Phase-1 read clean; at the gate. **`#48`**: research subagent + confirmed list prices → proposal draft (`1b22e22`), ready-for-human. |
 | 2026-10-06 (evening) | CTO Agent | James accepted `#79` `#83` `#77` → pushed (`73e61ac`) + closed. Filed + built **`#87`** (`9cb45e6`, local): plain-text tier tags; FFP fixture sentences equal the approved copy word for word and follow a tier change; editor-guide section. Ready-for-human. |
 | 2026-10-06 (late afternoon) | CTO Agent | **`#83`** (`4b74b5a`): matrix columns are tier picks + `price` cells, meter bands generated from the table (identical to the approved token today; Bronze 26→31 test moved ladder/counter/bands/savings/matrix together) · **`#77`** (`73e61ac`): Conversion `accent.on` + `content.on-accent` → ink.bright (4.54:1), pair now lint-guarded. Both ready-for-human; theme ahead 3, unpushed. |
