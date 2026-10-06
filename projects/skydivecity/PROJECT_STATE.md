@@ -12,7 +12,7 @@
 
 **Dev is ready:** Compass 0.4.0 active on the 2026-10-05 production snapshot; fixtures reseeded — `/compass-66-winterfest/` (5959, Immersive), `/compass-block-gallery/` (5960), Blocks test event (5961); 14 Prices + tier table. WP-CLI phar at `/tmp/wp-cli.phar` in the container (re-fetch if the container was recreated). Docker was down at boot today — `open -a Docker` first.
 
-**Boot:** `clockify-timer.sh status` (the hook missed today's resume again — harness `#12`).
+**Boot:** `clockify-timer.sh status` (the hook missed today's resume again — harness `#12`). **Timer discipline (James 10-06): `stop` is the last action of `/session-end` and whenever James steps away; idle must never bill** — structural fix proposed as harness **`#13`** (pause on idle, trim to last activity, resume on next prompt). Today's `#78` entry carries ~40 idle min (15:12→15:51Z) — James to trim.
 
 **Branch check first.** All pushed 2026-10-06: theme `main` `a630e4a`, engagement `develop` `f8f458b`, harness `main` `397da08`+. Push only on James's word.
 
