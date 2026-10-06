@@ -1,20 +1,18 @@
 # PROJECT STATE — Skydive City
 
-> **Last updated:** 2026-10-06 (checkpoint) by CTO Agent (`#44` LIVE + closed · `#48` priced: Weekly Hosting Maintenance $55/mo line item, SOW v1.2 drafted — James reviewing · Phase 0 **14/18**.)
+> **Last updated:** 2026-10-06 (session end) by CTO Agent (`#79` `#83` `#77` `#87` `#44` closed · `#48` with James for review · Phase 0 **14/18**, `#67` blocked only by `#61`/BM.)
 
 ---
 
 ## ⚡ RESUME INSTRUCTION
 
-**Phase 0 — 14 of 18 done; `#67` activation rehearsed and waiting on BM (`#55` → `#61`); Block follow-ups are the active lane.** `#78` closed 2026-10-06 (Blocks posts render through `templates/blocks.php`; theme `a630e4a`, CI green). James relays Marcella's answer when it arrives → then `#55` → `#61` → `#67`.
+**Phase 0 — 14 of 18; `#67` waits on BM (`#55` → `#61`).** 2026-10-06 closed `#78` `#79` `#83` `#77` `#87` (theme `9cb45e6`, pushed) and `#44` (LIVE on prod, 5-phase).
 
-**`#44` LIVE + closed 2026-10-06** (5-phase; engagement commit local, not pushed). **`#48` — James reviewing (2026-10-06):** proposal `project_management/hosting-maintenance-proposal.md` + **Managed Services SOW v1.2 draft** (engagement `f864a66`, local, unpushed). James's rule: separate line item on the SOW renewal, SDC pays no more than today's $100/mo to BM → **Weekly Hosting Maintenance $55/mo** (§4.2(e), §7.5), Flywheel + licences in SDC's name paid directly (§7.4) → total $89.00 ($96.42 with Bloom); starts on the Hosting Start Date. Open: absorb the one-time move (4–8 h, §4.4)?; confirm the $100 is monthly + scope; payment terms. Then share with Rich before 2026-10-31.
+**Next: `#48` — James is reviewing** `project_management/hosting-maintenance-proposal.md` + **Managed Services SOW v1.2 draft** ($55/mo Weekly Hosting Maintenance line item; total $89/mo vs today's $100 to BM). Apply his edits; open points: absorb the one-time move?, confirm the $100 is monthly + scope, payment terms. Share with Rich before **2026-10-31** (SOW term end). Then `#47` sequence (licences in SDC's name → SDC Flywheel account → move; remove 10Web; Bloom keep/replace + whose Mailchimp list).
 
-**Dev is ready:** Compass 0.4.0 active on the 2026-10-05 production snapshot; fixtures reseeded — `/compass-66-winterfest/` (5959, Immersive), `/compass-block-gallery/` (5960), Blocks test event (5961); 14 Prices + tier table. WP-CLI phar at `/tmp/wp-cli.phar` in the container (re-fetch if the container was recreated). Docker was down at boot today — `open -a Docker` first.
+**Boot:** `clockify-timer.sh status` (hook misses resumes, harness `#12`). Agent-side stop must be `clockify-timer.sh stop </dev/null` (it hangs otherwise — harness `#13`). Stop the timer at `/session-end` and whenever James steps away.
 
-**Boot:** `clockify-timer.sh status` (the hook missed today's resume again — harness `#12`). **Timer discipline (James 10-06): `stop` is the last action of `/session-end` and whenever James steps away; idle must never bill** — structural fix proposed as harness **`#13`** (pause on idle, trim to last activity, resume on next prompt). Today's `#78` entry carries ~40 idle min (15:12→15:51Z) — James to trim.
-
-**Branch check first.** All pushed 2026-10-06: theme `main` `a630e4a`, engagement `develop` `f8f458b`, harness `main` `397da08`+. Push only on James's word.
+**Branch check first.** Engagement `develop` is **5 commits ahead, unpushed — push only after James's `#48` review** (proposal, SOW v1.2, `#44` scripts). Theme `main` `9cb45e6` and harness `main` pushed.
 
 ---
 
@@ -260,6 +258,7 @@ See [`wiki/README.md`](../../projects/skydivecity/wiki/README.md) for convention
 
 | Date | Agent | Summary |
 |------|-------|---------|
+| 2026-10-06 (session end) | CTO Agent | Close: resume rewritten for the `#48` review; Live Watch unchanged (`#23` window ~10-07/08, `#82` Nov 1, `#75` ~11-05 — note `#44` in the October report). No new ADR this afternoon (`#79`/`#83` are contract changes recorded in the theme README + contracts 1.7.0; `#87` in the editor guide). |
 | 2026-10-06 (night) | CTO Agent | **`#48`** priced per James: $55/mo Weekly Hosting Maintenance line item; SOW v1.2 drafted (§4.2(e), §7.4, §7.5); cost table vs today's $100. James reviewing. Harness pushed. |
 | 2026-10-06 (evening, late) | CTO Agent | **`#44` LIVE + closed** (5-phase; James's wording; 3 orphans unpublished; no CF purge needed). **`#48`** updated: Flywheel Starter sized from GA4 + overage math; licence status verified on prod (Bloom live, 10Web unused). |
 | 2026-10-06 (evening, later) | CTO Agent | `#87` accepted → pushed + closed. **`#44`**: dev-first fix built and applied on dev (fleet, tent $5, RV slot framing, hotel rates out, 3 orphans unpublished); prod Phase-1 read clean; at the gate. **`#48`**: research subagent + confirmed list prices → proposal draft (`1b22e22`), ready-for-human. |
