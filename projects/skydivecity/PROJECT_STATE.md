@@ -12,7 +12,7 @@
 
 **Boot:** `clockify-timer.sh status` (hook misses resumes, harness `#12`). Agent-side stop must be `clockify-timer.sh stop </dev/null` (it hangs otherwise — harness `#13`). Stop the timer at `/session-end` and whenever James steps away.
 
-**Branch check first.** Engagement `develop` is **5 commits ahead, unpushed — push only after James's `#48` review** (proposal, SOW v1.2, `#44` scripts). Theme `main` `9cb45e6` and harness `main` pushed.
+**Branch check first.** Engagement `develop` is **4 commits ahead, unpushed — push only after James's `#48` review** (proposal, SOW v1.2, `#44` scripts). Theme `main` `9cb45e6` and harness `main` pushed.
 
 ---
 
