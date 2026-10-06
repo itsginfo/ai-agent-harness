@@ -1,30 +1,16 @@
 # PROJECT STATE — WoW Classic AddOns
 
-> **Last updated:** 2026-08-28 by CTO Agent (**TSM enchanting resolved — it was a Leatrix Plus conflict, not a TSM bug**, fixed by turning off "Enhance profession frames" [`#10`](https://github.com/itsginfo/wow-addons/issues/10). Two speculative TSM edits reverted; three fragile edits stand, not five.)
+> **Last updated:** 2026-10-05 by CTO Agent (**StackBreaker shipped and verified** [`#11`](https://github.com/itsginfo/wow-addons/issues/11), ADR-0006. **All three fragile in-provider edits are currently reverted** — TSM since 09-17, RXPGuides since today — see Resume.)
 
 ---
 
 ## ⚡ RESUME INSTRUCTION
 
-**Open in `/Applications/World of Warcraft/_classic_era_/Interface/AddOns`** (ADR-0003). Tree clean,
-three guard greps pass, `luac -p` available locally. New addon folders need a **full client restart**;
-edits to existing addons only need `/reload`.
+**Reconcile first — the game is running none of our three in-provider fixes.** TSM v4.14.77 (landed 2026-09-17) reverted both TSM guards; RXPGuides v4.11.15 (2026-10-05) rewrote `map.lua` with zero `CreateObjectPool` references, so that fix may be obsolete rather than reverted. Logged with a table on [`#2`](https://github.com/itsginfo/wow-addons/issues/2). `!CUF` 1.3.0 was restored from git tonight; `git status` is clean at `7140aa3`. StackBreaker 1.0.5 (new, ours) is live and verified.
 
-**Nothing is broken right now.** The TSM enchanting saga closed as an addon conflict
-([`#10`](https://github.com/itsginfo/wow-addons/issues/10)) — **Leatrix Plus "Enhance profession
-frames" must stay OFF**, recorded in the project `CLAUDE.md` under Known addon conflicts with an
-explicit *do not patch TSM for this*.
+**Next:** run the runbook step 0→5 on [`#2`](https://github.com/itsginfo/wow-addons/issues/2): three-way the two TSM files against `backups/2026-08-28/local-edits/*.patched-4.14.76` and re-apply; *read* the new `RXPGuides/map.lua` before deciding whether the `CreateObjectPool` fix is still needed; then re-record the three guard counts in `CLAUDE.md`. Also in the batch: Bagnon → Baganator (stale `Bagnon: enabled` on every character's `AddOns.txt`), ClassicCalendar missing `LibDBIcon-1.0`.
 
-**Next:**
-1. **`!CUF` 1.3.0 is STILL unverified** — corrected 2026-08-28. The in-game `ElvUI detected…`
-   message came from **`Cell_UnitFrames/Util/HideBlizzard.lua:266`**, the *provider's* code, not
-   ours. Nothing has confirmed our shim runs. `#3` stands exactly where it did on 08-10.
-   *(Separately, that warning asks for **Buff Frame** and **Debuff Frame** to be unchecked under
-   `/cell` → Unit Frames → General → Blizzard Frames — CUF has already skipped hiding them because
-   ElvUI taints `SecureAuraHeader`, so the toggles are inert; unchecking only silences the warning.)*
-2. **SpellAnnouncerClassicPlus 2.0.0** — still never verified. Staged on Noop and Miig.
-3. **Open Question 4** (`!CUF` remedy) — the only open decision.
-4. Report the two upstream bugs (TSM overlay ordering; Leatrix's `SetFrameLevel` hook).
+**Branch check first.** Project repo (`/Applications/World of Warcraft/_classic_era_/Interface/AddOns`): `main`, 2 commits unpushed (`3b27b52`, `7140aa3`). Harness: `main`. New addon folders need a full client restart; `/reload` otherwise.
 
 ## Wiki Quick-Index
 
@@ -45,13 +31,13 @@ explicit *do not patch TSM for this*.
 | Field | Value |
 |-------|-------|
 | **Project Name** | WoW Classic AddOns — update reconciliation & customization maintenance |
-| **Overall Status** | 🟢 Reconciled and clean 2026-08-27. Auctioneer load failure fixed by a standalone shim; baseline retired (ADR-0005); local Lua syntax-checking now available. **Three addons of ours await one in-game session** — all stageable on Noop/Miig. Only OQ 1 (Priest spec) and OQ 4 (`!CUF` remedy) remain open |
+| **Overall Status** | 🟡 **Reconcile owed.** Batches of 2026-09-17 (TSM) and 2026-10-05 (RXP, Cell, Baganator…) reverted all three fragile in-provider edits; nobody was watching between 08-28 and 10-05. `!CUF` 1.3.0 restored 10-05. **StackBreaker** (new standalone addon, [`#11`](https://github.com/itsginfo/wow-addons/issues/11)) built and verified in one evening; SAC Plus 2.0.0 verified (`aa46438`). OQ 1 and OQ 4 still open |
 | **Lead Agent** | CTO |
 | **Human Owner** | James |
 | **Primary SPOC** | James (personal project) |
 | **Start Date** | 2026-08-05 (ADE onboarding; project files date to 2026-07) |
 | **Target Date** | N/A — ongoing maintenance |
-| **Current Mode** | Maintenance (reconcile update batches as they arrive) + build scoping on `#1` |
+| **Current Mode** | Maintenance (reconcile update batches as they arrive) + small authored addons on request (StackBreaker `#11` done) + build scoping on `#1` |
 
 ---
 
@@ -88,16 +74,18 @@ explicit *do not patch TSM for this*.
 
 | Item | Watch by | Tracker | Notes |
 |------|----------|---------|------|
-| **Verify `!CUF` 1.3.0 AND SpellAnnouncerClassicPlus 2.0.0 in-game** | **next play session** | [`#3`](https://github.com/itsginfo/wow-addons/issues/3) + `227bf06` | **Now doable in one sitting, on `Noop` or `Miig`.** Both characters already have `SpellAnnouncerClassic` **disabled**, `SpellAnnouncerClassicPlus` **enabled**, and `!CUF_PrivateAuraCompat` **enabled** — the shared-globals precondition is satisfied, no config change needed first. Neither addon has ever run at any version. For `!CUF`, expect Blizzard party/raid frames to possibly reappear briefly after roster churn — accepted trade-off of 1.3.0 gating hide-reinforce off. |
+| **Re-apply the three fragile in-provider edits** | **next session, before anything else** | [`#2`](https://github.com/itsginfo/wow-addons/issues/2) (table in the 2026-10-05 correction comment) | All three guard greps read **0** on 2026-10-05. TSM v4.14.77 reverted `Accounting.lua` + `LibTSMClass.lua` on **09-17**; RXPGuides v4.11.15 rewrote `map.lua` on 10-05 (0 `CreateObjectPool` refs — may be obsolete). Patched copies in `backups/2026-08-28/local-edits/`. Until re-applied: TSM's event pipeline can die on any nil price until `/reload` ([`#7`](https://github.com/itsginfo/wow-addons/issues/7)). |
+| **Verify `!CUF` 1.3.0 in-game** | **next play session** | [`#3`](https://github.com/itsginfo/wow-addons/issues/3) | Restored from git again 2026-10-05 after today's Cell_UnitFrames update. SpellAnnouncerClassicPlus 2.0.0 **was verified** (`aa46438`) and drops off this row. For `!CUF`, expect Blizzard party/raid frames to possibly reappear briefly after roster churn — accepted trade-off of 1.3.0 gating hide-reinforce off. |
+| **Stale character config after the Baganator swap** | next reconcile | [`#2`](https://github.com/itsginfo/wow-addons/issues/2) | Bagnon folder gone, Baganator (+BagBrother) installed 2026-10-05; every character's `AddOns.txt` still says `Bagnon: enabled` (same shape as the BigWigs leftovers). ClassicCalendar logs `missing dependency [LibDBIcon-1.0]`. |
 | **Re-check `!CUF` after every Cell_UnitFrames update** | each batch | [ADR-0004](https://github.com/itsginfo/wow-addons/blob/main/docs/adr/0004-cuf-privateauracompat-is-provider-owned.md) | Working as designed: CUF 1.10.66 → 1.10.67 reverted it on 08-24 and `git checkout -- '!CUF_PrivateAuraCompat/'` restored it. Provider twin inside `Cell_UnitFrames/` still ships 1.2.7; our top-level is 1.3.0. `git status` catches this for free. |
-| **Two fragile in-provider edits — grep guards, not `git status`** | each batch | [`#2`](https://github.com/itsginfo/wow-addons/issues/2) step 0 | `RXPGuides/map.lua` (`grep -c CreateObjectPool` → **3**) and `TradeSkillMaster/Core/Service/Tooltip/Accounting.lua` (`grep -c "LOCAL EDIT"` → **2**, see [`#7`](https://github.com/itsginfo/wow-addons/issues/7)). Both live in gitignored provider folders, so `git status` is blind to them. Both verified passing 2026-08-27. |
+| **Three fragile in-provider edits — grep guards, not `git status`** | each batch | [`#2`](https://github.com/itsginfo/wow-addons/issues/2) step 0 | `RXPGuides/map.lua` (→ **3**), `TSM/…/Tooltip/Accounting.lua` (→ **2**, [`#7`](https://github.com/itsginfo/wow-addons/issues/7)), `TSM/External/LibTSMClass/LibTSMClass.lua` (→ **1**). All live in gitignored provider folders, so `git status` is blind to them. **All three read 0 as of 2026-10-05** (row above). Lesson: 38 days without a session is 38 days with no one running the greps — the guards only work when someone looks. |
 | **Verify `TSMClassDebugProbeShim` — and report what it reveals** | **next disenchant** | [`#9`](https://github.com/itsginfo/wow-addons/issues/9) | New addon, `a27bb8a`. LibTSMClass was throwing on WoW's `debuglocals` probe and **swallowing the real error**. This does not fix the disenchant problem; it makes it visible. The error that appears next is the one to chase. |
 | **Verify `!AucHyperlinkCompat` in-game** | **next `/reload`** | [`#8`](https://github.com/itsginfo/wow-addons/issues/8) | New addon, `8fa4c71`. Expect both the BeanCounter and Enchantrix errors gone and `Auctioneer loaded (version …)` in chat. Syntax-checked with `luac -p`, never run. If Auctioneer still reports a load error, the shim is loading too late — check it sorts before `Auc-Advanced`. |
 | **Purge 61 stale RXP display-form guide keys** | when WoW is next fully closed | [`#6`](https://github.com/itsginfo/wow-addons/issues/6) | Data-only edit to `WTF/Account/KRONCK/SavedVariables/RXPGuides.lua`; ~700 KB of a 1.55 MB file. **Requires WoW fully closed.** Pre-diagnosis backup at `backups/2026-08-19/rxp-savedvariables/`. Until done, they keep logging `Tried to load an invalid Guide`. |
 
 ## In-Flight Tasks ⚡
 
-*(No uncommitted work — both repos committed & pushed 2026-08-10. **Carrying risk, not work:** `!CUF` 1.2.8 is live and unverified — see Live Watch / [`#3`](https://github.com/itsginfo/wow-addons/issues/3).)*
+*(No uncommitted work. Project repo has two **unpushed** commits on `main`: `3b27b52` StackBreaker, `7140aa3` ADR-0006 — push not authorised this session. **Carrying risk, not work:** the three reverted in-provider edits — see Live Watch / [`#2`](https://github.com/itsginfo/wow-addons/issues/2).)*
 
 ---
 
@@ -121,21 +109,10 @@ explicit *do not patch TSM for this*.
 
 ## Next 3 Actions (Prioritized)
 
-1. **One in-game session clears the entire verification backlog.** On **Noop** or **Miig**:
-   `!AucHyperlinkCompat` ([`#8`](https://github.com/itsginfo/wow-addons/issues/8) — expect the
-   BeanCounter/Enchantrix errors gone and `Auctioneer loaded` in chat), `!CUF` 1.3.0
-   ([`#3`](https://github.com/itsginfo/wow-addons/issues/3)), and **SpellAnnouncerClassicPlus 2.0.0**.
-   Three addons of ours, none of which has ever run. No config change needed first.
-2. **Answer Open Question 4** — how `!CUF` patches survive Cell_UnitFrames updates (fork under a
-   provider-free name / upstream to the CUF author / keep re-applying). It is the last open decision;
-   option (c) is in force and demonstrably works, so this is about cost, not risk.
-3. **`#4` ItemRack `GetMouseFocus`** — verified still latent on 2026-08-27 (ItemRack 4.23 unchanged
-   since Jul 23), but the deprecated call is only reached from the menu's `OnUpdate` timer, so it is
-   cosmetic and menu-only. Ships as a standalone shim when it comes up.
-4. **Housekeeping / pending James** — delete the orphaned `~/Projects/wow-addons/AddOns/` copy
-   (**648 MB, not yet approved**); purge the 61 stale RXP guide keys
-   ([`#6`](https://github.com/itsginfo/wow-addons/issues/6), needs WoW fully closed); decide whether
-   `Miig` should get `DBM-Core` enabled — it currently has no boss mod at all.
+1. **Reconcile [`#2`](https://github.com/itsginfo/wow-addons/issues/2): re-apply the three fragile edits.** Three-way `TradeSkillMaster/Core/Service/Tooltip/Accounting.lua` and `External/LibTSMClass/LibTSMClass.lua` (now v4.14.77) against `backups/2026-08-28/local-edits/*.patched-4.14.76`; **read** the rewritten `RXPGuides/map.lua` (v4.11.15, 0 `CreateObjectPool` refs) and decide whether the fix is obsolete — if so, retire the guard and update `CLAUDE.md` + the runbook. Save both sides to `backups/2026-10-05/` per ADR-0005. Clean up stale `Bagnon: enabled` entries and chase ClassicCalendar's missing `LibDBIcon-1.0`.
+2. **Verify `!CUF` 1.3.0 in-game** ([`#3`](https://github.com/itsginfo/wow-addons/issues/3)) on `Noop` or `Miig` — restored again tonight, still never confirmed running. `!AucHyperlinkCompat` ([`#8`](https://github.com/itsginfo/wow-addons/issues/8)) only matters if Auctioneer is reinstalled; it also restores NovaWorldBuffs chat links, so a `/reload` check is cheap.
+3. **Answer Open Question 4** — how `!CUF` patches survive Cell_UnitFrames updates. Tonight was the fourth revert; option (c) still works but each one costs a `git checkout` someone has to remember.
+4. **Housekeeping / pending James** — purge the 61 stale RXP guide keys ([`#6`](https://github.com/itsginfo/wow-addons/issues/6), needs WoW fully closed; re-check against v4.11.15 first); decide whether `Miig` gets `DBM-Core`; `#4` ItemRack `GetMouseFocus` stays latent. **Push the two unpushed project commits** when James says so.
 
 ## Decisions (Summary)
 
@@ -143,6 +120,7 @@ explicit *do not patch TSM for this*.
 
 | Date | Decision | Reference |
 |------|----------|-----------|
+| 2026-10-05 | **Intercept a protected UI action at the widget, never by wrapping what Blizzard calls.** `C_Container.UseContainerItem` is protected and the bag-slot `OnClick` is a secure inline handler; wrapping either put tainted values on the secure path and broke *plain* right-click. Cancel on `OnMouseDown` with `Button:Disable()`/`RegisterForClicks`, restore on release, post-hook `OnClick` as a tripwire. Extends ADR-0001 from files to code paths. | [ADR-0006](https://github.com/itsginfo/wow-addons/blob/main/docs/adr/0006-cancel-protected-clicks-at-the-widget.md), [`#11`](https://github.com/itsginfo/wow-addons/issues/11), `3b27b52` |
 | 2026-08-28 | **Provider-library defects get standalone shims, not source edits — now a settled pattern.** Third consecutive fix (`!AucHyperlinkCompat`, `TSMClassDebugProbeShim`) delivered without touching a provider file. The count of fragile in-provider edits stayed at two while three real bugs were fixed, which is the whole point of ADR-0001. Reachability is the deciding test: a library is shimmable when its metatable is unprotected (LibTSMClass `CLASS_MT`) or its symbol is global; TSM's `TooltipBuilder` was not, which is why [`#7`](https://github.com/itsginfo/wow-addons/issues/7) is a genuine exception. | [`#9`](https://github.com/itsginfo/wow-addons/issues/9), `a27bb8a`, ADR-0001 |
 | 2026-08-27 | **The whole-tree `AddOns-copy/` baseline is retired** in favour of per-file backups of both sides of each fragile in-provider edit. Triggered by finding the 08-19 refresh had silently only half-happened while being recorded as done — a partially refreshed tree is indistinguishable from a correct one, so the failure mode is silent and corrupts exactly the artifact you reach for when already in trouble. | [ADR-0005](https://github.com/itsginfo/wow-addons/blob/main/docs/adr/0005-retire-whole-tree-baseline.md), `8fa4c71` |
 | 2026-08-27 | **Auctioneer's removed-API crash is fixed by a standalone shim, not a provider edit.** `!AucHyperlinkCompat` re-creates the removed `ChatFrame_OnHyperlinkShow` global as a live dispatcher. Chosen over patching `Auc-Advanced` + `BeanCounter` in place, which would have created a third and fourth fragile edit; the shim edits no provider file and so cannot be reverted. | [`#8`](https://github.com/itsginfo/wow-addons/issues/8), `8fa4c71`, ADR-0001 |
@@ -160,6 +138,8 @@ explicit *do not patch TSM for this*.
 
 | Date | Agent | Summary |
 |------|-------|---------|
+| 2026-10-05 | CTO | **Built StackBreaker** (Alt + right-click → break a stack into stacks of size N) from scratch to verified-in-game in one evening, five versions deep ([`#11`](https://github.com/itsginfo/wow-addons/issues/11), `3b27b52`, [ADR-0006](https://github.com/itsginfo/wow-addons/blob/main/docs/adr/0006-cancel-protected-clicks-at-the-widget.md)). Four client facts cost a round each: `UseContainerItem` is protected (v1.0.0 broke plain right-click); `StaticPopup` has no `editBox`; Baganator's mixin is frozen; the client lags the server one bag update. **Two rounds were my own fault** — a write-before-read one-liner emptied the `.toc` and the addon silently stopped loading. At close: restored `!CUF` 1.3.0 (fourth revert), then found **all three fragile in-provider edits reverted** — TSM since **09-17**, unnoticed for 38 days — and initially mis-reported the greps as passing on `#2` before correcting with a table. Reconcile deferred to next session. Memory added: Lua errors are silent on this machine (BugSack). |
+| 2026-08-28 (close) | CTO | *(resume drained 2026-10-05)* Standing posture at close of 08-28: nothing broken; `!CUF` 1.3.0 + SAC Plus 2.0.0 + `!AucHyperlinkCompat` + `TSMClassDebugProbeShim` all awaiting one in-game session on Noop/Miig; OQ 4 the only open decision; two upstream bugs to report. SAC Plus was subsequently verified (`aa46438`). See the three 08-28 rows below for the work itself. |
 | 2026-08-28 (evening) | CTO | **TSM enchanting resolved — not a TSM bug.** `DoCraft()` is protected; TSM's own workaround overlays Blizzard's secure `CraftCreateButton` on its craft button. `Leatrix_Plus.lua:8126` hooks `SetFrameLevel` on that button and re-anchors it — its comment names TradeSkillMaster — and TSM sets the position *before* calling `SetFrameLevel(200)`, so Leatrix always fires last. Fixed by turning off Leatrix's **"Enhance profession frames"**; no code change. **Six hypotheses inside TSM's source were wrong**; what solved it was temporary `print` probes plus the observation that the overlay's x-position stayed at exactly 361 through every attempted fix — a value that will not move has a second owner. One cross-addon grep then found it immediately. Both speculative `CraftDetails.lua` edits reverted (`1639f35`), so the fragile-edit count went 3 → 5 → back to **3**. Recorded as a standing config note in the project `CLAUDE.md`, with the generalisable lesson added to the runbook. **Correction logged same session:** the `ElvUI detected…` chat message was attributed to our `!CUF` shim as proof it had finally run; it is actually printed by `Cell_UnitFrames/Util/HideBlizzard.lua:266`, the provider's own code. `#3` remains wholly unverified. Second time this project has mistaken provider-shipped `!CUF`-adjacent code for ours — the ADR-0004 rule (check provenance before attributing) applies to **chat strings** too, not just folders. |
 | 2026-08-28 (cont.) | CTO | Reconciled an overnight batch that reverted **both** fragile edits: RXPGuides v4.10.25 → v4.10.26 wiped `map.lua` (guard 0) — re-applied **surgically** since upstream changed four hunks elsewhere in the file; Cell 1.10.67 → 1.10.68 reverted `!CUF`, restored from git. First real exercise of ADR-0005's two-sided backup, and it is what made the surgical path tractable. Then chased the TSM enchanting error to ground: **the shim I shipped for [`#9`](https://github.com/itsginfo/wow-addons/issues/9) could never have worked** — I had claimed `CLASS_MT` does not seal its metatable, but it sets `__metatable = false` at line 469 and my earlier grep window stopped at 420. It no-opped safely; deleted, and replaced with an in-provider guard — now the **third** such edit, so step 0 carries three greps. The guard worked: the masked error surfaced as `ADDON_ACTION_FORBIDDEN … DoCraft()`, filed as [`#10`](https://github.com/itsginfo/wow-addons/issues/10) — protected function called from tainted Lua, **not fixable locally**, upstream change needed. Also established that **Decursive is never the culprit** in these reports: it ships the only BugGrabber, which seizes the global error handler, so its path appears in every error on this machine. |
 | 2026-08-28 | CTO | Deleted the orphaned `~/Projects/wow-addons/AddOns/` copy (648 MB; ~1.3 GB freed across both trees, and that directory now holds no addon tree at all). Diagnosed `LUA_WARNING: Invalid static class key (ToDebugString)`, reported while disenchanting: **not a disenchant bug and not really a TSM bug** — WoW's `debuglocals()` probes every dumped local for `ToDebugString`/`GetDebugName`, and LibTSMClass's class metatable errors on any unrecognised key, so whenever a TSM class object is among the locals **the probe's throw replaces the real error**. Corroborated by two addons already carrying the identical guard for the identical reason (`Prat-3.0/addon/modules.lua:26`, Decursive's AceLocale table). Fixed with `TSMClassDebugProbeShim` ([`#9`](https://github.com/itsginfo/wow-addons/issues/9), `a27bb8a`) — instances were already safe, and `CLASS_MT` is patchable from outside only because it does not set `__metatable`. **This unmasks rather than fixes**: the next disenchant should surface the real error. |
