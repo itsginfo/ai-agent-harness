@@ -1,6 +1,6 @@
 # PROJECT STATE — Skydive City
 
-> **Last updated:** 2026-10-06 (checkpoint) by CTO Agent (`#79` `#83` `#77` CLOSED + pushed · `#87` plain-text tier facts built → ready-for-human, theme `9cb45e6` local · Phase 0 **14/18**.)
+> **Last updated:** 2026-10-06 (checkpoint) by CTO Agent (`#87` CLOSED + pushed · `#44` at the Phase-1 gate (dev done) · `#48` proposal drafted → ready-for-human.)
 
 ---
 
@@ -8,7 +8,7 @@
 
 **Phase 0 — 14 of 18 done; `#67` activation rehearsed and waiting on BM (`#55` → `#61`); Block follow-ups are the active lane.** `#78` closed 2026-10-06 (Blocks posts render through `templates/blocks.php`; theme `a630e4a`, CI green). James relays Marcella's answer when it arrives → then `#55` → `#61` → `#67`.
 
-**Block lane CLOSED 2026-10-06** — `#79` `#83` `#77` accepted by James, pushed (theme `73e61ac`). **`#87` built → ready-for-human** (theme `9cb45e6`, local): plain-text tier facts follow the table (`[ffp_tier]` `[ffp_tiers]` `[ffp_saving]`); no typed tier fact remains on `/compass-79-ffp/`. **Next:** James reviews `#87` → push on his word → close. Then `#44` / `#48`.
+**Block lane + `#87` CLOSED and pushed 2026-10-06** (theme `9cb45e6`). **`#44` waiting at the Phase-1 gate:** fix script `migration/wp-stale-content-fix-2026-10.php` (9 edits, 5 fields; CRLF-aware; asserts each old string once) applied + verified on dev; prod read matches the snapshot. James to approve wording + orphan handling (recommend unpublish only) → `backup-db` → upload → prod dry run → write → verify → purge Cloudflare. **`#48`:** draft `project_management/hosting-maintenance-proposal.md` (engagement `1b22e22`) → James sets §6 price, then shares with Rich; SOW term ends 2026-10-31.
 
 **Dev is ready:** Compass 0.4.0 active on the 2026-10-05 production snapshot; fixtures reseeded — `/compass-66-winterfest/` (5959, Immersive), `/compass-block-gallery/` (5960), Blocks test event (5961); 14 Prices + tier table. WP-CLI phar at `/tmp/wp-cli.phar` in the container (re-fetch if the container was recreated). Docker was down at boot today — `open -a Docker` first.
 
@@ -260,6 +260,7 @@ See [`wiki/README.md`](../../projects/skydivecity/wiki/README.md) for convention
 
 | Date | Agent | Summary |
 |------|-------|---------|
+| 2026-10-06 (evening, later) | CTO Agent | `#87` accepted → pushed + closed. **`#44`**: dev-first fix built and applied on dev (fleet, tent $5, RV slot framing, hotel rates out, 3 orphans unpublished); prod Phase-1 read clean; at the gate. **`#48`**: research subagent + confirmed list prices → proposal draft (`1b22e22`), ready-for-human. |
 | 2026-10-06 (evening) | CTO Agent | James accepted `#79` `#83` `#77` → pushed (`73e61ac`) + closed. Filed + built **`#87`** (`9cb45e6`, local): plain-text tier tags; FFP fixture sentences equal the approved copy word for word and follow a tier change; editor-guide section. Ready-for-human. |
 | 2026-10-06 (late afternoon) | CTO Agent | **`#83`** (`4b74b5a`): matrix columns are tier picks + `price` cells, meter bands generated from the table (identical to the approved token today; Bronze 26→31 test moved ladder/counter/bands/savings/matrix together) · **`#77`** (`73e61ac`): Conversion `accent.on` + `content.on-accent` → ink.bright (4.54:1), pair now lint-guarded. Both ready-for-human; theme ahead 3, unpushed. |
 | 2026-10-06 (afternoon) | CTO Agent | **`#79` built + dev-verified → ready-for-human** (theme `d1d1695`, local): the whole approved FFP page builds from Blocks — contracts 1.6.0 / 33 Components; fidelity `ffp-page` 78/79, other sets unchanged; `/code-review` medium → 5 fixes incl. ACF expanding every shortcode in Compass fields (verified, pre-existing). Next: `#83`, then `#77`. |
