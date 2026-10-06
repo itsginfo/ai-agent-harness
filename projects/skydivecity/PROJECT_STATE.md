@@ -1,6 +1,6 @@
 # PROJECT STATE — Skydive City
 
-> **Last updated:** 2026-10-05 (session end) by CTO Agent (`#85` shipped · `#62` CLOSED, Phase 0 **14/18** · `#67` has its sequence + exception, blocked only by `#61`/BM.)
+> **Last updated:** 2026-10-05 (boot-only session, closed) by CTO Agent (no change: Phase 0 **14/18** · `#67` rehearsed, blocked only by `#61`/BM · tracker and board reconciled clean.)
 
 ---
 
@@ -12,7 +12,9 @@
 
 **Boot:** run `clockify-timer.sh status` (SESSION_START 6-D) — the hook misses resumed sessions.
 
-**Branch check first.** All pushed 2026-10-05: theme main `7d8f629`, engagement `develop` `1a1cf8b`, harness `main` `e973bd8`+. Push only on James's word.
+**Unblocked candidates while BM is silent (priority order):** `#78` Legacy header above Blocks content (must land before Winterfest ports; reseed fixtures first) · `#44` stale live content (told Rich "October") · `#48` hosting + maintenance proposal for Rich. OQ 20 (re-sequence `#67` ahead of `#61`?) is James's call.
+
+**Branch check first.** All pushed 2026-10-05: theme main `7d8f629`, engagement `develop` `1a1cf8b`, harness `main` `17f693c` (+ this session's local checkpoint). Push only on James's word.
 
 ---
 
@@ -258,6 +260,7 @@ See [`wiki/README.md`](../../projects/skydivecity/wiki/README.md) for convention
 
 | Date | Agent | Summary |
 |------|-------|---------|
+| 2026-10-05 (evening, boot-only) | CTO Agent | Boot + reconcile only; no task given, no tracker/code change. All 34 open issues on the board, statuses consistent, no activity since the morning session-end. Resume gains the unblocked-candidates line (`#78` · `#44` · `#48`) for the next pickup. |
 | 2026-10-05 (session end) | CTO Agent | Close: `#67` gains Step 0 (deploy Compass 0.4.0; prod holds 0.2.6) + blocker status; resume rewritten lean; Live Watch unchanged (all three rows still dated ahead). No new ADR — the strip exception is a ticket-level verdict, the diff-tool gaps are `#86`, the Clockify rule is a protocol step. |
 | 2026-10-05 (later) | CTO Agent | James's decisions: (1) four strip events **accepted** as the `#67` exception → `#62` CLOSED (Phase 0 14/18), target + sequence on `#67`; (2) diff-tool cross-host gaps → **`#86`** (parked on the staging-host question, `#47`); (3) BackWPup files-archive finding → [[flywheel]] + DR note on `#23`; Clockify → SESSION_START Step 6-D (`status`/`task` at boot) + harness **`#12`** (UserPromptSubmit self-heal). Engagement `1a1cf8b` local. |
 | 2026-10-05 | CTO Agent | **`#85` Collegiate Burble link SHIPPED to prod + closed** (5-phase; `334e419`) · **`#62` staging rehearsal RUN** on the same-morning prod snapshot (DB via `backup-db` + daily files archive, SHA-verified; new `prod-read.sh download` verb, James's go + local allow rule): gate 382/386 bodies identical, chrome = Compass everywhere but the 3 landing templates, port-status 0 Blocks, full rollback 382/0/0 · **4 body diffs = strip prerequisite's `wpautop` `<p>` wrapper on four 2020–21 events → decision for James** · findings: BackWPup files archive not a faithful plugin mirror (4 plugins reinstalled at prod versions); prod-vs-staging 136 diffs all environment (gcal host-length, Cloudflare, debug minification) · log `migration/staging-rehearsal-2026-10-05.md` (`fd95f3c`, local) · ⚠️ Clockify SessionStart hook did not fire — first ~2 h untimed; `#62` entry started 15:24Z. |
