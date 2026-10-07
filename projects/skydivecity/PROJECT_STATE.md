@@ -258,6 +258,7 @@ See [`wiki/README.md`](../../projects/skydivecity/wiki/README.md) for convention
 
 | Date | Agent | Summary |
 |------|-------|---------|
+| 2026-10-07 | CTO Agent | Rich's staff-page question → `#88` (reply drafted: content now, design with the redesign; quick step = Draft departed staff) + `#89` (BCC ITSG on the staff survey, address to confirm). **Redesign status update SENT by James** (`#67`), Tier 1 overview attached (exported from the live artifact; stale 08-26 local copy replaced). Asks Rich for switch-on dates. |
 | 2026-10-06 (session end) | CTO Agent | Close: resume rewritten for the `#48` review; Live Watch unchanged (`#23` window ~10-07/08, `#82` Nov 1, `#75` ~11-05 — note `#44` in the October report). No new ADR this afternoon (`#79`/`#83` are contract changes recorded in the theme README + contracts 1.7.0; `#87` in the editor guide). |
 | 2026-10-06 (night) | CTO Agent | **`#48`** priced per James: $55/mo Weekly Hosting Maintenance line item; SOW v1.2 drafted (§4.2(e), §7.4, §7.5); cost table vs today's $100. James reviewing. Harness pushed. |
 | 2026-10-06 (evening, late) | CTO Agent | **`#44` LIVE + closed** (5-phase; James's wording; 3 orphans unpublished; no CF purge needed). **`#48`** updated: Flywheel Starter sized from GA4 + overage math; licence status verified on prod (Bloom live, 10Web unused). |
