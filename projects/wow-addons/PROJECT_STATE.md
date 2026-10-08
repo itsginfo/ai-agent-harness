@@ -1,16 +1,16 @@
 # PROJECT STATE — WoW Classic AddOns
 
-> **Last updated:** 2026-10-05 by CTO Agent (**StackBreaker shipped and verified** [`#11`](https://github.com/itsginfo/wow-addons/issues/11), ADR-0006. **All three fragile in-provider edits are currently reverted** — TSM since 09-17, RXPGuides since today — see Resume.)
+> **Last updated:** 2026-10-08 by CTO Agent (**RuneclothRep 1.0.1 shipped, verified in-game, pushed** [`#12`](https://github.com/itsginfo/wow-addons/issues/12). Reconcile on `#2` still owed — TSM guards reverted since 09-17.)
 
 ---
 
 ## ⚡ RESUME INSTRUCTION
 
-**Reconcile first — the game is running none of our three in-provider fixes.** TSM v4.14.77 (landed 2026-09-17) reverted both TSM guards; RXPGuides v4.11.15 (2026-10-05) rewrote `map.lua` with zero `CreateObjectPool` references, so that fix may be obsolete rather than reverted. Logged with a table on [`#2`](https://github.com/itsginfo/wow-addons/issues/2). `!CUF` 1.3.0 was restored from git tonight; `git status` is clean at `7140aa3`. StackBreaker 1.0.5 (new, ours) is live and verified.
+**Reconcile first — still owed, untouched since 10-05.** The game runs none of our three in-provider fixes (TSM v4.14.77 reverted both guards on 09-17; RXPGuides v4.11.15 rewrote `map.lua`, fix possibly obsolete). Table on [`#2`](https://github.com/itsginfo/wow-addons/issues/2). Last session was a detour: RuneclothRep 1.0.1 built, verified and pushed ([`#12`](https://github.com/itsginfo/wow-addons/issues/12), closed).
 
-**Next:** run the runbook step 0→5 on [`#2`](https://github.com/itsginfo/wow-addons/issues/2): three-way the two TSM files against `backups/2026-08-28/local-edits/*.patched-4.14.76` and re-apply; *read* the new `RXPGuides/map.lua` before deciding whether the `CreateObjectPool` fix is still needed; then re-record the three guard counts in `CLAUDE.md`. Also in the batch: Bagnon → Baganator (stale `Bagnon: enabled` on every character's `AddOns.txt`), ClassicCalendar missing `LibDBIcon-1.0`.
+**Next:** runbook step 0→5 on [`#2`](https://github.com/itsginfo/wow-addons/issues/2): three-way the two TSM files against `backups/2026-08-28/local-edits/*.patched-4.14.76` and re-apply; *read* `RXPGuides/map.lua` before deciding if `CreateObjectPool` is still needed; re-record guard counts in `CLAUDE.md`. Same batch: stale `Bagnon: enabled` in `AddOns.txt`, ClassicCalendar missing `LibDBIcon-1.0`.
 
-**Branch check first.** Project repo (`/Applications/World of Warcraft/_classic_era_/Interface/AddOns`): `main`, 2 commits unpushed (`3b27b52`, `7140aa3`). Harness: `main`. New addon folders need a full client restart; `/reload` otherwise.
+**Branch check first.** Project repo (`/Applications/World of Warcraft/_classic_era_/Interface/AddOns`): `main`, in sync with origin at `f9c261d`. Harness: `main`, **ahead of origin (unpushed, includes other projects' session-ends)** — push only when James says. New addon folders need a full client restart; `/reload` otherwise.
 
 ## Wiki Quick-Index
 
@@ -85,7 +85,7 @@
 
 ## In-Flight Tasks ⚡
 
-*(No uncommitted work. Project repo has two **unpushed** commits on `main`: `3b27b52` StackBreaker, `7140aa3` ADR-0006 — push not authorised this session. **Carrying risk, not work:** the three reverted in-provider edits — see Live Watch / [`#2`](https://github.com/itsginfo/wow-addons/issues/2).)*
+*(No uncommitted work. `main` pushed to origin 2026-10-08 through `f9c261d` (StackBreaker, ADR-0006, RuneclothRep 1.0.0 → 1.0.1). **Carrying risk, not work:** the three reverted in-provider edits — see Live Watch / [`#2`](https://github.com/itsginfo/wow-addons/issues/2).)*
 
 ---
 
@@ -110,9 +110,9 @@
 ## Next 3 Actions (Prioritized)
 
 1. **Reconcile [`#2`](https://github.com/itsginfo/wow-addons/issues/2): re-apply the three fragile edits.** Three-way `TradeSkillMaster/Core/Service/Tooltip/Accounting.lua` and `External/LibTSMClass/LibTSMClass.lua` (now v4.14.77) against `backups/2026-08-28/local-edits/*.patched-4.14.76`; **read** the rewritten `RXPGuides/map.lua` (v4.11.15, 0 `CreateObjectPool` refs) and decide whether the fix is obsolete — if so, retire the guard and update `CLAUDE.md` + the runbook. Save both sides to `backups/2026-10-05/` per ADR-0005. Clean up stale `Bagnon: enabled` entries and chase ClassicCalendar's missing `LibDBIcon-1.0`.
-2. **Verify `!CUF` 1.3.0 in-game** ([`#3`](https://github.com/itsginfo/wow-addons/issues/3)) on `Noop` or `Miig` — restored again tonight, still never confirmed running. `!AucHyperlinkCompat` ([`#8`](https://github.com/itsginfo/wow-addons/issues/8)) only matters if Auctioneer is reinstalled; it also restores NovaWorldBuffs chat links, so a `/reload` check is cheap.
+2. **Verify `!CUF` 1.3.0 in-game** ([`#3`](https://github.com/itsginfo/wow-addons/issues/3)) on `Noop` or `Miig` — restored again tonight, still never confirmed running. `!AucHyperlinkCompat` ([`#8`](https://github.com/itsginfo/wow-addons/issues/8)) only matters if Auctioneer is reinstalled (**confirmed uninstalled 2026-10-07** — `Auc-Advanced` absent; RuneclothRep reads Auctioneer only if present); it also restores NovaWorldBuffs chat links, so a `/reload` check is cheap.
 3. **Answer Open Question 4** — how `!CUF` patches survive Cell_UnitFrames updates. Tonight was the fourth revert; option (c) still works but each one costs a `git checkout` someone has to remember.
-4. **Housekeeping / pending James** — purge the 61 stale RXP guide keys ([`#6`](https://github.com/itsginfo/wow-addons/issues/6), needs WoW fully closed; re-check against v4.11.15 first); decide whether `Miig` gets `DBM-Core`; `#4` ItemRack `GetMouseFocus` stays latent. **Push the two unpushed project commits** when James says so.
+4. **Housekeeping / pending James** — purge the 61 stale RXP guide keys ([`#6`](https://github.com/itsginfo/wow-addons/issues/6), needs WoW fully closed; re-check against v4.11.15 first); decide whether `Miig` gets `DBM-Core`; `#4` ItemRack `GetMouseFocus` stays latent.
 
 ## Decisions (Summary)
 
@@ -138,6 +138,8 @@
 
 | Date | Agent | Summary |
 |------|-------|---------|
+| 2026-10-05 (close) | CTO | *(resume drained 2026-10-08)* Resume was "reconcile `#2` first"; **carried forward unstarted** — 10-07/08 session was spent on RuneclothRep at James's request. See `#2` 10-05 correction comment. |
+| 2026-10-07 | CTO | **Built RuneclothRep 1.0.0** ([`#12`](https://github.com/itsginfo/wow-addons/issues/12), `18852ca`): Runecloth -> Darnassus Exalted planner for James's Dwarf Priest saber. Live AH scan (legacy API, foreign-result guard) + TSM/Auctionator/Auctioneer public APIs + Syndicator alts; rep per turn-in self-calibrates (sources disagree 50 vs 75). Stub-tested, then **verified in-game by James 2026-10-08**; `#12` closed. James confirmed **50 rep per turn-in** on Era (wiki's 75 is wrong) → 1.0.1 ships it as verified (`f9c261d`). Auctioneer is no longer installed, so `#8` is moot until reinstalled. Reconcile on `#2` still owed. |
 | 2026-10-05 | CTO | **Built StackBreaker** (Alt + right-click → break a stack into stacks of size N) from scratch to verified-in-game in one evening, five versions deep ([`#11`](https://github.com/itsginfo/wow-addons/issues/11), `3b27b52`, [ADR-0006](https://github.com/itsginfo/wow-addons/blob/main/docs/adr/0006-cancel-protected-clicks-at-the-widget.md)). Four client facts cost a round each: `UseContainerItem` is protected (v1.0.0 broke plain right-click); `StaticPopup` has no `editBox`; Baganator's mixin is frozen; the client lags the server one bag update. **Two rounds were my own fault** — a write-before-read one-liner emptied the `.toc` and the addon silently stopped loading. At close: restored `!CUF` 1.3.0 (fourth revert), then found **all three fragile in-provider edits reverted** — TSM since **09-17**, unnoticed for 38 days — and initially mis-reported the greps as passing on `#2` before correcting with a table. Reconcile deferred to next session. Memory added: Lua errors are silent on this machine (BugSack). |
 | 2026-08-28 (close) | CTO | *(resume drained 2026-10-05)* Standing posture at close of 08-28: nothing broken; `!CUF` 1.3.0 + SAC Plus 2.0.0 + `!AucHyperlinkCompat` + `TSMClassDebugProbeShim` all awaiting one in-game session on Noop/Miig; OQ 4 the only open decision; two upstream bugs to report. SAC Plus was subsequently verified (`aa46438`). See the three 08-28 rows below for the work itself. |
 | 2026-08-28 (evening) | CTO | **TSM enchanting resolved — not a TSM bug.** `DoCraft()` is protected; TSM's own workaround overlays Blizzard's secure `CraftCreateButton` on its craft button. `Leatrix_Plus.lua:8126` hooks `SetFrameLevel` on that button and re-anchors it — its comment names TradeSkillMaster — and TSM sets the position *before* calling `SetFrameLevel(200)`, so Leatrix always fires last. Fixed by turning off Leatrix's **"Enhance profession frames"**; no code change. **Six hypotheses inside TSM's source were wrong**; what solved it was temporary `print` probes plus the observation that the overlay's x-position stayed at exactly 361 through every attempted fix — a value that will not move has a second owner. One cross-addon grep then found it immediately. Both speculative `CraftDetails.lua` edits reverted (`1639f35`), so the fragile-edit count went 3 → 5 → back to **3**. Recorded as a standing config note in the project `CLAUDE.md`, with the generalisable lesson added to the runbook. **Correction logged same session:** the `ElvUI detected…` chat message was attributed to our `!CUF` shim as proof it had finally run; it is actually printed by `Cell_UnitFrames/Util/HideBlizzard.lua:266`, the provider's own code. `#3` remains wholly unverified. Second time this project has mistaken provider-shipped `!CUF`-adjacent code for ours — the ADR-0004 rule (check provenance before attributing) applies to **chat strings** too, not just folders. |
