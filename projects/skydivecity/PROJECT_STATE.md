@@ -110,7 +110,7 @@ See [`wiki/README.md`](../../projects/skydivecity/wiki/README.md) for convention
 
 | Item | Watch by | Tracker | Notes |
 |------|----------|---------|------|
-| **`#23` next weekly window** | **~2026-10-07/08** | [`#23`](https://github.com/itsginfo/skydivecity-com/issues/23) | 09-30 run CLEAN (11 patches, smoke PASS, form PASS; log `maintenance-logs/2026-09-30-run.md`). Standing hold: Gravity Forms 2→3 (now 3.1.2, held ×3) → ticketed as **`#71`** (dev-first upgrade + form re-test). Prod steps run through `tooling/prod/prod-read.sh` / `prod-write.sh` (ADR-0010; write prompts are the gate). |
+| **`#23` next weekly window** | **~2026-10-14/15** | [`#23`](https://github.com/itsginfo/skydivecity-com/issues/23) | Last run **2026-10-07 CLEAN** (6 updates incl. TEC 6.18.0; core is Flywheel-managed, so no CLI core updates; GF 3 held → `#71`). Log `maintenance-logs/2026-10-07-run.md`. |
 | **Winterfest "On now" price highlight** | **2026-11-01** | [`#82`](https://github.com/itsginfo/skydivecity-com/issues/82) | Hand-set in the live page markup: $135 card is marked "On now · Best value" and stays so after Oct 31 unless changed. Move to the $165 card + reword the shirt/discount notices on Nov 1 (page source → regenerate → deploy under change control). Moot if Winterfest is on Blocks by then (EventTiers derives it). |
 | **October Digital Ops Report** | deliver by ~**2026-11-05** (SOW §4.1) | [`#75`](https://github.com/itsginfo/skydivecity-com/issues/75) · `reports/digital-ops-monthly/README.md` | Recurring. **Step 0: request October's Burble count from Rich ~10-30.** Baselines now three months stable: 72–73% online capture; open-to-purchase 6.8 → 6.1 → 7.0%. Flockfest registration inflated Sept transactions (109 × $27,141) — October will drop back unless Flamingofest early-bird (opened 10-01) fills the gap; say so rather than read it as a decline. |
 
@@ -258,6 +258,7 @@ See [`wiki/README.md`](../../projects/skydivecity/wiki/README.md) for convention
 
 | Date | Agent | Summary |
 |------|-------|---------|
+| 2026-10-07 (evening) | CTO Agent | **`#90`** found and decided (opt 1, TEC stays classic; dev diff 0 body diffs over 383 URLs; strip + exception dropped; `#67` sequence revised; spec + theme README amended) · **`#23`** run clean · **`#89`** BCC live and verified (test-entry delete awaiting James) · BM editor heads-up drafted (incl. Local-push risk). |
 | 2026-10-07 | CTO Agent | Rich's staff-page question → `#88` (reply drafted: content now, design with the redesign; quick step = Draft departed staff) + `#89` (BCC ITSG on the staff survey, address to confirm). **Redesign status update SENT by James** (`#67`), Tier 1 overview attached (exported from the live artifact; stale 08-26 local copy replaced). Asks Rich for switch-on dates. |
 | 2026-10-06 (session end) | CTO Agent | Close: resume rewritten for the `#48` review; Live Watch unchanged (`#23` window ~10-07/08, `#82` Nov 1, `#75` ~11-05 — note `#44` in the October report). No new ADR this afternoon (`#79`/`#83` are contract changes recorded in the theme README + contracts 1.7.0; `#87` in the editor guide). |
 | 2026-10-06 (night) | CTO Agent | **`#48`** priced per James: $55/mo Weekly Hosting Maintenance line item; SOW v1.2 drafted (§4.2(e), §7.4, §7.5); cost table vs today's $100. James reviewing. Harness pushed. |
