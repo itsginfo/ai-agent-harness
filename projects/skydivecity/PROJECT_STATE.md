@@ -1,18 +1,18 @@
 # PROJECT STATE — Skydive City
 
-> **Last updated:** 2026-10-06 (session end) by CTO Agent (`#79` `#83` `#77` `#87` `#44` closed · `#48` with James for review · Phase 0 **14/18**, `#67` blocked only by `#61`/BM.)
+> **Last updated:** 2026-10-07 (session end) by CTO Agent (status update + staff reply SENT · `#90` decided · `#23` run clean · `#89` BCC live · Phase 0 **14/18**, `#67` waits on `#61`/OQ 20 + Rich's dates.)
 
 ---
 
 ## ⚡ RESUME INSTRUCTION
 
-**Phase 0 — 14 of 18; `#67` waits on BM (`#55` → `#61`).** 2026-10-06 closed `#78` `#79` `#83` `#77` `#87` (theme `9cb45e6`, pushed) and `#44` (LIVE on prod, 5-phase).
+**Phase 0 — 14 of 18; switch-on (`#67`) is planned and lighter.** 2026-10-07: redesign status update + staff reply (`#88`) SENT to Rich; `#90` decided: TEC stays classic, dev diff 0 body differences over 383 URLs, sequence revised on `#67`; `#23` run clean; `#89` BCC live.
 
-**Next: `#48` — James is reviewing** `project_management/hosting-maintenance-proposal.md` + **Managed Services SOW v1.2 draft** ($55/mo Weekly Hosting Maintenance line item; total $89/mo vs today's $100 to BM). Apply his edits; open points: absorb the one-time move?, confirm the $100 is monthly + scope, payment terms. Share with Rich before **2026-10-31** (SOW term end). Then `#47` sequence (licences in SDC's name → SDC Flywheel account → move; remove 10Web; Bloom keep/replace + whose Mailchimp list).
+**Next (James's go / input):** (1) `#89` delete the survey test entry 2825: script dry-run verified on prod, irreversible, so it waits on James's go. (2) Send the BM editor heads-up (`correspondence/2026-10-07-bm-editor-heads-up.md`) and confirm with Kevin that BM's Local push won't touch prod. (3) OQ 20: switch on before `#61`? (4) `#48` review → share with Rich before **2026-10-31**. Waiting on Rich: switch-on dates, staff list (`#88`). BM: `#55`.
 
-**Boot:** `clockify-timer.sh status` (hook misses resumes, harness `#12`). Agent-side stop must be `clockify-timer.sh stop </dev/null` (it hangs otherwise — harness `#13`). Stop the timer at `/session-end` and whenever James steps away.
+**Boot:** `clockify-timer.sh status </dev/null` and start it by hand; the hooks only fire on Claude Code start/exit, never on `/session-start` (harness `#12`/`#13`). Stop the timer at `/session-end` and whenever James steps away.
 
-**Branch check first.** Engagement `develop` is **4 commits ahead, unpushed — push only after James's `#48` review** (proposal, SOW v1.2, `#44` scripts). Theme `main` `9cb45e6` and harness `main` pushed.
+**Branch check first.** All unpushed, push only on James's word: engagement `develop` ahead 14, theme `main` ahead 1 (`fd43e82`, README), harness ahead 2. `projects/wow-addons/PROJECT_STATE.md` has an uncommitted change from another project; leave it.
 
 ---
 
@@ -219,7 +219,7 @@ See [`wiki/README.md`](../../projects/skydivecity/wiki/README.md) for convention
 2. **[`#48` — Rich track] Hosting + maintenance proposal** for Rich: hosting basis, maintenance delta vs `#23`, licences in SDC's name (OQ 19), BM retainer shrink, `#47` sequencing (recommend SDC-owned Flywheel account + ITSG collaborator). Gates `#47`. Pairs with `#34` §7 (via `#43`). **James 09-27: once confirmed + timing right → educate Rich on the specifics, THEN the execution plan** (with Kevin as BM's handover contact).
 3. ~~`#44` stale live content~~ ✅ LIVE 2026-10-06 (mention in the October ops report — Rich was told "October").
 4. **[Ready, unsent] Winterfest page-update email** (`926e688`) — flush the **Cloudflare** cache first (James has access).
-5. **[Dated]** `#23` next weekly window **~2026-10-07/08** · **`#82` Winterfest "On now" highlight → $165 tier on 2026-11-01** (hand-set on the live page) · **October ops report by ~2026-11-05** (Step 0: Burble-count request to Rich ~10-30) — on Live Watch. *(Cleared 10-01: `#40` Flamingofest link live + closed · Sept report sent, `#73` closed · `#23` 09-30 run clean.)*
+5. **[Dated]** `#23` next weekly window **~2026-10-14/15** · **`#82` Winterfest "On now" highlight → $165 tier on 2026-11-01** (hand-set on the live page) · **October ops report by ~2026-11-05** (Step 0: Burble-count request to Rich ~10-30) — on Live Watch. *(Cleared 10-01: `#40` Flamingofest link live + closed · Sept report sent, `#73` closed · `#23` 09-30 run clean.)*
 6. **[`#42` — blocked on Cassie]** event schedule + 4–5 worst-case LO photos (artifact `20251e9a`).
 7. **[Parked / unowned]** ~~Gravity Forms 2→3~~ → `#71` (ticketed 09-30, ready-for-agent) · `sc-clean-excerpts.php` (OQ 14) · `#39` Burble `SameSite=None; Secure` ask undrafted (page itself LIVE as link-out 09-27) · deploy-key/Owner lifecycle (OQ 15) · Matt not an org owner (OQ 17) · ~~ACF/GF licence holder~~ (OQ 19 resolved: BM's → `#48` line items)
 
@@ -258,6 +258,7 @@ See [`wiki/README.md`](../../projects/skydivecity/wiki/README.md) for convention
 
 | Date | Agent | Summary |
 |------|-------|---------|
+| 2026-10-07 (session end) | CTO Agent | Close: resume rewritten (`#89` delete gate, BM heads-up + Local-push check, OQ 20, `#48`). Live Watch audited (`#23` → 10-14/15; `#82` Nov 1; `#75` ~11-05, include `#44` + this week's work). No ADR: `#90` fails the 3-of-3 test (sequencing until the events port, easily reversed); recorded in the spec amendment + theme README. |
 | 2026-10-07 (evening) | CTO Agent | **`#90`** found and decided (opt 1, TEC stays classic; dev diff 0 body diffs over 383 URLs; strip + exception dropped; `#67` sequence revised; spec + theme README amended) · **`#23`** run clean · **`#89`** BCC live and verified (test-entry delete awaiting James) · BM editor heads-up drafted (incl. Local-push risk). |
 | 2026-10-07 | CTO Agent | Rich's staff-page question → `#88` (reply drafted: content now, design with the redesign; quick step = Draft departed staff) + `#89` (BCC ITSG on the staff survey, address to confirm). **Redesign status update SENT by James** (`#67`), Tier 1 overview attached (exported from the live artifact; stale 08-26 local copy replaced). Asks Rich for switch-on dates. |
 | 2026-10-06 (session end) | CTO Agent | Close: resume rewritten for the `#48` review; Live Watch unchanged (`#23` window ~10-07/08, `#82` Nov 1, `#75` ~11-05 — note `#44` in the October report). No new ADR this afternoon (`#79`/`#83` are contract changes recorded in the theme README + contracts 1.7.0; `#87` in the editor guide). |
