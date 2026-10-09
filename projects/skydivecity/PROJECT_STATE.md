@@ -258,6 +258,7 @@ See [`wiki/README.md`](../../projects/skydivecity/wiki/README.md) for convention
 
 | Date | Agent | Summary |
 |------|-------|---------|
+| 2026-10-09 (later 2) | CTO Agent | **`#92` LIVE on prod** (5-phase; 20 fields incl. 15 draft/private promo fields, James okayed all 20; log `prod-write-20261009T144720Z.log`); plain-URL cache turnover being polled. **`#61` pre-prod check PASSED** on dev (real prod snippet behind an in-browser hit blocker): the pushes create no GA4/Ads hits until BM builds tags → switch-on need not wait for Marcella; James is asking her availability. **`#91`:** Omnyra installed GTM, but container v8 has no active GA4 tag → academy still sends no GA4; BM ask (hostname-scoped GA4 tag) + `/login` question for Josh recorded on `#91`. |
 | 2026-10-09 (later) | CTO Agent | Drift cleared: board `#61` + `#91` → In Progress (no Blocked status on the board; `#91` keeps its `blocked` label); OQ 20 marked moot; Next Action #1 + `#55` in-flight bullet brought current. |
 | 2026-10-09 | CTO Agent | Boot only; no work taken. Tracker unchanged (only `#91`'s label change from 10-08). The resume stands as written on 10-08: send the BM editor heads-up + Local-push check → Rich's date → `#67`; `#92` ready for the agent. |
 | 2026-10-08 (session end) | CTO Agent | Close: all three repos pushed on James's word; resume rewritten. Live Watch unchanged (`#23` 10-14/15, `#82` Nov 1, `#75` ~11-05). No ADR: the GA4-stays-hard-coded and portal-GTM calls are sequencing decisions recorded on `#91`/`#67`, not standing architecture. |
