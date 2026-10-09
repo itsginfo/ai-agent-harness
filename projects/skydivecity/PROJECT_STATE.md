@@ -1,18 +1,18 @@
 # PROJECT STATE — Skydive City
 
-> **Last updated:** 2026-10-07 (session end) by CTO Agent (status update + staff reply SENT · `#90` decided · `#23` run clean · `#89` BCC live · Phase 0 **14/18**, `#67` waits on `#61`/OQ 20 + Rich's dates.)
+> **Last updated:** 2026-10-08 (session end) by CTO Agent (M4 confirmed · `#61` built · `#67` needs Rich's date + BM heads-up + Local-push check · all repos pushed.)
 
 ---
 
 ## ⚡ RESUME INSTRUCTION
 
-**Phase 0 — 14 of 18; switch-on (`#67`) is planned and lighter.** 2026-10-07: redesign status update + staff reply (`#88`) SENT to Rich; `#90` decided: TEC stays classic, dev diff 0 body differences over 383 URLs, sequence revised on `#67`; `#23` run clean; `#89` BCC live.
+**Phase 0 — 16 of 18 tickets effectively done; switch-on (`#67`) is buildable and waits on people, not code.** 2026-10-08: BM confirmed M4 (v2, no UTM fallback; `#55` closed); `#61` event pushes built + dev-verified (theme `562efa9`, pushed; GA4 joint check happens at switch-on); GA4 stays hard-coded (Theme Options → Header scripts) through switch-on, then BM moves it into GTM; `#91` GTM on the academy (asked Omnyra).
 
-**Next (James's go / input):** (1) `#89` delete the survey test entry 2825: script dry-run verified on prod, irreversible, so it waits on James's go. (2) Send the BM editor heads-up (`correspondence/2026-10-07-bm-editor-heads-up.md`) and confirm with Kevin that BM's Local push won't touch prod. (3) OQ 20: switch on before `#61`? (4) `#48` review → share with Rich before **2026-10-31**. Waiting on Rich: switch-on dates, staff list (`#88`). BM: `#55`.
+**Next:** (1) send the BM editor heads-up (`correspondence/2026-10-07-bm-editor-heads-up.md`) and get Kevin's confirmation that their Local push won't touch prod; (2) Rich's switch-on date → run `#67` (deploy a theme bumped past 0.4.0 → snapshot → activate → Ramp off → purge → diff target **0 body** → BM publishes tags → DebugView). `#92` (`_gl` cleanup) is ready for the agent. `#48` with James, due before 2026-10-31.
 
-**Boot:** `clockify-timer.sh status </dev/null` and start it by hand; the hooks only fire on Claude Code start/exit, never on `/session-start` (harness `#12`/`#13`). Stop the timer at `/session-end` and whenever James steps away.
+**Dev state:** dev's GA4/GTM Header scripts are **blanked** (no test hits into prod analytics). Restore from prod (`prod-read.sh wp option get options_include_header`) before any joint test on dev.
 
-**Branch check first.** All unpushed, push only on James's word: engagement `develop` ahead 14, theme `main` ahead 1 (`fd43e82`, README), harness ahead 2. `projects/wow-addons/PROJECT_STATE.md` has an uncommitted change from another project; leave it.
+**Boot:** start the timer by hand (`clockify-timer.sh start </dev/null`; hooks only fire on Claude Code start/exit). **Branch check:** all pushed 2026-10-08 (engagement `344ce49`, theme `562efa9`, harness `4e0f94e`+).
 
 ---
 
@@ -258,6 +258,7 @@ See [`wiki/README.md`](../../projects/skydivecity/wiki/README.md) for convention
 
 | Date | Agent | Summary |
 |------|-------|---------|
+| 2026-10-08 (session end) | CTO Agent | Close: all three repos pushed on James's word; resume rewritten. Live Watch unchanged (`#23` 10-14/15, `#82` Nov 1, `#75` ~11-05). No ADR: the GA4-stays-hard-coded and portal-GTM calls are sequencing decisions recorded on `#91`/`#67`, not standing architecture. |
 | 2026-10-08 | CTO Agent | **BM confirmed M4** → v2 (UTM fallback removed), `#55` closed after James sent it · **`#61` built + dev-verified** (theme `562efa9`; footer-loaded click-watcher; skipped on standalone landings; dev GA/GTM header scripts blanked) · `#89` test entry deleted + closed · GA4 is hard-coded via Theme Options (survives switch-on); decision: stays hard-coded through switch-on, then BM moves it into GTM · `#91` GTM on the academy (ask sent to Omnyra) · `#92` `_gl` cleanup filed. |
 | 2026-10-07 (session end) | CTO Agent | Close: resume rewritten (`#89` delete gate, BM heads-up + Local-push check, OQ 20, `#48`). Live Watch audited (`#23` → 10-14/15; `#82` Nov 1; `#75` ~11-05, include `#44` + this week's work). No ADR: `#90` fails the 3-of-3 test (sequencing until the events port, easily reversed); recorded in the spec amendment + theme README. |
 | 2026-10-07 (evening) | CTO Agent | **`#90`** found and decided (opt 1, TEC stays classic; dev diff 0 body diffs over 383 URLs; strip + exception dropped; `#67` sequence revised; spec + theme README amended) · **`#23`** run clean · **`#89`** BCC live and verified (test-entry delete awaiting James) · BM editor heads-up drafted (incl. Local-push risk). |
