@@ -6,7 +6,7 @@
 
 ## ⚡ RESUME INSTRUCTION
 
-**Phase 0 — 16 of 18 tickets effectively done; switch-on (`#67`) is buildable and waits on people, not code.** 2026-10-08: BM confirmed M4 (v2, no UTM fallback; `#55` closed); `#61` event pushes built + dev-verified (theme `562efa9`, pushed; GA4 joint check happens at switch-on); GA4 stays hard-coded (Theme Options → Header scripts) through switch-on, then BM moves it into GTM; `#91` GTM on the academy (asked Omnyra).
+**Phase 0 — 15 of 18 closed (`#61` built, open for the joint GA4 check at switch-on); switch-on (`#67`) is buildable and waits on people, not code.** 2026-10-08: BM confirmed M4 (v2, no UTM fallback; `#55` closed); `#61` event pushes built + dev-verified (theme `562efa9`, pushed; GA4 joint check happens at switch-on); GA4 stays hard-coded (Theme Options → Header scripts) through switch-on, then BM moves it into GTM; `#91` GTM on the academy (asked Omnyra).
 
 **Next:** (1) send the BM editor heads-up (`correspondence/2026-10-07-bm-editor-heads-up.md`) and get Kevin's confirmation that their Local push won't touch prod; (2) Rich's switch-on date → run `#67` (deploy a theme bumped past 0.4.0 → snapshot → activate → Ramp off → purge → diff target **0 body** → BM publishes tags → DebugView). `#92` (`_gl` cleanup) is ready for the agent. `#48` with James, due before 2026-10-31.
 
