@@ -112,3 +112,7 @@ warning and no conflict. This is stated in the client repo's `CONTRIBUTING.md`, 
 
 [[flywheel]] · [[prod-write-procedure]] · [[wp-acf-rendering]] ·
 [`#3`](https://github.com/itsginfo/skydivecity-com/issues/3) (closed — the freeze this replaced)
+
+## Release day
+
+**Production releases go out on Wednesdays** — the day after Tandem Tuesday (Rich, 2026-10-09). Applies to theme releases and the switch-on (`#67`); Sev 1–3 fixes are exempt. Recorded in the engagement repo `CLAUDE.md`.
