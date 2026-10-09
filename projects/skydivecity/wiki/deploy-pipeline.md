@@ -115,4 +115,4 @@ warning and no conflict. This is stated in the client repo's `CONTRIBUTING.md`, 
 
 ## Release day
 
-**Production releases go out on Wednesdays** — the day after Tandem Tuesday (Rich, 2026-10-09). Applies to theme releases and the switch-on (`#67`); Sev 1–3 fixes are exempt. Recorded in the engagement repo `CLAUDE.md`.
+**Large production releases go out on Wednesdays** — the day after Tandem Tuesday (Rich, 2026-10-09): switch-on (`#67`), page ports, the hosting move (`#47`). Minor releases can ship any day; Sev 1–3 fixes are exempt. Weekly maintenance runs Thursdays (James, 2026-10-09). Recorded in the engagement repo `CLAUDE.md`.
