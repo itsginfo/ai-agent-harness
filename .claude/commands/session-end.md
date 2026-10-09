@@ -75,18 +75,27 @@ All three → write the ADR. Fewer than three → no ADR (record in the appropri
 
 **Step 5: Write SESSION END declaration**
 
+```markdown
+**Session end · [Date]** — [ROLE] · [Project Name]
+
+**Done**
+- [one bullet per completed item, with issue # / commit]
+
+**Still in progress**
+- [task]: [exact state] (or "None")
+
+**Blocked**
+- [item]: [blocker] (or "None")
+
+**Bookkeeping**
+- **Tracker:** [what changed: N updated / closed / opened]
+- **Code:** [committed `hash`, pushed or not / no code this session]
+- **PROJECT_STATE:** [prior resume drained, new resume written (≤ 10 lines), Live Watch audited]
+
+**Next session:** [one clear instruction]
 ```
-SESSION END — [Date]
-Agent: [ROLE]
-Project: [Project Name]
-Completed this session: [list of tasks done]
-In-flight (not done): [tasks + exact state]
-Tracker updated: [Yes/No — what changed]
-Code committed: [Yes/No — commit hash if yes]
-PROJECT_STATE updated: [Yes/No — V-003 drain + lean resume + Live Watch audit]
-Resume instruction written: [Yes/No]
-Next session priority: [single most important thing next time]
-```
+
+Render it as Markdown, **not** inside a code block. Use a bullet for each separate fact. Don't split one sentence across bullets or cram several facts into one line. Keep every section, writing "None" or "No changes" when empty, so it's clear nothing was skipped.
 
 ---
 

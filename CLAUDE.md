@@ -110,17 +110,22 @@ Open `projects/[project-name]/PROJECT_STATE.md`. Per the V-003 shape ([ADR-0004]
 
 **Write this block as your first visible output. No exceptions.**
 
+```markdown
+**Session start · [Date]** — [ROLE] · [Project Name] · [Resuming / Fresh start]
+
+**Carried over**
+- [task + exact state, one bullet each] (or "Nothing in flight")
+
+**Tracker sync**
+- [one bullet per notable change] (or "No changes")
+
+**Today**
+- **Scope:** [1–2 sentences: exactly what gets done today]
+- **Stop point:** [cleanest mid-session exit if interrupted]
+- **First action:** [specific first thing I am doing]
 ```
-SESSION START — [Date]
-Agent: [ROLE]
-Project: [Project Name]
-Resuming: [Yes/No]
-In-flight from last session: [task name + exact state, or "None"]
-Tracker sync: [notable changes found, or "No changes"]
-Session scope: [1–2 sentences: exactly what gets done today]
-Natural stop point: [cleanest mid-session exit if interrupted]
-First action: [specific first thing I am doing]
-```
+
+Render it as Markdown, **not** inside a code block. Use a bullet for each separate fact. Don't split one sentence across bullets or cram several facts into one line. Keep every section, writing "None" or "No changes" when empty, so it's clear nothing was skipped.
 
 If you cannot write this block with accurate data, go back and complete the missing step. Do not proceed until this block is written.
 

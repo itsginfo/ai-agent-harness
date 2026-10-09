@@ -238,28 +238,27 @@ Some context belongs in the project wiki, not in `PROJECT_STATE.md` or the track
 
 ### Step 6 — Output end-of-session summary
 
+```markdown
+**Session end · [Date]** — [ROLE] · [Project Name]
+
+**Done**
+- [one bullet per completed item, with issue # / commit]
+
+**Still in progress**
+- [task]: [exact state] (or "None")
+
+**Blocked**
+- [item]: [blocker] (or "None")
+
+**Bookkeeping**
+- **Tracker:** [what changed: N updated / closed / opened]
+- **Code:** [committed `hash`, pushed or not / no code this session]
+- **PROJECT_STATE:** [prior resume drained, new resume written (≤ 10 lines), Live Watch audited]
+
+**Next session:** [one clear instruction]
 ```
-SESSION END — [Date]
-Agent: [ROLE]
-Project: [Project Name]
 
-Tracker updated: [Yes — N issues updated / closed / opened]
-Code committed: [Yes — [commit hash] / No code this session]
-PROJECT_STATE updated: [Yes]
-
-Completed this session:
-- [item 1]
-- [item 2]
-
-In-flight (not done):
-- [task]: [exact state]
-
-Blocked:
-- [item]: [blocker]
-
-Next session should start with:
-[one clear instruction]
-```
+Render it as Markdown, **not** inside a code block. Use a bullet for each separate fact. Don't split one sentence across bullets or cram several facts into one line. Keep every section, writing "None" or "No changes" when empty, so it's clear nothing was skipped.
 
 ---
 

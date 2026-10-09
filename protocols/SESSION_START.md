@@ -175,17 +175,22 @@ Run `tooling/clockify/clockify-timer.sh status`. The SessionStart hook is event-
 
 If you cannot write this block with accurate data, go back and complete the missing boot step.
 
+```markdown
+**Session start · [Date]** — [ROLE] · [Project Name] · [Resuming / Fresh start]
+
+**Carried over**
+- [task + exact state, one bullet each] (or "Nothing in flight")
+
+**Tracker sync**
+- [one bullet per notable change] (or "No changes")
+
+**Today**
+- **Scope:** [1–2 sentences: exactly what gets done today]
+- **Stop point:** [cleanest mid-session exit if interrupted]
+- **First action:** [specific first thing I am doing]
 ```
-SESSION START — [Date]
-Agent: [ROLE]
-Project: [Project Name]
-Resuming: [Yes/No]
-In-flight from last session: [task name + exact state, or "None"]
-Tracker sync: [any notable changes found]
-Session scope: [1–2 sentences: exactly what gets done today, nothing more]
-Natural stop point: [the cleanest mid-session exit state if interrupted]
-First action: [specific thing I'm doing first]
-```
+
+Render it as Markdown, **not** inside a code block. Use a bullet for each separate fact. Don't split one sentence across bullets or cram several facts into one line. Keep every section, writing "None" or "No changes" when empty, so it's clear nothing was skipped.
 
 This makes your starting state explicit. If something is wrong (wrong project, wrong state), catch it here before wasting a session.
 

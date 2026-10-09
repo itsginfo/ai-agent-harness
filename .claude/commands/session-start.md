@@ -54,17 +54,22 @@ Cross-reference tracker state vs PROJECT_STATE.md.
 
 Output this block exactly:
 
+```markdown
+**Session start · [Date]** — [ROLE] · [Project Name] · [Resuming / Fresh start]
+
+**Carried over**
+- [task + exact state, one bullet each] (or "Nothing in flight")
+
+**Tracker sync**
+- [one bullet per notable change] (or "No changes")
+
+**Today**
+- **Scope:** [1–2 sentences: exactly what gets done today]
+- **Stop point:** [cleanest mid-session exit if interrupted]
+- **First action:** [specific first thing I am doing]
 ```
-SESSION START — [Today's Date]
-Agent: [ROLE]
-Project: [Project Name]
-Resuming: [Yes/No]
-In-flight from last session: [task + exact state, or "None"]
-Tracker sync: [notable changes found, or "No changes"]
-Session scope: [1–2 sentences: what gets done today]
-Natural stop point: [cleanest mid-session exit if interrupted]
-First action: [specific first thing I am doing]
-```
+
+Render it as Markdown, **not** inside a code block. Use a bullet for each separate fact. Don't split one sentence across bullets or cram several facts into one line. Keep every section, writing "None" or "No changes" when empty, so it's clear nothing was skipped.
 
 Do not proceed past this block until it is written with accurate data.
 
