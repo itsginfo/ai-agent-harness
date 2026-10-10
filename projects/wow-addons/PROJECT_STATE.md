@@ -1,20 +1,21 @@
 # PROJECT STATE — WoW Classic AddOns
 
-> **Last updated:** 2026-10-08 (late) by CTO Agent. **EPGP LootCompass 1.1.0 is shipped, verified in-game and pushed** ([`#13`](https://github.com/itsginfo/wow-addons/issues/13), ADR-0007/0008). [`#14`](https://github.com/itsginfo/wow-addons/issues/14) is closed: Pawn and AtlasLoot are optional. **The reconcile on `#2` is still owed:** the TSM guards have been reverted since 09-17.
+> **Last updated:** 2026-10-10 by CTO Agent. **EPGP LootCompass 1.8.2**: tier set bonuses, an explanation window, an in-game cast recorder, Warcraft Logs reference mixes, and a 'Value gear for' toggle ([`#13`](https://github.com/itsginfo/wow-addons/issues/13), [`#15`](https://github.com/itsginfo/wow-addons/issues/15), ADR-0009). Up to 1.8.1 is pushed; 1.8.2 and ADR-0009 are local. **The reconcile on `#2` is still owed** (carried forward a 4th time).
 
 ---
 
 ## ⚡ RESUME INSTRUCTION
 
-**State:** EPGP LootCompass 1.1.0 is live and verified ([`#13`](https://github.com/itsginfo/wow-addons/issues/13)). The reconcile on [`#2`](https://github.com/itsginfo/wow-addons/issues/2) is still owed (TSM v4.14.77 guards reverted since 09-17; RXPGuides is now v4.11.19).
+**State:** EPGP LootCompass 1.8.2 is committed but not pushed (`17531a9` + ADR-0009 `f88d320`). It's waiting for James to check two things in-game: the explanation window refreshes when the Raid/Tank toggle flips, and the About tab reads "How-To". 1.8.1 and earlier are live and verified ([`#15`](https://github.com/itsginfo/wow-addons/issues/15)).
 
-**Next:** ask James which to do first:
-- **(a)** Reconcile [`#2`](https://github.com/itsginfo/wow-addons/issues/2). Re-apply the TSM guards from `backups/2026-08-28/local-edits/*.patched-4.14.76`, and read the RXP `map.lua` before deciding whether its fix is still needed.
-- **(b)** The next LootCompass slice: T2.5/T3 set bonuses, in-raid inspect of competitor gear, or a new class (Holy Paladin). See the `#13` close comment.
+**Next:**
+- On James's OK, push `main`.
+- Then ask James: start [`#16`](https://github.com/itsginfo/wow-addons/issues/16) (Holy Paladin + Resto Druid, reusing the healing mix engine), or reconcile [`#2`](https://github.com/itsginfo/wow-addons/issues/2) first. The TSM guards have been reverted since 09-17, and #2 has been carried forward four times.
+- Generate the Warlock reference mix for #15: `wcl_meta.py --class Warlock --spec Destruction --metric dps`.
 
-Before shipping any LootCompass change: run `lua LootCompass/tests/qa.lua`, `perf.lua` and `memory.lua` from the AddOns folder, and keep the Lua 5.1 rule (no `goto`).
+Before shipping any LootCompass change, run `qa.lua`, `perf.lua` and `memory.lua` (Lua 5.1 rule) and mutation-test new checks. Run one Warcraft Logs job at a time: the limit is 3,600 points per hour with James's subscription.
 
-**Branch check first.** Project repo (`/Applications/World of Warcraft/_classic_era_/Interface/AddOns`): `main` at `4483f59`, which is **1 ahead of origin** (ADR-0007/0008, not pushed). Harness: `main`, ahead of origin (unpushed). A new addon file needs a full client restart; otherwise `/reload`.
+**Branch check first.** Project repo (`/Applications/World of Warcraft/_classic_era_/Interface/AddOns`): `main` at `f88d320`, **2 ahead of origin**; hold until James OKs. Harness: `main`, ahead of origin (unpushed). New addon files need a full client restart; otherwise `/reload`.
 
 ## Wiki Quick-Index
 
@@ -78,7 +79,11 @@ Before shipping any LootCompass change: run `lua LootCompass/tests/qa.lua`, `per
 
 | Item | Watch by | Tracker | Notes |
 |------|----------|---------|------|
-| **Re-apply the three fragile in-provider edits** | **next session, before anything else** | [`#2`](https://github.com/itsginfo/wow-addons/issues/2) (table in the 2026-10-05 correction comment) | All three guard greps read **0** on 2026-10-05. TSM v4.14.77 reverted `Accounting.lua` + `LibTSMClass.lua` on **09-17**; RXPGuides v4.11.15 rewrote `map.lua` on 10-05 (0 `CreateObjectPool` refs — may be obsolete). Patched copies in `backups/2026-08-28/local-edits/`. Until re-applied: TSM's event pipeline can die on any nil price until `/reload` ([`#7`](https://github.com/itsginfo/wow-addons/issues/7)). |
+| **Push LootCompass 1.8.2** | **James's next `/reload`** | [`#15`](https://github.com/itsginfo/wow-addons/issues/15) | `17531a9` + ADR `f88d320` are local. Check: the explanation window follows the Raid/Tank toggle, and the tab says How-To. Then push. |
+| **Recorder's first MC/BWL night** | Wed 2026-10-14 raid | [`#15`](https://github.com/itsginfo/wow-addons/issues/15) | ZG on 10-09 matched Warcraft Logs exactly. After Wednesday, `/lc casting` should grow by the MC/BWL bosses. Mana pressure (29% from ZG) should then reflect MC/BWL too. |
+| **Cancel the Warcraft Logs subscription** | when [`#16`](https://github.com/itsginfo/wow-addons/issues/16) classes are done | [`#16`](https://github.com/itsginfo/wow-addons/issues/16) | James took the ×5 plan (3,600 points/h) for the class build-out, 2026-10-10. Credentials are in `~/.config/wcl/credentials`, outside the repo. |
+| **Regenerate the reference mixes (`MetaMix.lua`)** | about monthly, and when adding a class | [ADR-0009](https://github.com/itsginfo/wow-addons/blob/main/docs/adr/0009-lootcompass-gear-valued-for-meta-mix.md) | `python3 -I LootCompass/tools/wcl_meta.py [--tank-scan 15]`. It's cached and paced. QA validates the shipped file. |
+| **Re-apply the three fragile in-provider edits** | **overdue: carried forward 4 sessions** | [`#2`](https://github.com/itsginfo/wow-addons/issues/2) (table in the 2026-10-05 correction comment) | All three guard greps read **0** on 2026-10-05. TSM v4.14.77 reverted `Accounting.lua` + `LibTSMClass.lua` on **09-17**; RXPGuides v4.11.15 rewrote `map.lua` on 10-05 (0 `CreateObjectPool` refs — may be obsolete). Patched copies in `backups/2026-08-28/local-edits/`. Until re-applied: TSM's event pipeline can die on any nil price until `/reload` ([`#7`](https://github.com/itsginfo/wow-addons/issues/7)). |
 | **LootCompass: regenerate built-in data after AtlasLoot updates** | each AtlasLoot update | [ADR-0008](https://github.com/itsginfo/wow-addons/blob/main/docs/adr/0008-lootcompass-own-parser-and-bundled-gpl-data.md) | Run `lua LootCompass/tools/gen_raiddata.lua`, then commit. QA fails until it's done. Bump `ns.PARSER_VERSION` whenever the parser would read any item differently. |
 | **LootCompass Warlock model unverified in-game** | when a level-60 Warlock is available | [`#13`](https://github.com/itsginfo/wow-addons/issues/13) | QA-only so far. The weights match Classic theorycraft (Hit% 13, Crit% 10, Int 0.26 at about 600 SD). |
 | **Verify `!CUF` 1.3.0 in-game** | **next play session** | [`#3`](https://github.com/itsginfo/wow-addons/issues/3) | Restored from git again 2026-10-05 after today's Cell_UnitFrames update. SpellAnnouncerClassicPlus 2.0.0 **was verified** (`aa46438`) and drops off this row. For `!CUF`, expect Blizzard party/raid frames to possibly reappear briefly after roster churn — accepted trade-off of 1.3.0 gating hide-reinforce off. |
@@ -91,7 +96,8 @@ Before shipping any LootCompass change: run `lua LootCompass/tests/qa.lua`, `per
 
 ## In-Flight Tasks ⚡
 
-*(No uncommitted work. `main` pushed to origin 2026-10-08 through `f9c261d` (StackBreaker, ADR-0006, RuneclothRep 1.0.0 → 1.0.1). **Carrying risk, not work:** the three reverted in-provider edits — see Live Watch / [`#2`](https://github.com/itsginfo/wow-addons/issues/2).)*
+- **LootCompass 1.8.2 + ADR-0009: committed, not pushed** (`17531a9`, `f88d320`). Waiting on James's in-game check ([`#15`](https://github.com/itsginfo/wow-addons/issues/15)). There's no uncommitted work.
+- **Carrying risk, not work:** the three reverted in-provider edits (Live Watch / [`#2`](https://github.com/itsginfo/wow-addons/issues/2)).
 
 ---
 
@@ -115,9 +121,11 @@ Before shipping any LootCompass change: run `lua LootCompass/tests/qa.lua`, `per
 
 ## Next 3 Actions (Prioritized)
 
-1. **Reconcile [`#2`](https://github.com/itsginfo/wow-addons/issues/2): re-apply the fragile in-provider edits.** Three-way `TradeSkillMaster/Core/Service/Tooltip/Accounting.lua` and `External/LibTSMClass/LibTSMClass.lua` (v4.14.77) against `backups/2026-08-28/local-edits/*.patched-4.14.76`. **Read** `RXPGuides/map.lua` (now v4.11.19, 0 `CreateObjectPool` refs) and decide whether the fix is obsolete. Clean up the stale `Bagnon: enabled` entries.
-2. **Next LootCompass slice** ([`#13`](https://github.com/itsginfo/wow-addons/issues/13)), James to pick: T2.5/T3 set bonuses, in-raid inspect of competitor gear, or the next class. Minor: reword `/lc datacheck`'s drop-rate count.
-3. **Verify `!CUF` 1.3.0 in-game** ([`#3`](https://github.com/itsginfo/wow-addons/issues/3)), and answer Open Question 4. Housekeeping: decide on [`#8`](https://github.com/itsginfo/wow-addons/issues/8) (Auctioneer is uninstalled), purge the stale RXP keys ([`#6`](https://github.com/itsginfo/wow-addons/issues/6)), and push `4483f59` when James says so.
+1. **Push 1.8.2 once James OKs it** ([`#15`](https://github.com/itsginfo/wow-addons/issues/15)). Then generate the Warlock reference mix (`wcl_meta.py --class Warlock --spec Destruction --metric dps`), ship it, and close #15.
+2. **James picks one:**
+   - [`#16`](https://github.com/itsginfo/wow-addons/issues/16): Holy Paladin + Resto Druid. Add their HEAL_SPELLS, talents, set data, CLASS_GEAR, SPEC_MODELS and raid/tank reference mixes.
+   - **Or** reconcile [`#2`](https://github.com/itsginfo/wow-addons/issues/2): three-way merge the TSM `Accounting.lua` / `LibTSMClass.lua` (v4.14.77) against `backups/2026-08-28/local-edits/*.patched-4.14.76`, read RXP `map.lua` (v4.11.21), and clean up the `Bagnon: enabled` entries.
+3. **Verify `!CUF` 1.3.0 in-game** ([`#3`](https://github.com/itsginfo/wow-addons/issues/3)) and answer Open Question 4. Housekeeping: [`#8`](https://github.com/itsginfo/wow-addons/issues/8) (Auctioneer is uninstalled) and [`#6`](https://github.com/itsginfo/wow-addons/issues/6) (stale RXP keys).
 
 ## Decisions (Summary)
 
@@ -125,6 +133,7 @@ Before shipping any LootCompass change: run `lua LootCompass/tests/qa.lua`, `per
 
 | Date | Decision | Reference |
 |------|----------|-----------|
+| 2026-10-10 | **Gear is valued for the top players' spell mix, not the player's habits.** Fight length and mana pressure come from the player's own recorded fights. Healers are split into raid and tank roles (tank = 40% or more of healing on one Warrior, Druid or Paladin). The player's own mix is opt-in ("My casting"). The recorder has a perf budget: combat-log handler only during encounters, no garbage per event. | [ADR-0009](https://github.com/itsginfo/wow-addons/blob/main/docs/adr/0009-lootcompass-gear-valued-for-meta-mix.md), `f88d320` |
 | 2026-10-08 | **EPGP LootCompass reads the guild's loot rules from CLM.** Named roll buttons, each item's GP per button, precedence (higher GP, then PR) and raid → roster by name all come from CLM. Nothing is hard-coded per guild, and it was renamed for sharing. | [ADR-0007](https://github.com/itsginfo/wow-addons/blob/main/docs/adr/0007-lootcompass-reads-guild-rules-from-clm.md), `2090f0a` |
 | 2026-10-08 | **LootCompass has its own tooltip parser and bundles AtlasLoot-derived raid data, so it's GPL v2.** Pawn and AtlasLoot are optional. Readings are trusted only after two identical reads 3 s apart and are remembered per build. | [ADR-0008](https://github.com/itsginfo/wow-addons/blob/main/docs/adr/0008-lootcompass-own-parser-and-bundled-gpl-data.md), `f0fd75e`, `fbcbd20` |
 | 2026-10-05 | **Intercept a protected UI action at the widget, never by wrapping what Blizzard calls.** `C_Container.UseContainerItem` is protected and the bag-slot `OnClick` is a secure inline handler; wrapping either put tainted values on the secure path and broke *plain* right-click. Cancel on `OnMouseDown` with `Button:Disable()`/`RegisterForClicks`, restore on release, post-hook `OnClick` as a tripwire. Extends ADR-0001 from files to code paths. | [ADR-0006](https://github.com/itsginfo/wow-addons/blob/main/docs/adr/0006-cancel-protected-clicks-at-the-widget.md), [`#11`](https://github.com/itsginfo/wow-addons/issues/11), `3b27b52` |
@@ -145,6 +154,8 @@ Before shipping any LootCompass change: run `lua LootCompass/tests/qa.lua`, `per
 
 | Date | Agent | Summary |
 |------|-------|---------|
+| 2026-10-10 | CTO | **LootCompass 1.2.0 → 1.8.2** ([`#13`](https://github.com/itsginfo/wow-addons/issues/13), [`#15`](https://github.com/itsginfo/wow-addons/issues/15) open, [`#16`](https://github.com/itsginfo/wow-addons/issues/16) filed; ADR-0009).<br>**Features:**<br>- T1–T3 set bonuses for Priest and Warlock, with tier tags and "+N alone" in the plan.<br>- "Why this advice" window behind an info icon on each row.<br>- In-game cast recorder, validated exactly against Warcraft Logs on the 10-09 ZG.<br>- Spell-mix model; Warcraft Logs import (72 fights).<br>- Reference mixes from rankings: raid 248 fights, tank 64.<br>- "Value gear for" toggle; structured About pages; How-To tab.<br>**Harness:** session start/end summaries reformatted (`5ec2e2b`).<br>`#2` carried forward again. |
+| 2026-10-08 (session 2, close) | CTO | *(resume drained 2026-10-10)* The resume asked James to choose (a) reconcile `#2` or (b) a LootCompass slice. He chose **(b), set bonuses**, and the session grew into #15. `#2` **was carried forward unstarted a 4th time.** |
 | 2026-10-05 (close) | CTO | *(resume drained 2026-10-08)* Resume was "reconcile `#2` first"; **carried forward unstarted** — 10-07/08 session was spent on RuneclothRep at James's request. See `#2` 10-05 correction comment. |
 | 2026-10-08 (session 2) | CTO | **Built EPGP LootCompass 0.1 → 1.1.0, verified in-game and pushed** ([`#13`](https://github.com/itsginfo/wow-addons/issues/13); [`#14`](https://github.com/itsginfo/wow-addons/issues/14) closed; ADR-0007/0008).<br>**Features:** Holy healing and Warlock caster stat models; MS/OS/Free advice under rules read from CLM; tier tokens, procs, ZG/AQ20/world bosses; own parser and built-in data (Pawn and AtlasLoot optional); opening a tab went from 1.6 s to about 15 ms, with 2.4 MB kept; About pages; covered competitors.<br>**Process:** added a common-sense QA suite (182 checks) plus perf and memory harnesses after several shipped mistakes (859 future cost, "#5 of 134", cached half-loaded items, a spell-load loop, colour codes). Memory saved: run QA and mutation tests, and make stubs behave like the client. |
 | 2026-10-08 (session 1, close) | CTO | *(resume drained 2026-10-08)* The resume said "reconcile `#2` first". **Carried forward again, unstarted,** because LootCompass took the session at James's request. |
