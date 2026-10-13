@@ -6,11 +6,11 @@
 
 ## ⚡ RESUME INSTRUCTION
 
-**Phase 0: 15 of 18 closed; switch-on (`#67`) now needs only a Wednesday date.** 2026-10-09: `#61` pushes proven inert until BM's tags exist (dev test against the real prod snippet), so switch-on doesn't wait for BM; Marcella validates on prod in GTM Preview after switch-on (M4 v2.1). BM heads-up + Local-push check dropped (Rich holds all BM site work). `#92` live + closed. `#48` approved by Rich.
+**Switch-on (`#67`) is TODAY-READY for Wed 2026-10-14; rehearsed 2026-10-13 on prod's DB + core 7.1.3 (0 body / 370 rollback identical, results on `#67`).** Compass 0.5.0 (`5c576cb`) pushed. Runbook `project_management/switch-on-runbook-2026-10-14.md`. James runs it from Sweden (CEST).
 
-**Next:** (1) James picks a Wednesday (10-14 or 10-21) → run `#67` (theme bumped past 0.4.0 → snapshot → activate → Ramp off → purge → diff target **0 body**). (2) SOW v1.2 PDF to Rich for signature before 10-31. (3) Thu 10-15 weekly run (`#23`). Waiting on James: Marcella's test date, Bloom licensing, whether Cassie gets the editor-rules note.
+**Next:** 10:00 ET / 16:00 CEST start (latest safe 10:30 / 16:30) → runbook steps 0–7 → James purges Cloudflare after activation → Marcella GTM Preview 13:00 ET / 19:00 CEST (closes the `#61` joint check). Then close `#67`, tell Rich. SOW v1.2 email drafted (`correspondence/2026-10-13-sow-v1.2-for-signature-rich.md`) for James to send; `#93` dev php.ini parity after switch-on.
 
-**Dev state:** dev Header scripts hold the disabled placeholder (no hits into prod analytics). For a dev tag test, copy prod's snippet behind an in-browser hit blocker (method on `#61`), then restore.
+**Dev state:** prod DB from 2026-10-13 14:14 ET, core 7.1.3, prod plugin versions; Header + Body scripts hold the disabled placeholder (no hits into prod analytics). Dev WP-CLI needs `php -d memory_limit=-1` after a theme switch (`#93`). For a dev tag test, copy prod's snippet behind an in-browser hit blocker (method on `#61`), then restore.
 
 **Boot:** start the timer by hand (`clockify-timer.sh start </dev/null`). **Branch check:** engagement `develop` 6 unpushed (to `5c7266e`), theme `main` clean/pushed, harness `main` unpushed (to this checkpoint); push only on James's word. Harness has an unrelated uncommitted `projects/wow-addons/PROJECT_STATE.md`: not ours, leave it.
 
@@ -110,6 +110,7 @@ See [`wiki/README.md`](../../projects/skydivecity/wiki/README.md) for convention
 
 | Item | Watch by | Tracker | Notes |
 |------|----------|---------|------|
+| **`#67` switch-on** | **Wed 2026-10-14 10:00 ET / 16:00 CEST** | [`#67`](https://github.com/itsginfo/skydivecity-com/issues/67) | Runbook `switch-on-runbook-2026-10-14.md`; Marcella 13:00 ET / 19:00 CEST. Row retires once live. |
 | **`#23` next weekly window** | **Thu 2026-10-15** (Thursdays from 10-09) | [`#23`](https://github.com/itsginfo/skydivecity-com/issues/23) | Last run **2026-10-07 CLEAN** (6 updates incl. TEC 6.18.0; core is Flywheel-managed, so no CLI core updates; GF 3 held → `#71`). Log `maintenance-logs/2026-10-07-run.md`. |
 | **SOW v1.2 signature** | **2026-10-31** (Initial Term ends; v1.2 additions from 11-01) | [`#48`](https://github.com/itsginfo/skydivecity-com/issues/48) | Rich approved 10-09. Signing PDF `project_management/IT Strategy Group _ Skydive City Managed Services SOW 1.2.pdf`. Once signed: close `#48`, start the `#47` sequence (licences → remove 10Web → SDC Flywheel account → move on a Wednesday). |
 | **Winterfest "On now" price highlight** | **2026-11-01** | [`#82`](https://github.com/itsginfo/skydivecity-com/issues/82) | Hand-set in the live page markup: $135 card is marked "On now · Best value" and stays so after Oct 31 unless changed. Move to the $165 card + reword the shirt/discount notices on Nov 1 (page source → regenerate → deploy under change control). Moot if Winterfest is on Blocks by then (EventTiers derives it). |
@@ -259,6 +260,7 @@ See [`wiki/README.md`](../../projects/skydivecity/wiki/README.md) for convention
 
 | Date | Agent | Summary |
 |------|-------|---------|
+| 2026-10-13 | CTO Agent | `#67` readiness: dev refreshed to prod DB + plugins + **core 7.1.3**; rehearsal PASS (0 body / rollback 370 identical, Ramp off); Compass **0.5.0** pushed; diff tool retry (`badbcf8`); prod snapshot measured 30.5 min → runbook with ET/CEST plan (`6f5e509`); dev-only WP-CLI 128 MB failure → `#93`; SSH from Sweden OK. SOW v1.2: 12-month term, §7.6 waived costs, in-kind at employee rates; signing PDF + cover email (`402a32f`, `573c0e1`). |
 | 2026-10-09 | CTO Agent | Drift cleared (board `#61`/`#91`, OQ 20 moot) · **`#92` LIVE + closed** (20 `_gl` fields incl. drafts, 5-phase, log `prod-write-20261009T144720Z.log`) · **`#61` pre-prod check passed** (pushes create no GA4/Ads hits) · M4 **v2.1** (prod GTM Preview validation; PDF) · **`#91`**: Omnyra installed GTM; container has no GA4 → Marcella's plan (Option 1), academy reports once GA4 moves into GTM · **`#48` approved by Rich**: client pre-read + SOW v1.2 (move waived) signing PDF · **Wednesday = large releases, Thursday = maintenance** (CLAUDE.md, [[deploy-pipeline]], runbook) · BM heads-up dropped. Commits engagement `75eea79`…`5c7266e`. No ADR (release-day rule fails 3-of-3: easily reversed; lives in CLAUDE.md). |
 | 2026-10-08 (session end) | CTO Agent | Close: all three repos pushed on James's word; resume rewritten. Live Watch unchanged (`#23` 10-14/15, `#82` Nov 1, `#75` ~11-05). No ADR: the GA4-stays-hard-coded and portal-GTM calls are sequencing decisions recorded on `#91`/`#67`, not standing architecture. |
 | 2026-10-08 | CTO Agent | **BM confirmed M4** → v2 (UTM fallback removed), `#55` closed after James sent it · **`#61` built + dev-verified** (theme `562efa9`; footer-loaded click-watcher; skipped on standalone landings; dev GA/GTM header scripts blanked) · `#89` test entry deleted + closed · GA4 is hard-coded via Theme Options (survives switch-on); decision: stays hard-coded through switch-on, then BM moves it into GTM · `#91` GTM on the academy (ask sent to Omnyra) · `#92` `_gl` cleanup filed. |
