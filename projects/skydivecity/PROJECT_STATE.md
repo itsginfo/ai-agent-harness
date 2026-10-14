@@ -1,18 +1,18 @@
 # PROJECT STATE — Skydive City
 
-> **Last updated:** 2026-10-14 (checkpoint) by CTO Agent (`#67` switch-on LIVE: 0 body differences, smoke PASS, closed. Marcella `#61` 13:00 ET next.)
+> **Last updated:** 2026-10-14 (checkpoint) by CTO Agent (`#67` switch-on LIVE + `#61` validated by BM, both closed.)
 
 ---
 
 ## ⚡ RESUME INSTRUCTION
 
-**Compass is LIVE on production since 2026-10-14 14:48Z (`#67` closed).** Body gate PASS: 0 body differences in 370 pages, the same as the rehearsal; smoke PASS; no rollback.
+**Compass is LIVE on production since 2026-10-14 14:48Z (`#67` closed), and BM validated the M4 events the same day (`#61` closed).** Body gate PASS: 0 body differences in 370 pages; smoke PASS. Rich has the go-live note and the SOW v1.2 (both sent 10-14).
 
-**Next:** Marcella's GTM Preview + DebugView at 13:00 ET / 19:00 CEST → close `#61` if the events validate. Then send Rich a one-line "it's live" note. Then James sends the SOW v1.2 email (`#48`).
+**Next:** `#68` Phase 0 acceptance checkpoint. The funnel baseline (M4 §5) can now start; its length is OQ 21. BM moving GA4 into GTM (removing the hard-coded copy the same day) unblocks `#91`. Then the Winterfest port.
 
-**Dev state:** prod DB of 2026-10-13, core 7.1.3, Compass active + Ramp off (now matches prod). Dev WP-CLI needs `php -d memory_limit=-1` after a theme switch (`#93`).
+**Dev state:** prod DB of 2026-10-13, core 7.1.3, Compass active + Ramp off (matches prod). Dev WP-CLI needs `php -d memory_limit=-1` after a theme switch (`#93`).
 
-**Branch check:** engagement `develop` 10 unpushed (to `6f5e509`), theme `main` pushed (`badbcf8`), harness `main` unpushed. Push only on James's word.
+**Branch check:** engagement `develop`, theme `main` and harness `main` were all pushed 2026-10-14. Push only on James's word.
 
 ---
 
