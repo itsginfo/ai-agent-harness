@@ -1,18 +1,18 @@
 # PROJECT STATE — Skydive City
 
-> **Last updated:** 2026-10-13 (session end) by CTO Agent (`#67` rehearsed on prod DB + core 7.1.3, ready for Wed 10-14 · Compass 0.5.0 pushed · SOW v1.2 final for signature · `#93` filed.)
+> **Last updated:** 2026-10-14 (checkpoint) by CTO Agent (`#67` switch-on LIVE: 0 body differences, smoke PASS, closed. Marcella `#61` 13:00 ET next.)
 
 ---
 
 ## ⚡ RESUME INSTRUCTION
 
-**Switch-on (`#67`) runs Wed 2026-10-14, start 10:00 ET / 16:00 CEST (latest safe 10:30 / 16:30); rehearsed 2026-10-13 on prod's DB + core 7.1.3 (0 body · rollback 370/370, results on `#67`).** Compass 0.5.0 (`5c576cb`) is pushed. James runs it from Sweden.
+**Compass is LIVE on production since 2026-10-14 14:48Z (`#67` closed).** Body gate PASS: 0 body differences in 370 pages, the same as the rehearsal; smoke PASS; no rollback.
 
-**Next:** follow `project_management/switch-on-runbook-2026-10-14.md` step by step (pre-flight → deploy → before-snapshot ~30 min → backup → activate + Ramp off → James purges Cloudflare → after-snapshot + smoke) → Marcella GTM Preview 13:00 ET / 19:00 CEST (closes `#61`) → close `#67`, one line to Rich. Rollback decision by 12:15 ET / 18:15 CEST.
+**Next:** Marcella's GTM Preview + DebugView at 13:00 ET / 19:00 CEST → close `#61` if the events validate. Then send Rich a one-line "it's live" note. Then James sends the SOW v1.2 email (`#48`).
 
-**Dev state:** prod DB of 2026-10-13, core 7.1.3, prod plugin versions, **Compass active + Ramp off**; Header/Body tag scripts disabled; dev fixtures re-seeded (`/compass-79-ffp/` = 5973). Dev WP-CLI needs `php -d memory_limit=-1` after a theme switch (`#93`).
+**Dev state:** prod DB of 2026-10-13, core 7.1.3, Compass active + Ramp off (now matches prod). Dev WP-CLI needs `php -d memory_limit=-1` after a theme switch (`#93`).
 
-**Boot:** start the timer by hand (`clockify-timer.sh start </dev/null`). **Branch check:** engagement `develop` 10 unpushed (to `6f5e509`), theme `main` pushed (`badbcf8`), harness `main` unpushed. Push only on James's word.
+**Branch check:** engagement `develop` 10 unpushed (to `6f5e509`), theme `main` pushed (`badbcf8`), harness `main` unpushed. Push only on James's word.
 
 ---
 
@@ -110,12 +110,12 @@ See [`wiki/README.md`](../../projects/skydivecity/wiki/README.md) for convention
 
 | Item | Watch by | Tracker | Notes |
 |------|----------|---------|------|
-| **`#67` switch-on** | **Wed 2026-10-14 10:00 ET / 16:00 CEST** | [`#67`](https://github.com/itsginfo/skydivecity-com/issues/67) | Runbook `switch-on-runbook-2026-10-14.md`; Marcella 13:00 ET / 19:00 CEST. Row retires once live. |
 | **`#23` next weekly window** | **Thu 2026-10-15** (Thursdays from 10-09) | [`#23`](https://github.com/itsginfo/skydivecity-com/issues/23) | Last run **2026-10-07 CLEAN** (6 updates incl. TEC 6.18.0; core is Flywheel-managed, so no CLI core updates; GF 3 held → `#71`). Log `maintenance-logs/2026-10-07-run.md`. |
 | **SOW v1.2 signature** | **2026-10-31** (Initial Term ends; 12-month Renewal Term from 11-01) | [`#48`](https://github.com/itsginfo/skydivecity-com/issues/48) | Rich confirmed 10-13 (1-year renewal, §7.6 waived costs, in-kind at employee rates). Cover email `correspondence/2026-10-13-sow-v1.2-for-signature-rich.md` for James to send. Signing PDF `project_management/IT Strategy Group _ Skydive City Managed Services SOW 1.2.pdf`. Once signed: close `#48`, start the `#47` sequence (licences → remove 10Web → SDC Flywheel account → move on a Wednesday). |
 | **Winterfest "On now" price highlight** | **2026-11-01** | [`#82`](https://github.com/itsginfo/skydivecity-com/issues/82) | Hand-set in the live page markup: $135 card is marked "On now · Best value" and stays so after Oct 31 unless changed. Move to the $165 card + reword the shirt/discount notices on Nov 1 (page source → regenerate → deploy under change control). Moot if Winterfest is on Blocks by then (EventTiers derives it). |
 | **October Digital Ops Report** | deliver by ~**2026-11-05** (SOW §4.1) | [`#75`](https://github.com/itsginfo/skydivecity-com/issues/75) · `reports/digital-ops-monthly/README.md` | Recurring. **Step 0: request October's Burble count from Rich ~10-30.** Baselines now three months stable: 72–73% online capture; open-to-purchase 6.8 → 6.1 → 7.0%. Flockfest registration inflated Sept transactions (109 × $27,141) — October will drop back unless Flamingofest early-bird (opened 10-01) fills the gap; say so rather than read it as a decline. |
 
+> *Retired 2026-10-14:* "`#67` switch-on" row: ✅ **LIVE 14:48Z**, body gate PASS, `#67` closed.
 > *Retired 2026-10-01:* "Flamingofest 2027 Burble link" row — ✅ **LIVE on prod 2026-10-01** (post 5867; `index/53/1541`; 5-phase, James ran Phase 3, log `migration/wp-event-update-boogies-2026-08-prod-20261001T143328Z.log`). Early-bird window opened with the link in place. **`#40` closed 10-01** — nothing outstanding on the three boogies.
 > *Retired 2026-09-27:* "Send the BM explainer" row — ✅ **NOT NEEDED.** BM (La Barrie, relayed by James) confirmed in writing that ITSG builds/hosts/maintains and BM learns the back end post-launch; Rich: KT after the redesign. The explainer becomes the `#49` KT outline, not a review request. BM named contacts: **Kevin Hamstra** (Lead Dev) · **Marcella Smith** (GM + Analytics) → [[stakeholders]]. `#34` item 4 closed.
 > *Retired 2026-09-14:* "`#45` builder answer" row — ✅ DECIDED via `/grill-with-docs` (9 questions) → **ADR-0006** in the theme repo + `CONTEXT.md` glossary; `#45` closed. Superseded by the explainer row above.
