@@ -6,13 +6,13 @@
 
 ## ⚡ RESUME INSTRUCTION
 
-**Compass is LIVE on production since 2026-10-14 14:48Z (`#67` closed), and BM validated the M4 events the same day (`#61` closed).** Body gate PASS: 0 body differences in 370 pages; smoke PASS. Rich has the go-live note and the SOW v1.2 (both sent 10-14).
+**Compass is live on prod (`#67` closed), M4 is validated (`#61` closed) and the baseline runs 10-14 → 10-28.** Winterfest (`#94`) and FFP (`#95`) are ported on dev and ship together **Wed 10-21**. Winterfest is signed off and its prod Prices are live (5959–5962).
 
-**Next:** `#68` Phase 0 acceptance checkpoint. The funnel baseline (M4 §5) can now start; its length is OQ 21. BM moving GA4 into GTM (removing the hard-coded copy the same day) unblocks `#91`. Then the Winterfest port.
+**Next:** James's FFP spacing decision. FFP ported is 23–30px tighter than approved before 5 of 7 section headings (Blocks gives 84px; approved ~108px). The recommended fix is a "roomy" 108px option on the section-heading Block, used on FFP only. Then: build it on dev → FFP visual sign-off → push theme → prod tier table (5-phase, `migration/wp-ffp-tiers-2026-10.php`) → 10-21 release (see `#94` comment). `#68` Phase 0 acceptance comes after.
 
-**Dev state:** prod DB of 2026-10-13, core 7.1.3, Compass active + Ramp off (matches prod). Dev WP-CLI needs `php -d memory_limit=-1` after a theme switch (`#93`).
+**Dev cleanup owed:** remove `/var/www/html/zz-fidelity-compare.js` from `skydivecity_wordpress` if it is still there.
 
-**Branch check:** engagement `develop`, theme `main` and harness `main` were all pushed 2026-10-14. Push only on James's word.
+**Branch check:** unpushed — engagement `develop` (`e7b3a7e`…`c5b0ddb`), theme `main` `0c505e6`, harness `main` (`9003b5f`…). Push only on James's word.
 
 ---
 
@@ -111,7 +111,7 @@ See [`wiki/README.md`](../../projects/skydivecity/wiki/README.md) for convention
 | Item | Watch by | Tracker | Notes |
 |------|----------|---------|------|
 | **`#94` Winterfest port → prod** | **Wed 2026-10-21** (before the 11-01 price switch, `#82`) | [`#94`](https://github.com/itsginfo/skydivecity-com/issues/94) | Dev port signed off by James 10-14 (theme `6116cc6` pushed, CI green; fidelity 59/65, accepted only). **Prices LIVE on prod 10-14** (5959–5962, 5-phase; ids file `migration/winterfest-port-prod-ids-2026-10.txt`). Release: deploy theme → port 5899 (Blocks, default template, Immersive) → purge Cloudflare. Ships the `#82` fix automatically (EventTiers `highlight: auto`). |
-| **`#95` FFP port → prod (with `#94`)** | **Wed 2026-10-21** | [`#95`](https://github.com/itsginfo/skydivecity-com/issues/95) | Dev port done 10-14 (fidelity 78/79; copy fixed to approved `0c505e6`; whole-site diff = FFP only). Awaiting James visual sign-off. Prod needs the tier table first (`migration/wp-ffp-tiers-2026-10.php`, 5-phase; option absent on prod). |
+| **`#95` FFP port → prod (with `#94`)** | **Wed 2026-10-21** | [`#95`](https://github.com/itsginfo/skydivecity-com/issues/95) | Dev port done 10-14 (`0c505e6`, whole-site diff = FFP only). **Spacing decision pending** (5 of 7 headings 23–30px tighter than approved), then James's visual sign-off. Prod needs the tier table first (`migration/wp-ffp-tiers-2026-10.php`, 5-phase; option absent on prod). |
 | **M4 funnel baseline** | **2026-10-14 → 2026-10-28** (2 weeks, James; BM published GTM ~17:43Z 10-14) | [`#68`](https://github.com/itsginfo/skydivecity-com/issues/68) | Data from 10-14 on is the AFF/Events/Tandem on-site baseline (M4 §5); conversion-spine pages (home, Tandem, AFF) stay unported until **10-28**; the first spine port can then ship on a Wednesday release. Before 10-14, nothing counts. |
 | **`#23` next weekly window** | **Thu 2026-10-15** (Thursdays from 10-09) | [`#23`](https://github.com/itsginfo/skydivecity-com/issues/23) | Last run **2026-10-07 CLEAN** (6 updates incl. TEC 6.18.0; core is Flywheel-managed, so no CLI core updates; GF 3 held → `#71`). Log `maintenance-logs/2026-10-07-run.md`. |
 | **SOW v1.2 signature** | **2026-10-31** (Initial Term ends; 12-month Renewal Term from 11-01) | [`#48`](https://github.com/itsginfo/skydivecity-com/issues/48) | Rich confirmed 10-13 (1-year renewal, §7.6 waived costs, in-kind at employee rates). Cover email `correspondence/2026-10-13-sow-v1.2-for-signature-rich.md` for James to send. Signing PDF `project_management/IT Strategy Group _ Skydive City Managed Services SOW 1.2.pdf`. Once signed: close `#48`, start the `#47` sequence (licences → remove 10Web → SDC Flywheel account → move on a Wednesday). |
@@ -222,7 +222,7 @@ See [`wiki/README.md`](../../projects/skydivecity/wiki/README.md) for convention
 
 > When you complete one, update the GH issue first (status, comment if substantive), then return here.
 
-1. **Phase 0 frontier:** `#67` activation (sequence + rollback rehearsed on `#62`; 4-URL exception recorded; needs a Wednesday date; BM heads-up dropped 10-09, Rich holding BM work) · `#61` built + pre-prod check passed; Marcella's GTM Preview check after switch-on · `#68` acceptance · `#69` robots/noindex (triage) · Cassie IA session. Done (15): `#51` `#52` `#53` `#54` `#55` `#56` `#57` `#58` `#59` `#60` `#62` `#63` `#64` `#65` `#66`. Graph on `#50`.
+1. **[`#94` + `#95`] 10-21 release:** FFP spacing decision → FFP sign-off → push theme → prod tier table (5-phase) → Wed: theme deploy, port 5899 + 5898, Cloudflare purge, smoke. Then `#68` Phase 0 acceptance. Conversion-spine ports wait for the baseline (10-28).
 2. **[`#48` → `#47`] SOW v1.2 signature** (PDF ready; before 10-31), then the hosting move sequence on `#47`: licences in SDC's name (Bloom pending James) → remove 10Web (dev-first) → SDC Flywheel account + ITSG collaborator → move on a Wednesday (cost waived).
 3. **[Homepage port — longest-lead gates, can start now]** an **approved homepage design** (Rich's content direction `redesign-homepage-content-input.md`; `#32` pricing framing) and the **M4 baseline length** (OQ 21). Homepage = first Phase 2 page, after `#68` + the Winterfest port; also needs `#70` nav session, `#84` price migration, M5 SEO block carry. SOW draft: weeks 5–6 from kickoff.
 3. ~~`#44` stale live content~~ ✅ LIVE 2026-10-06 (mention in the October ops report — Rich was told "October").
@@ -266,6 +266,7 @@ See [`wiki/README.md`](../../projects/skydivecity/wiki/README.md) for convention
 
 | Date | Agent | Summary |
 |------|-------|---------|
+| 2026-10-14 | CTO Agent | **Compass LIVE on prod 14:48Z (`#67` closed; body gate 0/370); `#61` closed (BM validated M4; GTM published, baseline 10-14 → 10-28, OQ 21 = 2 weeks).** Winterfest `#94` dev port signed off (EventHero 104px `ef58483`/`6116cc6`; template-only landing detection `afb35ae`), prod Prices 5959–5962 live (5-phase, `a649e83`). FFP `#95` dev port done (`0c505e6`), tier script `c5b0ddb`; spacing gap found, decision pending. |
 | 2026-10-13 | CTO Agent | Later: dev fixtures re-seeded + dev left on Compass; homepage port gates mapped (no Blocks homepage exists anywhere). `#67` readiness: dev refreshed to prod DB + plugins + **core 7.1.3**; rehearsal PASS (0 body / rollback 370 identical, Ramp off); Compass **0.5.0** pushed; diff tool retry (`badbcf8`); prod snapshot measured 30.5 min → runbook with ET/CEST plan (`6f5e509`); dev-only WP-CLI 128 MB failure → `#93`; SSH from Sweden OK. SOW v1.2: 12-month term, §7.6 waived costs, in-kind at employee rates; signing PDF + cover email (`402a32f`, `573c0e1`). |
 | 2026-10-09 | CTO Agent | Drift cleared (board `#61`/`#91`, OQ 20 moot) · **`#92` LIVE + closed** (20 `_gl` fields incl. drafts, 5-phase, log `prod-write-20261009T144720Z.log`) · **`#61` pre-prod check passed** (pushes create no GA4/Ads hits) · M4 **v2.1** (prod GTM Preview validation; PDF) · **`#91`**: Omnyra installed GTM; container has no GA4 → Marcella's plan (Option 1), academy reports once GA4 moves into GTM · **`#48` approved by Rich**: client pre-read + SOW v1.2 (move waived) signing PDF · **Wednesday = large releases, Thursday = maintenance** (CLAUDE.md, [[deploy-pipeline]], runbook) · BM heads-up dropped. Commits engagement `75eea79`…`5c7266e`. No ADR (release-day rule fails 3-of-3: easily reversed; lives in CLAUDE.md). |
 | 2026-10-08 (session end) | CTO Agent | Close: all three repos pushed on James's word; resume rewritten. Live Watch unchanged (`#23` 10-14/15, `#82` Nov 1, `#75` ~11-05). No ADR: the GA4-stays-hard-coded and portal-GTM calls are sequencing decisions recorded on `#91`/`#67`, not standing architecture. |
