@@ -1,21 +1,20 @@
 # PROJECT STATE — WoW Classic AddOns
 
-> **Last updated:** 2026-10-10 by CTO Agent. **EPGP LootCompass 1.8.2**: tier set bonuses, an explanation window, an in-game cast recorder, Warcraft Logs reference mixes, and a 'Value gear for' toggle ([`#13`](https://github.com/itsginfo/wow-addons/issues/13), [`#15`](https://github.com/itsginfo/wow-addons/issues/15), ADR-0009). Up to 1.8.1 is pushed; 1.8.2 and ADR-0009 are local. **The reconcile on `#2` is still owed** (carried forward a 4th time).
+> **Last updated:** 2026-10-14 by CTO Agent. **EPGP LootCompass 1.18.0 (Rogue)** is committed locally; 1.17.2 and earlier are pushed and verified. #16 has Hunter and the tanks left. **The reconcile on `#2` is still owed** (carried forward a 5th time).
 
 ---
 
 ## ⚡ RESUME INSTRUCTION
 
-**State:** EPGP LootCompass 1.8.2 is committed but not pushed (`17531a9` + ADR-0009 `f88d320`). It's waiting for James to check two things in-game: the explanation window refreshes when the Raid/Tank toggle flips, and the About tab reads "How-To". 1.8.1 and earlier are live and verified ([`#15`](https://github.com/itsginfo/wow-addons/issues/15)).
+**State:** EPGP LootCompass 1.18.0 (Rogue melee model + a fix for unstated melee proc chances) is committed as `4fa697b`, not pushed, and waits on James's `/reload` check: About → Priest weights unchanged, About → Rogue opens ([`#16`](https://github.com/itsginfo/wow-addons/issues/16)).
 
 **Next:**
-- On James's OK, push `main`.
-- Then ask James: start [`#16`](https://github.com/itsginfo/wow-addons/issues/16) (Holy Paladin + Resto Druid, reusing the healing mix engine), or reconcile [`#2`](https://github.com/itsginfo/wow-addons/issues/2) first. The TSM guards have been reverted since 09-17, and #2 has been carried forward four times.
-- Generate the Warlock reference mix for #15: `wcl_meta.py --class Warlock --spec Destruction --metric dps`.
+- On James's OK: push `main`, put `LootCompass-1.18.0.zip` on the Desktop (`git archive`) and remove the 1.17.2 zip.
+- Then ask James: Hunter next on #16, or reconcile [`#2`](https://github.com/itsginfo/wow-addons/issues/2) (5th carry). After the Wed 10-14 MC/BWL raid, have him run `/lc mana`.
 
-Before shipping any LootCompass change, run `qa.lua`, `perf.lua` and `memory.lua` (Lua 5.1 rule) and mutation-test new checks. Run one Warcraft Logs job at a time: the limit is 3,600 points per hour with James's subscription.
+Before shipping: `qa.lua`, `perf.lua`, `memory.lua` (Lua 5.1 rule), mutation-test new checks, add a CHANGELOG entry (no player names). One Warcraft Logs job at a time.
 
-**Branch check first.** Project repo (`/Applications/World of Warcraft/_classic_era_/Interface/AddOns`): `main` at `f88d320`, **2 ahead of origin**; hold until James OKs. Harness: `main`, ahead of origin (unpushed). New addon files need a full client restart; otherwise `/reload`.
+**Branch check first.** Project repo (`/Applications/World of Warcraft/_classic_era_/Interface/AddOns`): `main` at `4fa697b`, **1 ahead of origin**. `!CUF_PrivateAuraCompat` has James's own uncommitted edits — don't commit them. Harness: `main`.
 
 ## Wiki Quick-Index
 
@@ -79,11 +78,11 @@ Before shipping any LootCompass change, run `qa.lua`, `perf.lua` and `memory.lua
 
 | Item | Watch by | Tracker | Notes |
 |------|----------|---------|------|
-| **Push LootCompass 1.8.2** | **James's next `/reload`** | [`#15`](https://github.com/itsginfo/wow-addons/issues/15) | `17531a9` + ADR `f88d320` are local. Check: the explanation window follows the Raid/Tank toggle, and the tab says How-To. Then push. |
-| **Recorder's first MC/BWL night** | Wed 2026-10-14 raid | [`#15`](https://github.com/itsginfo/wow-addons/issues/15) | ZG on 10-09 matched Warcraft Logs exactly. After Wednesday, `/lc casting` should grow by the MC/BWL bosses. Mana pressure (29% from ZG) should then reflect MC/BWL too. |
+| **Push LootCompass 1.18.0** | **James's next `/reload`** | [`#16`](https://github.com/itsginfo/wow-addons/issues/16) | `4fa697b` is local. Check About → Priest (unchanged) and About → Rogue. Then push and swap the Desktop zip. |
+| **Measured mana pressure from MC/BWL** | after the Wed 2026-10-14 raid | [`#13`](https://github.com/itsginfo/wow-addons/issues/13) | 1.17.2 measures pressure as each 40-man fight's spend vs James's own supply (`/lc mana`), default 30%. Only ZG/Ony were recorded so far, and ZG doesn't count. Check the MC/BWL rows look sane. |
 | **Cancel the Warcraft Logs subscription** | when [`#16`](https://github.com/itsginfo/wow-addons/issues/16) classes are done | [`#16`](https://github.com/itsginfo/wow-addons/issues/16) | James took the ×5 plan (3,600 points/h) for the class build-out, 2026-10-10. Credentials are in `~/.config/wcl/credentials`, outside the repo. |
 | **Regenerate the reference mixes (`MetaMix.lua`)** | about monthly, and when adding a class | [ADR-0009](https://github.com/itsginfo/wow-addons/blob/main/docs/adr/0009-lootcompass-gear-valued-for-meta-mix.md) | `python3 -I LootCompass/tools/wcl_meta.py [--tank-scan 15]`. It's cached and paced. QA validates the shipped file. |
-| **Re-apply the three fragile in-provider edits** | **overdue: carried forward 4 sessions** | [`#2`](https://github.com/itsginfo/wow-addons/issues/2) (table in the 2026-10-05 correction comment) | All three guard greps read **0** on 2026-10-05. TSM v4.14.77 reverted `Accounting.lua` + `LibTSMClass.lua` on **09-17**; RXPGuides v4.11.15 rewrote `map.lua` on 10-05 (0 `CreateObjectPool` refs — may be obsolete). Patched copies in `backups/2026-08-28/local-edits/`. Until re-applied: TSM's event pipeline can die on any nil price until `/reload` ([`#7`](https://github.com/itsginfo/wow-addons/issues/7)). |
+| **Re-apply the three fragile in-provider edits** | **overdue: carried forward 5 sessions** | [`#2`](https://github.com/itsginfo/wow-addons/issues/2) (table in the 2026-10-05 correction comment) | All three guard greps read **0** on 2026-10-05. TSM v4.14.77 reverted `Accounting.lua` + `LibTSMClass.lua` on **09-17**; RXPGuides v4.11.15 rewrote `map.lua` on 10-05 (0 `CreateObjectPool` refs — may be obsolete). Patched copies in `backups/2026-08-28/local-edits/`. Until re-applied: TSM's event pipeline can die on any nil price until `/reload` ([`#7`](https://github.com/itsginfo/wow-addons/issues/7)). |
 | **LootCompass: regenerate built-in data after AtlasLoot updates** | each AtlasLoot update | [ADR-0008](https://github.com/itsginfo/wow-addons/blob/main/docs/adr/0008-lootcompass-own-parser-and-bundled-gpl-data.md) | Run `lua LootCompass/tools/gen_raiddata.lua`, then commit. QA fails until it's done. Bump `ns.PARSER_VERSION` whenever the parser would read any item differently. |
 | **LootCompass Warlock model unverified in-game** | when a level-60 Warlock is available | [`#13`](https://github.com/itsginfo/wow-addons/issues/13) | QA-only so far. The weights match Classic theorycraft (Hit% 13, Crit% 10, Int 0.26 at about 600 SD). |
 | **Verify `!CUF` 1.3.0 in-game** | **next play session** | [`#3`](https://github.com/itsginfo/wow-addons/issues/3) | Restored from git again 2026-10-05 after today's Cell_UnitFrames update. SpellAnnouncerClassicPlus 2.0.0 **was verified** (`aa46438`) and drops off this row. For `!CUF`, expect Blizzard party/raid frames to possibly reappear briefly after roster churn — accepted trade-off of 1.3.0 gating hide-reinforce off. |
@@ -96,7 +95,7 @@ Before shipping any LootCompass change, run `qa.lua`, `perf.lua` and `memory.lua
 
 ## In-Flight Tasks ⚡
 
-- **LootCompass 1.8.2 + ADR-0009: committed, not pushed** (`17531a9`, `f88d320`). Waiting on James's in-game check ([`#15`](https://github.com/itsginfo/wow-addons/issues/15)). There's no uncommitted work.
+- **LootCompass 1.18.0 (Rogue): committed, not pushed** (`4fa697b`). Waiting on James's in-game check ([`#16`](https://github.com/itsginfo/wow-addons/issues/16)). There's no uncommitted work of ours.
 - **Carrying risk, not work:** the three reverted in-provider edits (Live Watch / [`#2`](https://github.com/itsginfo/wow-addons/issues/2)).
 
 ---
@@ -121,11 +120,9 @@ Before shipping any LootCompass change, run `qa.lua`, `perf.lua` and `memory.lua
 
 ## Next 3 Actions (Prioritized)
 
-1. **Push 1.8.2 once James OKs it** ([`#15`](https://github.com/itsginfo/wow-addons/issues/15)). Then generate the Warlock reference mix (`wcl_meta.py --class Warlock --spec Destruction --metric dps`), ship it, and close #15.
-2. **James picks one:**
-   - [`#16`](https://github.com/itsginfo/wow-addons/issues/16): Holy Paladin + Resto Druid. Add their HEAL_SPELLS, talents, set data, CLASS_GEAR, SPEC_MODELS and raid/tank reference mixes.
-   - **Or** reconcile [`#2`](https://github.com/itsginfo/wow-addons/issues/2): three-way merge the TSM `Accounting.lua` / `LibTSMClass.lua` (v4.14.77) against `backups/2026-08-28/local-edits/*.patched-4.14.76`, read RXP `map.lua` (v4.11.21), and clean up the `Bagnon: enabled` entries.
-3. **Verify `!CUF` 1.3.0 in-game** ([`#3`](https://github.com/itsginfo/wow-addons/issues/3)) and answer Open Question 4. Housekeeping: [`#8`](https://github.com/itsginfo/wow-addons/issues/8) (Auctioneer is uninstalled) and [`#6`](https://github.com/itsginfo/wow-addons/issues/6) (stale RXP keys).
+1. **Push 1.18.0 once James OKs it** ([`#16`](https://github.com/itsginfo/wow-addons/issues/16)) and swap the Desktop zip.
+2. **James picks one:** Hunter on [`#16`](https://github.com/itsginfo/wow-addons/issues/16) (then tanks: Protection Warrior, Feral; cancel the WCL ×5 subscription when #16 is done), **or** reconcile [`#2`](https://github.com/itsginfo/wow-addons/issues/2) (three-way merge TSM `Accounting.lua` / `LibTSMClass.lua` against `backups/2026-08-28/local-edits/`, read RXP `map.lua`, clean `Bagnon: enabled`).
+3. **Website** [`#19`](https://github.com/itsginfo/wow-addons/issues/19): RestedXP (restedxp.com) is the style reference; CHANGELOG.md plus a how-it-works doc become site content. Also open: [`#17`](https://github.com/itsginfo/wow-addons/issues/17) live GDKP check at the next GDKP.
 
 ## Decisions (Summary)
 
@@ -154,6 +151,8 @@ Before shipping any LootCompass change, run `qa.lua`, `perf.lua` and `memory.lua
 
 | Date | Agent | Summary |
 |------|-------|---------|
+| 2026-10-14 | CTO | **LootCompass 1.9.0 → 1.18.0** ([`#13`](https://github.com/itsginfo/wow-addons/issues/13), [`#16`](https://github.com/itsginfo/wow-addons/issues/16), [`#17`](https://github.com/itsginfo/wow-addons/issues/17), [`#18`](https://github.com/itsginfo/wow-addons/issues/18), [`#19`](https://github.com/itsginfo/wow-addons/issues/19)). Pushed through 1.17.2 (plan window, minimap, Options, GDKP/soft-reserve, themes, Holy Paladin/Resto Druid, Mage, Warrior, owned gear + 'have better', mana pressure as spend vs supply, CHANGELOG.md). 1.18.0 Rogue local. See `git log 620f530^..4fa697b`. |
+| 2026-10-10 (close) | CTO | *(resume drained 2026-10-14)* Resume was "push 1.8.2 on OK, then #16 or #2". 1.8.2 was pushed; James chose #16. #2 carried forward again. |
 | 2026-10-10 | CTO | **LootCompass 1.2.0 → 1.8.2** ([`#13`](https://github.com/itsginfo/wow-addons/issues/13), [`#15`](https://github.com/itsginfo/wow-addons/issues/15) open, [`#16`](https://github.com/itsginfo/wow-addons/issues/16) filed; ADR-0009).<br>**Features:**<br>- T1–T3 set bonuses for Priest and Warlock, with tier tags and "+N alone" in the plan.<br>- "Why this advice" window behind an info icon on each row.<br>- In-game cast recorder, validated exactly against Warcraft Logs on the 10-09 ZG.<br>- Spell-mix model; Warcraft Logs import (72 fights).<br>- Reference mixes from rankings: raid 248 fights, tank 64.<br>- "Value gear for" toggle; structured About pages; How-To tab.<br>**Harness:** session start/end summaries reformatted (`5ec2e2b`).<br>`#2` carried forward again. |
 | 2026-10-08 (session 2, close) | CTO | *(resume drained 2026-10-10)* The resume asked James to choose (a) reconcile `#2` or (b) a LootCompass slice. He chose **(b), set bonuses**, and the session grew into #15. `#2` **was carried forward unstarted a 4th time.** |
 | 2026-10-05 (close) | CTO | *(resume drained 2026-10-08)* Resume was "reconcile `#2` first"; **carried forward unstarted** — 10-07/08 session was spent on RuneclothRep at James's request. See `#2` 10-05 correction comment. |
