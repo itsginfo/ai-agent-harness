@@ -10,8 +10,6 @@
 
 **Next:** James's FFP spacing decision. FFP ported is 23–30px tighter than approved before 5 of 7 section headings (Blocks gives 84px; approved ~108px). The recommended fix is a "roomy" 108px option on the section-heading Block, used on FFP only. Then: build it on dev → FFP visual sign-off → push theme → prod tier table (5-phase, `migration/wp-ffp-tiers-2026-10.php`) → 10-21 release (see `#94` comment). `#68` Phase 0 acceptance comes after.
 
-**Dev cleanup owed:** remove `/var/www/html/zz-fidelity-compare.js` from `skydivecity_wordpress` if it is still there.
-
 **Branch check:** unpushed — engagement `develop` (`e7b3a7e`…`c5b0ddb`), theme `main` `0c505e6`, harness `main` (`9003b5f`…). Push only on James's word.
 
 ---
