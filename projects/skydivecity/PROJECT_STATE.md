@@ -8,9 +8,9 @@
 
 **Release prep for Wed 10-21: Winterfest (`#94`) and FFP (`#95`) are both signed off and the theme is pushed (`45ce209`, CI green).** Winterfest's prod Prices are live (5959–5962). FFP still needs its prod tier table.
 
-**Next:** prod tier table for FFP, 5-phase. Upload `migration/wp-ffp-tiers-2026-10.php` (SHA verify) → dry run (expect the six tiers $38 → $30, nothing written) → James's go → live → verify. **Prod SSH was hanging 10-16 ~17:55–18:05Z** (site up, port 22 open) — nothing uploaded; retry once. Then the `#23` **prod** half (dev half done 10-16, `9d157ef`: 7 minor/patch, smoke PASS, GF 3 held) — Mon/Tue, not Wednesday. Release steps: `#94`/`#95` comments. Build the 5898 port from `pages.mjs` at ≥ `45ce209`.
+**Next:** prod tier table for FFP, 5-phase. Upload `migration/wp-ffp-tiers-2026-10.php` (SHA verify) → dry run (expect the six tiers $38 → $30, nothing written) → James's go → live → verify. Prod SSH hung ~17:55–18:05Z 10-16 and **recovered by 18:20Z** (ping OK); nothing uploaded yet. Then the `#23` **prod** half (dev half done 10-16, `9d157ef`: 7 minor/patch, smoke PASS, GF 3 held) — Mon/Tue, not Wednesday. Release steps: `#94`/`#95` comments. **Also 10-16:** `#68` checkpoint drafted (`redesign-phase0-checkpoint.md`), IA content session held (James as content owner) → `#97` skydive.city 404s, `#98` early retirements, `#99` event categories. Build the 5898 port from `pages.mjs` at ≥ `45ce209`.
 
-**Branch check:** theme `main` pushed. Unpushed: engagement `develop` (`e7b3a7e`…`9d157ef`) and harness `main`. Push only on James's word.
+**Branch check:** theme `main` pushed. Unpushed: engagement `develop` (`e7b3a7e`…`bc42a7a`) and harness `main`. Push only on James's word.
 
 ---
 
