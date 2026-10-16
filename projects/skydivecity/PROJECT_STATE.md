@@ -8,9 +8,9 @@
 
 **Compass is live on prod (`#67` closed), M4 is validated (`#61` closed) and the baseline runs 10-14 → 10-28.** Winterfest (`#94`) and FFP (`#95`) are ported on dev and ship together **Wed 10-21**. Winterfest is signed off and its prod Prices are live (5959–5962).
 
-**Next:** James's FFP visual sign-off on dev. Spacing needs no change: re-measured 10-16, the port matched approved and the 10-14 finding was a measurement error. The Diamond note now sits inside the ladder card (theme `45ce209`, contract 1.8.0). Then: push theme → prod tier table (5-phase, `migration/wp-ffp-tiers-2026-10.php`) → `#23` catch-up run (missed 10-15) → 10-21 release (see `#94`/`#95` comments; the 5898 port must be built from `pages.mjs` at ≥ `45ce209`). `#68` Phase 0 acceptance comes after.
+**Next:** FFP **signed off 10-16** and theme **pushed** (`45ce209`, CI green; spacing unchanged, Diamond note inside the ladder card, contract 1.8.0). Then: prod tier table (5-phase, `migration/wp-ffp-tiers-2026-10.php`) → `#23` catch-up run (missed 10-15) → 10-21 release (see `#94`/`#95` comments; the 5898 port must be built from `pages.mjs` at ≥ `45ce209`). `#68` Phase 0 acceptance comes after.
 
-**Branch check:** unpushed — engagement `develop` (`e7b3a7e`…`392ae56`), theme `main` `0c505e6`…`45ce209`, harness `main` (`9003b5f`…). Push only on James's word.
+**Branch check:** unpushed — engagement `develop` (`e7b3a7e`…`392ae56`), theme `main` pushed (`45ce209`), harness `main` (`9003b5f`…). Push only on James's word.
 
 ---
 
