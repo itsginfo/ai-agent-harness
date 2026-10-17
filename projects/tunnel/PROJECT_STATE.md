@@ -1,16 +1,16 @@
 # PROJECT STATE — Tunnel (wind tunnel flying)
 
-> **Last updated:** 2026-10-15 by PM Agent
+> **Last updated:** 2026-10-17 by PM Agent
 
 ---
 
 ## ⚡ RESUME INSTRUCTION
 
-**Sweden block, Solo week 1, Day 2 (Thu 10-15).** Session 1 has been flown (23:37–00:03), drill IDs are confirmed, and speeds have been read off the tunnel display. Sessions 2–3 are next. Their speed card is in `logs/2026-10-15.md`.
+**Sweden Solo week 1, Day 4 (Sat 10-17) fully logged; waiting on James's answers.** Sessions 3+4 (2×15-min solo at 60%) cut into 6 clips, reviewed, logged with 5 questions in `logs/2026-10-17.md` (256b1d7) → [#5](https://github.com/itsginfo/tunnel/issues/5).
 
-**Next:** After Sessions 2–3, fill in the turn notes and the end-of-day check, update the skill tracker in `trips/2026-sweden.md`, then confirm Day 3 (Fri 10-16): carve ~68 → 69 if the gate passed.
+**Next:** Get James's answers to the 5 Day 4 questions, update log + tracker ratings, then build the Sat 23:30 pairs card (A/B/C) per the dive flow table in `trips/2026-sweden.md`.
 
-**Branch check first.** Project repo: `main` → `itsginfo/tunnel` (private). Harness: `main`. Videos (`logs/Videos/`) are gitignored and ~580 MB per 5-min clip.
+**Branch check first.** Project repo: `main` → `itsginfo/tunnel`, clean + pushed. Harness: `main`, ahead of origin (incl. 25fa964 onboarding); don't push without direction. Videos in `logs/Videos/` are gitignored.
 
 ---
 
@@ -49,7 +49,7 @@
 ### Operating Notes
 - Solo weeks: no new maneuvers, speeds set before the session, raise speed only at a gate (3 clean reps in a row), video every turn. Coached weeks can introduce new skills.
 - Speeds are in Malmö wind % plus **km/h airspeed** from the display. Tampa shows % + mph, so airspeed is the cross-tunnel number.
-- Day format so far: 3 × 15-min sessions, each a shared 30-min block = 3 × 5-min turns.
+- Day format varies: usually 5-min blocks shared with Kate; sometimes 15-min solo blocks (Day 4 S3+S4). Cut at the display countdown.
 - Plans use a compact **speed card** (Turn | Skill | Last flown | Today) to show the driver, with a detailed focus table below it.
 
 ---
@@ -66,7 +66,9 @@
 
 ## In-Flight Tasks ⚡
 
-- **Day 2 (10-15)** — [#1](https://github.com/itsginfo/tunnel/issues/1) — Session 1 is logged. Sessions 2–3 are planned (speed card + focus tables). Next: post-flight notes and video review.
+- **Day 4 S3+S4 confirmation → Sat 23:30 card** — [#5](https://github.com/itsginfo/tunnel/issues/5) — waiting on James's 5 answers.
+- **Pose timeline step 1** — [#4](https://github.com/itsginfo/tunnel/issues/4) — `tools/pose_timeline.py` committed, model local; not yet validated vs confirmed Day 4 drills; "Side" over-classifies.
+- **Dive flow goal** — full flow by Mon 10-19; pieces Sat → pairs Sun → full flow Mon (`trips/2026-sweden.md`).
 
 ---
 
@@ -88,9 +90,9 @@
 
 ## Next 3 Actions (Prioritized)
 
-1. **Log Day 2 Sessions 2–3** ([#1](https://github.com/itsginfo/tunnel/issues/1)): notes (% + km/h), end-of-day check, skill tracker update.
-2. **Plan Day 3 (Fri 10-16)** ([#2](https://github.com/itsginfo/tunnel/issues/2)): carve speed push, gated on Day 1–2 catches.
-3. **Week 1 → 2 coach hand-off** ([#3](https://github.com/itsginfo/tunnel/issues/3)), due Mon 10-19.
+1. **Sat 23:30 pairs card** ([#5](https://github.com/itsginfo/tunnel/issues/5)) after James confirms Day 4 S3/S4.
+2. **Pose step 1 validation** ([#4](https://github.com/itsginfo/tunnel/issues/4)): run on Day 4 clips, compare to confirmed drills, fix "Side".
+3. **Week 1 → 2 coach hand-off** ([#3](https://github.com/itsginfo/tunnel/issues/3)), due Mon 10-19. Also: map Rich's video segments to `reference/bodyflight.md`.
 
 ---
 
@@ -99,3 +101,4 @@
 | Date | Agent | Summary |
 |------|-------|---------|
 | 2026-10-15 | PM | Onboarded tunnel to the harness. Session 1 speeds read from the display in the video (60 / 60→58 / 65). Session 2–3 speed card added to the log. km/h confirmed as the airspeed display. Private repo `itsginfo/tunnel` created, issues #1–3 opened. |
+| 2026-10-17 | PM | Days 2–4 logged from video (lossless trim + 3-s dense review, speeds off display, Kate clips kept), Rich's drills, dive flow progression, pose tool; #1/#2 closed, #5 opened. See itsginfo/tunnel 682f8ea → 256b1d7. |
