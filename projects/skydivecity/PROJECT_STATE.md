@@ -6,9 +6,9 @@
 
 ## ⚡ RESUME INSTRUCTION
 
-**Wed 10-21 release:** Winterfest (`#94`) + FFP (`#95`) ports, both signed off; Prices + tier table already live. **James 10-19: the Winterfest sponsors/vendors section (`#102`) ships with it** — design decided (Option B, seamless transparent logos, vendor list with marks; assets + `partners.json` in `content/event-partners/`, `edda185`). Not built yet: Component + Block + port into `pages.mjs`, dev-verified and signed off before Wed. The Winterfest landing source already carries the `#100` LOs (stat 20).
+**Wed 10-21 release:** Winterfest (`#94`) + FFP (`#95`) ports + **Winterfest sponsors/vendors (`#102`, dev signed off 10-19)**. Prices + tier table already live. Theme `ead96be` carries the Partner record + PartnerWall Block (contract 1.9.0) and the Winterfest source (sections 07/08, `#100` LOs, stat 20).
 
-**Release steps:** deploy theme → port 5899 + 5898 from `pages.mjs` (≥ the commit carrying `#102`) → Cloudflare purge → smoke. Close `#100` after.
+**Release steps:** deploy theme → **Partner seed on prod** (`migration/wp-partners-2026-10.php`, upload the `content/event-partners` archive, 5-phase) → append `partner-*` ids to `migration/winterfest-port-prod-ids-2026-10.txt` → regenerate `winterfest.html` → port 5899 + 5898 → Cloudflare purge → smoke. Close `#100` / `#102` after.
 
 **Branch check:** all three repos pushed 2026-10-19 on James's word.
 
@@ -267,6 +267,7 @@ See [`wiki/README.md`](../../projects/skydivecity/wiki/README.md) for convention
 
 | Date | Agent | Summary |
 |------|-------|---------|
+| 2026-10-19 | CTO Agent | (Later) **`#102` built + signed off on dev**: Partner record + PartnerWall Block (`ead96be`), seed script (`12c5c82`), 14 Partners on dev; ships Wed. Fixed: `5fb929b` missed the stat 20 → `2e605d1`. |
 | 2026-10-19 | CTO Agent | **`#23` 10-16 run complete** (prod 9/9 incl. ACF table field dev-first + BackWPup; GF auto-update off; form test PASS; `a8a26a3`). **LOs:** `#101` Flockfest + `#100` Winterfest event post LIVE (5-phase, `7b71ecc`); landing roster in `pages.mjs` (stat 20 = LOs listed) ships 10-21. **`#102` sponsors/vendors:** board → Option B seamless, all 14 logos + URLs (`edda185`); James pulled it into the 10-21 release. `#94`/`#95` → In Progress. |
 | 2026-10-16 | CTO Agent | (Later session) **FFP prod tier table LIVE** (5-phase, `8030dd7`), so `#94`/`#95` are release-ready. `#23` dev half done (`9d157ef`). Prod SSH hung ~17:55–18:05Z, then recovered. `#68` checkpoint drafted (`e6164f8`). **IA content session held** (James as content owner; `bc42a7a`): flatten `/florida-skydiving/` per section at port; retire coach stubs, 2020 Nationals pages, press releases, events-portal, lodging-amenities and blog → `#98`; event types only → `#99`; skydive.city `/en/` addresses 404 → `#97`; staff unpublished 10-08 (not ITSG) → `#88`. No ADR (per-section flattening is reversible; recorded in `ia-proposal-draft.md`). |
 | 2026-10-16 | CTO Agent | **`#96` LIVE + closed** (Matt: Collegiates Facebook event link → 5894 `sc_facebook_url`, 5-phase, `19cee37`/`392ae56`; canonical URL stored). Events-port carry requirement for event CTA meta recorded on `#24`. `#23` Thu 10-15 run was missed — catch up before the 10-21 release. FFP `#95`: spacing re-measured, already matches approved (10-14 finding was wrong; no change, James); Diamond note moved inside the ladder card (theme `45ce209`, FfpLadder `note`, contract 1.8.0). **FFP signed off; theme pushed, CI green.** No ADR (additive prop; fails 3-of-3). |
