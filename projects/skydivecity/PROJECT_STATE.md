@@ -1,14 +1,14 @@
 # PROJECT STATE — Skydive City
 
-> **Last updated:** 2026-10-19 (session end) by CTO Agent (`#23` complete; LO edits live; `#102` built, signed off, editor-checked; all repos pushed.)
+> **Last updated:** 2026-10-20 (session end) by CTO Agent (`#103` Pasco text live; 10-21 release prep done, checklist on `#94`.)
 
 ---
 
 ## ⚡ RESUME INSTRUCTION
 
-**Wed 10-21 release is ready:** Winterfest (`#94`, incl. `#100` LOs + `#102` sponsors/vendors, all signed off) and FFP (`#95`) from theme `7a04935` (CI green). Prices, tier table, and event-post LOs already live.
+**Wed 10-21 release is prepped:** Winterfest (`#94` + `#100` + `#102`) and FFP (`#95`) from theme `7a04935`; prod runs `badbcf8`. The deploy dry run showed 54 content changes and 0 deletions, and no prod post renders Blocks yet.
 
-**Next (Wed 10-21):** deploy theme → Partner seed on prod (`migration/wp-partners-2026-10.php`; upload `tar -czf … -C content/event-partners partners.json logos` as `BUNDLE`; 5-phase) → append its `partner-*` lines to `migration/winterfest-port-prod-ids-2026-10.txt` → regenerate `winterfest.html` (`pages.mjs`) → port 5899 + 5898 → Cloudflare purge → smoke → close `#100`, `#102`. Then `#23` Thu 10-22.
+**Next (Wed 10-21):** follow the checklist on [`#94`](https://github.com/itsginfo/skydivecity-com/issues/94#issuecomment-6280893213) — theme deploy → Partner seed (5-phase) → ids file → `pages.mjs` → port 5899 + 5898 (template default, mode immersive; log pre-port values for rollback) → purge → smoke → close `#100`, `#102`. Then `#23` Thu 10-22.
 
 **Branch check:** engagement `develop` and theme `main` pushed, clean. Harness `main`: this session-end commit is local unless James said push.
 
@@ -267,6 +267,7 @@ See [`wiki/README.md`](../../projects/skydivecity/wiki/README.md) for convention
 
 | Date | Agent | Summary |
 |------|-------|---------|
+| 2026-10-20 | CTO Agent | **`#103` LIVE + closed** (Rich: Pasco special text verbatim, pricingtable 5733; 5-phase, `9c4fc01`; James emailed Rich + team). **10-21 release prepped**: deploy dry run (54 content / 0 deletions; prod theme `badbcf8`), Partner bundle + generator checked with prod ids; checklist + rollback on `#94`. Drift fixed: `#100`/`#102` In Progress, `#102` triage label off. |
 | 2026-10-19 | CTO Agent | (Later) **`#102` built + signed off on dev**: Partner record (glossary) + PartnerWall Block (`ead96be`, editor = live check → `7a04935`), seed script (`12c5c82`), 14 Partners on dev; ships Wed. Fixed: `5fb929b` missed the stat 20 → `2e605d1`. No ADR: mirrors the Price-record pattern; glossary entry is the record. |
 | 2026-10-19 | CTO Agent | **`#23` 10-16 run complete** (prod 9/9 incl. ACF table field dev-first + BackWPup; GF auto-update off; form test PASS; `a8a26a3`). **LOs:** `#101` Flockfest + `#100` Winterfest event post LIVE (5-phase, `7b71ecc`); landing roster in `pages.mjs` (stat 20 = LOs listed) ships 10-21. **`#102` sponsors/vendors:** board → Option B seamless, all 14 logos + URLs (`edda185`); James pulled it into the 10-21 release. `#94`/`#95` → In Progress. |
 | 2026-10-16 | CTO Agent | (Later session) **FFP prod tier table LIVE** (5-phase, `8030dd7`), so `#94`/`#95` are release-ready. `#23` dev half done (`9d157ef`). Prod SSH hung ~17:55–18:05Z, then recovered. `#68` checkpoint drafted (`e6164f8`). **IA content session held** (James as content owner; `bc42a7a`): flatten `/florida-skydiving/` per section at port; retire coach stubs, 2020 Nationals pages, press releases, events-portal, lodging-amenities and blog → `#98`; event types only → `#99`; skydive.city `/en/` addresses 404 → `#97`; staff unpublished 10-08 (not ITSG) → `#88`. No ADR (per-section flattening is reversible; recorded in `ia-proposal-draft.md`). |
