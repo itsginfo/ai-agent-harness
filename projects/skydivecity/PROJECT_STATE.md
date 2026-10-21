@@ -1,16 +1,16 @@
 # PROJECT STATE — Skydive City
 
-> **Last updated:** 2026-10-20 (session end) by CTO Agent (`#103` Pasco text live; 10-21 release prep done, checklist on `#94`.)
+> **Last updated:** 2026-10-21 by CTO Agent (release live; `#104` live; cache purge tickets `#105`/`#106`.)
 
 ---
 
 ## ⚡ RESUME INSTRUCTION
 
-**Wed 10-21 release is prepped:** Winterfest (`#94` + `#100` + `#102`) and FFP (`#95`) from theme `7a04935`; prod runs `badbcf8`. The deploy dry run showed 54 content changes and 0 deletions, and no prod post renders Blocks yet.
+**10-21 release is LIVE:** Winterfest (5899) + FFP (5898) on Compass Blocks, theme `03b57ed`, 14 Partner records; `#100`/`#102`/`#104` closed. Flywheel's CDN served the pre-port Winterfest until James flushed it from the dashboard — purge automation is `#105` (Flywheel) / `#106` (Cloudflare).
 
-**Next (Wed 10-21):** follow the checklist on [`#94`](https://github.com/itsginfo/skydivecity-com/issues/94#issuecomment-6280893213) — theme deploy → Partner seed (5-phase) → ids file → `pages.mjs` → port 5899 + 5898 (template default, mode immersive; log pre-port values for rollback) → purge → smoke → close `#100`, `#102`. Then `#23` Thu 10-22.
+**Next:** day-after watch on `#94`/`#95` (live pages, 404s, GA4 `funnel_step` events/winterfest-2027 arriving), then close them. `#23` maintenance Thu 10-22.
 
-**Branch check:** engagement `develop` and theme `main` pushed, clean. Harness `main`: this session-end commit is local unless James said push.
+**Branch check:** engagement `develop` and theme `main` pushed, clean. Harness `main`: checkpoint commit local unless James said push.
 
 ---
 
@@ -267,6 +267,7 @@ See [`wiki/README.md`](../../projects/skydivecity/wiki/README.md) for convention
 
 | Date | Agent | Summary |
 |------|-------|---------|
+| 2026-10-21 | CTO Agent | **Release LIVE** (`#94` checklist): theme `7a04935`→`03b57ed`; Partner seed 14 records/21 logos (`prod-write-20261021T154623Z`); ports 5899+5898 via new `migration/wp-port-compass-2026-10.php` (`80006b0`; Block-verified, self-restoring). `#104` funnel_step gap found + fixed same day (page field `compass_event`). Smoke false-pass corrected: Flywheel Fastly cache held the old Winterfest — James flushed; `#105`/`#106` opened. `#100`/`#102`/`#104` closed. |
 | 2026-10-20 | CTO Agent | **`#103` LIVE + closed** (Rich: Pasco special text verbatim, pricingtable 5733; 5-phase, `9c4fc01`; James emailed Rich + team). **10-21 release prepped**: deploy dry run (54 content / 0 deletions; prod theme `badbcf8`), Partner bundle + generator checked with prod ids; checklist + rollback on `#94`. Drift fixed: `#100`/`#102` In Progress, `#102` triage label off. Clockify: entry `6ad6cd83` auto-started on compaction 10-19 22:10 ET and ran to 10-20 10:05 ET (~11h55m, mostly overnight idle) — James to trim; manual `stop` hung on stdin → script fixed. |
 | 2026-10-19 | CTO Agent | (Later) **`#102` built + signed off on dev**: Partner record (glossary) + PartnerWall Block (`ead96be`, editor = live check → `7a04935`), seed script (`12c5c82`), 14 Partners on dev; ships Wed. Fixed: `5fb929b` missed the stat 20 → `2e605d1`. No ADR: mirrors the Price-record pattern; glossary entry is the record. |
 | 2026-10-19 | CTO Agent | **`#23` 10-16 run complete** (prod 9/9 incl. ACF table field dev-first + BackWPup; GF auto-update off; form test PASS; `a8a26a3`). **LOs:** `#101` Flockfest + `#100` Winterfest event post LIVE (5-phase, `7b71ecc`); landing roster in `pages.mjs` (stat 20 = LOs listed) ships 10-21. **`#102` sponsors/vendors:** board → Option B seamless, all 14 logos + URLs (`edda185`); James pulled it into the 10-21 release. `#94`/`#95` → In Progress. |
