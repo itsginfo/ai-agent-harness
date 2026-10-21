@@ -1,6 +1,6 @@
 # PROJECT STATE — Skydive City
 
-> **Last updated:** 2026-10-21 by CTO Agent (release live; `#104` live; cache purge tickets `#105`/`#106`.)
+> **Last updated:** 2026-10-21 (session end) by CTO Agent (release live; `#104` live; `#105`/`#106` opened; status email sent; SOW awaiting signature.)
 
 ---
 
@@ -8,9 +8,9 @@
 
 **10-21 release is LIVE:** Winterfest (5899) + FFP (5898) on Compass Blocks, theme `03b57ed`, 14 Partner records; `#100`/`#102`/`#104` closed. Flywheel's CDN served the pre-port Winterfest until James flushed it from the dashboard — purge automation is `#105` (Flywheel) / `#106` (Cloudflare).
 
-**Next:** day-after watch on `#94`/`#95` (live pages, 404s, GA4 `funnel_step` events/winterfest-2027 arriving), then close them. `#23` maintenance Thu 10-22.
+**Next (Thu 10-22):** day-after watch on `#94`/`#95` (Live Watch row), then close them; `#23` weekly maintenance the same day. **SOW v1.2 awaiting Rich's signature** — flag each session until signed (Initial Term ends 10-31, `#48`).
 
-**Branch check:** engagement `develop` and theme `main` pushed, clean. Harness `main`: checkpoint commit local unless James said push.
+**Branch check:** engagement `develop`, theme `main`, harness `main` — all pushed and clean at session end 10-21 (harness session-end commit local unless James said push).
 
 ---
 
@@ -108,12 +108,11 @@ See [`wiki/README.md`](../../projects/skydivecity/wiki/README.md) for convention
 
 | Item | Watch by | Tracker | Notes |
 |------|----------|---------|------|
-| **`#94` Winterfest port → prod (+ `#100` LOs, `#102` sponsors/vendors)** | **Wed 2026-10-21** (before the 11-01 price switch, `#82`) | [`#94`](https://github.com/itsginfo/skydivecity-com/issues/94) | Dev port signed off by James 10-14 (theme `6116cc6` pushed, CI green; fidelity 59/65, accepted only). **Prices LIVE on prod 10-14** (5959–5962, 5-phase; ids file `migration/winterfest-port-prod-ids-2026-10.txt`). Release: deploy theme → port 5899 (Blocks, default template, Immersive) → purge Cloudflare. Ships the `#82` fix automatically (EventTiers `highlight: auto`). |
-| **`#95` FFP port → prod (with `#94`)** | **Wed 2026-10-21** | [`#95`](https://github.com/itsginfo/skydivecity-com/issues/95) | **Release-ready.** Signed off 10-16; theme `45ce209` pushed (spacing unchanged, Diamond note inside the ladder card, contract 1.8.0). **Prod tier table LIVE 10-16 18:56Z** (`8030dd7`). Port 5898 from `pages.mjs` ≥ `45ce209`. |
+| **`#94` + `#95` day-after watch** | **Thu 2026-10-22** | [`#94`](https://github.com/itsginfo/skydivecity-com/issues/94) · [`#95`](https://github.com/itsginfo/skydivecity-com/issues/95) | **LIVE 10-21** (theme `03b57ed`; ports via `migration/wp-port-compass-2026-10.php`, log `prod-write-20261021T155635Z`). Check: both pages 200 with a **browser UA, no cache-buster** (Flywheel Fastly held the old Winterfest until James flushed), 404 log, GA4 `funnel_step` events/`winterfest-2027` arriving. Then close both. Rollback: legacy template + empty content + drop `compass_mode`/`compass_event`. |
 | **M4 funnel baseline** | **2026-10-14 → 2026-10-28** (2 weeks, James; BM published GTM ~17:43Z 10-14) | [`#68`](https://github.com/itsginfo/skydivecity-com/issues/68) | Data from 10-14 on is the AFF/Events/Tandem on-site baseline (M4 §5); conversion-spine pages (home, Tandem, AFF) stay unported until **10-28**; the first spine port can then ship on a Wednesday release. Before 10-14, nothing counts. |
 | **`#23` next weekly window** | **Thu 2026-10-22** (Thursdays thereafter) | [`#23`](https://github.com/itsginfo/skydivecity-com/issues/23) | 10-16 catch-up run **complete 10-19** (9/9 prod updates, smoke + form test PASS). **GF auto-update now OFF** on prod + dev, so the `#71` hold can't be bypassed. |
 | **SOW v1.2 signature** | **2026-10-31** (Initial Term ends; 12-month Renewal Term from 11-01) | [`#48`](https://github.com/itsginfo/skydivecity-com/issues/48) | Rich confirmed 10-13 (1-year renewal, §7.6 waived costs, in-kind at employee rates). Sent; **awaiting Rich's signature** (James, 10-21). Signing PDF `project_management/IT Strategy Group _ Skydive City Managed Services SOW 1.2.pdf`. Once signed: close `#48`, start the `#47` sequence (licences → remove 10Web → SDC Flywheel account → move on a Wednesday). |
-| **Winterfest "On now" price highlight** | **2026-11-01** | [`#82`](https://github.com/itsginfo/skydivecity-com/issues/82) | Hand-set in the live page markup: $135 card is marked "On now · Best value" and stays so after Oct 31 unless changed. Move to the $165 card + reword the shirt/discount notices on Nov 1 (page source → regenerate → deploy under change control). Moot if Winterfest is on Blocks by then (EventTiers derives it). |
+| **Winterfest Nov-1 notices** | **2026-11-01** | [`#82`](https://github.com/itsginfo/skydivecity-com/issues/82) | Price highlight is now automatic (EventTiers `highlight: auto`). Still hand-set: 3 texts naming the Nov 1 shirt/discount deadline (warning notice, essentials notice, "…Nov 1 to lock the lower rate") — reword/remove on Nov 1, Block content edit under change control. Told Rich in the 10-21 status email. |
 | **October Digital Ops Report** | deliver by ~**2026-11-05** (SOW §4.1) | [`#75`](https://github.com/itsginfo/skydivecity-com/issues/75) · `reports/digital-ops-monthly/README.md` | Recurring. **Step 0: request October's Burble count from Rich ~10-30.** Baselines now three months stable: 72–73% online capture; open-to-purchase 6.8 → 6.1 → 7.0%. Flockfest registration inflated Sept transactions (109 × $27,141) — October will drop back unless Flamingofest early-bird (opened 10-01) fills the gap; say so rather than read it as a decline. |
 
 > *Retired 2026-10-14:* "`#67` switch-on" row: ✅ **LIVE 14:48Z**, body gate PASS, `#67` closed.
@@ -222,7 +221,7 @@ See [`wiki/README.md`](../../projects/skydivecity/wiki/README.md) for convention
 
 > When you complete one, update the GH issue first (status, comment if substantive), then return here.
 
-1. **[`#94` + `#95` + `#102`] 10-21 release** — steps in the resume. Then `#68` (checkpoint drafted 10-16; needs M4 numbers after 10-28 + homepage approval path). `#102` follow-up: Big Ear larger logo (James) → re-run `process-logos.py` + seed; Flockfest/Flamingofest sponsor lists when their pages port.
+1. **[`#94` + `#95`] day-after watch Thu 10-22** (Live Watch row), then close. Then `#68` (checkpoint drafted 10-16; needs M4 numbers after 10-28 + homepage approval path). `#102` follow-up: Big Ear larger logo (James) → re-run `process-logos.py` + seed; Flockfest/Flamingofest sponsor lists when their pages port. Cache purge automation: `#105` (Flywheel) / `#106` (Cloudflare) — triage.
 1b. **[IA follow-ups from 10-16]** `#98` early retirements (rows already in `redirect-map.csv`) · `#97` skydive.city 404 redirects · `#99` event categories (keep list → James). Small Routine Requests; not on Wednesday.
 2. **[`#48` → `#47`] SOW v1.2 signature** (PDF ready; before 10-31), then the hosting move sequence on `#47`: licences in SDC's name (Bloom pending James) → remove 10Web (dev-first) → SDC Flywheel account + ITSG collaborator → move on a Wednesday (cost waived).
 3. **[Homepage port — longest-lead gates, can start now]** an **approved homepage design** (Rich's content direction `redesign-homepage-content-input.md`; `#32` pricing framing) and the **M4 baseline length** (OQ 21). Homepage = first Phase 2 page, after `#68` + the Winterfest port; also needs `#70` nav session, `#84` price migration, M5 SEO block carry. SOW draft: weeks 5–6 from kickoff.
