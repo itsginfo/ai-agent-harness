@@ -1,16 +1,16 @@
 # PROJECT STATE — Skydive City
 
-> **Last updated:** 2026-10-21 (session end) by CTO Agent (release live; `#104` live; `#105`/`#106` opened; status email sent; SOW awaiting signature.)
+> **Last updated:** 2026-10-22 (session end) by CTO Agent (ports closed; prod-write gate live; #109 contained; #110 opened.)
 
 ---
 
 ## ⚡ RESUME INSTRUCTION
 
-**10-21 release is LIVE:** Winterfest (5899) + FFP (5898) on Compass Blocks, theme `03b57ed`, 14 Partner records; `#100`/`#102`/`#104` closed. Flywheel's CDN served the pre-port Winterfest until James flushed it from the dashboard — purge automation is `#105` (Flywheel) / `#106` (Cloudflare).
+**Winterfest + FFP ports closed (`#94`/`#95`); prod-write gate live (`#108`, ADR-0008); backup exposure contained (`#109`).** `#23` 10-22 complete. Backups: Flywheel nightly (30 d) only; no off-site copy yet (`#110`); pre-change backup = Flywheel + by James.
 
-**Next (Thu 10-22):** day-after watch on `#94`/`#95` (Live Watch row), then close them; `#23` weekly maintenance the same day. **SOW v1.2 awaiting Rich's signature** — flag each session until signed (Initial Term ends 10-31, `#48`).
+**Next:** explore the cloud backup home with James (`#108`/`#110`: storage owned by Skydive City, shared access). Dated: `#82` Fri 10-30 after COB · SOW v1.2 signature by 10-31 (`#48`) · `#23` Thu 10-29.
 
-**Branch check:** engagement `develop`, theme `main`, harness `main` — all pushed and clean at session end 10-21 (harness session-end commit local unless James said push).
+**Branch check:** engagement `develop`, theme `main`, harness `main` — pushed and clean at session end 10-22 (harness session-end commit local unless James said push). Untracked `permit-wrappers.sh.bak-*` in harness = James's rollback copy, not to commit.
 
 ---
 
@@ -109,11 +109,11 @@ See [`wiki/README.md`](../../projects/skydivecity/wiki/README.md) for convention
 
 | Item | Watch by | Tracker | Notes |
 |------|----------|---------|------|
-| **`#94` + `#95` day-after watch** | **Thu 2026-10-22** | [`#94`](https://github.com/itsginfo/skydivecity-com/issues/94) · [`#95`](https://github.com/itsginfo/skydivecity-com/issues/95) | **LIVE 10-21** (theme `03b57ed`; ports via `migration/wp-port-compass-2026-10.php`, log `prod-write-20261021T155635Z`). Check: both pages 200 with a **browser UA, no cache-buster** (Flywheel Fastly held the old Winterfest until James flushed), 404 log, GA4 `funnel_step` events/`winterfest-2027` arriving. Then close both. Rollback: legacy template + empty content + drop `compass_mode`/`compass_event`. |
+| **`#109` backup exposure — access logs** | before deciding on client notice | [`#109`](https://github.com/itsginfo/skydivecity-com/issues/109) | **Contained 10-22**: BackWPup schedules off (jobs 1/2/4), all on-server backups deleted (James kept a DB + full archive locally), Cloudflare rule blocks `/wp-content/uploads/backwpup/` (403). Open: Flywheel access logs for that path since Aug 2025 → James decides on telling Skydive City (`project_management/disaster-recovery/` note deliberately excludes it). |
 | **M4 funnel baseline** | **2026-10-14 → 2026-10-28** (2 weeks, James; BM published GTM ~17:43Z 10-14) | [`#68`](https://github.com/itsginfo/skydivecity-com/issues/68) | Data from 10-14 on is the AFF/Events/Tandem on-site baseline (M4 §5); conversion-spine pages (home, Tandem, AFF) stay unported until **10-28**; the first spine port can then ship on a Wednesday release. Before 10-14, nothing counts. |
-| **`#23` next weekly window** | **Thu 2026-10-22** (Thursdays thereafter) | [`#23`](https://github.com/itsginfo/skydivecity-com/issues/23) | 10-16 catch-up run **complete 10-19** (9/9 prod updates, smoke + form test PASS). **GF auto-update now OFF** on prod + dev, so the `#71` hold can't be bypassed. |
+| **`#23` next weekly window** | **Thu 2026-10-29** (Thursdays thereafter) | [`#23`](https://github.com/itsginfo/skydivecity-com/issues/23) | 10-22 run complete (3/3 minor, smoke + form PASS; log `maintenance-logs/2026-10-22-run.md`). **Pre-change backup = Flywheel + (James)** — never `backup-db` (#109). GF 3.2.0 held (#71). |
 | **SOW v1.2 signature** | **2026-10-31** (Initial Term ends; 12-month Renewal Term from 11-01) | [`#48`](https://github.com/itsginfo/skydivecity-com/issues/48) | Rich confirmed 10-13 (1-year renewal, §7.6 waived costs, in-kind at employee rates). Sent; **awaiting Rich's signature** (James, 10-21). Signing PDF `project_management/IT Strategy Group _ Skydive City Managed Services SOW 1.2.pdf`. Once signed: close `#48`, start the `#47` sequence (licences → remove 10Web → SDC Flywheel account → move on a Wednesday). |
-| **Winterfest Nov-1 notices** | **2026-11-01** | [`#82`](https://github.com/itsginfo/skydivecity-com/issues/82) | Price highlight is now automatic (EventTiers `highlight: auto`). Still hand-set: 3 texts naming the Nov 1 shirt/discount deadline (warning notice, essentials notice, "…Nov 1 to lock the lower rate") — reword/remove on Nov 1, Block content edit under change control. Told Rich in the 10-21 status email. |
+| **Winterfest Nov-1 notices** | **Fri 2026-10-30, after close of business** (James) | [`#82`](https://github.com/itsginfo/skydivecity-com/issues/82) | Script `migration/wp-winterfest-nov1-2026-11.php` (`944e252`, dev-tested) removes the 3 expired sentences; price highlight is automatic. Flywheel + backup → upload → `prod-read.sh wp eval-file` dry run → `prod-write.sh run-script` → check-fresh → update `pages.mjs` text. |
 | **October Digital Ops Report** | deliver by ~**2026-11-05** (SOW §4.1) | [`#75`](https://github.com/itsginfo/skydivecity-com/issues/75) · `reports/digital-ops-monthly/README.md` | Recurring. **Step 0: request October's Burble count from Rich ~10-30.** Baselines now three months stable: 72–73% online capture; open-to-purchase 6.8 → 6.1 → 7.0%. Flockfest registration inflated Sept transactions (109 × $27,141) — October will drop back unless Flamingofest early-bird (opened 10-01) fills the gap; say so rather than read it as a decline. |
 
 > *Retired 2026-10-14:* "`#67` switch-on" row: ✅ **LIVE 14:48Z**, body gate PASS, `#67` closed.
@@ -222,7 +222,7 @@ See [`wiki/README.md`](../../projects/skydivecity/wiki/README.md) for convention
 
 > When you complete one, update the GH issue first (status, comment if substantive), then return here.
 
-1. **[`#94` + `#95`] day-after watch Thu 10-22** (Live Watch row), then close. Then `#68` (checkpoint drafted 10-16; needs M4 numbers after 10-28 + homepage approval path). `#102` follow-up: Big Ear larger logo (James) → re-run `process-logos.py` + seed; Flockfest/Flamingofest sponsor lists when their pages port. Cache purge automation: `#105` (Flywheel) / `#106` (Cloudflare) — triage.
+1. **[`#108` + `#110`] Cloud backup home** — James wants pre-change backups cloud-based with shared access, never on one device; same Skydive City-owned storage as the `#110` off-site DR copy. Explore options with James (S3 / Google Workspace / Dropbox; who needs access) → then `AUTO_BACKUP=1` in `prod-write.sh`. `#82` ships Fri 10-30. `#102` follow-up: Big Ear logo. `#105` parked on `#47`.
 1b. **[IA follow-ups from 10-16]** `#98` early retirements (rows already in `redirect-map.csv`) · `#97` skydive.city 404 redirects · `#99` event categories (keep list → James). Small Routine Requests; not on Wednesday.
 2. **[`#48` → `#47`] SOW v1.2 signature** (PDF ready; before 10-31), then the hosting move sequence on `#47`: licences in SDC's name (Bloom pending James) → remove 10Web (dev-first) → SDC Flywheel account + ITSG collaborator → move on a Wednesday (cost waived).
 3. **[Homepage port — longest-lead gates, can start now]** an **approved homepage design** (Rich's content direction `redesign-homepage-content-input.md`; `#32` pricing framing) and the **M4 baseline length** (OQ 21). Homepage = first Phase 2 page, after `#68` + the Winterfest port; also needs `#70` nav session, `#84` price migration, M5 SEO block carry. SOW draft: weeks 5–6 from kickoff.
@@ -267,6 +267,7 @@ See [`wiki/README.md`](../../projects/skydivecity/wiki/README.md) for convention
 
 | Date | Agent | Summary |
 |------|-------|---------|
+| 2026-10-21→22 | CTO Agent | `#105` triaged (parked on `#47`; `check-fresh.sh` `a02413b`) · `#106` closed (Cloudflare caches no pages) · `#107` Compass slug collision fixed live (`cc6a862`) · `#82` script ready (`944e252`, ships Fri 10-30) · **`#108` prod-write gate** (hook `e8cf21e`, wrappers `4013634`, deploy pin `8dc7de5`, /security-review 7 findings fixed, ADR-0008 `608c9aa`) · **`#109` BackWPup backups publicly downloadable → contained** (Cloudflare block, schedules off, files deleted) · `#110` DR off-site copy opened; wiki `backups-and-dr.md` · `#23` run complete · `#94`/`#95` closed (GA4 funnel_step winterfest-2027 confirmed). |
 | 2026-10-21 | CTO Agent | **Release LIVE** (`#94` checklist): theme `7a04935`→`03b57ed`; Partner seed 14 records/21 logos (`prod-write-20261021T154623Z`); ports 5899+5898 via new `migration/wp-port-compass-2026-10.php` (`80006b0`; Block-verified, self-restoring). `#104` funnel_step gap found + fixed same day (page field `compass_event`). Smoke false-pass corrected: Flywheel Fastly cache held the old Winterfest — James flushed; `#105`/`#106` opened. `#100`/`#102`/`#104` closed. Status update sent to Rich + team (James); `#82` remainder = 3 Nov-1 notices. |
 | 2026-10-20 | CTO Agent | **`#103` LIVE + closed** (Rich: Pasco special text verbatim, pricingtable 5733; 5-phase, `9c4fc01`; James emailed Rich + team). **10-21 release prepped**: deploy dry run (54 content / 0 deletions; prod theme `badbcf8`), Partner bundle + generator checked with prod ids; checklist + rollback on `#94`. Drift fixed: `#100`/`#102` In Progress, `#102` triage label off. Clockify: entry `6ad6cd83` auto-started on compaction 10-19 22:10 ET and ran to 10-20 10:05 ET (~11h55m, mostly overnight idle) — James to trim; manual `stop` hung on stdin → script fixed. |
 | 2026-10-19 | CTO Agent | (Later) **`#102` built + signed off on dev**: Partner record (glossary) + PartnerWall Block (`ead96be`, editor = live check → `7a04935`), seed script (`12c5c82`), 14 Partners on dev; ships Wed. Fixed: `5fb929b` missed the stat 20 → `2e605d1`. No ADR: mirrors the Price-record pattern; glossary entry is the record. |
