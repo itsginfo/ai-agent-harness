@@ -6,9 +6,9 @@
 
 ## ⚡ RESUME INSTRUCTION
 
-**Homepage design (`#112`) in progress: design session done (D1–D13, `project_management/homepage/homepage-design-decisions.md`), full mock-up on real Compass, Conversion mode, browser-checked.** Canvas (private): https://claude.ai/artifact/GYcsXqfX9LkUfXf7D5Mv7R — page "Mock-up" + closing-glow options A/B/C board. `#111` closed (live 10-24).
+**Homepage (`#112`) re-concept in progress:** James 10-25: the D1–D13 mock-up reads 3-star. Three first-screen concepts on the canvas (page "Re-concept"): 1 A day at Z-Hills · 2 Your first jump · 3 It's the people (dark top = ADR-0004 exception), each with a Loop A (Flockfest film) / Loop B (film + tandem) switch. Canvas (private): https://claude.ai/artifact/GYcsXqfX9LkUfXf7D5Mv7R. Footage is mock-up only (permissions on `#112`); tandem clip is a stand-in until the DZ's better footage arrives.
 
-**Next:** write the per-section design rationale for Rich, then draft the approval email (To Rich, CC Matt): asks = school line (World's/Florida's, ™) · fixed vs rotating team order · `#32` pricing · closing glow A/B/C · photos from Cassie. Waiting on James: Google Business Profile manager (D6) · Dropbox vs Drive for backups (`#110`, Rich/Matt). Dated: `#82` Fri 10-30 after COB · `#23` Thu 10-29 · SOW v1.2 ✅ executed 10-23 → `#47` hosting move unblocked.
+**Next:** James picks a concept (or mix) → rebuild the full page with fewer, louder sections; then design rationale + approval email to Rich. D1–D8 hold; D9/D11/D12 to revisit. Reference board (step 2) not built yet. Waiting on James: Business Profile manager (D6) · Dropbox vs Drive (`#110`) · footage permissions. Dated: `#82` Fri 10-30 after COB · `#23` Thu 10-29 · SOW v1.2 ✅ executed 10-23 → `#47` unblocked.
 
 **Branch check:** engagement `develop`, theme `main`, harness `main` — all pushed and clean at 10-24 end (harness checkpoint pushed only if James says). Untracked `permit-wrappers.sh.bak-*` in harness = James's rollback copy.
 
