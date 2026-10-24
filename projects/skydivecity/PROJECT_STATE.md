@@ -6,9 +6,9 @@
 
 ## ⚡ RESUME INSTRUCTION
 
-**Homepage (`#112`) re-concept in progress:** James 10-25: the D1–D13 mock-up reads 3-star. Three first-screen concepts on the canvas (page "Re-concept"): 1 A day at Z-Hills · 2 Your first jump · 3 It's the people (dark top = ADR-0004 exception), each with a Loop A (Flockfest film) / Loop B (film + tandem) switch. Canvas (private): https://claude.ai/artifact/GYcsXqfX9LkUfXf7D5Mv7R. Footage is mock-up only (permissions on `#112`); tandem clip is a stand-in until the DZ's better footage arrives.
+**Homepage (`#112`) v4 built:** James chose Concept 2 (D14, "moments you'll never forget", Tandem booking card on the hero). Canvas page "v4 · Concept 2 full page (10-25)", desktop + phone: 7 sections; AFF / Events / Experienced each get one moment panel. v1–v3 kept for the Rich walk-through. Canvas (private): https://claude.ai/artifact/GYcsXqfX9LkUfXf7D5Mv7R. Footage mock-up only (permissions on `#112`).
 
-**Next:** James picks a concept (or mix) → rebuild the full page with fewer, louder sections; then design rationale + approval email to Rich. D1–D8 hold; D9/D11/D12 to revisit. Reference board (step 2) not built yet. Waiting on James: Business Profile manager (D6) · Dropbox vs Drive (`#110`) · footage permissions. Dated: `#82` Fri 10-30 after COB · `#23` Thu 10-29 · SOW v1.2 ✅ executed 10-23 → `#47` unblocked.
+**Next:** James reviews v4 → per-section rationale + approval email to Rich (To Rich, CC Matt). `#113` gold Book Now (logo gold + dark text, 7.70:1) approved by James — implement in the theme, dev check, his go to deploy. Waiting on James: Business Profile manager (D6) · Dropbox vs Drive (`#110`) · footage permissions + better tandem clips. Dated: `#23` Thu 10-29 · `#82` Fri 10-30 after COB.
 
 **Branch check:** engagement `develop`, theme `main`, harness `main` — all pushed and clean at 10-24 end (harness checkpoint pushed only if James says). Untracked `permit-wrappers.sh.bak-*` in harness = James's rollback copy.
 
