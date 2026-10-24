@@ -1,16 +1,16 @@
 # PROJECT STATE — Skydive City
 
-> **Last updated:** 2026-10-22 (session end) by CTO Agent (ports closed; prod-write gate live; #109 contained; #110 opened.)
+> **Last updated:** 2026-10-24 (session end) by CTO Agent (#111 live; homepage design #112 in progress; Flywheel SSH fix.)
 
 ---
 
 ## ⚡ RESUME INSTRUCTION
 
-**Winterfest + FFP ports closed (`#94`/`#95`); prod-write gate live (`#108`, ADR-0008); backup exposure contained (`#109`).** `#23` 10-22 complete. Backups: Flywheel nightly (30 d) only; no off-site copy yet (`#110`); pre-change backup = Flywheel + by James.
+**Homepage design (`#112`) in progress: design session done (D1–D13, `project_management/homepage/homepage-design-decisions.md`), full mock-up on real Compass, Conversion mode, browser-checked.** Canvas (private): https://claude.ai/artifact/GYcsXqfX9LkUfXf7D5Mv7R — page "Mock-up" + closing-glow options A/B/C board. `#111` closed (live 10-24).
 
-**Next (Sat 10-24 AM):** finish `#111` prod (Winterfest + Fluid Wings / Wings / LB): dev done + pushed (`05c6d16`, theme `ed2aead`); prod paused 10-23 on Flywheel SSH outage, **nothing written**, Flywheel /tmp wiped → re-upload bundle + 2 scripts → dry runs → `run-script` seed → page script → `check-fresh.sh /winterfest/ "Fluid Wings"` → append prod partner ids to `migration/winterfest-port-prod-ids-2026-10.txt`. Then: explore the cloud backup home with James (`#108`/`#110`: storage owned by Skydive City, shared access). Dated: `#82` Fri 10-30 after COB · SOW v1.2 signature by 10-31 (`#48`) · `#23` Thu 10-29.
+**Next:** write the per-section design rationale for Rich, then draft the approval email (To Rich, CC Matt): asks = school line (World's/Florida's, ™) · fixed vs rotating team order · `#32` pricing · closing glow A/B/C · photos from Cassie. Waiting on James: Google Business Profile manager (D6) · Dropbox vs Drive for backups (`#110`, Rich/Matt). Dated: `#82` Fri 10-30 after COB · `#23` Thu 10-29 · SOW v1.2 by 10-31 (`#48`).
 
-**Branch check:** engagement `develop`, theme `main`, harness `main` — pushed and clean at session end 10-22 (harness session-end commit local unless James said push). Untracked `permit-wrappers.sh.bak-*` in harness = James's rollback copy, not to commit.
+**Branch check:** engagement `develop`, theme `main`, harness `main` — all pushed and clean at 10-24 end (harness checkpoint pushed only if James says). Untracked `permit-wrappers.sh.bak-*` in harness = James's rollback copy.
 
 ---
 
@@ -211,7 +211,7 @@ See [`wiki/README.md`](../../projects/skydivecity/wiki/README.md) for convention
 | 19 | ~~Who holds the ACF Pro and Gravity Forms licences?~~ | ✅ **RESOLVED 2026-09-27 — both licensed to Beyond Marketing** (Kevin Hamstra via James). Not a Block-build gate; a **`#47` transfer gate**: SDC-named ACF Pro + Gravity Forms subscriptions (ADR-0006 Q9: SDC owns, ITSG administers) before BM's keys leave → cost lines on `#48`. Manifest + Phase 0 spec corrected. |
 | 20 | ~~Does `#61` gate `#67`?~~ ✅ **Moot 2026-10-08** — BM confirmed `#55`, `#61` built + dev-verified; GA4 joint check happens at switch-on. Was: **Does `#61` (M4 dataLayer) really gate `#67` activation, or only the ports?** Identical-first activation changes no body and leaves today's Tandem/Burble tracking untouched; `#61` adds *new* AFF/Events instrumentation. If BM stays silent on `#55`, re-sequencing (activate first, `#61` after) is a `#50` spec change — James's call. Raised 2026-10-05. | ⏳ James; moot if BM replies promptly. |
 | 21 | **How long is the M4 funnel baseline window?** | ✅ **Resolved (James, 2026-10-14): 2 weeks**, 2026-10-14 (BM publish) → **2026-10-28**. Short on purpose, so page conversion can start sooner. |
-| 22 | **What is the approval path for the homepage design?** FFP and Winterfest were ported against approved pages; the homepage has content direction only. | ⏳ James / Rich (raised 2026-10-13). |
+| 22 | ~~What is the approval path for the homepage design?~~ | ✅ **Resolved 2026-10-24 (James):** ITSG designs the full page on Compass as a shareable mock-up → Rich approves in writing → port checked against it (`#112`). |
 | 23 | **Is the DZ briefing PDF (`Drop-Zone-Briefing-2019.pdf`, last changed May 2020) still current?** `/dz-briefing/` sends jumpers to it for currency and gear requirements. | ⏳ Rich / manifest (raised 2026-10-16, IA session). |
 | 24 | **About-page championship line:** "USPA championship host: Skydiving Collegiate Championship (2024, 2026) and the Nationals Canopy Piloting (2026)". Events calendar = the full list (James). | ⏳ Confirm wording when About is written. |
 | 17 | **Will Matt be added as a second org owner?** Today the only owners are Rich and `itsginfo`, so the client's sole backup owner is their vendor. | ⏳ Raised, not actioned. |
@@ -222,7 +222,8 @@ See [`wiki/README.md`](../../projects/skydivecity/wiki/README.md) for convention
 
 > When you complete one, update the GH issue first (status, comment if substantive), then return here.
 
-1. **[`#108` + `#110`] Cloud backup home** — James wants pre-change backups cloud-based with shared access, never on one device; same Skydive City-owned storage as the `#110` off-site DR copy. Explore options with James (S3 / Google Workspace / Dropbox; who needs access) → then `AUTO_BACKUP=1` in `prod-write.sh`. `#82` ships Fri 10-30. `#102` follow-up: Big Ear logo. `#105` parked on `#47`.
+1. **[`#112`] Homepage → Rich approval** — design rationale per section, then the approval email (asks listed in the resume). Port realistic Wed 11-11 (11-04 only if Rich approves by ~10-30); reviews sync (D6) needs the Business Profile manager + Google API access request, can run in parallel.
+1a. **[`#108` + `#110`] Cloud backup home** — Skydive City has Dropbox and Google Drive; James confirming with Rich/Matt → then `AUTO_BACKUP=1` in `prod-write.sh`. `#82` ships Fri 10-30. `#102` follow-up: Big Ear logo. `#105` parked on `#47`.
 1b. **[IA follow-ups from 10-16]** `#98` early retirements (rows already in `redirect-map.csv`) · `#97` skydive.city 404 redirects · `#99` event categories (keep list → James). Small Routine Requests; not on Wednesday.
 2. **[`#48` → `#47`] SOW v1.2 signature** (PDF ready; before 10-31), then the hosting move sequence on `#47`: licences in SDC's name (Bloom pending James) → remove 10Web (dev-first) → SDC Flywheel account + ITSG collaborator → move on a Wednesday (cost waived).
 3. **[Homepage port — longest-lead gates, can start now]** an **approved homepage design** (Rich's content direction `redesign-homepage-content-input.md`; `#32` pricing framing) and the **M4 baseline length** (OQ 21). Homepage = first Phase 2 page, after `#68` + the Winterfest port; also needs `#70` nav session, `#84` price migration, M5 SEO block carry. SOW draft: weeks 5–6 from kickoff.
@@ -267,6 +268,7 @@ See [`wiki/README.md`](../../projects/skydivecity/wiki/README.md) for convention
 
 | Date | Agent | Summary |
 |------|-------|---------|
+| 2026-10-24 | CTO Agent | **`#111` LIVE** (3 Partners 6004/6007/6010, Winterfest walls 9→12 / 10→11, check-fresh 10/10; `3c0179b`) after Flywheel SSH blocking — fixed with ControlMaster in `~/.ssh/config` (wiki [[flywheel]]) · **`#112` homepage**: filed; inventory `c586a84`; `/grill-with-docs` D1–D13 (`0d32947`); glossary Conversion spine / Funnel / Experienced door / Review (theme `1533c77`+); Compass mock-up with James's photos + real reviews on canvas · OQ 22 resolved · prod-write must be one plain command (memory). |
 | 2026-10-23 | CTO Agent | `608c9aa` pushed · **`#111` filed** (Winterfest partners: Fluid Wings sponsor + vendor, Wings + LB sponsors) → dev applied + verified (seed + new surgical `wp-winterfest-partners-2026-10.php`; `05c6d16`, theme `ed2aead`) · prod dry run clean, writes **blocked by Flywheel SSH outage ~19:30–21:10Z** (nothing written; retry 10-24) · wrapper reports SSH failure as "cannot read … on prod" → note on `#108`. |
 | 2026-10-21→22 | CTO Agent | `#105` triaged (parked on `#47`; `check-fresh.sh` `a02413b`) · `#106` closed (Cloudflare caches no pages) · `#107` Compass slug collision fixed live (`cc6a862`) · `#82` script ready (`944e252`, ships Fri 10-30) · **`#108` prod-write gate** (hook `e8cf21e`, wrappers `4013634`, deploy pin `8dc7de5`, /security-review 7 findings fixed, ADR-0008 `608c9aa`) · **`#109` BackWPup backups publicly downloadable → contained** (Cloudflare block, schedules off, files deleted) · `#110` DR off-site copy opened; wiki `backups-and-dr.md` · `#23` run complete · `#94`/`#95` closed (GA4 funnel_step winterfest-2027 confirmed). |
 | 2026-10-21 | CTO Agent | **Release LIVE** (`#94` checklist): theme `7a04935`→`03b57ed`; Partner seed 14 records/21 logos (`prod-write-20261021T154623Z`); ports 5899+5898 via new `migration/wp-port-compass-2026-10.php` (`80006b0`; Block-verified, self-restoring). `#104` funnel_step gap found + fixed same day (page field `compass_event`). Smoke false-pass corrected: Flywheel Fastly cache held the old Winterfest — James flushed; `#105`/`#106` opened. `#100`/`#102`/`#104` closed. Status update sent to Rich + team (James); `#82` remainder = 3 Nov-1 notices. |

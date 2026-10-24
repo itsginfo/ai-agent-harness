@@ -46,6 +46,8 @@
 
 **SSH gateway outage** (2026-04-26 21:00 ET → 2026-04-27 08:51 ET, ~11h). Cutover was scheduled for 09:00 ET the same morning — resolved 9 minutes before go-time. Flywheel Sr. Engineer fixed it; **L1 support could not diagnose**. Pattern: escalate to a Sr. Engineer via Flywheel chat when SSH is the failure surface. Forensic record retained on legacy Monday item `W4-13` (archive: `skydivecity-com/project_management/monday-archive/W4-13.md`).
 
+**SSH connection blocking (rate limit), and `/tmp` wiped** (2026-10-23/24, [`#111`](https://github.com/itsginfo/skydivecity-com/issues/111)). After a few new SSH connections in quick succession (each wrapper call opens 2: copy + checksum), `ssh.getflywheel.com:22` stops answering from our IP for ~2–3 min; repeated attempts (including port probes) re-trigger it, and on 10-23 it stayed down ~80 min. The website keeps serving throughout. Separately, prod `/tmp/` was emptied when the container was recreated (00:42Z 10-24), so uploads must be re-checked (`prod-read.sh sha`) before a dry run. **Fix in place:** SSH connection sharing for the host in James's `~/.ssh/config` (`ControlMaster auto`, `ControlPath ~/.ssh/cm-%C`, `ControlPersist 10m`) — one login carries every wrapper call; after it, all 7 #111 steps ran first time. If the block recurs anyway: stop all connections ~30 min, don't poll the port. Also: when SSH fails, the wrappers print "cannot read <path> on prod" (fix noted on `#108`).
+
 **`scp` rejection** (recurring on every prod-write since cutover). Default `scp` returns "subsystem request failed." Workaround: `scp -O`. This is now baked into [[prod-write-procedure]] Phase 2.
 
 ---
@@ -55,6 +57,7 @@
 - 2026-04-26/27 — Cutover SSH outage (`W4-13`)
 - 2026-04-27 — `deploy.sh --live` frozen on first dry-run (DECISIONS 2026-04-27, [`#3`](https://github.com/itsginfo/skydivecity-com/issues/3))
 - 2026-05-11 — `scp -O` workaround discovered during events-add ([`#5`](https://github.com/itsginfo/skydivecity-com/issues/5))
+- 2026-10-23/24 — SSH connection blocking + `/tmp` wiped during #111; fixed with ControlMaster ([`#111`](https://github.com/itsginfo/skydivecity-com/issues/111))
 - 2026-05-17 — Homepage rates update ([`#8`](https://github.com/itsginfo/skydivecity-com/issues/8)) reused the same SSH + `scp -O` pattern
 
 ---
