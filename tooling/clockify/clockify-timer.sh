@@ -18,10 +18,14 @@
 # Rules: never block or fail the session (always exit 0); a directory with no mapping is silently ignored;
 # /clear (SessionEnd reason "clear" + SessionStart source "clear") keeps the running entry; a running entry
 # older than CLOCKIFY_MAX_HOURS is treated as a runaway from a session that died and is stopped first.
+# Parked: a manual `stop` (the agent at /session-end or when James steps away; no hook JSON) writes
+# ~/.local/state/clockify/parked. While it exists, SessionStart source "compact" does NOT start a timer: a
+# compaction is automatic, not work (10-24: compaction after /session-end ran a 15h idle entry). A new or
+# resumed session (startup/resume/clear) and `task`/`idle` clear the marker and time as usual.
 set -u
 API="https://api.clockify.me/api/v1"
 CFG_DIR="$HOME/.config/clockify"; ENV_FILE="$CFG_DIR/env"; CACHE="$CFG_DIR/cache.json"
-STATE_DIR="$HOME/.local/state/clockify"; LOG="$STATE_DIR/timer.log"
+STATE_DIR="$HOME/.local/state/clockify"; LOG="$STATE_DIR/timer.log"; PARKED="$STATE_DIR/parked"
 MAP="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/projects.json"
 mkdir -p "$STATE_DIR"
 log() { printf '%s %s\n' "$(date -u +%FT%TZ)" "$*" >> "$LOG"; }
@@ -85,6 +89,10 @@ do_start() {
   local source; source="$(hk .source)"
   local name; name="$(project_name_for "$CWD")"
   [ -n "$name" ] || { log "start: no project mapped for $CWD — ignored"; exit 0; }
+  if [ "$source" = "compact" ] && [ -f "$PARKED" ]; then
+    log "start(compact): timer parked since $(cat "$PARKED") — not started (resumes on the next task/idle or a new session)"; exit 0
+  fi
+  rm -f "$PARKED"
   [ -f "$CACHE" ] || { log "start: no cache — run 'clockify-timer.sh setup' first"; exit 0; }
   local ws pid; ws="$(cache_get .workspace)"; pid="$(cache_get ".projects[\"$name\"]")"
   [ -n "$pid" ] || { log "start: project '$name' not in cache — re-run setup"; exit 0; }
@@ -110,6 +118,7 @@ do_start() {
 do_stop() {
   local reason; reason="$(hk .reason)"
   if [ "$reason" = "clear" ]; then log "stop(clear): keeping the running entry for the same working session"; exit 0; fi
+  [ -z "$SESSION" ] && now > "$PARKED"   # manual stop (no hook session id): park until work resumes
   local run; run="$(running_entry)"
   [ -n "$run" ] || { log "stop($reason): nothing running"; [ -n "$SESSION" ] && rm -f "$STATE_DIR/$SESSION"; exit 0; }
   local rid rdesc mine=""; rid="$(printf '%s' "$run" | jq -r .id)"; rdesc="$(printf '%s' "$run" | jq -r '.description // empty')"
@@ -126,6 +135,7 @@ do_stop() {
 # description, on the project mapped to $CWD. Used by `task` (ticket pick-up) and `idle` (back to the session entry).
 do_switch() {
   local desc="$1"
+  rm -f "$PARKED"
   local name; name="$(project_name_for "$CWD")"
   [ -n "$name" ] || { echo "no Clockify project mapped for $CWD — nothing started"; log "switch: no project for $CWD"; exit 0; }
   local ws pid; ws="$(cache_get .workspace)"; pid="$(cache_get ".projects[\"$name\"]")"

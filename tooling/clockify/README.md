@@ -15,6 +15,7 @@ One Clockify time entry per Claude Code session, on the project mapped to the wo
 
 - **SessionStart** → start an entry `Claude Code — <dir>` on the mapped project (billable). If an entry is already running on that project (a `/clear`, a resume, a second terminal), keep it. If the running entry is older than `CLOCKIFY_MAX_HOURS`, it is a runaway from a session that died: stop it, then start fresh. If something is running on a *different* project, leave it alone and start nothing.
 - **SessionEnd** → stop the entry this session started (matched by id; fallback: any running entry whose description starts with `Claude Code — `). Reason `clear` is ignored so a `/clear` does not split the entry.
+- **Parked** → a manual `stop` (the agent at `/session-end`, or when James steps away) writes `~/.local/state/clockify/parked`. While it exists, a SessionStart from a **compaction** starts nothing: compaction is automatic, not work (10-24: compaction after `/session-end` ran a 15h idle entry, `ai-agent-harness#14`). A new or resumed session and `task`/`idle` clear it.
 - Nothing is written to Clockify from the remote sandbox; this is local-machine only.
 
 ## Per-ticket entries (James, 2026-10-01)
