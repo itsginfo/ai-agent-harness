@@ -6,9 +6,9 @@
 
 ## ⚡ RESUME INSTRUCTION
 
-**Homepage (`#112`) v6 on the canvas (current direction, D15):** v5 revised — hero kept, pinned four moments (scroll-driven), Compass glow per pillar, media dissolving into the page, stats blended, sticky booking bar, closing glow at the bottom (D13 settled: B). v1–v6 kept for the Rich walk-through. Canvas (private): https://claude.ai/artifact/GYcsXqfX9LkUfXf7D5Mv7R. Footage mock-up only (permissions on `#112`).
+**Homepage (`#112`) v6 = current direction (D14–D15), on the canvas with variant "reviews first" (James comparing 10-25).** Hero loop B · pinned four moments (swipe row on phones) · pillar panels with Compass glows · Who we are tightened (SEO paras verbatim) · It's the people · FAQ · closing with Winterfest corner palms + bottom glow · pause controls, light video, spacing rhythm (2 proposed tokens). v1–v6 kept. Canvas (private): https://claude.ai/artifact/GYcsXqfX9LkUfXf7D5Mv7R. Questions for Rich (6) at the end of `homepage-design-decisions.md`.
 
-**Next:** James reviews v6 (phone board not yet scroll-checked) → per-section rationale + approval email to Rich (To Rich, CC Matt). `#113` gold Book Now approved — implement in the theme, dev check, his go to deploy. Waiting on James: Business Profile manager (D6) · Dropbox vs Drive (`#110`) · footage permissions + better tandem clips. Dated: `#23` Thu 10-29 · `#82` Fri 10-30 after COB.
+**Next:** James picks people-section order → finish the phone pass of v6 → per-section rationale + approval email (To Rich, CC Matt). `#113` gold Book Now approved — implement in theme, dev check, his go. Waiting on James: Business Profile manager (D6) · Dropbox vs Drive (`#110`) · footage permissions + better tandem clips. Dated: `#23` Thu 10-29 · `#82` Fri 10-30 after COB.
 
 **Branch check:** engagement `develop`, theme `main`, harness `main` — all pushed and clean at 10-24 end (harness checkpoint pushed only if James says). Untracked `permit-wrappers.sh.bak-*` in harness = James's rollback copy.
 
