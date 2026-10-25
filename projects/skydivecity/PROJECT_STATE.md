@@ -1,16 +1,16 @@
 # PROJECT STATE — Skydive City
 
-> **Last updated:** 2026-10-24 (session end) by CTO Agent (#111 live; homepage design #112 in progress; Flywheel SSH fix.)
+> **Last updated:** 2026-10-25 (session end) by CTO Agent (#112 homepage v6 + rationale + approval email drafted; SOW v1.2 executed; Clockify fix.)
 
 ---
 
 ## ⚡ RESUME INSTRUCTION
 
-**Homepage (`#112`) v6 = current direction (D14–D15), on the canvas with variant "reviews first" (James comparing 10-25).** Hero loop B · pinned four moments (swipe row on phones) · pillar panels with Compass glows · Who we are tightened (SEO paras verbatim) · It's the people · FAQ · closing with Winterfest corner palms + bottom glow · pause controls, light video, spacing rhythm (2 proposed tokens). v1–v6 kept. Canvas (private): https://claude.ai/artifact/GYcsXqfX9LkUfXf7D5Mv7R. Questions for Rich (6) at the end of `homepage-design-decisions.md`.
+**Homepage (`#112`) design is ready for Rich: v6 (D14–D15), reasoning page + approval email drafted.** Canvas https://claude.ai/artifact/GYcsXqfX9LkUfXf7D5Mv7R (v1–v6 kept) · reasoning https://claude.ai/artifact/8sVuvAHfCt17k5tWMsjimd · email `project_management/correspondence/2026-10-25-homepage-design-for-review-rich.md` · 6 questions at the end of `homepage-design-decisions.md`.
 
-**Next:** James shares the canvas + rationale page (https://claude.ai/artifact/8sVuvAHfCt17k5tWMsjimd) with Rich/Matt and sends the approval email (`correspondence/2026-10-25-homepage-design-for-review-rich.md`) → await Rich's answers to the 6 questions. `#113` gold Book Now approved — implement in theme, dev check, his go. Waiting on James: Business Profile manager (D6) · Dropbox vs Drive (`#110`) · footage permissions. Dated: `#23` Thu 10-29 · `#82` Fri 10-30 after COB.
+**Next:** James shares canvas + reasoning with Rich/Matt (both private) and sends the email → await answers. Then `#113` gold Book Now (approved: implement in theme, dev check, his go). Waiting on James: Google Business Profile manager (D6) · Dropbox vs Drive (`#110`) · footage permissions. Dated: `#23` Thu 10-29 · `#82` Fri 10-30 after COB · `#75` Burble count ask ~10-30.
 
-**Branch check:** engagement `develop`, theme `main`, harness `main` — all pushed and clean at 10-24 end (harness checkpoint pushed only if James says). Untracked `permit-wrappers.sh.bak-*` in harness = James's rollback copy.
+**Branch check:** engagement `develop` **17 ahead, not pushed**; theme `main` clean; harness `main` **9 ahead, not pushed** (incl. Clockify fix `e5d2590`) — push only when James says. Untracked `permit-wrappers.sh.bak-*` in harness = James's rollback copy.
 
 ---
 
@@ -223,7 +223,7 @@ See [`wiki/README.md`](../../projects/skydivecity/wiki/README.md) for convention
 
 > When you complete one, update the GH issue first (status, comment if substantive), then return here.
 
-1. **[`#112`] Homepage → Rich approval** — design rationale per section, then the approval email (asks listed in the resume). Port realistic Wed 11-11 (11-04 only if Rich approves by ~10-30); reviews sync (D6) needs the Business Profile manager + Google API access request, can run in parallel.
+1. **[`#112`] Homepage → Rich approval** — v6 + reasoning + email ready (10-25); James shares + sends, then Rich's 6 answers. Port date to re-estimate after approval (v6 adds new Compass components: VideoHero, MomentsPin, pillar panels, BookingBar, static Reviews, spacing tokens). Reviews sync (D6) needs the Business Profile manager. **[`#113`]** gold Book Now approved — theme change + dev check + James's go (minor release, not Thursday).
 1a. **[`#108` + `#110`] Cloud backup home** — Skydive City has Dropbox and Google Drive; James confirming with Rich/Matt → then `AUTO_BACKUP=1` in `prod-write.sh`. `#82` ships Fri 10-30. `#102` follow-up: Big Ear logo. `#105` parked on `#47`.
 1b. **[IA follow-ups from 10-16]** `#98` early retirements (rows already in `redirect-map.csv`) · `#97` skydive.city 404 redirects · `#99` event categories (keep list → James). Small Routine Requests; not on Wednesday.
 2. **[`#47`] Hosting move** — unblocked (SOW v1.2 executed 10-23, `#48` closed). Sequence: licences in SDC's name (ACF Pro, Gravity Forms; Bloom pending James) → remove 10Web (dev-first) → SDC Flywheel account + ITSG collaborator → move on a Wednesday (§7.6, waived). The move day = Hosting Start Date ($55/mo fee begins, pro-rated).
@@ -269,6 +269,7 @@ See [`wiki/README.md`](../../projects/skydivecity/wiki/README.md) for convention
 
 | Date | Agent | Summary |
 |------|-------|---------|
+| 2026-10-25 | CTO Agent | **SOW v1.2 executed** (filed `577246e`; `#48` closed, `#47` unblocked) · **Clockify**: compaction after /session-end restarted the timer → parked marker fix (`e5d2590`, harness `#14` closed; 15h idle entry deleted) · **`#112` re-concept**: 3 concepts → Concept 2 (D14) → v4 → v5 (Oura/Hims lessons) → **v6 (D15)**: hero loop B, pinned moments (phone: full-width stack), pillar panels + Compass glows, Who we are tightened (SEO verbatim), It's the people option D, closing palms + bottom glow, pause control, light video, spacing tokens; phone pass; reasoning page + email draft (`1040968`) · `#113` gold Book Now filed · AFF/ZTP refresh filed (`48c3598`). |
 | 2026-10-24 | CTO Agent | **`#111` LIVE** (3 Partners 6004/6007/6010, Winterfest walls 9→12 / 10→11, check-fresh 10/10; `3c0179b`) after Flywheel SSH blocking — fixed with ControlMaster in `~/.ssh/config` (wiki [[flywheel]]) · **`#112` homepage**: filed; inventory `c586a84`; `/grill-with-docs` D1–D13 (`0d32947`); glossary Conversion spine / Funnel / Experienced door / Review (theme `1533c77`+); Compass mock-up with James's photos + real reviews on canvas · OQ 22 resolved · prod-write must be one plain command (memory). |
 | 2026-10-23 | CTO Agent | `608c9aa` pushed · **`#111` filed** (Winterfest partners: Fluid Wings sponsor + vendor, Wings + LB sponsors) → dev applied + verified (seed + new surgical `wp-winterfest-partners-2026-10.php`; `05c6d16`, theme `ed2aead`) · prod dry run clean, writes **blocked by Flywheel SSH outage ~19:30–21:10Z** (nothing written; retry 10-24) · wrapper reports SSH failure as "cannot read … on prod" → note on `#108`. |
 | 2026-10-21→22 | CTO Agent | `#105` triaged (parked on `#47`; `check-fresh.sh` `a02413b`) · `#106` closed (Cloudflare caches no pages) · `#107` Compass slug collision fixed live (`cc6a862`) · `#82` script ready (`944e252`, ships Fri 10-30) · **`#108` prod-write gate** (hook `e8cf21e`, wrappers `4013634`, deploy pin `8dc7de5`, /security-review 7 findings fixed, ADR-0008 `608c9aa`) · **`#109` BackWPup backups publicly downloadable → contained** (Cloudflare block, schedules off, files deleted) · `#110` DR off-site copy opened; wiki `backups-and-dr.md` · `#23` run complete · `#94`/`#95` closed (GA4 funnel_step winterfest-2027 confirmed). |
