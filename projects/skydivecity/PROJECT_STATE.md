@@ -1,16 +1,16 @@
 # PROJECT STATE — Skydive City
 
-> **Last updated:** 2026-10-25 (session end) by CTO Agent (#112 homepage v6 + rationale + approval email drafted; SOW v1.2 executed; Clockify fix.)
+> **Last updated:** 2026-10-25 (pm checkpoint) by CTO Agent (#112 homepage v6 + rationale + approval email drafted; SOW v1.2 executed; Clockify fix.)
 
 ---
 
 ## ⚡ RESUME INSTRUCTION
 
-**Homepage (`#112`) design is ready for Rich: v6 (D14–D15), reasoning page + approval email drafted.** Canvas https://claude.ai/artifact/GYcsXqfX9LkUfXf7D5Mv7R (v1–v6 kept) · reasoning https://claude.ai/artifact/8sVuvAHfCt17k5tWMsjimd · email `project_management/correspondence/2026-10-25-homepage-design-for-review-rich.md` · 6 questions at the end of `homepage-design-decisions.md`.
+**Homepage (`#112`) ready for Rich; `#113` built on dev, awaiting James's go.** Reasoning page v3 now opens with Rich's 08-21 direction mapped to the design (Q1 corrected: "World's" vs "Florida's Best Skydiving School™") · canvas https://claude.ai/artifact/GYcsXqfX9LkUfXf7D5Mv7R · reasoning https://claude.ai/artifact/8sVuvAHfCt17k5tWMsjimd · email `project_management/correspondence/2026-10-25-homepage-design-for-review-rich.md`. **New:** `project_management/redesign-design-playbook.md` — read it before designing any remaining page or the nav (`#70`).
 
-**Next:** James shares canvas + reasoning with Rich/Matt (both private) and sends the email → await answers. Then `#113` gold Book Now (approved: implement in theme, dev check, his go). Waiting on James: Google Business Profile manager (D6) · Dropbox vs Drive (`#110`) · footage permissions. Dated: `#23` Thu 10-29 · `#82` Fri 10-30 after COB · `#75` Burble count ask ~10-30.
+**Next:** James's go on `#113` → merge theme branch `113-gold-book-now` (`dc11712`, local) to `main`, push, CI green → deploy dry run → live (minor release, not Thursday) → check-fresh. James shares both links + sends the Rich email. Waiting on James: Google Business Profile manager (D6) · Dropbox vs Drive (`#110`) · footage permissions. Dated: `#23` Thu 10-29 · `#82` Fri 10-30 after COB · `#75` Burble count ask ~10-30.
 
-**Branch check:** engagement `develop` **17 ahead, not pushed**; theme `main` clean; harness `main` **9 ahead, not pushed** (incl. Clockify fix `e5d2590`) — push only when James says. Untracked `permit-wrappers.sh.bak-*` in harness = James's rollback copy.
+**Branch check:** engagement `develop` 1 ahead (`3127462`, not pushed); theme on branch `113-gold-book-now` (local only); harness `main` pushed through `eb58466`. Untracked `permit-wrappers.sh.bak-*` in harness = James's rollback copy.
 
 ---
 
@@ -270,6 +270,7 @@ See [`wiki/README.md`](../../projects/skydivecity/wiki/README.md) for convention
 | Date | Agent | Summary |
 |------|-------|---------|
 | 2026-10-25 | CTO Agent | **SOW v1.2 executed** (filed `577246e`; `#48` closed, `#47` unblocked) · **Clockify**: compaction after /session-end restarted the timer → parked marker fix (`e5d2590`, harness `#14` closed; 15h idle entry deleted) · **`#112` re-concept**: 3 concepts → Concept 2 (D14) → v4 → v5 (Oura/Hims lessons) → **v6 (D15)**: hero loop B, pinned moments (phone: full-width stack), pillar panels + Compass glows, Who we are tightened (SEO verbatim), It's the people option D, closing palms + bottom glow, pause control, light video, spacing tokens; phone pass; reasoning page + email draft (`1040968`) · `#113` gold Book Now filed · AFF/ZTP refresh filed (`48c3598`). |
+| 2026-10-25 (pm) | CTO Agent | Pushed engagement + harness · **`#113`** built + dev-checked on theme branch `113-gold-book-now` (`dc11712`; semantic `action.*`, 7.70:1) · **`#112`** reasoning traced to Rich's 08-21 direction, Q1 corrected (`3127462`) · **design playbook** for the remaining pages (`project_management/redesign-design-playbook.md`). |
 | 2026-10-24 | CTO Agent | **`#111` LIVE** (3 Partners 6004/6007/6010, Winterfest walls 9→12 / 10→11, check-fresh 10/10; `3c0179b`) after Flywheel SSH blocking — fixed with ControlMaster in `~/.ssh/config` (wiki [[flywheel]]) · **`#112` homepage**: filed; inventory `c586a84`; `/grill-with-docs` D1–D13 (`0d32947`); glossary Conversion spine / Funnel / Experienced door / Review (theme `1533c77`+); Compass mock-up with James's photos + real reviews on canvas · OQ 22 resolved · prod-write must be one plain command (memory). |
 | 2026-10-23 | CTO Agent | `608c9aa` pushed · **`#111` filed** (Winterfest partners: Fluid Wings sponsor + vendor, Wings + LB sponsors) → dev applied + verified (seed + new surgical `wp-winterfest-partners-2026-10.php`; `05c6d16`, theme `ed2aead`) · prod dry run clean, writes **blocked by Flywheel SSH outage ~19:30–21:10Z** (nothing written; retry 10-24) · wrapper reports SSH failure as "cannot read … on prod" → note on `#108`. |
 | 2026-10-21→22 | CTO Agent | `#105` triaged (parked on `#47`; `check-fresh.sh` `a02413b`) · `#106` closed (Cloudflare caches no pages) · `#107` Compass slug collision fixed live (`cc6a862`) · `#82` script ready (`944e252`, ships Fri 10-30) · **`#108` prod-write gate** (hook `e8cf21e`, wrappers `4013634`, deploy pin `8dc7de5`, /security-review 7 findings fixed, ADR-0008 `608c9aa`) · **`#109` BackWPup backups publicly downloadable → contained** (Cloudflare block, schedules off, files deleted) · `#110` DR off-site copy opened; wiki `backups-and-dr.md` · `#23` run complete · `#94`/`#95` closed (GA4 funnel_step winterfest-2027 confirmed). |
