@@ -6,9 +6,9 @@
 
 ## ⚡ RESUME INSTRUCTION
 
-**Homepage (`#112`) v4 + v5 on the canvas:** v4 = Concept 2 full page (D14). v5 = v4 + Oura/Hims lessons: one idea per screen, pillar colour worlds, sticky booking bar, pinned scroll-driven moments. v1–v5 kept for the Rich walk-through. Canvas (private): https://claude.ai/artifact/GYcsXqfX9LkUfXf7D5Mv7R. Footage mock-up only (permissions on `#112`).
+**Homepage (`#112`) v6 on the canvas (current direction, D15):** v5 revised — hero kept, pinned four moments (scroll-driven), Compass glow per pillar, media dissolving into the page, stats blended, sticky booking bar, closing glow at the bottom (D13 settled: B). v1–v6 kept for the Rich walk-through. Canvas (private): https://claude.ai/artifact/GYcsXqfX9LkUfXf7D5Mv7R. Footage mock-up only (permissions on `#112`).
 
-**Next:** James compares v4 vs v5 → per-section rationale + approval email to Rich (To Rich, CC Matt). `#113` gold Book Now approved — implement in the theme, dev check, his go to deploy. Waiting on James: Business Profile manager (D6) · Dropbox vs Drive (`#110`) · footage permissions + better tandem clips. Dated: `#23` Thu 10-29 · `#82` Fri 10-30 after COB.
+**Next:** James reviews v6 (phone board not yet scroll-checked) → per-section rationale + approval email to Rich (To Rich, CC Matt). `#113` gold Book Now approved — implement in the theme, dev check, his go to deploy. Waiting on James: Business Profile manager (D6) · Dropbox vs Drive (`#110`) · footage permissions + better tandem clips. Dated: `#23` Thu 10-29 · `#82` Fri 10-30 after COB.
 
 **Branch check:** engagement `develop`, theme `main`, harness `main` — all pushed and clean at 10-24 end (harness checkpoint pushed only if James says). Untracked `permit-wrappers.sh.bak-*` in harness = James's rollback copy.
 
