@@ -8,7 +8,7 @@
 
 **Homepage (`#112`) v6 = current direction (D14–D15), on the canvas with variant "reviews first" (James comparing 10-25).** Hero loop B · pinned four moments (swipe row on phones) · pillar panels with Compass glows · Who we are tightened (SEO paras verbatim) · It's the people · FAQ · closing with Winterfest corner palms + bottom glow · pause controls, light video, spacing rhythm (2 proposed tokens). v1–v6 kept. Canvas (private): https://claude.ai/artifact/GYcsXqfX9LkUfXf7D5Mv7R. Questions for Rich (6) at the end of `homepage-design-decisions.md`.
 
-**Next:** James picks people-section order → finish the phone pass of v6 → per-section rationale + approval email (To Rich, CC Matt). `#113` gold Book Now approved — implement in theme, dev check, his go. Waiting on James: Business Profile manager (D6) · Dropbox vs Drive (`#110`) · footage permissions + better tandem clips. Dated: `#23` Thu 10-29 · `#82` Fri 10-30 after COB.
+**Next:** James shares the canvas + rationale page (https://claude.ai/artifact/8sVuvAHfCt17k5tWMsjimd) with Rich/Matt and sends the approval email (`correspondence/2026-10-25-homepage-design-for-review-rich.md`) → await Rich's answers to the 6 questions. `#113` gold Book Now approved — implement in theme, dev check, his go. Waiting on James: Business Profile manager (D6) · Dropbox vs Drive (`#110`) · footage permissions. Dated: `#23` Thu 10-29 · `#82` Fri 10-30 after COB.
 
 **Branch check:** engagement `develop`, theme `main`, harness `main` — all pushed and clean at 10-24 end (harness checkpoint pushed only if James says). Untracked `permit-wrappers.sh.bak-*` in harness = James's rollback copy.
 
