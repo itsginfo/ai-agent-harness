@@ -8,7 +8,7 @@
 
 **Homepage (`#112`) sent to Rich 10-25 (links shared, email sent); `#113` gold Book Now LIVE 10-25 (closed).** Reasoning page v3 now opens with Rich's 08-21 direction mapped to the design (Q1 corrected: "World's" vs "Florida's Best Skydiving School™") · canvas https://claude.ai/artifact/GYcsXqfX9LkUfXf7D5Mv7R · reasoning https://claude.ai/artifact/8sVuvAHfCt17k5tWMsjimd · email `project_management/correspondence/2026-10-25-homepage-design-for-review-rich.md`. **New:** `project_management/redesign-design-playbook.md` — read it before designing any remaining page or the nav (`#70`).
 
-**Next:** await Rich's approval + six answers → record as D16 (port planning: file the Compass Components listed in the playbook §7). Waiting on James: Google Business Profile manager (D6) · Dropbox vs Drive (`#110`) · footage permissions. Dated: `#23` Thu 10-29 · `#82` Fri 10-30 after COB · `#75` Burble count ask ~10-30.
+**Port prep filed 10-25 (`#114`–`#122`)**, start at `#114` (page ending + spacing steps; everything else blocked by it); `#122` review sync waits on Manager access (James asking the owner). Tandem inputs pack done (`#123`, `project_management/tandem/tandem-inputs-2026-10-26.md`). Meanwhile **await Rich's approval + six answers → record as D16 (port planning: file the Compass Components listed in the playbook §7). Waiting on James: Google Business Profile manager (D6) · Dropbox vs Drive (`#110`) · footage permissions. Dated: `#23` Thu 10-29 · `#82` Fri 10-30 after COB · `#75` Burble count ask ~10-30.
 
 **Branch check:** engagement `develop` pushed (`19c9032`); theme `main` = prod `dc11712` (local branch `113-gold-book-now` merged, can be deleted); harness `main` pushed. Untracked `permit-wrappers.sh.bak-*` in harness = James's rollback copy.
 
