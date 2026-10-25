@@ -3,6 +3,7 @@
 #
 #   clockify-timer.sh start   (SessionStart hook; reads the hook JSON on stdin: session_id, cwd, source)
 #   clockify-timer.sh stop    (SessionEnd hook;   reads: session_id, cwd, reason)
+#   clockify-timer.sh prompt  (UserPromptSubmit hook; reads: session_id, cwd, prompt) — un-parks on /session-start
 #   clockify-timer.sh setup   resolve workspace / user / project ids from the API and cache them
 #   clockify-timer.sh status  show the running entry, if any
 #   clockify-timer.sh task <#NN> [title…]   per-ticket entry: stop whatever runs, start "Claude Code — <dir> · #NN title"
@@ -21,7 +22,9 @@
 # Parked: a manual `stop` (the agent at /session-end or when James steps away; no hook JSON) writes
 # ~/.local/state/clockify/parked. While it exists, SessionStart source "compact" does NOT start a timer: a
 # compaction is automatic, not work (10-24: compaction after /session-end ran a 15h idle entry). A new or
-# resumed session (startup/resume/clear) and `task`/`idle` clear the marker and time as usual.
+# resumed session (startup/resume/clear) and `task`/`idle` clear the marker and time as usual. So does a
+# /session-start typed into an existing conversation (`prompt`, 10-25: /session-start after a compaction left
+# the session untimed for 1h24m). Any other prompt leaves a parked timer parked and makes no API call.
 set -u
 API="https://api.clockify.me/api/v1"
 CFG_DIR="$HOME/.config/clockify"; ENV_FILE="$CFG_DIR/env"; CACHE="$CFG_DIR/cache.json"
@@ -52,7 +55,7 @@ now() { date -u +%FT%TZ; }
 # and closes stdin at once, but a manual `stop` from the agent has an open pipe that never closes, and an untimed
 # `cat` blocked forever (2026-10-20). Without hook JSON, stop falls back to the "Claude Code —" description match.
 HOOK='{}'
-case "$cmd" in start|stop) if [ ! -t 0 ]; then IFS= read -r -d '' -t 3 HOOK || true; [ -n "$HOOK" ] || HOOK='{}'; fi ;; esac
+case "$cmd" in start|stop|prompt) if [ ! -t 0 ]; then IFS= read -r -d '' -t 3 HOOK || true; [ -n "$HOOK" ] || HOOK='{}'; fi ;; esac
 hk() { printf '%s' "$HOOK" | jq -r "$1 // empty"; }
 SESSION="$(hk .session_id)"; CWD="$(hk .cwd)"; [ -n "$CWD" ] || CWD="$PWD"
 
@@ -171,6 +174,13 @@ do_task() {
 
 do_idle() { do_switch "Claude Code — $(basename "$CWD")"; }
 
+do_prompt() {
+  [ -f "$PARKED" ] || exit 0
+  case "$(hk .prompt | sed -e 's/^[[:space:]]*//')" in
+    /session-start*) log "prompt: /session-start while parked — resuming"; do_idle ;;
+  esac
+}
+
 do_status() {
   local run; run="$(running_entry)"
   if [ -n "$run" ]; then printf '%s' "$run" | jq -r '"running: \(.description // "-") since \(.timeInterval.start) (project \(.projectId // "-")) id \(.id)"'; else echo "nothing running"; fi
@@ -183,6 +193,7 @@ case "$cmd" in
   status) do_status ;;
   task)   do_task "$@" ;;
   idle)   do_idle ;;
+  prompt) do_prompt > /dev/null ;;
   *) echo "usage: $0 start|stop|setup|status"; ;;
 esac
 exit 0
