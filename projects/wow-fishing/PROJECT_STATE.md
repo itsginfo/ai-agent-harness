@@ -6,24 +6,15 @@
 
 ## ⚡ RESUME INSTRUCTION
 
-**2026-10-26 (CTO): squid farming + auto-reconnect.** Since onboarding (10-23): dip+burst bite rule
-(calm water), `--spot` presets (`squid`/`zg` lure on, `moonglade` off), lure self-heal
-(`LURE_VERIFY_CASTS`, `LURE_RETRY_DRY`), and **auto-reconnect** (`--reconnect`, default on, `ce54f31`,
-`#5`). Root cause of failed lure applies found: a refused loot (full filler bags) left the loot
-window open; James added `/run CloseLoot()` as the macro's first line -> failed applies 30/45 -> 1/26.
+**Working; lured squid farming at 91-95%.** Auto-reconnect (`#5`, `ce54f31`) is built but has not
+seen a live disconnect yet. The bot is now named **Ernest Hemingway**. Multi-window idea opened as `#7`
+(needs James's go/no-go).
 
-**Runs (Classic, Azshara Bay of Storms, Winter Squid, Aquadynamic lure ~5.12 min):**
-861 casts / 87% (pre-fix) -> 449 / 91% -> 446 / 91% (disconnect) -> 99 / 89% (disconnect) ->
-219 / 95% (stopped by James) -> **349 / 94% / 106 min** (stopped by James). ~111 lures left.
-Bay of Storms needs 330 skill: 300 + Big Iron pole (+20) = 320, so the **lure is mandatory**
-(expired lure = the cast fails). James is weighing Engineering 150 to craft lures (~15s each with
-AH Coarse Blasting Powder vs ~47s on the AH).
-
-**Next:** auto-reconnect awaits its first live disconnect: check `captures/run/reconnect1_*.png`
-(zoom direction and character-select handling are unverified). See Next 3 Actions.
+**Next:** after the first live disconnect, review `captures/run/reconnect<N>_*.png` (zoom direction,
+character select) and close or fix `#5`.
 
 **Branch check first.** Project repo: `display-calibration` (ahead of `main`, merge pending).
-Harness: `main`. `USE_LURE=False` is now the committed default; `--spot` / `--lure` set it per run.
+Harness: `main`.
 
 ---
 
@@ -96,7 +87,7 @@ disconnects), and per-cast knowledge of what was caught.
 |------|----------|---------|-------|
 | **Auto-reconnect first live use** | next disconnect | [`#5`](https://github.com/itsginfo/wow-fishing-bot/issues/5) | Check `reconnect<N>_*.png`; zoom direction + char-select unverified. |
 | **Dip bite rule** | next calm-water (Moonglade) run | — | 2 live fires so far (squid); built for calm water. |
-| **Lure stock** | before next squid/ZG run | — | ~111 left (~9.8 h). Crafting via Engineering 150 under consideration. |
+| **Lure stock** | before next squid/ZG run | — | ~111 left (~9.8 h). Crafting via Engineering 150 under consideration (~15s/lure vs ~47s AH). |
 | **Display profile stale** | next run | [`#6`](https://github.com/itsginfo/wow-fishing-bot/issues/6) | WoW now on 2560x1440; run `calibrate.py`. |
 
 ## In-Flight Tasks ⚡
@@ -117,6 +108,7 @@ disconnects), and per-cast knowledge of what was caught.
 |---|----------|-------|--------|--------|
 | 1 | **Catch logging: SavedVariables log or pixel bridge?** | James | [`#3`](https://github.com/itsginfo/wow-fishing-bot/issues/3), [`#2`](https://github.com/itsginfo/wow-fishing-bot/issues/2) | 2026-10-22 |
 | 2 | **Merge `display-calibration` into `main`?** | James | Nothing | 2026-10-23 |
+| 3 | **Multi-window Ernest: go/no-go on the background-keypress spike?** | James | [`#7`](https://github.com/itsginfo/wow-fishing-bot/issues/7) | 2026-10-26 |
 
 ---
 
@@ -124,4 +116,14 @@ disconnects), and per-cast knowledge of what was caught.
 
 1. **[`#5`](https://github.com/itsginfo/wow-fishing-bot/issues/5) Verify auto-reconnect live** — agent reviews the reconnect screenshots after the first disconnect; close or fix.
 2. **[`#3`](https://github.com/itsginfo/wow-fishing-bot/issues/3) Catch logging** — James picks the option; agent builds the addon + bot side. **[`#2`](https://github.com/itsginfo/wow-fishing-bot/issues/2) bag-full stop** follows.
-3. **[`#4`](https://github.com/itsginfo/wow-fishing-bot/issues/4) Multi-template fast path** — agent, small.
+3. **[`#4`](https://github.com/itsginfo/wow-fishing-bot/issues/4) Multi-template fast path** — agent, small. ([`#7`](https://github.com/itsginfo/wow-fishing-bot/issues/7) multi-window waits on James.)
+
+---
+
+## Session Log
+
+| Date | Agent | Entry |
+|------|-------|-------|
+| 2026-10-23 | CTO | Onboarded to ADE; repo moved to `itsginfo/wow-fishing-bot`, backlog `#1`-`#6`. See harness `cf4ce95`. |
+| 2026-10-24/25 | CTO | Dip+burst bite rule + `replay_traces.py`, `--spot` presets, lure self-heal; squid run found failed post-loot lure applies -> `CloseLoot()` macro fix (30/45 -> 1/26). See `b24bace`, `ae77fd9`, `e6f20bb`. |
+| 2026-10-26 | CTO | Squid runs 91-95%; auto-reconnect built (`#5`, `ce54f31`); lure-crafting cost analysis; bot named Ernest Hemingway; multi-window idea `#7`. See `f4eb6b2`, `c41de45`. |
