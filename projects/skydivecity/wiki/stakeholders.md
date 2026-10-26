@@ -48,6 +48,18 @@
 
 ---
 
+## Google Business Profile (reviews) — who holds it (seen 2026-10-26)
+
+| Person | Role on the profile | Contact |
+|---|---|---|
+| Lauren Callanan Salvato | **Primary owner** | `lauren@skydivecity.com` |
+| Susan Stark | Owner | `susan@skydivecity.com` |
+| Skydive City (shared) | Manager | `info@skydivecity.com` |
+| Beyond Marketing Support Team | Manager | `support@amazethecustomer.com` |
+| James Meirowsky (ITSG) | **Manager** (added 2026-10-26 for the review sync, `#122`) | `james.meirowsky@itsginfo.com` |
+
+Only an owner can add or remove people. The review sync runs on Google Cloud project `skydivecity-reporting` (itsginfo.com, number 232253413001) under James's Manager sign-in.
+
 ## Routing conventions (who for what)
 
 | Situation | To | CC | Source |
