@@ -1,16 +1,16 @@
 # PROJECT STATE — Skydive City
 
-> **Last updated:** 2026-10-26 (checkpoint) by CTO Agent (#121 assembled on dev; #127 dev done).
+> **Last updated:** 2026-10-26 (session end, pm) by CTO Agent (#121 on dev + phone-checked; #127 live; #128 built).
 
 ---
 
 ## ⚡ RESUME INSTRUCTION
 
-**`#121` homepage assembled on dev (`/compass-121-home/`, 6072) and measured against v6 — matches at 1440; James 10-26: paragraph 5 split close approved, one 1180px column (hero moved in, `7d02b67`), overlay blocker standard set.** Pattern `patterns/spine-home.php` (lock verified); Faq gained kicker/title/links (contract 1.15.0). Overlay check tool `theme-repo/tooling/overlay/` — blockers fixed in `6e998a3` (now part of the `#114` release: cookie banner, hero pause, footer end). `#127` Vertical Suits **LIVE** 10-26 (Partner 6014, check-fresh 10/10; closed). Theme branch `114-page-ending` (local): `#114` (5 + `6e998a3`, held), `#115`–`#120`, `#121` `ecfd62e` + `7d02b67`.
+**Homepage `#121` assembled + checked on dev (`/compass-121-home/`, 6072): v6 fidelity, overlay check, real-iPhone pass all done; waiting on Rich's six answers + finalized production videos (James is sourcing them).** Pattern `patterns/spine-home.php`; phone hero loop is now a 540×960 portrait cut (dev 6078/6079). `#127` Vertical Suits LIVE. `#128` slim cookie banner built (`4f7fcb8`) + wording approved by James ("We use cookies to improve your experience.").
 
-**Next:** `#121` real-phone pass (moments/hero on a phone, Save-Data, pause by touch, kicker legibility). Engagement `develop` pushed through `29ca243` (2 newer local). Waiting: Rich's six answers; Google API (case 8-7952000042476, ~Nov 4–9, `#122`); `#125` weight tiers; Burble link codes on our calendar `53/18` (backlog). Dated: `#23` Thu 10-29 · `#82` Fri 10-30 after COB · `#75` ~10-30.
+**Next:** ship the held **`#114` release** when James calls it: theme commits `ff6b2bb b83730d c5d5461 73e07ac a4fb7a6 6e998a3 4f7fcb8` onto main → CI → dry run → go → live, **plus** the `#128` prod plugin-wording change in the same release (5-phase; never the slim style with the long text) → overlay check (`theme-repo/tooling/overlay/`) on prod. Waiting: Rich (6 answers, footage permissions); Google API (case 8-7952000042476, ~Nov 4–9, `#122`); `#125` weight tiers; Burble link codes on calendar `53/18`. Dated: `#23` Thu 10-29 · `#82` Fri 10-30 after COB · `#75` ~10-30.
 
-**Branch check:** engagement `develop` 2 ahead (`568ac7f`, `bf353d6`); theme on local branch `114-page-ending` (not pushed; main = prod `dc11712`); harness `main` 1 ahead + this checkpoint. Push only on James's go. Tools: macOS has no `timeout`; headless Chrome floors at 500px (use the 390px iframe wrapper); `tooling/seo/check-seo-block.py`, `tooling/archive/capture-before.sh`.
+**Branch check:** engagement `develop` 2 ahead (`75052c5`, `1a24344`); theme on local branch `114-page-ending` (not pushed; main = prod `dc11712`); harness `main` 4 ahead + this session end. Push only on James's go. Dev-only state: dev `wp-config.php` answers on the LAN IP (#121 block), dev cookie-banner wording shortened (#128).
 
 ---
 
@@ -224,7 +224,7 @@ See [`wiki/README.md`](../../projects/skydivecity/wiki/README.md) for convention
 
 > When you complete one, update the GH issue first (status, comment if substantive), then return here.
 
-1. **[`#112`] Homepage → Rich approval** — v6 + reasoning + email ready (10-25); James shares + sends, then Rich's 6 answers. Port date to re-estimate after approval (v6 adds new Compass components: VideoHero, MomentsPin, pillar panels, BookingBar, static Reviews, spacing tokens). Reviews sync (D6) needs the Business Profile manager. **[`#113`]** gold Book Now approved — theme change + dev check + James's go (minor release, not Thursday).
+1. **[`#112`/`#121`] Homepage → Rich approval** — sent 10-25; built + checked on dev 10-26 (`#121`). Waiting: Rich's 6 answers, finalized production videos (James). 1z. **[`#114` + `#128`] release** — held; ship together (see resume). Port date to re-estimate after approval (v6 adds new Compass components: VideoHero, MomentsPin, pillar panels, BookingBar, static Reviews, spacing tokens). Reviews sync (D6) needs the Business Profile manager. **[`#113`]** gold Book Now approved — theme change + dev check + James's go (minor release, not Thursday).
 1a. **[`#108` + `#110`] Cloud backup home** — Skydive City has Dropbox and Google Drive; James confirming with Rich/Matt → then `AUTO_BACKUP=1` in `prod-write.sh`. `#82` ships Fri 10-30. `#102` follow-up: Big Ear logo. `#105` parked on `#47`.
 1b. **[IA follow-ups from 10-16]** `#98` early retirements (rows already in `redirect-map.csv`) · `#97` skydive.city 404 redirects · `#99` event categories (keep list → James). Small Routine Requests; not on Wednesday.
 2. **[`#47`] Hosting move** — unblocked (SOW v1.2 executed 10-23, `#48` closed). Sequence: licences in SDC's name (ACF Pro, Gravity Forms; Bloom pending James) → remove 10Web (dev-first) → SDC Flywheel account + ITSG collaborator → move on a Wednesday (§7.6, waived). The move day = Hosting Start Date ($55/mo fee begins, pro-rated).
@@ -270,6 +270,7 @@ See [`wiki/README.md`](../../projects/skydivecity/wiki/README.md) for convention
 
 | Date | Agent | Summary |
 |------|-------|---------|
+| 2026-10-26 (pm) | CTO Agent | `#121` homepage assembled on dev from `spine-home.php` (theme `ecfd62e`, `7d02b67`, `96c0563`): v6 fidelity at 1440, Faq as a section (contract 1.15.0), James decisions (SEO ¶5 split close, one 1180px column, overlay blocker standard), overlay checker + blockers fixed (`6e998a3`, joins `#114` release), portrait phone hero loop, real-iPhone pass ✓ · `#127` Vertical Suits LIVE (Partner 6014, `75052c5`) · `#128` slim cookie banner (`4f7fcb8`, wording approved) · Burble Link Creator answer → backlog (`9103808`) · CI lint fails on the branch fixed (`.cx-sticky` dup, StatementStats Immersive contrast → `brand.text`). |
 | 2026-10-25 | CTO Agent | **SOW v1.2 executed** (filed `577246e`; `#48` closed, `#47` unblocked) · **Clockify**: compaction after /session-end restarted the timer → parked marker fix (`e5d2590`, harness `#14` closed; 15h idle entry deleted) · **`#112` re-concept**: 3 concepts → Concept 2 (D14) → v4 → v5 (Oura/Hims lessons) → **v6 (D15)**: hero loop B, pinned moments (phone: full-width stack), pillar panels + Compass glows, Who we are tightened (SEO verbatim), It's the people option D, closing palms + bottom glow, pause control, light video, spacing tokens; phone pass; reasoning page + email draft (`1040968`) · `#113` gold Book Now filed · AFF/ZTP refresh filed (`48c3598`). |
 | 2026-10-25 (pm) | CTO Agent | Pushed engagement + harness · **`#113` LIVE** (theme `dc11712`, run 40238342212, check-fresh 10/10; semantic `action.*`, 7.70:1; closed) · **`#112`** reasoning traced to Rich's 08-21 direction, Q1 corrected (`3127462`) · **design playbook** for the remaining pages (`project_management/redesign-design-playbook.md`). |
 | 2026-10-26 | CTO Agent | Tandem inputs `#123` + Tandem v1 design `#124` · before-archive + capture script · homepage components on dev: `#114` page ending/footer rule/floating CTA, `#115` HeroMedia, `#117` Moments (sticky fix), `#118` PillarPanel (+ events), `#119` StatementStats (+ `check-seo-block.py`), `#120` Review record + PeopleProof · weight policy → `#125` · `#126` booking-button question · Google API application (case 8-7952000042476) · Clockify `/session-start` fix (harness `#15`). |
