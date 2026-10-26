@@ -1,14 +1,14 @@
 # PROJECT STATE — Skydive City
 
-> **Last updated:** 2026-10-26 (session end) by CTO Agent (homepage components #114–#120 on dev; Tandem v1 design; Google API applied).
+> **Last updated:** 2026-10-26 (checkpoint) by CTO Agent (#121 assembled on dev; #127 dev done).
 
 ---
 
 ## ⚡ RESUME INSTRUCTION
 
-**Homepage components all built + dev-checked (`#114`–`#120`); next is `#121` — assemble the homepage on dev and check it against v6.** Theme branch `114-page-ending` (local, unpushed): `#114` page ending + footer rule + floating Book Now (5 commits, **held for release** with other minor updates; ship #114's commits alone — see its ticket), then `#115` HeroMedia, `#117` Moments, `#118` PillarPanel, `#119` StatementStats, `#120` Review record + PeopleProof. Dev test pages: `/compass-114-ending/`, `/compass-115-hero/`, `/compass-117-moments/` (hero → moments → 3 panels → statement → people). Tandem v1 design on canvas https://claude.ai/artifact/33rnpNSRbTpy4x2bqxk4mn (`#124`); before-archive in `project_management/before-archive/`.
+**`#121` homepage assembled on dev (`/compass-121-home/`, 6072) and measured against v6 — matches at 1440; two decisions open for James: SEO paragraph 5 split, page column 1180 vs v6's 1240.** Pattern `patterns/spine-home.php` (lock verified); Faq gained kicker/title/links (contract 1.15.0). Overlay check tool `theme-repo/tooling/overlay/` — blockers fixed in `6e998a3` (now part of the `#114` release: cookie banner, hero pause, footer end). `#127` Vertical Suits sponsor: dev done (engagement `29ca243`), prod pending push + Flywheel backup + go. Theme branch `114-page-ending` (local): `#114` (5 + `6e998a3`, held), `#115`–`#120`, `#121` `ecfd62e`.
 
-**Next:** `#121` assembly. Resolve there: SEO paragraph 5 split (Closeout) · 1240 vs 1180px page column · "Meet the team" has no target (`#88`) · real Google reviews URL · floating Book Now overlay check across 7 viewports (go-live gate, also on `#114`) · hero pause vs floating button overlap. Waiting: Rich's six homepage answers; Google API approval (case 8-7952000042476, ~Nov 4–9, `#122`); James confirms weight-fee tiers + wording (`#125`), Outside Video "Most popular" from Burble. `#126` booking-button decision after the 10-28 click data. Dated: `#23` Thu 10-29 · `#82` Fri 10-30 after COB · `#75` Burble count ~10-30.
+**Next:** James's calls on paragraph 5 + column → `#121` phone pass (moments/hero on a real phone, Save-Data, pause by touch, kicker legibility). `#127` prod write when James gives the go. Waiting: Rich's six answers; Google API (case 8-7952000042476, ~Nov 4–9, `#122`); `#125` weight tiers; Burble link codes on our calendar `53/18` (backlog). Dated: `#23` Thu 10-29 · `#82` Fri 10-30 after COB · `#75` ~10-30.
 
 **Branch check:** engagement `develop` 2 ahead (`568ac7f`, `bf353d6`); theme on local branch `114-page-ending` (not pushed; main = prod `dc11712`); harness `main` 1 ahead + this checkpoint. Push only on James's go. Tools: macOS has no `timeout`; headless Chrome floors at 500px (use the 390px iframe wrapper); `tooling/seo/check-seo-block.py`, `tooling/archive/capture-before.sh`.
 
