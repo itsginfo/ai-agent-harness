@@ -1,20 +1,18 @@
 # PROJECT STATE — WoW Classic AddOns
 
-> **Last updated:** 2026-10-14 by CTO Agent. **EPGP LootCompass 1.18.0 (Rogue)** is committed locally; 1.17.2 and earlier are pushed and verified. #16 has Hunter and the tanks left. **The reconcile on `#2` is still owed** (carried forward a 5th time).
+> **Last updated:** 2026-10-27 (close) by CTO Agent. **EPGP LootCompass 1.23.0 (dungeons, #21)** is committed locally, not pushed, waiting on James's in-game `/reload` check. 1.22.2 and earlier are pushed. #2 reconcile deprioritized by James (not raiding).
 
 ---
 
 ## ⚡ RESUME INSTRUCTION
 
-**State:** EPGP LootCompass 1.18.0 (Rogue melee model + a fix for unstated melee proc chances) is committed as `4fa697b`, not pushed, and waits on James's `/reload` check: About → Priest weights unchanged, About → Rogue opens ([`#16`](https://github.com/itsginfo/wow-addons/issues/16)).
+**State:** `main` is 2 commits ahead of origin: LootCompass 1.23.0 dungeons (`be2f084` Raids | Dungeons tabs + side menu, `3b712fa` Stratholme Live/Undead split + side-menu heading fix) for [`#21`](https://github.com/itsginfo/wow-addons/issues/21). QA/perf/memory green. Waits on James's in-game check (Dungeons tab, side menu heading, both Stratholme halves, About icon).
 
-**Next:**
-- On James's OK: push `main`, put `LootCompass-1.18.0.zip` on the Desktop (`git archive`) and remove the 1.17.2 zip.
-- Then ask James: Hunter next on #16, or reconcile [`#2`](https://github.com/itsginfo/wow-addons/issues/2) (5th carry). After the Wed 10-14 MC/BWL raid, have him run `/lc mana`.
+**Next:** On James's OK: push `main`, swap the Desktop zip `LootCompass-1.22.2.zip` → `LootCompass-1.23.0.zip` (`git archive --format=zip -o ~/Desktop/LootCompass-1.23.0.zip HEAD LootCompass`), close #21. Then ask James: #20 cat druid, #19 website, or #17.
 
-Before shipping: `qa.lua`, `perf.lua`, `memory.lua` (Lua 5.1 rule), mutation-test new checks, add a CHANGELOG entry (no player names). One Warcraft Logs job at a time.
+Before shipping: `qa.lua`, `perf.lua`, `memory.lua`, mutation-test new checks, CHANGELOG entry with no player or guild names.
 
-**Branch check first.** Project repo (`/Applications/World of Warcraft/_classic_era_/Interface/AddOns`): `main` at `4fa697b`, **1 ahead of origin**. `!CUF_PrivateAuraCompat` has James's own uncommitted edits — don't commit them. Harness: `main`.
+**Branch check first.** Project repo (`/Applications/World of Warcraft/_classic_era_/Interface/AddOns`): `main`, 2 ahead of origin. `!CUF_PrivateAuraCompat` has James's own uncommitted edits — don't commit them. Harness: `main`.
 
 ## Wiki Quick-Index
 
@@ -78,12 +76,12 @@ Before shipping: `qa.lua`, `perf.lua`, `memory.lua` (Lua 5.1 rule), mutation-tes
 
 | Item | Watch by | Tracker | Notes |
 |------|----------|---------|------|
-| **Push LootCompass 1.18.0** | **James's next `/reload`** | [`#16`](https://github.com/itsginfo/wow-addons/issues/16) | `4fa697b` is local. Check About → Priest (unchanged) and About → Rogue. Then push and swap the Desktop zip. |
-| **Measured mana pressure from MC/BWL** | after the Wed 2026-10-14 raid | [`#13`](https://github.com/itsginfo/wow-addons/issues/13) | 1.17.2 measures pressure as each 40-man fight's spend vs James's own supply (`/lc mana`), default 30%. Only ZG/Ony were recorded so far, and ZG doesn't count. Check the MC/BWL rows look sane. |
-| **Cancel the Warcraft Logs subscription** | when [`#16`](https://github.com/itsginfo/wow-addons/issues/16) classes are done | [`#16`](https://github.com/itsginfo/wow-addons/issues/16) | James took the ×5 plan (3,600 points/h) for the class build-out, 2026-10-10. Credentials are in `~/.config/wcl/credentials`, outside the repo. |
+| **Push LootCompass 1.23.0** | **James's next `/reload`** | [`#21`](https://github.com/itsginfo/wow-addons/issues/21) | `be2f084` + `3b712fa` are local. Then push, swap the Desktop zip, close #21. |
+| **Measured mana pressure from MC/BWL** | when James raids MC/BWL again | [`#13`](https://github.com/itsginfo/wow-addons/issues/13) | James isn't raiding at the moment (2026-10-27). 1.17.2 measures pressure as each 40-man fight's spend vs supply (`/lc mana`), default 30%. Check the MC/BWL rows look sane once recorded. |
+| **Cancel the Warcraft Logs subscription** | **now** — #16 closed and #23-#27 models done; only #20 cat might still want it | [`#16`](https://github.com/itsginfo/wow-addons/issues/16) | James took the ×5 plan (3,600 points/h) for the class build-out, 2026-10-10. Credentials are in `~/.config/wcl/credentials`, outside the repo. |
 | **Regenerate the reference mixes (`MetaMix.lua`)** | about monthly, and when adding a class | [ADR-0009](https://github.com/itsginfo/wow-addons/blob/main/docs/adr/0009-lootcompass-gear-valued-for-meta-mix.md) | `python3 -I LootCompass/tools/wcl_meta.py [--tank-scan 15]`. It's cached and paced. QA validates the shipped file. |
-| **Re-apply the three fragile in-provider edits** | **overdue: carried forward 5 sessions** | [`#2`](https://github.com/itsginfo/wow-addons/issues/2) (table in the 2026-10-05 correction comment) | All three guard greps read **0** on 2026-10-05. TSM v4.14.77 reverted `Accounting.lua` + `LibTSMClass.lua` on **09-17**; RXPGuides v4.11.15 rewrote `map.lua` on 10-05 (0 `CreateObjectPool` refs — may be obsolete). Patched copies in `backups/2026-08-28/local-edits/`. Until re-applied: TSM's event pipeline can die on any nil price until `/reload` ([`#7`](https://github.com/itsginfo/wow-addons/issues/7)). |
-| **LootCompass: regenerate built-in data after AtlasLoot updates** | each AtlasLoot update | [ADR-0008](https://github.com/itsginfo/wow-addons/blob/main/docs/adr/0008-lootcompass-own-parser-and-bundled-gpl-data.md) | Run `lua LootCompass/tools/gen_raiddata.lua`, then commit. QA fails until it's done. Bump `ns.PARSER_VERSION` whenever the parser would read any item differently. |
+| **Re-apply the three fragile in-provider edits** | **deprioritized by James 2026-10-14** (not raiding) | [`#2`](https://github.com/itsginfo/wow-addons/issues/2) (table in the 2026-10-05 correction comment) | All three guard greps read **0** on 2026-10-05. TSM v4.14.77 reverted `Accounting.lua` + `LibTSMClass.lua` on **09-17**; RXPGuides v4.11.15 rewrote `map.lua` on 10-05 (0 `CreateObjectPool` refs — may be obsolete). Patched copies in `backups/2026-08-28/local-edits/`. Until re-applied: TSM's event pipeline can die on any nil price until `/reload` ([`#7`](https://github.com/itsginfo/wow-addons/issues/7)). |
+| **LootCompass: regenerate built-in data after AtlasLoot updates** | each AtlasLoot update | [ADR-0008](https://github.com/itsginfo/wow-addons/blob/main/docs/adr/0008-lootcompass-own-parser-and-bundled-gpl-data.md) | Run `lua LootCompass/tools/gen_raiddata.lua` (raids + level-60 dungeons; Stratholme is split Live/Undead at load by `Sources.lua` `STRAT_UNDEAD`), then commit. QA fails until it's done. Bump `ns.PARSER_VERSION` whenever the parser would read any item differently. |
 | **LootCompass Warlock model unverified in-game** | when a level-60 Warlock is available | [`#13`](https://github.com/itsginfo/wow-addons/issues/13) | QA-only so far. The weights match Classic theorycraft (Hit% 13, Crit% 10, Int 0.26 at about 600 SD). |
 | **Verify `!CUF` 1.3.0 in-game** | **next play session** | [`#3`](https://github.com/itsginfo/wow-addons/issues/3) | Restored from git again 2026-10-05 after today's Cell_UnitFrames update. SpellAnnouncerClassicPlus 2.0.0 **was verified** (`aa46438`) and drops off this row. For `!CUF`, expect Blizzard party/raid frames to possibly reappear briefly after roster churn — accepted trade-off of 1.3.0 gating hide-reinforce off. |
 | **Stale character config after the Baganator swap** | next reconcile | [`#2`](https://github.com/itsginfo/wow-addons/issues/2) | Bagnon folder gone, Baganator (+BagBrother) installed 2026-10-05; every character's `AddOns.txt` still says `Bagnon: enabled` (same shape as the BigWigs leftovers). ClassicCalendar logs `missing dependency [LibDBIcon-1.0]`. |
@@ -95,8 +93,8 @@ Before shipping: `qa.lua`, `perf.lua`, `memory.lua` (Lua 5.1 rule), mutation-tes
 
 ## In-Flight Tasks ⚡
 
-- **LootCompass 1.18.0 (Rogue): committed, not pushed** (`4fa697b`). Waiting on James's in-game check ([`#16`](https://github.com/itsginfo/wow-addons/issues/16)). There's no uncommitted work of ours.
-- **Carrying risk, not work:** the three reverted in-provider edits (Live Watch / [`#2`](https://github.com/itsginfo/wow-addons/issues/2)).
+- **LootCompass 1.23.0 (dungeons): committed, not pushed** (`be2f084`, `3b712fa`). Waiting on James's in-game check ([`#21`](https://github.com/itsginfo/wow-addons/issues/21)). No uncommitted work of ours.
+- **Design canvas** for the dungeon nav (options A/B/C; B chosen): https://claude.ai/artifact/EjiucU14ZhmhdnfARHS2cV — reference only.
 
 ---
 
@@ -120,9 +118,9 @@ Before shipping: `qa.lua`, `perf.lua`, `memory.lua` (Lua 5.1 rule), mutation-tes
 
 ## Next 3 Actions (Prioritized)
 
-1. **Push 1.18.0 once James OKs it** ([`#16`](https://github.com/itsginfo/wow-addons/issues/16)) and swap the Desktop zip.
-2. **James picks one:** Hunter on [`#16`](https://github.com/itsginfo/wow-addons/issues/16) (then tanks: Protection Warrior, Feral; cancel the WCL ×5 subscription when #16 is done), **or** reconcile [`#2`](https://github.com/itsginfo/wow-addons/issues/2) (three-way merge TSM `Accounting.lua` / `LibTSMClass.lua` against `backups/2026-08-28/local-edits/`, read RXP `map.lua`, clean `Bagnon: enabled`).
-3. **Website** [`#19`](https://github.com/itsginfo/wow-addons/issues/19): RestedXP (restedxp.com) is the style reference; CHANGELOG.md plus a how-it-works doc become site content. Also open: [`#17`](https://github.com/itsginfo/wow-addons/issues/17) live GDKP check at the next GDKP.
+1. **Push 1.23.0 once James OKs it**, swap the Desktop zip, close [`#21`](https://github.com/itsginfo/wow-addons/issues/21).
+2. **James picks next:** [`#20`](https://github.com/itsginfo/wow-addons/issues/20) Feral cat model, [`#19`](https://github.com/itsginfo/wow-addons/issues/19) website (RestedXP style reference), or [`#17`](https://github.com/itsginfo/wow-addons/issues/17) non-EPGP raids.
+3. **Remind James to cancel the WCL ×5 subscription** (Live Watch). Calibrated constants to revisit with better 1.12 data: Ret Judgement, Prot Paladin uptimes (ADR-0010 addendum).
 
 ## Decisions (Summary)
 
@@ -151,6 +149,7 @@ Before shipping: `qa.lua`, `perf.lua`, `memory.lua` (Lua 5.1 rule), mutation-tes
 
 | Date | Agent | Summary |
 |------|-------|---------|
+| 2026-10-27 | CTO | **LootCompass 1.19.0 → 1.23.0.** Prior resume (push 1.21/1.22 on OK) landed: pushed with fixes as 1.22.1 (text size everywhere, About crash, chip labels, Value-gear dropdown) and 1.22.2 (spacing, By Value/By Boss segmented control); #16, #22-#42 closed. Then #21 dungeons: 3 nav mock-ups on a design canvas, James chose B (Raids \| Dungeons tabs + side menu); 9 level-60 dungeons incl. Stratholme Live/Undead, Need/Pass group loot. 1.23.0 local. See `git log 8e4868f^..3b712fa`. |
 | 2026-10-14 | CTO | **LootCompass 1.9.0 → 1.18.0** ([`#13`](https://github.com/itsginfo/wow-addons/issues/13), [`#16`](https://github.com/itsginfo/wow-addons/issues/16), [`#17`](https://github.com/itsginfo/wow-addons/issues/17), [`#18`](https://github.com/itsginfo/wow-addons/issues/18), [`#19`](https://github.com/itsginfo/wow-addons/issues/19)). Pushed through 1.17.2 (plan window, minimap, Options, GDKP/soft-reserve, themes, Holy Paladin/Resto Druid, Mage, Warrior, owned gear + 'have better', mana pressure as spend vs supply, CHANGELOG.md). 1.18.0 Rogue local. See `git log 620f530^..4fa697b`. |
 | 2026-10-10 (close) | CTO | *(resume drained 2026-10-14)* Resume was "push 1.8.2 on OK, then #16 or #2". 1.8.2 was pushed; James chose #16. #2 carried forward again. |
 | 2026-10-10 | CTO | **LootCompass 1.2.0 → 1.8.2** ([`#13`](https://github.com/itsginfo/wow-addons/issues/13), [`#15`](https://github.com/itsginfo/wow-addons/issues/15) open, [`#16`](https://github.com/itsginfo/wow-addons/issues/16) filed; ADR-0009).<br>**Features:**<br>- T1–T3 set bonuses for Priest and Warlock, with tier tags and "+N alone" in the plan.<br>- "Why this advice" window behind an info icon on each row.<br>- In-game cast recorder, validated exactly against Warcraft Logs on the 10-09 ZG.<br>- Spell-mix model; Warcraft Logs import (72 fights).<br>- Reference mixes from rankings: raid 248 fights, tank 64.<br>- "Value gear for" toggle; structured About pages; How-To tab.<br>**Harness:** session start/end summaries reformatted (`5ec2e2b`).<br>`#2` carried forward again. |
