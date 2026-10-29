@@ -6,14 +6,15 @@
 
 ## ⚡ RESUME INSTRUCTION
 
-**Lock-box bite rules (`FV_INNER*`) are replay- and short-run-verified, NOT long-run verified.** A third
-recorded run (floating-wreckage pool) found the rock-rejection fill rule throwing out 17 real bobbers ->
-replaced by a stillness test (`8135b26`, committed, **not pushed**). James runs the long squid test tonight.
+**Lock-box bite rules are LIVE VERIFIED** (Moonglade 2026-10-29: 2010 casts / 97% / 0 misses / 10.1 h;
+window rule = main detector). Plus stillness rock rule (`8135b26`) and avoid list for rejected spots
+(`06d22f4`). Both commits are **local, not pushed** — push on James's OK.
 
-**Next:** review that run: `[splash]` mix, timeouts, `not a bobber` count (should be rare now). If it
-regresses, `FV_INNER=False` restores the old rules. Push `8135b26` once James OKs it. `#5` awaits a disconnect.
+**Next:** push `8135b26` + `06d22f4`; then a long LURED squid run with `--debug` (only 27 min so far, 93%)
+to confirm the lure-race fix and avoid list there. Keep other apps from taking focus (Preview /
+Antigravity IDE ended 4 runs). `#5` still awaits a live disconnect.
 
-**Branch check first.** Project repo: `display-calibration` (1 commit ahead of origin; merge to `main`
+**Branch check first.** Project repo: `display-calibration` (2 commits ahead of origin; merge to `main`
 pending). Harness: `main`.
 
 ---
@@ -38,7 +39,7 @@ pending). Harness: `main`.
 | Field | Value |
 |-------|-------|
 | **Project Name** | WoW Fishing Bot — screen-reading fishing automation (macOS) |
-| **Overall Status** | 🟡 Working — 98-99% Moonglade (12 h runs), 87-95% lured squid; new pool-proof bite rules awaiting a long run |
+| **Overall Status** | 🟢 Working — 97-99% Moonglade (10-12 h runs, window rules verified), 87-95% lured squid |
 | **Lead Agent** | CTO |
 | **Human Owner** | James |
 | **Primary SPOC** | James (personal project) |
@@ -85,16 +86,15 @@ disconnects), and per-cast knowledge of what was caught.
 
 | Item | Watch by | Tracker | Notes |
 |------|----------|---------|-------|
-| **Window bite rules long run** | James's run, 2026-10-27 evening | — | Includes stillness rock rule `8135b26`. Check `[splash]` mix + timeouts vs 87-95% baseline; false clicks = loot right after cast landing. `FV_INNER=False` = old rules. |
-| **Lure race fix** | same run | — | Proven lure (catch since apply) blocks self-heal until LURE_INTERVAL; expect lure count ~= runtime / 5.3 min, no "casts stopped" ends. |
+| **Squid long run (lured)** | next squid run | — | Window rules verified on Moonglade only; squid 27 min/93%. Check lure-race fix (lures ~= runtime/5.3 min) + avoid list (no repeated `not a bobber` on one spot). |
 | **Auto-reconnect first live use** | next disconnect | [`#5`](https://github.com/itsginfo/wow-fishing-bot/issues/5) | Reconnect lands on CHARACTER SELECT: bot clicks Enter World only if Noop's row is highlighted (`char_noop.png`), else stops. Zoom direction still unverified. Check `reconnect<N>_*.png`. |
 | **Dip bite rule** | next calm-water (Moonglade) run | — | 2 live fires so far (squid); built for calm water. |
-| **Lure stock** | before next squid/ZG run | — | ~66 left after 2026-10-27 (~5.9 h). Crafting via Engineering 150 under consideration (~15s/lure vs ~47s AH). |
+| **Lure stock** | before next squid/ZG run | — | ~57 left after 2026-10-28 (~5.9 h). Crafting via Engineering 150 under consideration (~15s/lure vs ~47s AH). |
 | **Display profile stale** | next run | [`#6`](https://github.com/itsginfo/wow-fishing-bot/issues/6) | WoW now on 2560x1440; run `calibrate.py`. |
 
 ## In-Flight Tasks ⚡
 
-*(None. All code committed; `8135b26` not yet pushed.)*
+*(None. All code committed; `8135b26`, `06d22f4` not yet pushed.)*
 
 ---
 
@@ -116,7 +116,7 @@ disconnects), and per-cast knowledge of what was caught.
 
 ## Next 3 Actions (Prioritized)
 
-1. **Review James's long run with the window bite rules** — agent reads the summary/`[splash]` mix; keep or tune (`replay_frames.py` on any `--record`ed casts). Then **[`#5`](https://github.com/itsginfo/wow-fishing-bot/issues/5)** on the first live disconnect.
+1. **Push `8135b26` + `06d22f4`, then review a long lured squid run** (`--debug`) — lure-race fix + avoid list; Moonglade already verified 2026-10-29. Then **[`#5`](https://github.com/itsginfo/wow-fishing-bot/issues/5)** on the first live disconnect.
 2. **[`#3`](https://github.com/itsginfo/wow-fishing-bot/issues/3) Catch logging** — James picks the option; agent builds the addon + bot side. **[`#2`](https://github.com/itsginfo/wow-fishing-bot/issues/2) bag-full stop** follows.
 3. **[`#4`](https://github.com/itsginfo/wow-fishing-bot/issues/4) Multi-template fast path** — agent, small. ([`#7`](https://github.com/itsginfo/wow-fishing-bot/issues/7) multi-window waits on James.)
 
@@ -130,3 +130,4 @@ disconnects), and per-cast knowledge of what was caught.
 | 2026-10-24/25 | CTO | Dip+burst bite rule + `replay_traces.py`, `--spot` presets, lure self-heal; squid run found failed post-loot lure applies -> `CloseLoot()` macro fix (30/45 -> 1/26). See `b24bace`, `ae77fd9`, `e6f20bb`. |
 | 2026-10-26 | CTO | Squid runs 91-95%; auto-reconnect built (`#5`, `ce54f31`); lure-crafting cost analysis; bot named Ernest Hemingway; multi-window idea `#7`. See `f4eb6b2`, `c41de45`. |
 | 2026-10-27 | CTO | Reconnect handles character select (`755af5e`); squid run 738 casts/87% ended on a lure race (self-heal 4 s before expiry -> hidden ElvUI popup) -> proven-lure rule (`e1b4830`, `151ba63`); `azshara_dawn` template + per-template weak rule; pool foam broke the bite check -> `--record` + `replay_frames.py` + lock-box bite rules (`3a79b75`, `8c8267d`, `6d352b0`, pushed); wreckage-pool run -> rock rule by stillness not fill (`8135b26`, local). |
+| 2026-10-28/29 | CTO | Wreckage pool: fill rule rejected real bobbers -> stillness rule (`8135b26`); horizon re-lock -> avoid list (`06d22f4`); 10.1 h Moonglade run 2010 casts/97%/0 misses verifies the window rules. Local, not pushed. |
