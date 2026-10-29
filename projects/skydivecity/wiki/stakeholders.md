@@ -13,6 +13,7 @@
 | **Rich Muscolino** | **Primary SPOC / primary approver** (since 2026-04-23). **Pricing source-of-truth** (redesign Q8). | ✅ `rich@skydivecity.com` | Status comms go **To Rich**. Business-alignment decisions (pricing framing, SDLC direction) route through him. |
 | **Matt Adamson** | **DZM (Drop Zone Manager) / Secondary SPOC + approver.** Named client contact on the Phase 1 SOW. | ✅ `matt@skydivecity.com` | Status comms **CC Matt**. |
 | **Cassie Young** | **SDC staff — redesign CONTENT owner** (copy, images, event details) per Q8. | ✅ `events@skydivecity.com` | `events@` is also the site's public event-contact address. Cassie is the designated content owner that de-risks the redesign's author-friendly model. |
+| **Flora** | **Outreach contact** (added 2026-10-29, James). Hotel / lodging partners: keeps the **Hotel Partners spreadsheet** (contacts + discount booking links) that feeds the lodging page. | ✅ `outreach@skydivecity.com` · cell (813) 602-3696 | Sheet: `docs.google.com/spreadsheets/d/1eijGFaqMrQMAWFLF7WzrDips6cSJyKQ_OHvruQRKM00` (anyone with the link can view). Partner contact names and emails in the sheet are for outreach, **not** for publishing unless she says so. First request: `#129`. |
 
 ---
 
@@ -67,6 +68,7 @@ Only an owner can add or remove people. The review sync runs on Google Cloud pro
 | **Status comms / monthly ops report** | Rich | Matt | [[feedback_status_email_recipients]] |
 | **Pricing / business-alignment decision** | Rich | Matt | Q8 (pricing = Rich's source-of-truth) |
 | **Content (copy/images/events)** | Cassie Young | — | Q8 (content lane) |
+| **Hotel / lodging partners (lodging page, partner discount links)** | Flora (outreach) | — | 2026-10-29 (James) |
 | **Website / dev / redesign-workflow execution** | Laura Jane Happick (BM) | Rich (+ Matt) | Phase 1 Plan §8.1 |
 | **Business-impacting decision (SDLC / workflow / process)** | James La Barrie (BM CEO) | Laura Jane, Rich | 2026-07-22 roster clarification |
 | **Analytics / GA4 / GTM / conversion tracking** | Marcella Smith (BM) | Rich | `#15` incident |
