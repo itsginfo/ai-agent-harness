@@ -40,6 +40,12 @@
 - **No staging environment between local and Flywheel prod.** Local dev is Docker at `localhost:8080`. Anything that needs a staging gate has to be invented (per-project Flywheel staging, branch-deploy, etc.).
 - **⚠️ Load-bearing static file at web root — do NOT delete.** `/www/google52a41df1dad2fc6f.html` is the Google Search Console ownership-verification file (HTML-file method) for the `https://www.skydivecity.com/` URL-prefix property. Uploaded 2026-06-01 via `scp -O`. Removing it un-verifies GSC. Web root is `/www` (parent of `/www/wp-content`); a static `.html` there is served directly by nginx/`try_files`. **Cache caveat:** Flywheel sits behind Cloudflare — a newly-uploaded file may serve a stale cached 404 on first hit; it clears within a cache cycle (confirmed serving HTTP 200 same session). Verify live with a cache-busting query (`?cb=<ts>`).
 
+- **Web PHP = 8.4** (since 2026-10-30 ~00:20Z, [`#131`](https://github.com/itsginfo/skydivecity-com/issues/131); was 7.4.33, EOL). Changed by James in the dashboard → **Advanced** (takes ~5 min; rollback = pick the old version there). Dev is also 8.4. The response headers do **not** show the PHP version.
+- **PHP / access / slow logs are NOT in SSH.** `/var/log/where-are-the-logs.txt` says so. **Export them from the dashboard → Advanced** (a zip with `php`, `access`, `slowlog` per day). They contain visitor IPs, so keep them in the scratchpad and never commit them. This is how `#130` was diagnosed.
+- **Each SSH session is a fresh container.** Root-level directory timestamps (`/`, `/home`, `/www/..`) are the session's start time, not a host change (`#130` retraction).
+- **Flywheel host plugins** live in `/flywheel-plugins/` (e.g. `flywheel-activity-monitor`, hooked on `deactivated_plugin`). Dev doesn't have them. A plugin that deactivates itself during load (e.g. a PHP-version check) makes the activity monitor fatal (`wp_get_current_user()` undefined), and every uncached request returns 500 (`#130`).
+- `/www/fw-status-check.php` (root-owned) uses `mysql_connect()` and always 500s on PHP ≥ 7, so it tells you nothing. It also holds DB credentials; don't download it.
+
 ---
 
 ## Recurring failure modes
@@ -58,6 +64,7 @@
 - 2026-04-27 — `deploy.sh --live` frozen on first dry-run (DECISIONS 2026-04-27, [`#3`](https://github.com/itsginfo/skydivecity-com/issues/3))
 - 2026-05-11 — `scp -O` workaround discovered during events-add ([`#5`](https://github.com/itsginfo/skydivecity-com/issues/5))
 - 2026-10-23/24 — SSH connection blocking + `/tmp` wiped during #111; fixed with ControlMaster ([`#111`](https://github.com/itsginfo/skydivecity-com/issues/111))
+- 2026-10-29/30 — `#130` site-wide 500 after the weekly plugin batch (URE 4.66.3 needs PHP 8.2 + Flywheel activity monitor); diagnosed from the dashboard log export; prod PHP → 8.4 (`#131`)
 - 2026-05-17 — Homepage rates update ([`#8`](https://github.com/itsginfo/skydivecity-com/issues/8)) reused the same SSH + `scp -O` pattern
 
 ---
